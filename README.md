@@ -11,15 +11,15 @@ Original App Design Project
 
 ## Overview
 ### Description
-Prolific [name in progress] is an app that encourages people to become co-creators by allowing users to add to threads using snippets of text and short media to create a story in a finish-the-sentence style format.
+Prolific is an app that encourages people to become co-creators by allowing users to add to threads using snippets of text and short media to create a story in a finish-the-sentence style format.
 
 ### Possible Iterations
 These aren't necessarily iterations I'll implement at FBU, but are possible future directions for the app.
 
 **MVP**
-- App contains some existing starter threads for now, which are displayed in the home feed.
+- App contains some existing starter threads for now (e.g. sourced from famous quotes/famous  movie lines), which are displayed in the home feed.
 - Users can compose and submit snippets to these existing starter threads to continue the story.
-- For each starter thread, after a certain amount of time, the "winning" snippet is chosen based on how many people hearted that snippet.
+- For each starter thread, after a certain amount of time, all the votes are counted up, and the "winning" snippet is chosen.
 - Once a winning snippet has been chosen, it is added to the thread and users can again repeat the process of composing and adding snippets to this updated thread.
 
 **Iteration 2**
@@ -67,20 +67,24 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 **Required Must-have Stories**
 
-* User can compose and submit snippets to existing starter threads in their feed (text-only first)
 * User can create a new account
 * User can login/logout of app
+* User can compose and submit snippets to existing starter threads in their feed (text-only first)
+    * Thread attribution: store "author" of a snippet as a Author property in a Snippet object?
 * Before a "winning" snippet is chosen, user can tap the latest snippet in a thread to view the snippets that have been submitted to continue the storyline
 * User can like a submitted snippet to vote for which one they want to win
-* Create logic for choosing a "winning" snippet
+* Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up?
 * User can tap a thread in their feed to navigate through snippets-so-far
 * User can compose snippets using images (ability to take photos in-app? upload photos through device?)
 * User can follow/unfollow a thread
 * User can view a feed of stories from users they are following in their Home page
-* User can compose their own starter threads
+* Create logic for finalizing a snippet: maybe there are different types of snippets you can create - a "normal" snippet and a "final" snippet. Or maybe for each starter thread, there are a limited number of snippets (differs based on quote) that can be made and the story has to finish within that number of snippets.
+* Possible idea: make the launch screen a prompt to submit a snippet to a thread?
+
 
 **Optional Nice-to-have Stories**
 
+* User can compose their own starter threads
 * User can search for other users
 * User can follow/unfollow other users
 * User can integrate account with Facebook SDK and add friends from Facebook (or other social media?)
@@ -96,7 +100,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 * Users can invite other users to a private thread
 * User can share threads to social media apps? Need to work out logic of how that works (unless it's only sharing a snippet)
 * User can customize their profile
-* User can post snippets using other forms of media as well (e.g. video)
+* User can post snippets using other forms of media as well (e.g. video, voice recordings - potentially a better format?)
 
 **Really Really Bonus Stories (like really bonus)**
 
