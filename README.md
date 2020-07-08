@@ -146,8 +146,8 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
     * => None
 
 ## Wireframes
-Note: will add wireframes by tonight
-[Add picture of your hand sketched wireframes in this section]
+Note: still modifying wireframes, this is a rough draft:
+
 <img src="https://github.com/meganyyu/Prolific/blob/master/wireframe_ver%201_Jul_2_2020.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
