@@ -146,7 +146,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
     * => None
 
 ## Wireframes
-Note: still modifying wireframes, this is a rough draft:
+Note: still modifying wireframes, this is a rough draft of MVP only:
 
 <img src="https://github.com/meganyyu/Prolific/blob/master/wireframe_ver%201_Jul_2_2020.png" width=600>
 
