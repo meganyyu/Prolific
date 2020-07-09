@@ -5,9 +5,9 @@ Original App Design Project
 
 ## Table of Contents
 1. [Overview](#Overview)
-1. [Product Spec](#Product-Spec)
-1. [Wireframes](#Wireframes)
-2. [Schema](#Schema)
+2. [Product Spec](#Product-Spec)
+3. [Wireframes](#Wireframes)
+4. [Schema](#Schema)
 
 ## Overview
 ### Description
@@ -34,6 +34,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 **Possible future iterations??**
 - More gamification of the app
     - Users can set thread types to change the pacing of the thread's storyline - normal, speed-round, etc.
+    - Temporary threads - have the option to make an entire thread deletable - anyone who submits to that thread will be notified that the entire thread is deletable
     - Users can collect points based on how many times their snippets have won?
 
 
@@ -126,9 +127,9 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 **Tab Navigation** (Tab to Screen)
 
-* Home Feed
-* Explore (optional)
-* Compose a Thread
+* Home Explore Feed (Home screen)
+* Compose a Thread (optional)
+* Favorites (where you see followed threads)
 * Profile (optional)
 
 **Flow Navigation** (Screen to Screen)
@@ -138,27 +139,128 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 * Registration Screen
     * => Home
 * Stream Screen
-    * => Details screen to see snippets-so-far for a thread
+    * => Details screen to see snippets-so-far for a thread/submit to a thread
 * Creation Screen
-    * => Home (after you finish composing a thread)
+    * => Home (after you finish composing a starter thread)
     * => Multiple screens to represent the composition process to choose media type, thread settings, etc.
 * Search Screen
     * => None
 
 ## Wireframes
-Note: still modifying wireframes, this is a rough draft of MVP only:
 
-<img src="https://github.com/meganyyu/Prolific/blob/master/wireframe_ver%201_Jul_2_2020.png" width=600>
+Note: still modifying wireframes, this is a draft of MVP only
+
+[Add picture of your hand sketched wireframes in this section]
+<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+
+1. [Users](#Users)
+2. [Threads](#Threads)
+3. [Snippets](#Snippets)
+
+#### **Users**
+
+| Property | Type  | Description |
+| -------- | -------- | -------- |
+| userId | String | unique id for author (default field) |
+| userName | String | user's name |
+| screenName | String | user's unique alias |
+| password | String | user's password |
+| threadsFollowing | MutableArray of Pointers to Threads (or maybe just point to the thread id?) | collection of threads user is following |
+
+#### **Threads**
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| threadId | String | unique id for the thread |
+| headSnippet | Pointer to Snippet | the initial Snippet |
+| tailSnippet | Pointer to Snippet | a shortcut to the last Snippet so far in the thread |
+| isCompleted | Boolean | is true if the thread has been completed |
+
+**Thinking about how to represent threads**
+* *Option 1: array*
+    * Thread contains an array of snippetsSoFar, and an array of submittedSnippets. Each round, the top vote is pulled out of submittedSnippets and added to the snippetsSoFar array, and the submittedSnippets array is erased
+    * **Pros:** fast access, but that's not really nececssary for the concept of a thread
+    * **Cons:** fixed size, have to keep resizing which takes time if the thread becomes long
+    * Honestly probably not the best idea, even if I use a MutableArray
+* *Option 2: something like a tree/linked list*
+    * Each thread contains a reference to the initial snippet (root of tree). Just need to consider what type of tree/list structure to use
+    * Possible representation to use: [left-child, right-sibling representation (LCRS) tree](https://stackoverflow.com/questions/14015525/what-is-the-left-child-right-sibling-representation-of-a-tree-why-would-you-us)
+        * This actually makes the logic behind submitting snippets to a thread intuitive: can add an unbounded number of submissions as siblings to the bottommost leaf node (initially set as an empty node) of the thread. When it's time to select the winner snippet, you just follow the bottommost node's right sibling pointer until you reach the end, and replace the leaf node with the sibling with the highest voteCount, and remove the rest of the siblings.
+    * **Pros:** dynamic & flexible, seems more intuitive for the concept of a thread anyway and will be more flexible/scalable in long run
+        *  In an array, memory is assigned during compile time, while for a linked list, it is allocated during execution or runtime. This makes sense for when we want to display a thread that has a lot of snippets. Rather than accessing all the snippets at once, we can load a certain number of snippets at a time, and load more as user scrolls down.
+    * **Cons:** will become a very tall tree (essentially a linked list, except for when we're tracking submitted snippets) - but maybe don't need to worry about this scaling optimization for MVP
+        * You have to start from the head and work your way through all the snippets to get to the end of the thread. But maybe that's fine, because we never really have any reason to access a snippet in the middle of the thread. We can just add a property that points to the head snippet of the thread, and a property that points to the tail snippet of the thread (to make it easier to add submitted snippets as siblings to the very end of the thread)
+    * **Extra considerations:**
+        * On the other hand, it makes more sense to store a User object's property, mySnippets as a mutable array of pointers for now.
+
+#### **Snippets**
+
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| objectId | String | unique id for the Snippet (default field) |
+| author | Pointer to User | Snippet author |
+| text | String | Snippet text by author |
+| image | File | Snippet image by author |
+| votesCount | Number | number of votes for the Snippet |
+| createdAt | DateTime | date when snippet is created (default field) |
+| isPartOfThread | Boolean | marks whether this snippet has been chosen to be part of a thread |
+| thread | Pointer to Thread | points to the Thread to which this snippet was submitted, even if the snippet was not actually chosen (i.e. isPartOfThread is false) |
+| leftChild | Pointer to Snippet | points to next Snippet in Thread, should be null if isPartOfThread is false |
+| rightSibling | Pointer to Snippet | points to a submitted Snippet that is not yet part of a thread, should be null if leftChild is not null |
+
+#### Overview of actions you can take on each object
+
+* **Users**
+    * Can create a user - when registering
+    * Can can read a user - when logging in
+    * Can update a user - when modifying profile
+    * Problem: deleting user? Need to modify all their snippets' author property to be "deleted-user"
+
+* **Threads**
+    * Can create a thread - instantiate with at least one snippet in it
+    * Can read a thread
+    * Can update a thread - each time snippets are submitted, or chosen
+    * Problem: deleting a thread? - maybe threads can only be deleted on server-side, i.e. users don't have this ability in the MVP
+        * Why this is tricky: you're co-creators - it doesn't make sense for one person to be able to delete an entire thread of snippets
+        * Future iterations:
+            * Maybe design app so it's not possible for users to delete threads? You can remove a snippet/thread's attribution to you, but it won't be deleted if it's permanently part of a thread with other contributors
+            * Or maybe can add a setting for "temporary threads", i.e. anyone who contributes to that thread will be notified that their snippets may be deleted at any time
+
+* **Snippets**
+    * Can create a snippet
+    * Can read a snippet
+    * Cannot update a snippet - once it's posted, it's posted!
+    * Problem: deleting a snippet? No deletion for MVP
+        * Future iteration: maybe users can delete a snippet - but users can only delete in the sense of removing attribution?
+
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
+
+**List of network requests by screen**
+* Login Screen
+    * (Read/GET) Query a user when logging in
+* Registration Screen
+    * (Create/POST) Create a user when registering
+* Home Explore Feed Screen
+    * (Read/GET) Query all threads and display initial snippet
+* Thread Details Screen
+    * (Read/GET) Read a thread's snippets
+    * (Create/POST) Create a new vote on a post
+    * (Delete) Delete existing vote
+    * (Create/POST) Create a new Snippet object
+    * (Update/PUT) Update a thread each time snippets are submitted or chosen
+* Favorites
+    * (Read/GET) Query all threads that user is following using threadId's in threadsFollowing
+    * (Read/GET) Query all snippets where user is author
+* Profile Screen (optional)
+    * (Read/GET) Query logged in user object
+    * (Update/PUT) Update a user (e.g. profile image, name, etc.)
+
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
