@@ -242,11 +242,13 @@ Note: still modifying wireframes, this is a draft of MVP only:
 
 ### Networking
 
+Most likely using [Firebase Authentication](https://firebase.google.com/docs/auth) for Users and using [Firebase Realtime Database](https://firebase.google.com/docs/database) OR [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) for Threads and Snippets.
+
 **List of network requests by screen**
 * Login Screen
-    * (Read/GET) Query a user when logging in
+    * (Read/GET) Sign in existing user [Docs](https://firebase.google.com/docs/auth/ios/start#sign_in_existing_users)
 * Registration Screen
-    * (Create/POST) Create a user when registering
+    * (Create/POST) Create a user when registering [Docs](https://firebase.google.com/docs/auth/ios/start#sign_up_new_users)
 * Home Explore Feed Screen
     * (Read/GET) Query all threads and display initial snippet
 * Thread Details Screen
@@ -259,7 +261,7 @@ Note: still modifying wireframes, this is a draft of MVP only:
     * (Read/GET) Query all threads that user is following using threadId's in threadsFollowing
     * (Read/GET) Query all snippets where user is author
 * Profile Screen (optional)
-    * (Read/GET) Query logged in user object
-    * (Update/PUT) Update a user (e.g. profile image, name, etc.)
+    * (Read/GET) Get current user's profile information [Docs](https://firebase.google.com/docs/auth/ios/manage-users#get_a_users_profile)
+    * (Update/PUT) Update a user (e.g. profile photo, display name, etc.) [Docs](https://firebase.google.com/docs/auth/ios/manage-users#update_a_users_profile)
 
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
