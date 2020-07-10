@@ -158,6 +158,66 @@ Note: still modifying wireframes, this is a draft of MVP only:
 
 ## Schema 
 
+### Database structure
+
+**Firebase Cloud Firestore** is a [document-oriented database](https://firebase.google.com/docs/firestore/data-model) that works well with [hierarchical structures](https://firebase.google.com/docs/firestore/data-model#hierarchical-data) and is ideal for storing large collections of small documents.
+
+**How it works**
+* Data stored in documents, which are organized into collections
+    * Each document contains key-value pairs
+    * Documents can contain subcollections and nested objects, both of which can include primitive fields like strings or complex objects like lists.
+    * How do you keep documents in Firestore lightweight if you have a lot of nested data?
+        * Use subcollections to create additional collections within a document (can nest data up to 100 levels deep)
+* It is *schemaless* - free to choose what fields you put in each document and what data types you store in those fields
+    * Documents within the same collection can all contain different fields + store different types of data in those fields
+    * Still a good idea to use the same fields and data types across multiple documents for querying purposes though
+* Collections and documents are created implicitly in Firestore
+    * To use a database, just assign your data to a document within a collection
+    * If the collection/document doesn't exist, Firestore will create it
+
+#### Users Document
+Note: **bold** text indicates a collection, *italicized* text indicates a document
+Rough draft! Will likely change as I understand Firestore better. [Docs](https://firebase.google.com/docs/firestore/manage-data/structure-data)
+
+**users**
+- *user 1*
+    - user id (unique)
+    - display name
+    - **threads** (threads user is following)
+        - *thread 1*
+            - thread id
+            - starter snippet
+        - *thread 2*
+        - ...
+- *user 2*
+- ...
+
+**projects**
+- *thread 1*
+    - thread id
+    - isComplete flag
+    - starter snippet
+    - **rounds**
+        - *round 0* (contains initial starter snippet - do I need this?)
+            - isComplete flag (if true, round becomes immutable)
+            - **snippets**
+                - *snippet 1*
+        - *round 1*
+            - isComplete flag
+            - **snippets**
+                - *snippet 1*
+                    - author
+                    - content
+                    - votes
+                    - didWin flag
+                - *snippet 2*
+                - *snippet 3*
+        - *round 2*
+        - *round 3*
+        - ...
+- *thread 2*
+- ...
+
 ### Models
 
 1. [Users](#Users)
