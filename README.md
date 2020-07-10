@@ -172,10 +172,10 @@ Note: still modifying wireframes, this is a draft of MVP only:
 | userName | String | user's name |
 | screenName | String | user's unique alias |
 | password | String | user's password |
-| threadsFollowing | MutableArray of Pointers to Threads (or maybe just point to the thread id?) | collection of threads user is following |
+| threadsFollowing | MutableArray of thread ids | collection of threads user is following |
 
 #### **Threads**
-
+NOTE: AM MAKING MAJOR CHANGES HERE RN, IGNORE
 | Property | Type | Description |
 | -------- | -------- | -------- |
 | threadId | String | unique id for the thread |
@@ -183,25 +183,8 @@ Note: still modifying wireframes, this is a draft of MVP only:
 | tailSnippet | Pointer to Snippet | a shortcut to the last Snippet so far in the thread |
 | isCompleted | Boolean | is true if the thread has been completed |
 
-**Thinking about how to represent threads**
-* *Option 1: array*
-    * Thread contains an array of snippetsSoFar, and an array of submittedSnippets. Each round, the top vote is pulled out of submittedSnippets and added to the snippetsSoFar array, and the submittedSnippets array is erased
-    * **Pros:** fast access, but that's not really nececssary for the concept of a thread
-    * **Cons:** fixed size, have to keep resizing which takes time if the thread becomes long
-    * Honestly probably not the best idea, even if I use a MutableArray
-* *Option 2: something like a tree/linked list*
-    * Each thread contains a reference to the initial snippet (root of tree). Just need to consider what type of tree/list structure to use
-    * Possible representation to use: [left-child, right-sibling representation (LCRS) tree](https://stackoverflow.com/questions/14015525/what-is-the-left-child-right-sibling-representation-of-a-tree-why-would-you-us)
-        * This actually makes the logic behind submitting snippets to a thread intuitive: can add an unbounded number of submissions as siblings to the bottommost leaf node (initially set as an empty node) of the thread. When it's time to select the winner snippet, you just follow the bottommost node's right sibling pointer until you reach the end, and replace the leaf node with the sibling with the highest voteCount, and remove the rest of the siblings.
-    * **Pros:** dynamic & flexible, seems more intuitive for the concept of a thread anyway and will be more flexible/scalable in long run
-        *  In an array, memory is assigned during compile time, while for a linked list, it is allocated during execution or runtime. This makes sense for when we want to display a thread that has a lot of snippets. Rather than accessing all the snippets at once, we can load a certain number of snippets at a time, and load more as user scrolls down.
-    * **Cons:** will become a very tall tree (essentially a linked list, except for when we're tracking submitted snippets) - but maybe don't need to worry about this scaling optimization for MVP
-        * You have to start from the head and work your way through all the snippets to get to the end of the thread. But maybe that's fine, because we never really have any reason to access a snippet in the middle of the thread. We can just add a property that points to the head snippet of the thread, and a property that points to the tail snippet of the thread (to make it easier to add submitted snippets as siblings to the very end of the thread)
-    * **Extra considerations:**
-        * On the other hand, it makes more sense to store a User object's property, mySnippets as a mutable array of pointers for now.
-
 #### **Snippets**
-
+NOTE: AM MAKING MAJOR CHANGES HERE RN, IGNORE
 | Property | Type | Description |
 | -------- | -------- | -------- |
 | objectId | String | unique id for the Snippet (default field) |
@@ -242,7 +225,7 @@ Note: still modifying wireframes, this is a draft of MVP only:
 
 ### Networking
 
-Most likely using [Firebase Authentication](https://firebase.google.com/docs/auth) for Users and using [Firebase Realtime Database](https://firebase.google.com/docs/database) OR [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) for Threads and Snippets.
+Most likely using [Firebase Authentication](https://firebase.google.com/docs/auth) for Users and using [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) for Threads and Snippets.
 
 **List of network requests by screen**
 * Login Screen
