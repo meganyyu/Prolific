@@ -70,7 +70,9 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 * User can create a new account
 * User can login/logout of app
-* User can compose and submit snippets to existing starter threads in their feed (text-only first)
+* User can view starter threads in their feed
+* User can tap a starter thread to view thread details
+* User can compose and submit snippets to existing starter threads (text-only first)
     * Thread attribution: store "author" of a snippet as a Author property in a Snippet object?
 * Before a "winning" snippet is chosen, user can tap the latest snippet in a thread to view the snippets that have been submitted to continue the storyline
 * User can like a submitted snippet to vote for which one they want to win
@@ -80,6 +82,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 * User can follow/unfollow a thread
 * User can view a feed of stories from users they are following in their Home page
 * Create logic for finalizing a snippet: maybe there are different types of snippets you can create - a "normal" snippet and a "final" snippet. Or maybe for each starter thread, there are a limited number of snippets (differs based on quote) that can be made and the story has to finish within that number of snippets.
+* User can integrate account with Facebook SDK and add friends from Facebook (or other social media?)
 * Possible idea: make the launch screen a prompt to submit a snippet to a thread?
 
 
@@ -88,15 +91,13 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 * User can compose their own starter threads
 * User can search for other users
 * User can follow/unfollow other users
-* User can integrate account with Facebook SDK and add friends from Facebook (or other social media?)
-* User can see their profile page with their threads
 * User can see a list of their followers
 * User can see a list of their following
 * User can view other user’s profiles and see what threads they've created
 * User can see recent/trending threads in Explore page
 * Users can search for threads by title
 * User can receive notifications when their snippet is liked or a thread they are contributing to is added to
-* Users can access a separate tab on their profile page to see snippets they've contributed to other threads
+* User can see their profile page with their own threads/snippets they've contributed to other threads
 * Users can make threads private
 * Users can invite other users to a private thread
 * User can share threads to social media apps? Need to work out logic of how that works (unless it's only sharing a snippet)
