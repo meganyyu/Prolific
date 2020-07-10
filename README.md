@@ -68,45 +68,47 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 **Required Must-have Stories**
 
-* User can create a new account
-* User can login/logout of app
-* User can view starter threads in their feed
-* User can tap a starter thread to view thread details
-* User can compose and submit snippets to existing starter threads (text-only first)
-    * Thread attribution: store "author" of a snippet as a Author property in a Snippet object?
-* Before a "winning" snippet is chosen, user can tap the latest snippet in a thread to view the snippets that have been submitted to continue the storyline
-* User can like a submitted snippet to vote for which one they want to win
-* Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up?
-* User can tap a thread in their feed to navigate through snippets-so-far
-* User can compose snippets using images (ability to take photos in-app? upload photos through device?)
-* User can follow/unfollow a thread
-* User can view a feed of stories from users they are following in their Home page
-* Create logic for finalizing a snippet: maybe there are different types of snippets you can create - a "normal" snippet and a "final" snippet. Or maybe for each starter thread, there are a limited number of snippets (differs based on quote) that can be made and the story has to finish within that number of snippets.
-* User can integrate account with Facebook SDK and add friends from Facebook (or other social media?)
-* Possible idea: make the launch screen a prompt to submit a snippet to a thread?
+- [ ] User can create a new account
+- [ ] User can login/logout of app
+- [ ] User can view starter threads in their feed
+- [ ] User can tap a starter thread to view thread details
+- [ ] User can compose and submit snippets to existing starter threads (text-only first)
+
+- [ ] Before a "winning" snippet is chosen, user can tap the latest snippet in a thread to view the snippets that have been submitted to continue the storyline
+- [ ] User can like a submitted snippet to vote for which one they want to win
+- [ ] Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up?
+- [ ] User can tap a thread in their feed to navigate through snippets-so-far
+
+- [ ] User can compose snippets using images (ability to take photos in-app + upload photos through device)
+    - [ ] Create custom camera view
+- [ ] User can follow/unfollow a thread
+- [ ] Create logic for finalizing a snippet: maybe there are different types of snippets you can create - a "normal" snippet and a "final" snippet. Or maybe for each starter thread, there are a limited number of snippets that can be made and the story has to finish within that number of snippets.
+- [ ] User can integrate account with Facebook SDK and add friends from Facebook (or other social media?)
+
+- [ ] Main "complex algorithm": ranking analysis of threads & snippets for purpose of (1) making sure app doesn't only promote too ranked threads/snippets, and (2) as fraud detection to counter abuse from voters (e.g. maybe same users always vote for another user)
+    - [ ] MVP version: within my app, have a class that directly calculates some basic ranking (based on simple factors like votes, views, etc.) - very simple, because don't want to overload phone
+    * Applications:
+        * (1) Can use this algorithm to rank what order users see snippets that have been submitted to a thread (so that you don't just see the top voted snippet at the top of your screen and end up voting for that same snippet) --> for MVP
+        * (2) Use algorithm to rank what order you see threads on your explore page (so that you don't just interact with the top interacted threads, but see new ones too) --> optional/stretch application
+    - [ ] Future iterations (optional): Modify that class to instead send out the data to some server to do more complex analysis (e.g. maybe we want votes from new, unique users that haven't voted for that particular user before to count more than habitual voters)
 
 
 **Optional Nice-to-have Stories**
 
-* User can compose their own starter threads
-* User can search for other users
-* User can follow/unfollow other users
-* User can see a list of their followers
-* User can see a list of their following
-* User can view other user’s profiles and see what threads they've created
-* User can see recent/trending threads in Explore page
-* Users can search for threads by title
-* User can receive notifications when their snippet is liked or a thread they are contributing to is added to
-* User can see their profile page with their own threads/snippets they've contributed to other threads
-* Users can make threads private
-* Users can invite other users to a private thread
-* User can share threads to social media apps? Need to work out logic of how that works (unless it's only sharing a snippet)
-* User can customize their profile
-* User can post snippets using other forms of media as well (e.g. video, voice recordings - potentially a better format?)
+- [ ] User can compose their own starter threads
+- [ ] User can see their profile page with their own threads/snippets they've contributed to other threads, and a list of their followers/following
+- [ ] User can view other user’s profiles and see what threads they've created
+- [ ] User can customize their profile
+- [ ] User can receive notifications when their snippet is liked or a thread they are contributing to is added to
+- [ ] User can see recent/trending threads in Explore page
+- [ ] Users can search for threads by title
+- [ ] User can search for other users
+- [ ] User can follow/unfollow other users
 
-**Really Really Bonus Stories (like really bonus)**
-
-* For each story, add option to view a graph visualization of the threads
+- [ ] User can post snippets using other forms of media as well (e.g. video, voice recordings - potentially a better format?)
+- [ ] Users can make threads private
+- [ ] Users can invite other users to a private thread
+- [ ] User can share threads to social media apps? Need to work out logic of how that works (unless it's only sharing a snippet)
 
 ### 2. Screen Archetypes
 
@@ -151,7 +153,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 Note: still modifying wireframes, this is a draft of MVP only:
 
-<img src="https://github.com/meganyyu/Prolific/blob/master/wireframe_ver%201_Jul_2_2020.png" width=600>
+<img src="https://github.com/meganyyu/Prolific/blob/master/wireframe_ver%201_Jul_2_2020.png" width=800>
 
 ### [BONUS] Digital Wireframes & Mockups
 
@@ -184,35 +186,46 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 - *user 1*
     - user id (unique)
     - display name
-    - **threads** (threads user is following)
-        - *thread 1*
-            - thread id
-            - starter snippet
-        - *thread 2*
+    - **following** (threads user is following)
+        - id 1
+        - id 2
+        - ...
+    - **projects**
+        - id 1
+        - id 2
         - ...
 - *user 2*
 - ...
 
 **projects**
 - *thread 1*
-    - thread id
-    - isComplete flag
-    - starter snippet
+    - id
+    - name
+    - current round
+    - threadComplete flag (marks if thread is complete)
     - **rounds**
         - *round 0* (contains initial starter snippet - do I need this?)
+            - submissionCount
             - isComplete flag (if true, round becomes immutable)
-            - **snippets**
+            - **submissions**
                 - *snippet 1*
+            - **votes**
+                - *snippet id 1*
+                    - value:
         - *round 1*
+            - submissionCount
             - isComplete flag
-            - **snippets**
+            - **submissions**
                 - *snippet 1*
                     - author
                     - content
-                    - votes
-                    - didWin flag
                 - *snippet 2*
                 - *snippet 3*
+            - **votes**
+                - *snippet id 1*
+                    - value:
+                - *snippet id 2*
+                    - value:
         - *round 2*
         - *round 3*
         - ...
@@ -226,29 +239,27 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 3. [Snippets](#Snippets)
 
 #### **Users**
-
+NOTE: AM MAKING MAJOR CHANGES HERE RN
 | Property | Type  | Description |
 | -------- | -------- | -------- |
 | userId | String | unique id for author (default field) |
-| userName | String | user's name |
-| screenName | String | user's unique alias |
+| displayName | String | user's unique alias |
 | password | String | user's password |
 | threadsFollowing | MutableArray of thread ids | collection of threads user is following |
 
 #### **Threads**
-NOTE: AM MAKING MAJOR CHANGES HERE RN, IGNORE
+NOTE: AM MAKING MAJOR CHANGES HERE RN
 | Property | Type | Description |
 | -------- | -------- | -------- |
 | threadId | String | unique id for the thread |
-| headSnippet | Pointer to Snippet | the initial Snippet |
-| tailSnippet | Pointer to Snippet | a shortcut to the last Snippet so far in the thread |
+| starterSnippet | Pointer to Snippet | the initial Snippet |
 | isCompleted | Boolean | is true if the thread has been completed |
 
 #### **Snippets**
-NOTE: AM MAKING MAJOR CHANGES HERE RN, IGNORE
+NOTE: AM MAKING MAJOR CHANGES HERE RN
 | Property | Type | Description |
 | -------- | -------- | -------- |
-| objectId | String | unique id for the Snippet (default field) |
+| snippetId | String | unique id for the Snippet (default field) |
 | author | Pointer to User | Snippet author |
 | text | String | Snippet text by author |
 | image | File | Snippet image by author |
@@ -256,8 +267,6 @@ NOTE: AM MAKING MAJOR CHANGES HERE RN, IGNORE
 | createdAt | DateTime | date when snippet is created (default field) |
 | isPartOfThread | Boolean | marks whether this snippet has been chosen to be part of a thread |
 | thread | Pointer to Thread | points to the Thread to which this snippet was submitted, even if the snippet was not actually chosen (i.e. isPartOfThread is false) |
-| leftChild | Pointer to Snippet | points to next Snippet in Thread, should be null if isPartOfThread is false |
-| rightSibling | Pointer to Snippet | points to a submitted Snippet that is not yet part of a thread, should be null if leftChild is not null |
 
 #### Overview of actions you can take on each object
 
