@@ -19,11 +19,8 @@
 
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
-    // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-
     _window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *) scene];
     _window.rootViewController = [[LoginViewController alloc] init];
-    //_window.backgroundColor = [UIColor whiteColor];
     [_window makeKeyAndVisible];
 }
 

@@ -14,11 +14,12 @@
 		7191114A24BCBD9C00070A32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191114924BCBD9C00070A32 /* main.m */; };
 		7191115424BCBD9C00070A32 /* ProlificTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191115324BCBD9C00070A32 /* ProlificTests.m */; };
 		7191115F24BCBD9C00070A32 /* ProlificUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191115E24BCBD9C00070A32 /* ProlificUITests.m */; };
-		7191117424BD04C600070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 		7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117B24BD05C700070A32 /* MainTabBarController.m */; };
 		7191117F24BD088000070A32 /* NavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117E24BD088000070A32 /* NavigationManager.m */; };
 		7191118024BD11CE00070A32 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
 		7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117824BD05A000070A32 /* FavoritesViewController.m */; };
+		7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191118324BD1D6500070A32 /* ProlificBaseViewController.m */; };
+		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		7191117B24BD05C700070A32 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		7191117D24BD088000070A32 /* NavigationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationManager.h; sourceTree = "<group>"; };
 		7191117E24BD088000070A32 /* NavigationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationManager.m; sourceTree = "<group>"; };
+		7191118224BD1D6500070A32 /* ProlificBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProlificBaseViewController.h; sourceTree = "<group>"; };
+		7191118324BD1D6500070A32 /* ProlificBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificBaseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +162,7 @@
 		7191117024BD045800070A32 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7191118724BD1F1F00070A32 /* Prolific Base View Controller */,
 				7191117524BD055000070A32 /* Main Tab Bar Controller */,
 				7191117224BD048000070A32 /* Login View Controller */,
 				7191117324BD048900070A32 /* Home View Controller */,
@@ -208,6 +212,15 @@
 				7191117824BD05A000070A32 /* FavoritesViewController.m */,
 			);
 			path = "Favorites View Controller";
+			sourceTree = "<group>";
+		};
+		7191118724BD1F1F00070A32 /* Prolific Base View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7191118224BD1D6500070A32 /* ProlificBaseViewController.h */,
+				7191118324BD1D6500070A32 /* ProlificBaseViewController.m */,
+			);
+			path = "Prolific Base View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,9 +352,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				7191118024BD11CE00070A32 /* HomeViewController.m in Sources */,
+				7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
-				7191117424BD04C600070A32 /* LoginViewController.m in Sources */,
 				7191117F24BD088000070A32 /* NavigationManager.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProlificBaseViewController.h"
 
-@interface HomeViewController : UIViewController
+@interface HomeViewController : ProlificBaseViewController
 
 
 @end

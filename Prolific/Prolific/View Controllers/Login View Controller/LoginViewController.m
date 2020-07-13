@@ -51,26 +51,26 @@
     
     _loginButton = [[UIButton alloc] init];
     _loginButton.backgroundColor = [UIColor blueColor];
-    [_loginButton setTitle:@"Login" forState:normal]; // what is normal?
+    [_loginButton setTitle:@"Login" forState:normal];
     _loginButton.tintColor = [UIColor whiteColor];
     _loginButton.layer.cornerRadius = 5;
     _loginButton.clipsToBounds = YES;
     [_loginContentView addSubview:_loginButton];
     [_loginButton addTarget:self action:@selector(didTapLoginButton:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self setupFrames];
 }
 
-- (void)setupFrames {
-    CGRect const frame = self.view.frame;
-    CGFloat const frameWidth = CGRectGetWidth(frame);
-    CGFloat const frameHeight = CGRectGetHeight(frame);
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    CGRect const bounds = self.view.bounds;
+    CGFloat const boundsWidth = CGRectGetWidth(bounds);
+    CGFloat const boundsHeight = CGRectGetHeight(bounds);
     CGPoint const center = self.view.center;
-    NSLog(@"frameWidth: %f, frameHeight: %f, centerX: %f, centerY: %f", frameWidth, frameHeight, center.x, center.y);
+    NSLog(@"frameWidth: %f, frameHeight: %f, centerX: %f, centerY: %f", boundsWidth, boundsHeight, center.x, center.y);
     
     // login content view
-    CGFloat const viewWidth = frameWidth;
-    CGFloat const viewHeight = frameHeight * 0.5;
+    CGFloat const viewWidth = boundsWidth;
+    CGFloat const viewHeight = boundsHeight * 0.5;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
     NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);

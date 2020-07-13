@@ -1,5 +1,5 @@
 //
-//  FavoritesViewController.h
+//  ProlificBaseViewController.h
 //  Prolific
 //
 //  Created by meganyu on 7/13/20.
@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProlificBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FavoritesViewController : ProlificBaseViewController
+@interface ProlificBaseViewController : UIViewController
 
 @end
 

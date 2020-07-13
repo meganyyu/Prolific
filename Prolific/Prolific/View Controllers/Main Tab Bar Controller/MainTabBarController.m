@@ -27,8 +27,11 @@
     [super viewDidLoad];
 
     HomeViewController *const homeViewController = [[HomeViewController alloc] init];
+    UINavigationController *const homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    
     FavoritesViewController *const favoritesViewController = [[FavoritesViewController alloc] init];
-    self.viewControllers = @[homeViewController, favoritesViewController];
+    UINavigationController *const favoritesNavigationController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
+    self.viewControllers = @[homeNavigationController, favoritesNavigationController];
     
     UITabBar *const tabBar = (UITabBar *)self.tabBar;
     UITabBarItem *const homeTabItem = [tabBar.items objectAtIndex:0];
@@ -38,4 +41,5 @@
     
     NSLog(@"Reached end of MainTabBarController viewDidLoad");
 }
+
 @end
