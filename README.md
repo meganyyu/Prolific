@@ -194,7 +194,8 @@ Note: still modifying wireframes, this is a draft of MVP only:
     * If the collection/document doesn't exist, Firestore will create it
 
 #### Users Document
-Note: **bold** text indicates a collection, *italicized* text indicates a document
+Note: **bold** text indicates a collection, *italicized* text indicates a document.
+
 Rough draft! Will likely change as I understand Firestore better. [Docs](https://firebase.google.com/docs/firestore/manage-data/structure-data)
 
 **users**
@@ -251,7 +252,8 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 
 1. [Users](#Users)
 2. [Threads](#Threads)
-3. [Snippets](#Snippets)
+3. [Rounds](#Rounds)
+4. [Snippets](#Snippets)
 
 #### **Users**
 | Property | Type  | Description |
@@ -260,6 +262,7 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 | displayName | String | user's unique alias |
 | password | String | user's password |
 | threadsFollowing | MutableArray of thread ids | collection of threads user is following |
+| projects | MutableArray of thread ids | collection of user's own threads |
 
 #### **Threads**
 | Property | Type | Description |
@@ -267,6 +270,14 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 | threadId | String | unique id for the thread |
 | starterSnippet | Pointer to Snippet | the initial Snippet |
 | isCompleted | Boolean | is true if the thread has been completed |
+
+#### **Rounds**
+| Property | Type | Description |
+| -------- | -------- | -------- |
+| submissionCount | int | number of snippets submitted to this round |
+| isComplete | Boolean | is the round finished? |
+| Submissions | MutableArray of Pointers to Snippets | all the submitted snippets |
+| Votes | Dictionary | each key (snippet ID) has a value (# votes) |
 
 #### **Snippets**
 | Property | Type | Description |
@@ -297,6 +308,12 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
         * Future iterations:
             * Maybe design app so it's not possible for users to delete threads? You can remove a snippet/thread's attribution to you, but it won't be deleted if it's permanently part of a thread with other contributors
             * Or maybe can add a setting for "temporary threads", i.e. anyone who contributes to that thread will be notified that their snippets may be deleted at any time
+
+* **Rounds**
+    * Can create a round - is done automatically
+    * Can read a round - when retrieving snippets-so-far and submissions-so-far
+    * Can update a round - is done when users submit a snippet or vote ona submission (becomes immutable once round is finished!
+    * Deleting a round? - no, at least not for MVP
 
 * **Snippets**
     * Can create a snippet
