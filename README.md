@@ -11,7 +11,7 @@ Original App Design Project
 
 ## Overview
 ### Description
-Prolific is an app that encourages people to become co-creators by allowing users to add to threads using snippets of text and short media to create a story in a finish-the-sentence style format.
+Prolific is an app that encourages people to become co-creators by allowing users to contribute to threads using snippets of text and short media to create a story in a finish-the-sentence style format.
 
 ### Possible Iterations
 These aren't necessarily iterations I'll implement at FBU, but are possible future directions for the app.
