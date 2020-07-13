@@ -168,7 +168,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 Note: still modifying wireframes, this is a draft of MVP only:
 
-<img src="https://github.com/meganyyu/Prolific/blob/master/wireframe_ver%201_Jul_2_2020.png" width=800>
+<img src="https://github.com/meganyyu/Prolific/blob/main/wireframe_ver%201_Jul_2_2020.png" width=800>
 
 ### [BONUS] Digital Wireframes & Mockups
 
