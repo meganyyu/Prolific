@@ -15,6 +15,7 @@
 		7191114A24BCBD9C00070A32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191114924BCBD9C00070A32 /* main.m */; };
 		7191115424BCBD9C00070A32 /* ProlificTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191115324BCBD9C00070A32 /* ProlificTests.m */; };
 		7191115F24BCBD9C00070A32 /* ProlificUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191115E24BCBD9C00070A32 /* ProlificUITests.m */; };
+		7191117424BD04C600070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,8 @@
 		7191115A24BCBD9C00070A32 /* ProlificUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProlificUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7191115E24BCBD9C00070A32 /* ProlificUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificUITests.m; sourceTree = "<group>"; };
 		7191116024BCBD9C00070A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7191116C24BCD30E00070A32 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		7191116D24BCD30E00070A32 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,12 +105,13 @@
 		7191113624BCBD9B00070A32 /* Prolific */ = {
 			isa = PBXGroup;
 			children = (
+				7191116F24BD044D00070A32 /* Navigation */,
+				7191117124BD046600070A32 /* Views */,
+				7191117024BD045800070A32 /* View Controllers */,
 				7191113724BCBD9B00070A32 /* AppDelegate.h */,
 				7191113824BCBD9B00070A32 /* AppDelegate.m */,
 				7191113A24BCBD9B00070A32 /* SceneDelegate.h */,
 				7191113B24BCBD9B00070A32 /* SceneDelegate.m */,
-				7191113D24BCBD9B00070A32 /* HomeViewController.h */,
-				7191113E24BCBD9B00070A32 /* HomeViewController.m */,
 				7191114324BCBD9C00070A32 /* Assets.xcassets */,
 				7191114524BCBD9C00070A32 /* LaunchScreen.storyboard */,
 				7191114824BCBD9C00070A32 /* Info.plist */,
@@ -132,6 +136,47 @@
 				7191116024BCBD9C00070A32 /* Info.plist */,
 			);
 			path = ProlificUITests;
+			sourceTree = "<group>";
+		};
+		7191116F24BD044D00070A32 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		7191117024BD045800070A32 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7191117224BD048000070A32 /* Login View Controller */,
+				7191117324BD048900070A32 /* Home View Controller */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7191117124BD046600070A32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7191117224BD048000070A32 /* Login View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7191116C24BCD30E00070A32 /* LoginViewController.h */,
+				7191116D24BCD30E00070A32 /* LoginViewController.m */,
+			);
+			path = "Login View Controller";
+			sourceTree = "<group>";
+		};
+		7191117324BD048900070A32 /* Home View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7191113D24BCBD9B00070A32 /* HomeViewController.h */,
+				7191113E24BCBD9B00070A32 /* HomeViewController.m */,
+			);
+			path = "Home View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7191117424BD04C600070A32 /* LoginViewController.m in Sources */,
 				7191113F24BCBD9B00070A32 /* HomeViewController.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,

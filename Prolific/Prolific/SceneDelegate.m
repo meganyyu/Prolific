@@ -9,6 +9,7 @@
 #import "SceneDelegate.h"
 
 #import "HomeViewController.h"
+#import "LoginViewController.h"
 
 @interface SceneDelegate ()
 
@@ -22,7 +23,8 @@
 
     _window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *) scene];
     // Override point for customization after application launch.
-    _window.rootViewController = [[HomeViewController alloc] init];
+    //_window.rootViewController = [[HomeViewController alloc] init];
+    _window.rootViewController = [[LoginViewController alloc] init];
     _window.backgroundColor = [UIColor whiteColor];
     [_window makeKeyAndVisible];
 }

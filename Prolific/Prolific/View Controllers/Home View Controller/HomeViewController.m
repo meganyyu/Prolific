@@ -25,5 +25,4 @@
     [self.view addSubview:label];
 }
 
-
 @end
