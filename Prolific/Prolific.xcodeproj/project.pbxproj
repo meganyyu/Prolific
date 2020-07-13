@@ -9,13 +9,16 @@
 /* Begin PBXBuildFile section */
 		7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113824BCBD9B00070A32 /* AppDelegate.m */; };
 		7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113B24BCBD9B00070A32 /* SceneDelegate.m */; };
-		7191113F24BCBD9B00070A32 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
 		7191114424BCBD9C00070A32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7191114324BCBD9C00070A32 /* Assets.xcassets */; };
 		7191114724BCBD9C00070A32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7191114524BCBD9C00070A32 /* LaunchScreen.storyboard */; };
 		7191114A24BCBD9C00070A32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191114924BCBD9C00070A32 /* main.m */; };
 		7191115424BCBD9C00070A32 /* ProlificTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191115324BCBD9C00070A32 /* ProlificTests.m */; };
 		7191115F24BCBD9C00070A32 /* ProlificUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191115E24BCBD9C00070A32 /* ProlificUITests.m */; };
 		7191117424BD04C600070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
+		7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117B24BD05C700070A32 /* MainTabBarController.m */; };
+		7191117F24BD088000070A32 /* NavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117E24BD088000070A32 /* NavigationManager.m */; };
+		7191118024BD11CE00070A32 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
+		7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117824BD05A000070A32 /* FavoritesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,12 @@
 		7191116024BCBD9C00070A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7191116C24BCD30E00070A32 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		7191116D24BCD30E00070A32 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		7191117724BD05A000070A32 /* FavoritesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
+		7191117824BD05A000070A32 /* FavoritesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
+		7191117A24BD05C700070A32 /* MainTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
+		7191117B24BD05C700070A32 /* MainTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
+		7191117D24BD088000070A32 /* NavigationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigationManager.h; sourceTree = "<group>"; };
+		7191117E24BD088000070A32 /* NavigationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +150,8 @@
 		7191116F24BD044D00070A32 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				7191117D24BD088000070A32 /* NavigationManager.h */,
+				7191117E24BD088000070A32 /* NavigationManager.m */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -148,8 +159,10 @@
 		7191117024BD045800070A32 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7191117524BD055000070A32 /* Main Tab Bar Controller */,
 				7191117224BD048000070A32 /* Login View Controller */,
 				7191117324BD048900070A32 /* Home View Controller */,
+				7191117624BD055D00070A32 /* Favorites View Controller */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -177,6 +190,24 @@
 				7191113E24BCBD9B00070A32 /* HomeViewController.m */,
 			);
 			path = "Home View Controller";
+			sourceTree = "<group>";
+		};
+		7191117524BD055000070A32 /* Main Tab Bar Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7191117A24BD05C700070A32 /* MainTabBarController.h */,
+				7191117B24BD05C700070A32 /* MainTabBarController.m */,
+			);
+			path = "Main Tab Bar Controller";
+			sourceTree = "<group>";
+		};
+		7191117624BD055D00070A32 /* Favorites View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7191117724BD05A000070A32 /* FavoritesViewController.h */,
+				7191117824BD05A000070A32 /* FavoritesViewController.m */,
+			);
+			path = "Favorites View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,8 +339,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7191118024BD11CE00070A32 /* HomeViewController.m in Sources */,
+				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				7191117424BD04C600070A32 /* LoginViewController.m in Sources */,
-				7191113F24BCBD9B00070A32 /* HomeViewController.m in Sources */,
+				7191117F24BD088000070A32 /* NavigationManager.m in Sources */,
+				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,
 				7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */,
