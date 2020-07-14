@@ -131,8 +131,7 @@
         [_passwordField resignFirstResponder];
         NSLog(@"Resigned first responder for all fields");
     }
-    // TODO: When a new user signs up, complete any new account validation steps that your app requires, such as verifying that the new account's password was correctly typed and meets your complexity requirements.
-    [self registerUserWithEmail:_emailField.text password:_passwordField.text];
+    [self registerUserWithUsername:_usernameField.text email:_emailField.text password:_passwordField.text];
 }
 
 - (void)didTapReturnToLoginButton:(id)sender{
@@ -148,18 +147,50 @@
 
 #pragma mark - Firebase Auth
 
-- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password {
-    [[FIRAuth auth] createUserWithEmail:email
-                               password:password
-                             completion:^(FIRAuthDataResult * _Nullable authResult,
-                                          NSError * _Nullable error) {
-        if (!error) {
-            NSLog(@"Created account successfully");
-            [self authenticatedTransition];
-        } else {
-            NSLog(@"Account creation failed: %@", error.localizedDescription);
-        }
-    }];
+- (void)registerUserWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password {
+    NSString *const fieldEntryError = [self validateFields];
+    
+    if (fieldEntryError) {
+        NSLog(@"%@", fieldEntryError);
+    } else {
+        [[FIRAuth auth] createUserWithEmail:email
+                                   password:password
+                                 completion:^(FIRAuthDataResult * _Nullable authResult,
+                                              NSError * _Nullable error) {
+            if (!error) {
+                NSLog(@"Created account successfully");
+                
+                // TODO: Add a new document in collection "users"
+                
+                [self authenticatedTransition];
+            } else {
+                NSLog(@"Account creation failed: %@", error.localizedDescription);
+            }
+        }];
+    }
+}
+
+/** Check the fields and validate that the data is correct. If everything is correct, method returns nil. Otherwise, returns error message as a string. */
+- (NSString *)validateFields {
+    // check that all fields are filled in
+    NSString *const cleanedUsername = [_usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedEmail = [_emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedPassword = [_passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([cleanedUsername isEqualToString:@""] ||
+        [cleanedEmail isEqualToString:@""] ||
+        [cleanedPassword isEqualToString:@""]) {
+        return @"Please fill in all fields";
+    }
+    
+    NSPredicate *const passwordRequirements = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}"];
+    BOOL const isValidPassword = [passwordRequirements evaluateWithObject:cleanedPassword];
+    
+    if (!isValidPassword) {
+        return @"Please make sure password is at least 8 characters, contains a special character and a number.";
+    }
+    
+    return nil;
 }
 
 #pragma mark - Navigation
@@ -168,6 +199,5 @@
     SceneDelegate *const sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
     [NavigationManager presentLoggedInScreenWithSceneDelegate:sceneDelegate];
 }
-
 
 @end
