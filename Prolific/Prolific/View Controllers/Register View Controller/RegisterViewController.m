@@ -8,6 +8,7 @@
 
 #import "RegisterViewController.h"
 
+@import Firebase;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 
@@ -15,6 +16,7 @@
 
 @property (nonatomic, strong) UIView *registerContentView;
 @property (nonatomic, strong) UITextField *usernameField;
+@property (nonatomic, strong) UITextField *emailField;
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UIButton *registerButton;
 @property (nonatomic, strong) UIButton *returnToLoginButton;
@@ -29,7 +31,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _registerContentView = [[UIView alloc] init];
-    _registerContentView.backgroundColor = [UIColor grayColor];
+    _registerContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_registerContentView];
     
     _usernameField = [[UITextField alloc] init];
@@ -37,6 +39,12 @@
     _usernameField.placeholder = @"Username";
     _usernameField.borderStyle = UITextBorderStyleRoundedRect;
     [_registerContentView addSubview:_usernameField];
+    
+    _emailField = [[UITextField alloc] init];
+    _emailField.backgroundColor = [UIColor whiteColor];
+    _emailField.placeholder = @"Email";
+    _emailField.borderStyle = UITextBorderStyleRoundedRect;
+    [_registerContentView addSubview:_emailField];
     
     _passwordField = [[UITextField alloc] init];
     _passwordField.backgroundColor = [UIColor whiteColor];
@@ -54,8 +62,8 @@
     [_registerButton addTarget:self action:@selector(didTapRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
     
     _returnToLoginButton = [[UIButton alloc] init];
-    _returnToLoginButton.backgroundColor = [UIColor lightGrayColor];
-    [_returnToLoginButton setTitle:@"Already have an account?" forState:normal];
+    _returnToLoginButton.backgroundColor = [UIColor systemRedColor];
+    [_returnToLoginButton setTitle:@"Cancel" forState:normal];
     _returnToLoginButton.tintColor = [UIColor whiteColor];
     _returnToLoginButton.layer.cornerRadius = 5;
     _returnToLoginButton.clipsToBounds = YES;
@@ -74,7 +82,7 @@
     
     // login content view
     CGFloat const viewWidth = boundsWidth;
-    CGFloat const viewHeight = boundsHeight * 0.4;
+    CGFloat const viewHeight = boundsHeight * 0.5;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
     NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
@@ -82,51 +90,107 @@
 
     // username field
     CGFloat const fieldWidth = viewWidth * 0.75;
-    CGFloat const fieldHeight = (viewHeight * 0.75) / 4;
+    CGFloat const fieldHeight = (viewHeight * 0.75) / 5.0;
     CGFloat const usernameFieldX = _registerContentView.center.x - fieldWidth / 2;
     CGFloat const usernameFieldY = 0;
     NSLog(@"fieldWidth: %f, fieldHeight: %f, usernameFieldX: %f, usernameFieldY: %f", fieldWidth, fieldHeight, usernameFieldX, usernameFieldY);
     _usernameField.frame = CGRectMake(usernameFieldX, usernameFieldY, fieldWidth, fieldHeight);
     
+    // email field
+    CGFloat const emailFieldX = usernameFieldX;
+    CGFloat const emailFieldY = usernameFieldY + fieldHeight;
+    NSLog(@"emailFieldX: %f, emailFieldY: %f", emailFieldX, emailFieldY);
+    _emailField.frame = CGRectMake(emailFieldX, emailFieldY, fieldWidth, fieldHeight);
+    
     // password field
     CGFloat const passwordFieldX = usernameFieldX;
-    CGFloat const passwordFieldY = usernameFieldY + fieldHeight;
+    CGFloat const passwordFieldY = emailFieldY + fieldHeight;
     NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
-    // registration button
-    CGFloat const registerButtonX = usernameFieldX;
-    CGFloat const registerButtonY = passwordFieldY + fieldHeight + viewHeight * 0.25;
-    NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
-    _registerButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
-    
     // login button
     CGFloat const loginButtonX = usernameFieldX;
-    CGFloat const loginButtonY = registerButtonY + fieldHeight;
+    CGFloat const loginButtonY = viewHeight - fieldHeight;
     NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
     _returnToLoginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
+    
+    // registration button
+    CGFloat const registerButtonX = usernameFieldX;
+    CGFloat const registerButtonY = loginButtonY - fieldHeight - 10;
+    NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
+    _registerButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions
 
 - (void)didTapRegisterButton:(id)sender{
     NSLog(@"Tapped sign up button");
-    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder) {
+    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
         [_usernameField resignFirstResponder];
+        [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for  username field or password field");
+        NSLog(@"Resigned first responder for all fields");
     }
-    [self authenticatedTransition];
+    [self registerUserWithUsername:_usernameField.text email:_emailField.text password:_passwordField.text];
 }
 
 - (void)didTapReturnToLoginButton:(id)sender{
     NSLog(@"Tapped returnToLogin button, leaving registration screen");
-    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder) {
+    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
         [_usernameField resignFirstResponder];
+        [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for  username field or password field");
+        NSLog(@"Resigned first responder for all fields");
     }
     [NavigationManager exitTopViewController:self.navigationController];
+}
+
+#pragma mark - Firebase Auth
+
+- (void)registerUserWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password {
+    NSString *const fieldEntryError = [self validateFields];
+    
+    if (fieldEntryError) {
+        NSLog(@"%@", fieldEntryError);
+    } else {
+        [[FIRAuth auth] createUserWithEmail:email
+                                   password:password
+                                 completion:^(FIRAuthDataResult * _Nullable authResult,
+                                              NSError * _Nullable error) {
+            if (!error) {
+                NSLog(@"Created account successfully");
+                
+                // TODO: Add a new document in collection "users"
+                
+                [self authenticatedTransition];
+            } else {
+                NSLog(@"Account creation failed: %@", error.localizedDescription);
+            }
+        }];
+    }
+}
+
+/** Check the fields and validate that the data is correct. If everything is correct, method returns nil. Otherwise, returns error message as a string. */
+- (NSString *)validateFields {
+    // check that all fields are filled in
+    NSString *const cleanedUsername = [_usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedEmail = [_emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedPassword = [_passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([cleanedUsername isEqualToString:@""] ||
+        [cleanedEmail isEqualToString:@""] ||
+        [cleanedPassword isEqualToString:@""]) {
+        return @"Please fill in all fields";
+    }
+    
+    NSPredicate *const passwordRequirements = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}"];
+    BOOL const isValidPassword = [passwordRequirements evaluateWithObject:cleanedPassword];
+    
+    if (!isValidPassword) {
+        return @"Please make sure password is at least 8 characters, contains a special character and a number.";
+    }
+    
+    return nil;
 }
 
 #pragma mark - Navigation
@@ -135,6 +199,5 @@
     SceneDelegate *const sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
     [NavigationManager presentLoggedInScreenWithSceneDelegate:sceneDelegate];
 }
-
 
 @end

@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 
+@import Firebase;
 #import "NavigationManager.h"
 #import "ThreadPreviewCell.h"
 
@@ -52,10 +53,7 @@
 #pragma mark - User actions
 
 - (void)didTapLogoutButton:(UIBarButtonItem *)sender {
-    SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
-    [NavigationManager presentLoggedOutScreenWithSceneDelegate:sceneDelegate];
-    
-    //TODO: logout of Firebase user account
+    [self logoutUser];
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
@@ -82,6 +80,21 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 7.0);
+}
+
+#pragma mark - Firebase Auth
+
+- (void)logoutUser {
+    NSError *signOutError;
+    BOOL status = [[FIRAuth auth] signOut:&signOutError];
+    if (!status) {
+        NSLog(@"Error signing out: %@", signOutError);
+        return;
+    } else {
+        NSLog(@"Successfully signed out.");
+        SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
+        [NavigationManager presentLoggedOutScreenWithSceneDelegate:sceneDelegate];
+    }
 }
 
 @end

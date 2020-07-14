@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 
+@import Firebase;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 
@@ -35,7 +36,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _loginContentView = [[UIView alloc] init];
-    _loginContentView.backgroundColor = [UIColor grayColor];
+    _loginContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_loginContentView];
     
     _usernameField = [[UITextField alloc] init];
@@ -100,17 +101,17 @@
     NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
-    // login button
-    CGFloat const loginButtonX = usernameFieldX;
-    CGFloat const loginButtonY = passwordFieldY + fieldHeight + (viewHeight * 0.25);
-    NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
-    _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
-    
     // register button
     CGFloat const registerButtonX = usernameFieldX;
-    CGFloat const registerButtonY = loginButtonY + fieldHeight;
+    CGFloat const registerButtonY = viewHeight - fieldHeight;
     NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
     _goToRegisterButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
+    
+    // login button
+    CGFloat const loginButtonX = usernameFieldX;
+    CGFloat const loginButtonY = registerButtonY - fieldHeight - 10;
+    NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
+    _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions
@@ -122,7 +123,7 @@
         [_passwordField resignFirstResponder];
         NSLog(@"Resigned first responder for  username field or password field");
     }
-    [self authenticatedTransition];
+    [self loginUserWithEmail:_usernameField.text password:_passwordField.text];
 }
 
 - (void)didTapGoToRegisterButton:(id)sender{
@@ -133,6 +134,22 @@
         NSLog(@"Resigned first responder for  username field or password field");
     }
     [NavigationManager presentRegistrationScreenWithNavigationController:self.navigationController];
+}
+
+#pragma mark - Firebase Auth
+
+- (void)loginUserWithEmail:(NSString *)email password:(NSString *)password {
+    [[FIRAuth auth] signInWithEmail:email
+                               password:password
+                             completion:^(FIRAuthDataResult * _Nullable authResult,
+                                          NSError * _Nullable error) {
+        if (!error) {
+            NSLog(@"Logged into account successfully");
+            [self authenticatedTransition];
+        } else {
+            NSLog(@"Account login failed: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - Navigation
