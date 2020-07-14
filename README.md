@@ -178,7 +178,7 @@ Note: still modifying wireframes, this is a draft of MVP only:
 
 ### Database structure
 
-**Firebase Cloud Firestore** is a [document-oriented database](https://firebase.google.com/docs/firestore/data-model) that works well with [hierarchical structures](https://firebase.google.com/docs/firestore/data-model#hierarchical-data) and is ideal for storing large collections of small documents.
+**Firebase Cloud Firestore** is a [document-oriented database](https://firebase.google.com/docs/firestore/data-model) that works well with [hierarchical structures](https://firebase.google.com/docs/firestore/data-model#hierarchical-data) and is ideal for storing large collections of small documents. It can synchronize data between devices in real-time, which makes it good for building reactive apps.
 
 **How it works**
 * Data stored in documents, which are organized into collections
@@ -351,3 +351,8 @@ Most likely using [Firebase Authentication](https://firebase.google.com/docs/aut
     * (Update/PUT) Update a user (e.g. profile photo, display name, etc.) [Docs](https://firebase.google.com/docs/auth/ios/manage-users#update_a_users_profile)
 
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+
+Firebase Resources & Notes
+
+- use Cloud Functions as Cloud Firestore read/update triggers [Docs](https://cloud.google.com/functions/docs/calling/cloud-firestore)
