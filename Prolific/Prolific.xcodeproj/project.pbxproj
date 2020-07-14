@@ -7,9 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51F0B511CCE2110A84CAB749 /* Pods_Prolific.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */; };
 		7165D15224BE056C008E64CD /* ThreadDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ThreadDetailsViewController.m */; };
 		7165D15624BE0AE7008E64CD /* ThreadPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ThreadPreviewCell.m */; };
 		7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15924BE1B17008E64CD /* RegisterViewController.m */; };
+		7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
+		7165D15D24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
+		7165D15E24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
 		7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113824BCBD9B00070A32 /* AppDelegate.m */; };
 		7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113B24BCBD9B00070A32 /* SceneDelegate.m */; };
 		7191114424BCBD9C00070A32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7191114324BCBD9C00070A32 /* Assets.xcassets */; };
@@ -23,6 +27,8 @@
 		7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117824BD05A000070A32 /* FavoritesViewController.m */; };
 		7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191118324BD1D6500070A32 /* ProlificBaseViewController.m */; };
 		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
+		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
+		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,12 +49,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		36448502AFBC63625D8F6DF6 /* Pods-Prolific.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific.debug.xcconfig"; path = "Target Support Files/Pods-Prolific/Pods-Prolific.debug.xcconfig"; sourceTree = "<group>"; };
+		5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific_ProlificUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7165D15024BE056C008E64CD /* ThreadDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThreadDetailsViewController.h; sourceTree = "<group>"; };
 		7165D15124BE056C008E64CD /* ThreadDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThreadDetailsViewController.m; sourceTree = "<group>"; };
 		7165D15424BE0AE7008E64CD /* ThreadPreviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThreadPreviewCell.h; sourceTree = "<group>"; };
 		7165D15524BE0AE7008E64CD /* ThreadPreviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThreadPreviewCell.m; sourceTree = "<group>"; };
 		7165D15824BE1B17008E64CD /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		7165D15924BE1B17008E64CD /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7191113424BCBD9B00070A32 /* Prolific.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prolific.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7191113724BCBD9B00070A32 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7191113824BCBD9B00070A32 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -76,6 +85,13 @@
 		7191117E24BD088000070A32 /* NavigationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationManager.m; sourceTree = "<group>"; };
 		7191118224BD1D6500070A32 /* ProlificBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProlificBaseViewController.h; sourceTree = "<group>"; };
 		7191118324BD1D6500070A32 /* ProlificBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificBaseViewController.m; sourceTree = "<group>"; };
+		857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.release.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.release.xcconfig"; sourceTree = "<group>"; };
+		895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.debug.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A5748274C8BEA7C4A98F4685 /* Pods-Prolific.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific.release.xcconfig"; path = "Target Support Files/Pods-Prolific/Pods-Prolific.release.xcconfig"; sourceTree = "<group>"; };
+		A6260867AA9F4FED5CC98E68 /* Pods-ProlificTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.release.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.release.xcconfig"; sourceTree = "<group>"; };
+		CC2AC76234C0858E2F457340 /* Pods-Prolific-ProlificUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.debug.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProlificTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51F0B511CCE2110A84CAB749 /* Pods_Prolific.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,12 +115,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FA4B091DFA3374A43FE81F4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				36448502AFBC63625D8F6DF6 /* Pods-Prolific.debug.xcconfig */,
+				A5748274C8BEA7C4A98F4685 /* Pods-Prolific.release.xcconfig */,
+				CC2AC76234C0858E2F457340 /* Pods-Prolific-ProlificUITests.debug.xcconfig */,
+				86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */,
+				895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */,
+				A6260867AA9F4FED5CC98E68 /* Pods-ProlificTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		7165D14C24BE052E008E64CD /* Thread Details View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +170,8 @@
 				7191115224BCBD9C00070A32 /* ProlificTests */,
 				7191115D24BCBD9C00070A32 /* ProlificUITests */,
 				7191113524BCBD9B00070A32 /* Products */,
+				3FA4B091DFA3374A43FE81F4 /* Pods */,
+				FF52A583CD9670382704644A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,6 +198,7 @@
 				7191114324BCBD9C00070A32 /* Assets.xcassets */,
 				7191114524BCBD9C00070A32 /* LaunchScreen.storyboard */,
 				7191114824BCBD9C00070A32 /* Info.plist */,
+				7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */,
 				7191114924BCBD9C00070A32 /* main.m */,
 			);
 			path = Prolific;
@@ -262,6 +298,16 @@
 			path = "Prolific Base View Controller";
 			sourceTree = "<group>";
 		};
+		FF52A583CD9670382704644A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */,
+				5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */,
+				EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -269,9 +315,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7191116324BCBD9C00070A32 /* Build configuration list for PBXNativeTarget "Prolific" */;
 			buildPhases = (
+				1A26DBAE84B8DEF060774781 /* [CP] Check Pods Manifest.lock */,
 				7191113024BCBD9B00070A32 /* Sources */,
 				7191113124BCBD9B00070A32 /* Frameworks */,
 				7191113224BCBD9B00070A32 /* Resources */,
+				FC41A8EF845542AD620D1A3A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -286,6 +334,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7191116624BCBD9C00070A32 /* Build configuration list for PBXNativeTarget "ProlificTests" */;
 			buildPhases = (
+				F4879A6271B70D55C97C20CD /* [CP] Check Pods Manifest.lock */,
 				7191114B24BCBD9C00070A32 /* Sources */,
 				7191114C24BCBD9C00070A32 /* Frameworks */,
 				7191114D24BCBD9C00070A32 /* Resources */,
@@ -304,9 +353,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7191116924BCBD9C00070A32 /* Build configuration list for PBXNativeTarget "ProlificUITests" */;
 			buildPhases = (
+				CB3BEFCE30B164F05A900E3B /* [CP] Check Pods Manifest.lock */,
 				7191115624BCBD9C00070A32 /* Sources */,
 				7191115724BCBD9C00070A32 /* Frameworks */,
 				7191115824BCBD9C00070A32 /* Resources */,
+				53C0AAE931449576223E3CFB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -367,6 +418,7 @@
 			files = (
 				7191114724BCBD9C00070A32 /* LaunchScreen.storyboard in Resources */,
 				7191114424BCBD9C00070A32 /* Assets.xcassets in Resources */,
+				7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7165D15D24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,10 +434,114 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7165D15E24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A26DBAE84B8DEF060774781 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Prolific-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		53C0AAE931449576223E3CFB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB3BEFCE30B164F05A900E3B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Prolific-ProlificUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4879A6271B70D55C97C20CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ProlificTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC41A8EF845542AD620D1A3A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Prolific/Pods-Prolific-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Prolific/Pods-Prolific-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Prolific/Pods-Prolific-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7191113024BCBD9B00070A32 /* Sources */ = {
@@ -561,6 +718,7 @@
 		};
 		7191116424BCBD9C00070A32 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36448502AFBC63625D8F6DF6 /* Pods-Prolific.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -578,6 +736,7 @@
 		};
 		7191116524BCBD9C00070A32 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5748274C8BEA7C4A98F4685 /* Pods-Prolific.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -595,6 +754,7 @@
 		};
 		7191116724BCBD9C00070A32 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -615,6 +775,7 @@
 		};
 		7191116824BCBD9C00070A32 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6260867AA9F4FED5CC98E68 /* Pods-ProlificTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -635,6 +796,7 @@
 		};
 		7191116A24BCBD9C00070A32 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC2AC76234C0858E2F457340 /* Pods-Prolific-ProlificUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8652WRRVFY;
@@ -653,6 +815,7 @@
 		};
 		7191116B24BCBD9C00070A32 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8652WRRVFY;

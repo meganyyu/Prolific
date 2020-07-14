@@ -1,0 +1,6 @@
+framework module Pods_ProlificTests {
+  umbrella header "Pods-ProlificTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
