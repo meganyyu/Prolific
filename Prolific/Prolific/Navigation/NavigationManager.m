@@ -12,13 +12,16 @@
 #import "HomeViewController.h"
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
+#import "RegisterViewController.h"
 #import "ThreadDetailsViewController.h"
 
 @implementation NavigationManager
 
 + (void)presentLoggedOutScreenWithSceneDelegate:(SceneDelegate *)sceneDelegate {
     LoginViewController *const loginViewController = [[LoginViewController alloc] init];
-    sceneDelegate.window.rootViewController = loginViewController;
+    UINavigationController *const loginNavController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    [loginNavController setNavigationBarHidden:YES];
+    sceneDelegate.window.rootViewController = loginNavController;
     [sceneDelegate.window makeKeyAndVisible];
 }
 
@@ -28,7 +31,13 @@
     [sceneDelegate.window makeKeyAndVisible];
 }
 
-+ (void)presentThreadDetailsViewControllerForNavigationController:(UINavigationController *)navController {
++ (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController {
+    RegisterViewController *const registerViewController = [[RegisterViewController alloc] init];
+    [navController pushViewController:registerViewController animated:YES];
+    NSLog(@"Reached presentRegistrationScreen in NavManager, navController is? %@", NSStringFromClass([navController class]));
+}
+
++ (void)presentThreadDetailsViewControllerWithNavigationController:(UINavigationController *)navController {
     ThreadDetailsViewController *const threadDetailsViewController = [[ThreadDetailsViewController alloc] init];
     //TODO: pass in a Thread object to the new thread details view controller
     [navController pushViewController:threadDetailsViewController animated:YES];

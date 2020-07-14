@@ -18,7 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)presentLoggedInScreenWithSceneDelegate:(SceneDelegate *)sceneDelegate;
 
-+ (void)presentThreadDetailsViewControllerForNavigationController:(UINavigationController *)navController;
++ (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
+
++ (void)presentThreadDetailsViewControllerWithNavigationController:(UINavigationController *)navController;
 
 + (void)exitTopViewController:(UINavigationController *)navController;
 

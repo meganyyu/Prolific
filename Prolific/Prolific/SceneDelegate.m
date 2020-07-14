@@ -10,6 +10,7 @@
 
 #import "HomeViewController.h"
 #import "LoginViewController.h"
+#import "NavigationManager.h"
 
 @interface SceneDelegate ()
 
@@ -20,8 +21,7 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     _window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *) scene];
-    _window.rootViewController = [[LoginViewController alloc] init];
-    [_window makeKeyAndVisible];
+    [NavigationManager presentLoggedOutScreenWithSceneDelegate:self];
 }
 
 @end

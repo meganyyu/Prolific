@@ -74,7 +74,7 @@
 #pragma mark - UICollectionViewDelegate Protocol
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [NavigationManager presentThreadDetailsViewControllerForNavigationController:self.navigationController];
+    [NavigationManager presentThreadDetailsViewControllerWithNavigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
