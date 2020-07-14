@@ -9,12 +9,14 @@
 #import "HomeViewController.h"
 
 #import "NavigationManager.h"
+#import "ThreadPreviewCell.h"
 
 #pragma mark - Interface
 
-@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray *threadArray;
 
 @end
 
@@ -36,7 +38,7 @@
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
 
-    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"threadCell"];
+    [_collectionView registerClass:[ThreadPreviewCell class] forCellWithReuseIdentifier:@"threadCell"];
     [_collectionView setBackgroundColor:[UIColor yellowColor]];
 
     [self.view addSubview:_collectionView];
@@ -69,5 +71,17 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate Protocol
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [NavigationManager presentThreadDetailsViewControllerForNavigationController:self.navigationController];
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Protocol
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 7.0);
+}
 
 @end
