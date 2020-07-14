@@ -11,6 +11,7 @@
 @import Firebase;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
+#import "User.h"
 
 @interface RegisterViewController ()
 
@@ -150,6 +151,10 @@
 - (void)registerUserWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password {
     NSString *const fieldEntryError = [self validateFields];
     
+    NSString *const cleanedUsername = [_usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedEmail = [_emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedPassword = [_passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
     if (fieldEntryError) {
         NSLog(@"%@", fieldEntryError);
     } else {
@@ -161,6 +166,7 @@
                 NSLog(@"Created account successfully");
                 
                 // TODO: Add a new document in collection "users"
+                [User createUserWithUserId:@"sampleID" withUsername:cleanedUsername];
                 
                 [self authenticatedTransition];
             } else {
