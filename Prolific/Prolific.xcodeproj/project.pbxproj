@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7165D15224BE056C008E64CD /* ThreadDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ThreadDetailsViewController.m */; };
+		7165D15624BE0AE7008E64CD /* ThreadPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ThreadPreviewCell.m */; };
 		7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113824BCBD9B00070A32 /* AppDelegate.m */; };
 		7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113B24BCBD9B00070A32 /* SceneDelegate.m */; };
 		7191114424BCBD9C00070A32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7191114324BCBD9C00070A32 /* Assets.xcassets */; };
@@ -40,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7165D15024BE056C008E64CD /* ThreadDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThreadDetailsViewController.h; sourceTree = "<group>"; };
+		7165D15124BE056C008E64CD /* ThreadDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThreadDetailsViewController.m; sourceTree = "<group>"; };
+		7165D15424BE0AE7008E64CD /* ThreadPreviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThreadPreviewCell.h; sourceTree = "<group>"; };
+		7165D15524BE0AE7008E64CD /* ThreadPreviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ThreadPreviewCell.m; sourceTree = "<group>"; };
 		7191113424BCBD9B00070A32 /* Prolific.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prolific.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7191113724BCBD9B00070A32 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7191113824BCBD9B00070A32 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -94,6 +100,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7165D14C24BE052E008E64CD /* Thread Details View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7165D15024BE056C008E64CD /* ThreadDetailsViewController.h */,
+				7165D15124BE056C008E64CD /* ThreadDetailsViewController.m */,
+			);
+			path = "Thread Details View Controller";
+			sourceTree = "<group>";
+		};
+		7165D15324BE0AAE008E64CD /* ThreadPreviewCell */ = {
+			isa = PBXGroup;
+			children = (
+				7165D15424BE0AE7008E64CD /* ThreadPreviewCell.h */,
+				7165D15524BE0AE7008E64CD /* ThreadPreviewCell.m */,
+			);
+			path = ThreadPreviewCell;
+			sourceTree = "<group>";
+		};
 		7191112B24BCBD9B00070A32 = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +191,7 @@
 				7191117224BD048000070A32 /* Login View Controller */,
 				7191117324BD048900070A32 /* Home View Controller */,
 				7191117624BD055D00070A32 /* Favorites View Controller */,
+				7165D14C24BE052E008E64CD /* Thread Details View Controller */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -174,6 +199,7 @@
 		7191117124BD046600070A32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7165D15324BE0AAE008E64CD /* ThreadPreviewCell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -354,9 +380,11 @@
 			files = (
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				7191118024BD11CE00070A32 /* HomeViewController.m in Sources */,
+				7165D15624BE0AE7008E64CD /* ThreadPreviewCell.m in Sources */,
 				7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				7191117F24BD088000070A32 /* NavigationManager.m in Sources */,
+				7165D15224BE056C008E64CD /* ThreadDetailsViewController.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,

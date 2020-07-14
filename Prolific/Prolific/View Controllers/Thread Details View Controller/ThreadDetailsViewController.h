@@ -1,8 +1,8 @@
 //
-//  LoginViewController.h
+//  ThreadDetailsViewController.h
 //  Prolific
 //
-//  Created by meganyu on 7/13/20.
+//  Created by meganyu on 7/14/20.
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LoginViewController :  ProlificBaseViewController
+@interface ThreadDetailsViewController : ProlificBaseViewController
 
 @end
 

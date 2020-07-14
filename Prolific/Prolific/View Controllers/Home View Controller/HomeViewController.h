@@ -6,7 +6,6 @@
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "ProlificBaseViewController.h"
 
 @interface HomeViewController : ProlificBaseViewController

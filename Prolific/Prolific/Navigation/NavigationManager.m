@@ -12,6 +12,7 @@
 #import "HomeViewController.h"
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
+#import "ThreadDetailsViewController.h"
 
 @implementation NavigationManager
 
@@ -27,6 +28,24 @@
     [sceneDelegate.window makeKeyAndVisible];
 }
 
-/* Note: might be useful - https://developer.apple.com/documentation/uikit/uinavigationcontroller/1621887-pushviewcontroller?language=objc
- */
++ (void)presentThreadDetailsViewControllerForNavigationController:(UINavigationController *)navController {
+    ThreadDetailsViewController *const threadDetailsViewController = [[ThreadDetailsViewController alloc] init];
+    //TODO: pass in a Thread object to the new thread details view controller
+    [navController pushViewController:threadDetailsViewController animated:YES];
+}
+
++ (void)exitTopViewController:(UINavigationController *)navController {
+    UIViewController *const poppedVC = [navController popViewControllerAnimated:YES];
+    NSString *const vcType = NSStringFromClass([poppedVC class]);
+    NSLog(@"Popped a view controller of type %@", vcType);
+}
+
++ (void)exitToRootViewController:(UINavigationController *)navController {
+    NSArray<__kindof UIViewController *> *const poppedVCs = [navController popToRootViewControllerAnimated:YES];
+    NSLog(@"Popped view controllers of type:");
+    for (UIViewController *const vc in poppedVCs) {
+        NSLog(@"%@", NSStringFromClass([vc class]));
+    }
+}
+
 @end

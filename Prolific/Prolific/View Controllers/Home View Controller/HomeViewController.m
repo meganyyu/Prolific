@@ -43,10 +43,11 @@
     
     // Navigation customization
     self.navigationItem.title = @"Home";
-    
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLogoutButton:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
 }
+
+#pragma mark - User actions
 
 - (void)didTapLogoutButton:(UIBarButtonItem *)sender {
     SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
@@ -54,6 +55,8 @@
     
     //TODO: logout of Firebase user account
 }
+
+#pragma mark - UICollectionViewDataSource Protocol
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return 15;

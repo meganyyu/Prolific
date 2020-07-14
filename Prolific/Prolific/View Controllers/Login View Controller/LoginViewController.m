@@ -99,14 +99,19 @@
 
 #pragma mark - User Actions
 
-- (void) didTapLoginButton:(id)sender{
+- (void)didTapLoginButton:(id)sender{
     NSLog(@"Tapped login button");
     if (_usernameField.isFirstResponder || _passwordField.isFirstResponder) {
         [_usernameField resignFirstResponder];
         [_passwordField resignFirstResponder];
         NSLog(@"Resigned first responder for  username field or password field");
     }
-    
+    [self authenticatedTransition];
+}
+
+#pragma mark - Navigation
+
+- (void)authenticatedTransition {
     SceneDelegate *const sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
     [NavigationManager presentLoggedInScreenWithSceneDelegate:sceneDelegate];
 }
