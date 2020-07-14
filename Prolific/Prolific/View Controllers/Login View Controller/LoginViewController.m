@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 
+@import Firebase;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 
@@ -122,7 +123,7 @@
         [_passwordField resignFirstResponder];
         NSLog(@"Resigned first responder for  username field or password field");
     }
-    [self authenticatedTransition];
+    [self loginUserWithEmail:_usernameField.text password:_passwordField.text];
 }
 
 - (void)didTapGoToRegisterButton:(id)sender{
@@ -133,6 +134,22 @@
         NSLog(@"Resigned first responder for  username field or password field");
     }
     [NavigationManager presentRegistrationScreenWithNavigationController:self.navigationController];
+}
+
+#pragma mark - Firebase Auth
+
+- (void)loginUserWithEmail:(NSString *)email password:(NSString *)password {
+    [[FIRAuth auth] signInWithEmail:email
+                               password:password
+                             completion:^(FIRAuthDataResult * _Nullable authResult,
+                                          NSError * _Nullable error) {
+        if (!error) {
+            NSLog(@"Logged into account successfully");
+            [self authenticatedTransition];
+        } else {
+            NSLog(@"Account login failed: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - Navigation

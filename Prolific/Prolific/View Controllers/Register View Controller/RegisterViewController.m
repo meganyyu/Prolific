@@ -8,6 +8,7 @@
 
 #import "RegisterViewController.h"
 
+@import Firebase;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 
@@ -116,7 +117,8 @@
         [_passwordField resignFirstResponder];
         NSLog(@"Resigned first responder for  username field or password field");
     }
-    [self authenticatedTransition];
+    // TODO: When a new user signs up, complete any new account validation steps that your app requires, such as verifying that the new account's password was correctly typed and meets your complexity requirements.
+    [self registerUserWithEmail:_usernameField.text password:_passwordField.text];
 }
 
 - (void)didTapReturnToLoginButton:(id)sender{
@@ -127,6 +129,22 @@
         NSLog(@"Resigned first responder for  username field or password field");
     }
     [NavigationManager exitTopViewController:self.navigationController];
+}
+
+#pragma mark - Firebase Auth
+
+- (void)registerUserWithEmail:(NSString *)email password:(NSString *)password {
+    [[FIRAuth auth] createUserWithEmail:email
+                               password:password
+                             completion:^(FIRAuthDataResult * _Nullable authResult,
+                                          NSError * _Nullable error) {
+        if (!error) {
+            NSLog(@"Created account successfully");
+            [self authenticatedTransition];
+        } else {
+            NSLog(@"Account creation failed: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - Navigation
