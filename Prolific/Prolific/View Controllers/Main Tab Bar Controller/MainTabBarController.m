@@ -15,8 +15,8 @@
 
 @interface MainTabBarController ()
 
-@property (nonatomic, strong) HomeViewController *homeViewController;
-@property (nonatomic, strong) FavoritesViewController *favoritesViewController;
+@property (nonatomic, strong) UINavigationController *homeNavigationController;
+@property (nonatomic, strong) UINavigationController *favoritesNavigationController;
 
 @end
 
@@ -29,20 +29,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    HomeViewController *const homeViewController = [[HomeViewController alloc] init];
-    UINavigationController *const homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
-    
-    FavoritesViewController *const favoritesViewController = [[FavoritesViewController alloc] init];
-    UINavigationController *const favoritesNavigationController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
-    self.viewControllers = @[homeNavigationController, favoritesNavigationController];
+    [self setupViewControllers];
     
     UITabBar *const tabBar = (UITabBar *)self.tabBar;
+    
     UITabBarItem *const homeTabItem = [tabBar.items objectAtIndex:0];
     homeTabItem.title = @"Home";
+    
     UITabBarItem *const favoritesTabItem = [tabBar.items objectAtIndex:1];
     favoritesTabItem.title = @"Favorites";
     
+    UITabBarAppearance *tabBarAppearance = [[UITabBarAppearance alloc] init];
+    [tabBarAppearance setBackgroundColor:[UIColor whiteColor]];
+    
+    [self setTabBarItemColors:tabBarAppearance.stackedLayoutAppearance];
+    [self setTabBarItemColors:tabBarAppearance.inlineLayoutAppearance];
+    [self setTabBarItemColors:tabBarAppearance.compactInlineLayoutAppearance];
+    
+    tabBar.standardAppearance = tabBarAppearance;
+    
     NSLog(@"Reached end of MainTabBarController viewDidLoad");
+}
+
+- (void)setupViewControllers {
+    HomeViewController *const homeViewController = [[HomeViewController alloc] init];
+    _homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+    
+    FavoritesViewController *const favoritesViewController = [[FavoritesViewController alloc] init];
+    _favoritesNavigationController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
+    
+    self.viewControllers = @[_homeNavigationController, _favoritesNavigationController];
+}
+
+- (void)setTabBarItemColors:(UITabBarItemAppearance *)itemAppearance {
+    itemAppearance.normal.iconColor = [UIColor lightGrayColor];
+    [itemAppearance.normal setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    
+    itemAppearance.selected.iconColor = [UIColor greenColor];
+    [itemAppearance.selected setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor greenColor]}];
 }
 
 @end

@@ -16,6 +16,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+    //[appearance configureWithOpaqueBackground];
+    [appearance setBackgroundColor:[UIColor whiteColor]];
+    [appearance setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor lightTextColor]}];
+    
+    self.navigationItem.standardAppearance = appearance;
+    self.navigationItem.scrollEdgeAppearance = appearance;
+    self.navigationItem.compactAppearance = appearance;
 }
 
 @end
