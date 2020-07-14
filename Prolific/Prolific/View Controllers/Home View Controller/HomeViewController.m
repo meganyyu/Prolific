@@ -12,7 +12,9 @@
 
 #pragma mark - Interface
 
-@interface HomeViewController ()
+@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @end
 
@@ -25,14 +27,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor yellowColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
-    // Test label
-    UILabel *const label = [[UILabel alloc] initWithFrame:CGRectMake(50, 100, 300, 30)];
-    label.text = @"Test Label for Home View Controller";
+    //self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    [self.view addSubview:label];
+     UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+
+    [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"threadCell"];
+    [_collectionView setBackgroundColor:[UIColor yellowColor]];
+
+    [self.view addSubview:_collectionView];
     
+    // Navigation customization
     self.navigationItem.title = @"Home";
     
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLogoutButton:)];
@@ -45,5 +54,17 @@
     
     //TODO: logout of Firebase user account
 }
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 15;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"threadCell" forIndexPath:indexPath];
+    
+    cell.backgroundColor = [UIColor grayColor];
+    return cell;
+}
+
 
 @end

@@ -35,17 +35,12 @@
     
     UITabBarItem *const homeTabItem = [tabBar.items objectAtIndex:0];
     homeTabItem.title = @"Home";
-    
     UITabBarItem *const favoritesTabItem = [tabBar.items objectAtIndex:1];
     favoritesTabItem.title = @"Favorites";
     
-    UITabBarAppearance *tabBarAppearance = [[UITabBarAppearance alloc] init];
+    UITabBarAppearance *const tabBarAppearance = [[UITabBarAppearance alloc] init];
     [tabBarAppearance setBackgroundColor:[UIColor whiteColor]];
-    
     [self setTabBarItemColors:tabBarAppearance.stackedLayoutAppearance];
-    [self setTabBarItemColors:tabBarAppearance.inlineLayoutAppearance];
-    [self setTabBarItemColors:tabBarAppearance.compactInlineLayoutAppearance];
-    
     tabBar.standardAppearance = tabBarAppearance;
     
     NSLog(@"Reached end of MainTabBarController viewDidLoad");
