@@ -15,6 +15,9 @@
 
 @interface MainTabBarController ()
 
+@property (nonatomic, strong) HomeViewController *homeViewController;
+@property (nonatomic, strong) FavoritesViewController *favoritesViewController;
+
 @end
 
 #pragma mark - Implementation

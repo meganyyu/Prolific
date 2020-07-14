@@ -8,6 +8,8 @@
 
 #import "HomeViewController.h"
 
+#import "NavigationManager.h"
+
 #pragma mark - Interface
 
 @interface HomeViewController ()
@@ -30,6 +32,18 @@
     label.text = @"Test Label for Home View Controller";
 
     [self.view addSubview:label];
+    
+    self.navigationItem.title = @"Home";
+    
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLogoutButton:)];
+    self.navigationItem.leftBarButtonItem = logoutButton;
+}
+
+- (void)didTapLogoutButton:(UIBarButtonItem *)sender {
+    SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
+    [NavigationManager presentLoggedOutScreenWithSceneDelegate:sceneDelegate];
+    
+    //TODO: logout of Firebase user account
 }
 
 @end
