@@ -36,7 +36,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     _loginContentView = [[UIView alloc] init];
-    _loginContentView.backgroundColor = [UIColor grayColor];
+    _loginContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_loginContentView];
     
     _usernameField = [[UITextField alloc] init];
@@ -101,17 +101,17 @@
     NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
-    // login button
-    CGFloat const loginButtonX = usernameFieldX;
-    CGFloat const loginButtonY = passwordFieldY + fieldHeight + (viewHeight * 0.25);
-    NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
-    _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
-    
     // register button
     CGFloat const registerButtonX = usernameFieldX;
-    CGFloat const registerButtonY = loginButtonY + fieldHeight;
+    CGFloat const registerButtonY = viewHeight - fieldHeight;
     NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
     _goToRegisterButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
+    
+    // login button
+    CGFloat const loginButtonX = usernameFieldX;
+    CGFloat const loginButtonY = registerButtonY - fieldHeight - 10;
+    NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
+    _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions
