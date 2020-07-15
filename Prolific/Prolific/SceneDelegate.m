@@ -22,7 +22,6 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     _window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *) scene];
-    // FIXME: should I use FirebaseAuth listener instead as shown here: https://firebase.google.com/docs/auth/ios/manage-users#get_the_currently_signed-in_user
     
     if ([FIRAuth auth].currentUser) {
         NSLog(@"Welcome back, user with email address %@!", [FIRAuth auth].currentUser.email);

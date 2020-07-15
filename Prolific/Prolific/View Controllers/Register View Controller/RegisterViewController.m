@@ -13,9 +13,15 @@
 #import "SceneDelegate.h"
 #import "User.h"
 
+static NSString *const kDisplayNameKey = @"displayName";
+static NSString *const kEmailKey = @"email";
+static NSString *const kPasswordKey = @"password";
+static NSString *const kUsernameKey = @"username";
+
 @interface RegisterViewController ()
 
 @property (nonatomic, strong) UIView *registerContentView;
+@property (nonatomic, strong) UITextField *displayNameField;
 @property (nonatomic, strong) UITextField *usernameField;
 @property (nonatomic, strong) UITextField *emailField;
 @property (nonatomic, strong) UITextField *passwordField;
@@ -34,6 +40,12 @@
     _registerContentView = [[UIView alloc] init];
     _registerContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_registerContentView];
+    
+    _displayNameField = [[UITextField alloc] init];
+    _displayNameField.backgroundColor = [UIColor whiteColor];
+    _displayNameField.placeholder = @"Name";
+    _displayNameField.borderStyle = UITextBorderStyleRoundedRect;
+    [_registerContentView addSubview:_displayNameField];
     
     _usernameField = [[UITextField alloc] init];
     _usernameField.backgroundColor = [UIColor whiteColor];
@@ -83,18 +95,24 @@
     
     // login content view
     CGFloat const viewWidth = boundsWidth;
-    CGFloat const viewHeight = boundsHeight * 0.5;
+    CGFloat const viewHeight = boundsHeight * 0.6;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
     NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
     _registerContentView.frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
 
-    // username field
+    // displayName field
     CGFloat const fieldWidth = viewWidth * 0.75;
-    CGFloat const fieldHeight = (viewHeight * 0.75) / 5.0;
-    CGFloat const usernameFieldX = _registerContentView.center.x - fieldWidth / 2;
-    CGFloat const usernameFieldY = 0;
-    NSLog(@"fieldWidth: %f, fieldHeight: %f, usernameFieldX: %f, usernameFieldY: %f", fieldWidth, fieldHeight, usernameFieldX, usernameFieldY);
+    CGFloat const fieldHeight = (viewHeight * 0.75) / 6.0;
+    CGFloat const displayNameFieldX = _registerContentView.center.x - fieldWidth / 2;
+    CGFloat const displayNameFieldY = 0;
+    NSLog(@"fieldWidth: %f, fieldHeight: %f, displayNameFieldX: %f, displayNameFieldY: %f", fieldWidth, fieldHeight, displayNameFieldX, displayNameFieldY);
+    _displayNameField.frame = CGRectMake(displayNameFieldX, displayNameFieldY, fieldWidth, fieldHeight);
+    
+    // username field
+    CGFloat const usernameFieldX = displayNameFieldX;
+    CGFloat const usernameFieldY = displayNameFieldY + fieldHeight;
+    NSLog(@"usernameFieldX: %f, usernameFieldY: %f", usernameFieldX, usernameFieldY);
     _usernameField.frame = CGRectMake(usernameFieldX, usernameFieldY, fieldWidth, fieldHeight);
     
     // email field
@@ -126,13 +144,14 @@
 
 - (void)didTapRegisterButton:(id)sender{
     NSLog(@"Tapped sign up button");
-    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
+    if (_displayNameField.isFirstResponder || _usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
+        [_displayNameField resignFirstResponder];
         [_usernameField resignFirstResponder];
         [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
         NSLog(@"Resigned first responder for all fields");
     }
-    [self registerUserWithUsername:_usernameField.text email:_emailField.text password:_passwordField.text];
+    [self registerUserWithUsername:_usernameField.text email:_emailField.text password:_passwordField.text displayName:_displayNameField.text];
 }
 
 - (void)didTapReturnToLoginButton:(id)sender{
@@ -146,27 +165,27 @@
     [NavigationManager exitTopViewController:self.navigationController];
 }
 
-#pragma mark - Firebase Auth
+#pragma mark - New User Authentication
 
-- (void)registerUserWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password {
+- (void)registerUserWithUsername:(NSString *)username
+                           email:(NSString *)email
+                        password:(NSString *)password
+                     displayName: (NSString *)displayName {
     NSString *const fieldEntryError = [self validateFields];
     
-    NSString *const cleanedUsername = [_usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *const cleanedEmail = [_emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *const cleanedPassword = [_passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSDictionary *const cleanedFields = [self getCleanedFields];
     
     if (fieldEntryError) {
         NSLog(@"%@", fieldEntryError);
     } else {
-        [[FIRAuth auth] createUserWithEmail:email
-                                   password:password
+        [[FIRAuth auth] createUserWithEmail:cleanedFields[kEmailKey]
+                                   password:cleanedFields[kPasswordKey]
                                  completion:^(FIRAuthDataResult * _Nullable authResult,
                                               NSError * _Nullable error) {
             if (!error) {
                 NSLog(@"Created account successfully");
                 
                 // TODO: Add a new document in collection "users"
-                [User createUserWithUserId:@"sampleID" withUsername:cleanedUsername];
                 
                 [self authenticatedTransition];
             } else {
@@ -176,22 +195,37 @@
     }
 }
 
-/** Check the fields and validate that the data is correct. If everything is correct, method returns nil. Otherwise, returns error message as a string. */
-- (NSString *)validateFields {
-    // check that all fields are filled in
+#pragma mark - Helper functions
+
+/** Returns a dictionary of the cleaned data fields. */
+- (NSDictionary *)getCleanedFields {
+    NSString *const cleanedDisplayName = [_displayNameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *const cleanedUsername = [_usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *const cleanedEmail = [_emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *const cleanedPassword = [_passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if ([cleanedUsername isEqualToString:@""] ||
-        [cleanedEmail isEqualToString:@""] ||
-        [cleanedPassword isEqualToString:@""]) {
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            cleanedDisplayName, kDisplayNameKey,
+            cleanedUsername, kUsernameKey,
+            cleanedEmail, kEmailKey,
+            cleanedPassword, kPasswordKey, nil];
+}
+
+/** Check the fields and validate that the data is correct. If everything is correct, method returns nil. Otherwise, returns error message as a string. */
+- (NSString *)validateFields {
+    NSDictionary *cleanedFields = [self getCleanedFields];
+    
+    // check that all fields are filled in
+    if ([cleanedFields[kDisplayNameKey] isEqualToString:@""] ||
+        [cleanedFields[kUsernameKey] isEqualToString:@""] ||
+        [cleanedFields[kEmailKey] isEqualToString:@""] ||
+        [cleanedFields[kPasswordKey] isEqualToString:@""]) {
         return @"Please fill in all fields";
     }
     
+    // check that password meets requirements
     NSPredicate *const passwordRequirements = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}"];
-    BOOL const isValidPassword = [passwordRequirements evaluateWithObject:cleanedPassword];
-    
+    BOOL const isValidPassword = [passwordRequirements evaluateWithObject:cleanedFields[kPasswordKey]];
     if (!isValidPassword) {
         return @"Please make sure password is at least 8 characters, contains a special character and a number.";
     }

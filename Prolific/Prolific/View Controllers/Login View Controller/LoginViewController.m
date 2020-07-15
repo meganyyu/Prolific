@@ -140,8 +140,8 @@
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password {
     [[FIRAuth auth] signInWithEmail:email
-                               password:password
-                             completion:^(FIRAuthDataResult * _Nullable authResult,
+                           password:password
+                         completion:^(FIRAuthDataResult * _Nullable authResult,
                                           NSError * _Nullable error) {
         if (!error) {
             NSLog(@"Logged into account successfully");
