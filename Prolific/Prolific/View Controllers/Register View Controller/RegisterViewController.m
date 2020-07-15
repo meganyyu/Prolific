@@ -8,7 +8,8 @@
 
 #import "RegisterViewController.h"
 
-@import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 #import "User.h"
@@ -144,24 +145,15 @@ static NSString *const kUsernameKey = @"username";
 
 - (void)didTapRegisterButton:(id)sender{
     NSLog(@"Tapped sign up button");
-    if (_displayNameField.isFirstResponder || _usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
-        [_displayNameField resignFirstResponder];
-        [_usernameField resignFirstResponder];
-        [_emailField resignFirstResponder];
-        [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for all fields");
-    }
+    [self resignFields];
+    
     [self registerUserWithUsername:_usernameField.text email:_emailField.text password:_passwordField.text displayName:_displayNameField.text];
 }
 
 - (void)didTapReturnToLoginButton:(id)sender{
     NSLog(@"Tapped returnToLogin button, leaving registration screen");
-    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
-        [_usernameField resignFirstResponder];
-        [_emailField resignFirstResponder];
-        [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for all fields");
-    }
+    [self resignFields];
+    
     [NavigationManager exitTopViewController:self.navigationController];
 }
 
@@ -186,6 +178,13 @@ static NSString *const kUsernameKey = @"username";
                 NSLog(@"Created account successfully");
                 
                 // TODO: Add a new document in collection "users"
+                UserBuilder *const userBuilder = [[UserBuilder alloc] init];
+                User *const newUser = [[[[[userBuilder
+                                     withId:authResult.user.uid]
+                                    withEmail:cleanedFields[kEmailKey]]
+                                   withUsername:cleanedFields[kUsernameKey]]
+                                  withDisplayName:cleanedFields[kDisplayNameKey]]
+                                 build];
                 
                 [self authenticatedTransition];
             } else {
@@ -196,6 +195,16 @@ static NSString *const kUsernameKey = @"username";
 }
 
 #pragma mark - Helper functions
+
+- (void)resignFields {
+    if (_displayNameField.isFirstResponder || _usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
+        [_displayNameField resignFirstResponder];
+        [_usernameField resignFirstResponder];
+        [_emailField resignFirstResponder];
+        [_passwordField resignFirstResponder];
+        NSLog(@"Resigned first responder for all fields");
+    }
+}
 
 /** Returns a dictionary of the cleaned data fields. */
 - (NSDictionary *)getCleanedFields {
