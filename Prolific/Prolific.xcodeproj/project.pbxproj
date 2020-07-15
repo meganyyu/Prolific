@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		51F0B511CCE2110A84CAB749 /* Pods_Prolific.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */; };
+		711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 711746E124BFBE570021F9CD /* SnippetBuilder.m */; };
+		711746E524BFC4F00021F9CD /* RoundBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 711746E424BFC4F00021F9CD /* RoundBuilder.m */; };
 		7118C3F324BE888F005E1816 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F224BE888F005E1816 /* Entity.m */; };
 		7118C3F624BF607D005E1816 /* Snippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F524BF607D005E1816 /* Snippet.m */; };
 		7118C3FC24BF681F005E1816 /* Round.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FB24BF681F005E1816 /* Round.m */; };
@@ -58,6 +60,10 @@
 /* Begin PBXFileReference section */
 		36448502AFBC63625D8F6DF6 /* Pods-Prolific.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific.debug.xcconfig"; path = "Target Support Files/Pods-Prolific/Pods-Prolific.debug.xcconfig"; sourceTree = "<group>"; };
 		5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific_ProlificUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		711746E024BFBE570021F9CD /* SnippetBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnippetBuilder.h; sourceTree = "<group>"; };
+		711746E124BFBE570021F9CD /* SnippetBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnippetBuilder.m; sourceTree = "<group>"; };
+		711746E324BFC4F00021F9CD /* RoundBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundBuilder.h; sourceTree = "<group>"; };
+		711746E424BFC4F00021F9CD /* RoundBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundBuilder.m; sourceTree = "<group>"; };
 		7118C3ED24BE7267005E1816 /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		7118C3EE24BE7267005E1816 /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		7118C3F124BE888F005E1816 /* Entity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
@@ -176,6 +182,10 @@
 				7118C3FE24BF6BCC005E1816 /* ThreadBuilder.m */,
 				7118C40024BF6BD5005E1816 /* UserBuilder.h */,
 				7118C40124BF6BD5005E1816 /* UserBuilder.m */,
+				711746E024BFBE570021F9CD /* SnippetBuilder.h */,
+				711746E124BFBE570021F9CD /* SnippetBuilder.m */,
+				711746E324BFC4F00021F9CD /* RoundBuilder.h */,
+				711746E424BFC4F00021F9CD /* RoundBuilder.m */,
 			);
 			path = "Model Builders";
 			sourceTree = "<group>";
@@ -636,6 +646,7 @@
 				7118C40324BF9D55005E1816 /* Thread.m in Sources */,
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				7118C3F324BE888F005E1816 /* Entity.m in Sources */,
+				711746E524BFC4F00021F9CD /* RoundBuilder.m in Sources */,
 				7165D15624BE0AE7008E64CD /* ThreadPreviewCell.m in Sources */,
 				7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
@@ -643,6 +654,7 @@
 				7165D15224BE056C008E64CD /* ThreadDetailsViewController.m in Sources */,
 				7118C3FF24BF6BCC005E1816 /* ThreadBuilder.m in Sources */,
 				7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */,
+				711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,

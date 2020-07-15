@@ -177,7 +177,6 @@ static NSString *const kUsernameKey = @"username";
             if (!error) {
                 NSLog(@"Created account successfully");
                 
-                // TODO: Add a new document in collection "users"
                 UserBuilder *const userBuilder = [[UserBuilder alloc] init];
                 User *const newUser = [[[[[userBuilder
                                      withId:authResult.user.uid]

@@ -10,4 +10,14 @@
 
 @implementation Round
 
+#pragma mark - Initializer
+
+- (instancetype)initWithBuilder:(RoundBuilder *)builder {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 @end

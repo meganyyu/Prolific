@@ -8,8 +8,22 @@
 
 #import "Snippet.h"
 
-@import Firebase;
+@import FirebaseFirestore;
 
 @implementation Snippet
+
+#pragma mark - Initializer
+
+- (instancetype)initWithBuilder:(SnippetBuilder *)builder {
+    self = [super init];
+    if (self) {
+        _snippetId = builder.snippetId;
+        _authorId = builder.authorId;
+        _text = builder.text;
+        _createdAtDate = builder.createdAtDate;
+        _voteCount = builder.voteCount;
+    }
+    return self;
+}
 
 @end

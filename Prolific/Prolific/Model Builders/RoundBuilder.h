@@ -1,33 +1,33 @@
 //
-//  Round.h
+//  RoundBuilder.h
 //  Prolific
 //
 //  Created by meganyu on 7/15/20.
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-@class RoundBuilder;
+@class Round;
 
 #import "Entity.h"
 
+#import "Round.h"
 #import "Snippet.h"
-#import "RoundBuilder.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Round : Entity
+@interface RoundBuilder : EntityBuilder
 
 @property (nonatomic, strong, readonly) NSString *roundId;
 @property (nonatomic, readonly) BOOL *isComplete;
-@property (nonatomic, strong, readonly) NSArray<Snippet *> *submissions;
+@property (nonatomic, strong, readonly) NSMutableArray<Snippet *> *submissions;
 
 #pragma mark - Methods
 
-- (instancetype)initWithBuilder:(RoundBuilder *)builder;
+- (RoundBuilder *)withId:(NSString *)roundId;
 
-- (instancetype)init NS_UNAVAILABLE;
+- (RoundBuilder *)addSubmission:(Snippet *)snippet;
 
-- (instancetype)new NS_UNAVAILABLE;
+- (Round *)build;
 
 @end
 

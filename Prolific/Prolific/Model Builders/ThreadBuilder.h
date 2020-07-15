@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ThreadBuilder : EntityBuilder
 
-@property (nonatomic) NSString *threadId;
+@property (nonatomic, strong) NSString *threadId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) BOOL *isComplete;
 @property (nonatomic, strong) NSMutableArray<Round *> *rounds;

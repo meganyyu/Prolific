@@ -21,9 +21,13 @@
         _username = builder.username;
         _email = builder.email;
         _displayName = builder.displayName;
-        
-        [User saveUser:self];
     }
+    return self;
+}
+
+- (instancetype)createAndSaveUserWithBuilder:(UserBuilder *)builder {
+    [self initWithBuilder:builder];
+    [User saveUser:self];
     return self;
 }
 

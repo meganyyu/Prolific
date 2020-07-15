@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Entity : NSObject
 
-@property (nonatomic, readonly) NSString *Id;
+@property (nonatomic, strong, readonly) NSString *Id;
 
 - (instancetype)initWithBuilder:(EntityBuilder *)builder;
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EntityBuilder : NSObject
 
-@property (nonatomic) NSString *Id;
+@property (nonatomic, strong) NSString *Id;
 
 - (Entity *)build;
 

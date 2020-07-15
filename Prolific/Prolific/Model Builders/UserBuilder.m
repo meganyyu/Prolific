@@ -43,7 +43,7 @@
 }
 
 - (User *)build {
-    User *user = [[User alloc] initWithBuilder:self];
+    User *user = [[User alloc] createAndSaveUserWithBuilder:self];
     return user;
 }
 

@@ -33,6 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithBuilder:(UserBuilder *)builder;
 
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)createAndSaveUserWithBuilder:(UserBuilder *)builder;
+
 @end
 
 NS_ASSUME_NONNULL_END
