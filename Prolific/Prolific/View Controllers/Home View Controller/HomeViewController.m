@@ -8,9 +8,11 @@
 
 #import "HomeViewController.h"
 
-@import Firebase;
+@import FirebaseAuth;
 #import "NavigationManager.h"
 #import "ThreadPreviewCell.h"
+#import "Thread.h"
+#import "ThreadBuilder.h"
 
 #pragma mark - Interface
 
@@ -32,8 +34,6 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
      UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     _collectionView.dataSource = self;
