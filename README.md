@@ -76,10 +76,10 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 **Required Stories**
 
 *Sprint 1*
-- [ ] User can create a new account
-- [ ] User can login/logout of app
-- [ ] User can view starter projects, ordered by creation date, in their feed
-- [ ] User can tap a starter project to view project details & navigate through snippets-so-far
+- [x] User can create a new account
+- [x] User can login/logout of app
+- [x] User can view starter projects, ordered by creation date, in their feed
+- [x] User can tap a starter project to view project details & navigate through snippets-so-far
 - [ ] User can compose and submit snippets to the latest round of an existing starter project (text-only first)
 
 *Sprint 2*
