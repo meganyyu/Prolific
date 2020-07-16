@@ -13,11 +13,11 @@
 		7118C3F324BE888F005E1816 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F224BE888F005E1816 /* Entity.m */; };
 		7118C3F624BF607D005E1816 /* Snippet.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F524BF607D005E1816 /* Snippet.m */; };
 		7118C3FC24BF681F005E1816 /* Round.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FB24BF681F005E1816 /* Round.m */; };
-		7118C3FF24BF6BCC005E1816 /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
-		7118C40324BF9D55005E1816 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		7118C40924BFA25A005E1816 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3EE24BE7267005E1816 /* User.m */; };
 		7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C40124BF6BD5005E1816 /* UserBuilder.m */; };
 		713AA08B24C0E1E000A5950E /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 713AA08A24C0E1E000A5950E /* DAO.m */; };
+		713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
+		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		7165D15224BE056C008E64CD /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */; };
 		7165D15624BE0AE7008E64CD /* ProjectPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ProjectPreviewCell.m */; };
 		7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15924BE1B17008E64CD /* RegisterViewController.m */; };
@@ -171,7 +171,7 @@
 				7118C40424BFA1D9005E1816 /* User */,
 				7118C40524BFA1E2005E1816 /* Snippet */,
 				7118C40624BFA1E8005E1816 /* Round */,
-				7118C40724BFA1ED005E1816 /* Thread */,
+				7118C40724BFA1ED005E1816 /* Project */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -215,13 +215,13 @@
 			path = Round;
 			sourceTree = "<group>";
 		};
-		7118C40724BFA1ED005E1816 /* Thread */ = {
+		7118C40724BFA1ED005E1816 /* Project */ = {
 			isa = PBXGroup;
 			children = (
 				7118C3F724BF67E7005E1816 /* Project.h */,
 				7118C3F824BF67E7005E1816 /* Project.m */,
 			);
-			path = Thread;
+			path = Project;
 			sourceTree = "<group>";
 		};
 		713AA08324C0D5FD00A5950E /* Entity */ = {
@@ -693,11 +693,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713AA08D24C1061F00A5950E /* Project.m in Sources */,
+				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				713AA08B24C0E1E000A5950E /* DAO.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,
-				7118C40324BF9D55005E1816 /* Project.m in Sources */,
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				7118C3F324BE888F005E1816 /* Entity.m in Sources */,
 				711746E524BFC4F00021F9CD /* RoundBuilder.m in Sources */,
@@ -706,7 +707,6 @@
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				7191117F24BD088000070A32 /* NavigationManager.m in Sources */,
 				7165D15224BE056C008E64CD /* ProjectDetailsViewController.m in Sources */,
-				7118C3FF24BF6BCC005E1816 /* ProjectBuilder.m in Sources */,
 				7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */,
 				711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,

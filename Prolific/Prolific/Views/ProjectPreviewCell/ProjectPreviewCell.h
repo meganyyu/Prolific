@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Project.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ProjectPreviewCell : UICollectionViewCell
+
+@property (nonatomic, strong) Project *project;
 
 @end
 

@@ -13,7 +13,10 @@
 
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kNameKey = @"name";
+static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kProjectsKey = @"projects";
+static NSString *const kSeedKey = @"seed";
+static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kUsersKey = @"users";
 static NSString *const kUsernameKey = @"username";
 
@@ -106,10 +109,13 @@ static NSString *const kUsernameKey = @"username";
 - (Project *)buildProjectWithId:(NSString *)projectId
                        fromData:(NSDictionary *)data {
     ProjectBuilder *const projbuilder = [[ProjectBuilder alloc] init];
-    Project *const proj = [[[projbuilder
-       withId:projectId]
-      withName:data[kNameKey]]
-     build];
+    Project *const proj = [[[[[[projbuilder
+                                withId:projectId]
+                               withName:data[kNameKey]]
+                              withSeed:data[kSeedKey]]
+                             withCurrentRound:data[kCurrentRoundKey]]
+                            isComplete:data[kIsCompleteKey]]
+                           build];
     
     if (proj != nil) {
         NSLog(@"Project successfully built from data!: %@", proj);

@@ -14,8 +14,10 @@
 {
     self = [super init];
     if (self) {
-        _projectId = @"testProjectId";
-        _name = @"testProjectName";
+        _projectId = nil;
+        _name = nil;
+        _seed = nil;
+        _currentRound = nil;
         _isComplete = false;
         _rounds = [[NSMutableArray alloc] init]; // FIXME: should initialize with a round already in it
     }
@@ -32,14 +34,32 @@
     return self;
 }
 
+- (ProjectBuilder *)withSeed:(NSString *)seed {
+    _seed = seed;
+    return self;
+}
+
+- (ProjectBuilder *)withCurrentRound:(NSNumber *)roundNumber {
+    _currentRound = roundNumber;
+    return self;
+}
+
+- (ProjectBuilder *)isComplete:(BOOL)value {
+    _isComplete = value;
+    return self;
+}
+
 - (ProjectBuilder *)addRound:(Round *)round {
     [_rounds addObject:round];
     return self;
 }
 
 - (Project *)build {
-    Project *proj = [[Project alloc] initWithBuilder:self];
-    return proj;
+    if (_projectId && _name && _seed && _currentRound) {
+        Project *proj = [[Project alloc] initWithBuilder:self];
+        return proj;
+    }
+    return nil;
 }
 
 @end

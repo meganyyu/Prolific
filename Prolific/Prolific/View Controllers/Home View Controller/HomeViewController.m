@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 
+#import "DAO.h"
 @import FirebaseAuth;
 #import "NavigationManager.h"
 #import "ProjectPreviewCell.h"
@@ -40,7 +41,7 @@
     _collectionView.delegate = self;
 
     [_collectionView registerClass:[ProjectPreviewCell class] forCellWithReuseIdentifier:@"projectCell"];
-    [_collectionView setBackgroundColor:[UIColor yellowColor]];
+    [_collectionView setBackgroundColor:[UIColor grayColor]];
 
     [self.view addSubview:_collectionView];
     
@@ -48,6 +49,29 @@
     self.navigationItem.title = @"Home";
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLogoutButton:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
+    
+    [self loadProjects];
+}
+
+#pragma mark - Load data
+
+- (void)loadProjects {
+    DAO *dao = [[DAO alloc] init];
+    [dao getAllProjectsWithCompletion:^(NSArray * _Nonnull projects, NSError * _Nonnull error) {
+        if (projects) {
+            self.projectArray = projects;
+            
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf.collectionView reloadData];
+                }
+            });
+        } else {
+            NSLog(@"Error retrieving projects: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - User actions
@@ -59,13 +83,13 @@
 #pragma mark - UICollectionViewDataSource Protocol
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 15;
+    return _projectArray.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
-    
-    cell.backgroundColor = [UIColor grayColor];
+    ProjectPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
+    cell.project = _projectArray[indexPath.item];
+    NSLog(@"Getting cell with project name: %@", cell.project.name);
     return cell;
 }
 
