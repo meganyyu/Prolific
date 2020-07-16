@@ -1,5 +1,5 @@
 //
-//  ThreadDetailsViewController.h
+//  ProjectDetailsViewController.h
 //  Prolific
 //
 //  Created by meganyu on 7/14/20.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ThreadDetailsViewController : ProlificBaseViewController
+@interface ProjectDetailsViewController : ProlificBaseViewController
 
 @end
 

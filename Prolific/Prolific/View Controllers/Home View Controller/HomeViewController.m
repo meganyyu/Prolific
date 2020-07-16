@@ -10,16 +10,16 @@
 
 @import FirebaseAuth;
 #import "NavigationManager.h"
-#import "ThreadPreviewCell.h"
-#import "Thread.h"
-#import "ThreadBuilder.h"
+#import "ProjectPreviewCell.h"
+#import "Project.h"
+#import "ProjectBuilder.h"
 
 #pragma mark - Interface
 
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *threadArray;
+@property (nonatomic, strong) NSArray *projectArray;
 
 @end
 
@@ -39,7 +39,7 @@
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
 
-    [_collectionView registerClass:[ThreadPreviewCell class] forCellWithReuseIdentifier:@"threadCell"];
+    [_collectionView registerClass:[ProjectPreviewCell class] forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor yellowColor]];
 
     [self.view addSubview:_collectionView];
@@ -63,7 +63,7 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"threadCell" forIndexPath:indexPath];
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
     
     cell.backgroundColor = [UIColor grayColor];
     return cell;
@@ -72,7 +72,7 @@
 #pragma mark - UICollectionViewDelegate Protocol
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    [NavigationManager presentThreadDetailsViewControllerWithNavigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerWithNavigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 

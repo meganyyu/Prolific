@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly) NSString *roundId;
 @property (nonatomic, readonly) BOOL *isComplete;
+@property (nonatomic, strong, readonly) NSString *winningSnippetId;
 @property (nonatomic, strong, readonly) NSArray<Snippet *> *submissions;
 
 #pragma mark - Methods

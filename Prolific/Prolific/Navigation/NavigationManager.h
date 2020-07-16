@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
 
-+ (void)presentThreadDetailsViewControllerWithNavigationController:(UINavigationController *)navController;
++ (void)presentProjectDetailsViewControllerWithNavigationController:(UINavigationController *)navController;
 
 + (void)exitTopViewController:(UINavigationController *)navController;
 

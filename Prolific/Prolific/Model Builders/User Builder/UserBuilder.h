@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *displayName;
 
 // optional attributes
-@property (nonatomic, strong) NSArray *threadsfollowing;
+@property (nonatomic, strong) NSArray *projectsfollowing;
 
 #pragma mark - Methods
 
