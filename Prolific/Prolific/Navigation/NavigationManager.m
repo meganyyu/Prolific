@@ -37,9 +37,9 @@
     NSLog(@"Reached presentRegistrationScreen in NavManager, navController is? %@", NSStringFromClass([navController class]));
 }
 
-+ (void)presentProjectDetailsViewControllerWithNavigationController:(UINavigationController *)navController {
++ (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController {
     ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
-    //TODO: pass in a Project object to the new project details view controller
+    projectDetailsViewController.project = project;
     [navController pushViewController:projectDetailsViewController animated:YES];
 }
 

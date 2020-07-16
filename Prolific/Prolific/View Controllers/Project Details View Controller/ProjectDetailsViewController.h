@@ -8,9 +8,13 @@
 
 #import "ProlificBaseViewController.h"
 
+#import "Project.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ProjectDetailsViewController : ProlificBaseViewController
+
+@property (nonatomic, strong) Project *project;
 
 @end
 

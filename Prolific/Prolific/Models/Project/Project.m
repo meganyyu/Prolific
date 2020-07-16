@@ -15,6 +15,8 @@
     if (self) {
         _projectId = builder.projectId;
         _name = builder.name;
+        _seed = builder.seed;
+        _currentRound = builder.currentRound;
         _isComplete = builder.isComplete;
         _rounds = builder.rounds;
     }

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "SceneDelegate.h"
+#import "Project.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
 
-+ (void)presentProjectDetailsViewControllerWithNavigationController:(UINavigationController *)navController;
++ (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController;
 
 + (void)exitTopViewController:(UINavigationController *)navController;
 
