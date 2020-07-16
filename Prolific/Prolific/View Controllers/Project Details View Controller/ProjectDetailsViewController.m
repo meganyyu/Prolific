@@ -1,24 +1,24 @@
 //
-//  ThreadDetailsViewController.m
+//  ProjectDetailsViewController.m
 //  Prolific
 //
 //  Created by meganyu on 7/14/20.
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import "ThreadDetailsViewController.h"
+#import "ProjectDetailsViewController.h"
 
 #import "NavigationManager.h"
 
 #pragma mark - Interface
 
-@interface ThreadDetailsViewController ()
+@interface ProjectDetailsViewController ()
 
 @end
 
 #pragma mark - Implementation
 
-@implementation ThreadDetailsViewController
+@implementation ProjectDetailsViewController
 
 #pragma mark - Setup
 
@@ -29,11 +29,11 @@
     
     // Test label
     UILabel *const label = [[UILabel alloc] initWithFrame:CGRectMake(50, 100, 300, 30)];
-    label.text = @"Test Label for Thread Details View Controller";
+    label.text = @"Test Label for Project Details View Controller";
 
     [self.view addSubview:label];
     
-    self.navigationItem.title = @"Thread Details";
+    self.navigationItem.title = @"Project Details";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
                                                                    style:UIBarButtonItemStylePlain
                                                                   target:self

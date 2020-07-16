@@ -13,7 +13,7 @@
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
 #import "RegisterViewController.h"
-#import "ThreadDetailsViewController.h"
+#import "ProjectDetailsViewController.h"
 
 @implementation NavigationManager
 
@@ -37,10 +37,10 @@
     NSLog(@"Reached presentRegistrationScreen in NavManager, navController is? %@", NSStringFromClass([navController class]));
 }
 
-+ (void)presentThreadDetailsViewControllerWithNavigationController:(UINavigationController *)navController {
-    ThreadDetailsViewController *const threadDetailsViewController = [[ThreadDetailsViewController alloc] init];
-    //TODO: pass in a Thread object to the new thread details view controller
-    [navController pushViewController:threadDetailsViewController animated:YES];
++ (void)presentProjectDetailsViewControllerWithNavigationController:(UINavigationController *)navController {
+    ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
+    //TODO: pass in a Project object to the new project details view controller
+    [navController pushViewController:projectDetailsViewController animated:YES];
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {
