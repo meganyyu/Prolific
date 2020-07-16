@@ -79,6 +79,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - [x] User can create a new account
 - [x] User can login/logout of app
 - [x] User can view starter projects, ordered by creation date, in their feed
+    - At the moment, starter projects are sourced from [WritingExercises.co.uk](https://writingexercises.co.uk/firstlinegenerator.php)
 - [x] User can tap a starter project to view project details & navigate through snippets-so-far
 - [ ] User can compose and submit snippets to the latest round of an existing starter project (text-only first)
 
