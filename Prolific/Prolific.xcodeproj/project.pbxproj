@@ -17,6 +17,7 @@
 		7118C40324BF9D55005E1816 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		7118C40924BFA25A005E1816 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3EE24BE7267005E1816 /* User.m */; };
 		7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C40124BF6BD5005E1816 /* UserBuilder.m */; };
+		713AA08B24C0E1E000A5950E /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 713AA08A24C0E1E000A5950E /* DAO.m */; };
 		7165D15224BE056C008E64CD /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */; };
 		7165D15624BE0AE7008E64CD /* ProjectPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ProjectPreviewCell.m */; };
 		7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15924BE1B17008E64CD /* RegisterViewController.m */; };
@@ -78,6 +79,8 @@
 		7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectBuilder.m; sourceTree = "<group>"; };
 		7118C40024BF6BD5005E1816 /* UserBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserBuilder.h; sourceTree = "<group>"; };
 		7118C40124BF6BD5005E1816 /* UserBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserBuilder.m; sourceTree = "<group>"; };
+		713AA08924C0E1E000A5950E /* DAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
+		713AA08A24C0E1E000A5950E /* DAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
 		7165D15024BE056C008E64CD /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectDetailsViewController.h; sourceTree = "<group>"; };
 		7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectDetailsViewController.m; sourceTree = "<group>"; };
 		7165D15424BE0AE7008E64CD /* ProjectPreviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectPreviewCell.h; sourceTree = "<group>"; };
@@ -266,6 +269,15 @@
 			path = "Round Builder";
 			sourceTree = "<group>";
 		};
+		713AA08824C0E0E600A5950E /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				713AA08924C0E1E000A5950E /* DAO.h */,
+				713AA08A24C0E1E000A5950E /* DAO.m */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
 		7165D14C24BE052E008E64CD /* Project Details View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,6 +330,7 @@
 		7191113624BCBD9B00070A32 /* Prolific */ = {
 			isa = PBXGroup;
 			children = (
+				713AA08824C0E0E600A5950E /* Persistence */,
 				7118C3F024BE8871005E1816 /* Model Builders */,
 				7118C3EC24BE7254005E1816 /* Models */,
 				7191116F24BD044D00070A32 /* Navigation */,
@@ -680,6 +693,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				713AA08B24C0E1E000A5950E /* DAO.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,

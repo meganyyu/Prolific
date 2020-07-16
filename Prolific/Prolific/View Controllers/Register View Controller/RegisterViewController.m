@@ -8,6 +8,8 @@
 
 #import "RegisterViewController.h"
 
+#import "DAO.h"
+
 @import FirebaseAuth;
 @import FirebaseFirestore;
 #import "NavigationManager.h"
@@ -175,8 +177,9 @@ static NSString *const kUsernameKey = @"username";
                                  completion:^(FIRAuthDataResult * _Nullable authResult,
                                               NSError * _Nullable error) {
             if (!error) {
-                NSLog(@"Created account successfully");
+                NSLog(@"Created account successfully, saving to Firestore...");
                 
+                DAO *const dao = [[DAO alloc] init];
                 UserBuilder *const userBuilder = [[UserBuilder alloc] init];
                 User *const newUser = [[[[[userBuilder
                                      withId:authResult.user.uid]
@@ -184,8 +187,13 @@ static NSString *const kUsernameKey = @"username";
                                    withUsername:cleanedFields[kUsernameKey]]
                                   withDisplayName:cleanedFields[kDisplayNameKey]]
                                  build];
-                
-                [self authenticatedTransition];
+                if (!newUser) {
+                    [dao saveUser:newUser];
+                    [self authenticatedTransition];
+                } else {
+                    // FIXME: remove user from Firebase Auth if fails to save to Firestore
+                    NSLog(@"Account creation failed, aborting.");
+                }
             } else {
                 NSLog(@"Account creation failed: %@", error.localizedDescription);
             }

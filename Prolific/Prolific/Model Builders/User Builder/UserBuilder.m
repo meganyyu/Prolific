@@ -14,10 +14,10 @@
 {
     self = [super init];
     if (self) {
-        _userId = @"testUserId";
-        _username = @"testUsername";
-        _email = @"testUser@gmail.com";
-        _displayName = @"Test User";
+        _userId = nil;
+        _username = nil;
+        _email = nil;
+        _displayName = nil;
     }
     return self;
 }
@@ -43,8 +43,11 @@
 }
 
 - (User *)build {
-    User *user = [[User alloc] createAndSaveUserWithBuilder:self];
-    return user;
+    if (_userId && _username && _email && _displayName) {
+        User *user = [[User alloc] initWithBuilder:self];
+        return user;
+    }
+    return nil;
 }
 
 @end
