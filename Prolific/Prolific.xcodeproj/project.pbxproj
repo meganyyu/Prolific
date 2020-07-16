@@ -330,10 +330,10 @@
 		7191113624BCBD9B00070A32 /* Prolific */ = {
 			isa = PBXGroup;
 			children = (
+				7191116F24BD044D00070A32 /* Navigation */,
 				713AA08824C0E0E600A5950E /* Persistence */,
 				7118C3F024BE8871005E1816 /* Model Builders */,
 				7118C3EC24BE7254005E1816 /* Models */,
-				7191116F24BD044D00070A32 /* Navigation */,
 				7191117124BD046600070A32 /* Views */,
 				7191117024BD045800070A32 /* View Controllers */,
 				7191113724BCBD9B00070A32 /* AppDelegate.h */,
