@@ -70,23 +70,78 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 #pragma mark - Snippet
 
-- (void)createSnippet:(Snippet *)snippet forProjectId:(NSString *)projId {
-    [self getProjectWithId:projId completion:^(Project * _Nonnull project, NSError * _Nonnull error) {
-        NSNumber *const currentRound = project.currentRound;
-    }];
+/** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
+- (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
+         forProjectId:(NSString *)projectId
+           completion:(void(^)(Snippet *snippet, NSError *error))completion {
     
-    NSDictionary *const snippetData = @{
-        kAuthorIdKey: snippet.authorId,
-        kTextKey: snippet.text
-    };
-    
-    __block FIRDocumentReference *ref =
-    [[self.db collectionWithPath:kProjectsKey] addDocumentWithData:snippetData
-                                                     completion:^(NSError * _Nullable error) {
-        if (error != nil) {
-            NSLog(@"Error adding document: %@", error);
+    [self getLatestRoundRefForProjectId:projectId
+                             completion:^(FIRDocumentReference *roundRef, NSError *error) {
+        if (roundRef) {
+            NSDictionary *const snippetData = @{
+                kAuthorIdKey: snippetBuilder.authorId,
+                kTextKey: snippetBuilder.text,
+                kVoteCountKey: snippetBuilder.voteCount
+            };
+            
+            __block FIRDocumentReference *ref =
+            [[roundRef collectionWithPath:kSubmissionsKey] addDocumentWithData:snippetData
+                                                             completion:^(NSError * _Nullable error) {
+                if (error != nil) {
+                    completion(nil, error);
+                } else {
+                    NSDate *date = [NSDate date]; //FIXME: use Firebase's server time instead
+                    Snippet *snippet = [[[snippetBuilder withId:ref.documentID]
+                      withCreatedAtDate:date]
+                     build];
+                    
+                    completion(snippet, nil);
+                }
+            }];
         } else {
-            NSLog(@"Document added with ID: %@", ref.documentID);
+            completion(nil, error);
+        }
+    }];
+}
+
+/** Gets all submissions from latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
+- (void)getLatestSubmissionsforProjectId:(NSString *)projectId
+                  completion:(void(^)(NSMutableArray *submissions, NSError *error))completion {
+    [self getLatestRoundRefForProjectId:projectId
+                             completion:^(FIRDocumentReference *roundRef, NSError *error) {
+        if (roundRef) {
+            [[roundRef collectionWithPath:kSubmissionsKey] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+                if (error != nil) {
+                    completion(nil, error);
+                } else {
+                    NSMutableArray *submissions = [[NSMutableArray alloc] init];
+                    for (FIRDocumentSnapshot *document in snapshot.documents) {
+                        Snippet *const snippet = [self buildSnippetWithId:document.documentID
+                                                                 fromData:document.data];
+                        [submissions addObject:snippet];
+                    }
+                    completion(submissions, nil);
+                }
+            }];
+        }
+    }];
+}
+
+#pragma mark - Rounds
+
+/** Retrieves Firebase document reference for the latest Round in a Project with ProjectId and passes into completion block. Passes an error into completion block if no relevant document is found. */
+- (void)getLatestRoundRefForProjectId:(NSString *)projectId
+                        completion:(void(^)(FIRDocumentReference *roundRef, NSError *error))completion {
+    FIRCollectionReference *const roundsRef =
+       [[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId] collectionWithPath:kRoundsKey];
+    [[[roundsRef queryOrderedByField:kCreatedAtKey descending:YES] queryLimitedTo:1]
+     getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        if (snapshot.documents.firstObject.exists) {
+            NSString *const roundId = snapshot.documents.firstObject.documentID;
+            FIRDocumentReference *const roundRef = [roundsRef documentWithPath:roundId];
+            completion(roundRef, nil);
+        } else {
+            completion(nil, error);
         }
     }];
 }
