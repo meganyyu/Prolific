@@ -18,7 +18,7 @@
 @interface LoginViewController ()
 
 @property (nonatomic, strong) UIView *loginContentView;
-@property (nonatomic, strong) UITextField *usernameField;
+@property (nonatomic, strong) UITextField *emailField;
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIButton *goToRegisterButton;
@@ -40,13 +40,13 @@
     _loginContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_loginContentView];
     
-    _usernameField = [[UITextField alloc] init];
-    _usernameField.backgroundColor = [UIColor whiteColor];
-    _usernameField.placeholder = @"Username";
-    _usernameField.borderStyle = UITextBorderStyleRoundedRect;
-    _usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
-    [_loginContentView addSubview:_usernameField];
+    _emailField = [[UITextField alloc] init];
+    _emailField.backgroundColor = [UIColor whiteColor];
+    _emailField.placeholder = @"Email";
+    _emailField.borderStyle = UITextBorderStyleRoundedRect;
+    _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
+    [_loginContentView addSubview:_emailField];
     
     _passwordField = [[UITextField alloc] init];
     _passwordField.backgroundColor = [UIColor whiteColor];
@@ -92,28 +92,28 @@
     NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
     _loginContentView.frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
 
-    // username field
+    // email field
     CGFloat const fieldWidth = viewWidth * 0.75;
     CGFloat const fieldHeight = (viewHeight * 0.75) / 4;
-    CGFloat const usernameFieldX = _loginContentView.center.x - fieldWidth / 2;
-    CGFloat const usernameFieldY = 0;
-    NSLog(@"fieldWidth: %f, fieldHeight: %f, usernameFieldX: %f, usernameFieldY: %f", fieldWidth, fieldHeight, usernameFieldX, usernameFieldY);
-    _usernameField.frame = CGRectMake(usernameFieldX, usernameFieldY, fieldWidth, fieldHeight);
+    CGFloat const emailFieldX = _loginContentView.center.x - fieldWidth / 2;
+    CGFloat const emailFieldY = 0;
+    NSLog(@"fieldWidth: %f, fieldHeight: %f, emailFieldX: %f, emailFieldY: %f", fieldWidth, fieldHeight, emailFieldX, emailFieldY);
+    _emailField.frame = CGRectMake(emailFieldX, emailFieldY, fieldWidth, fieldHeight);
     
     // password field
-    CGFloat const passwordFieldX = usernameFieldX;
-    CGFloat const passwordFieldY = usernameFieldY + fieldHeight;
+    CGFloat const passwordFieldX = emailFieldX;
+    CGFloat const passwordFieldY = emailFieldY + fieldHeight;
     NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
     // register button
-    CGFloat const registerButtonX = usernameFieldX;
+    CGFloat const registerButtonX = emailFieldX;
     CGFloat const registerButtonY = viewHeight - fieldHeight;
     NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
     _goToRegisterButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
     
     // login button
-    CGFloat const loginButtonX = usernameFieldX;
+    CGFloat const loginButtonX = emailFieldX;
     CGFloat const loginButtonY = registerButtonY - fieldHeight - 10;
     NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
     _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
@@ -123,20 +123,20 @@
 
 - (void)didTapLoginButton:(id)sender{
     NSLog(@"Tapped login button");
-    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder) {
-        [_usernameField resignFirstResponder];
+    if (_emailField.isFirstResponder || _passwordField.isFirstResponder) {
+        [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for  username field or password field");
+        NSLog(@"Resigned first responder for email field or password field");
     }
-    [self loginUserWithEmail:_usernameField.text password:_passwordField.text];
+    [self loginUserWithEmail:_emailField.text password:_passwordField.text];
 }
 
 - (void)didTapGoToRegisterButton:(id)sender{
     NSLog(@"Tapped goToRegister button, moving to registration screen");
-    if (_usernameField.isFirstResponder || _passwordField.isFirstResponder) {
-        [_usernameField resignFirstResponder];
+    if (_emailField.isFirstResponder || _passwordField.isFirstResponder) {
+        [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for  username field or password field");
+        NSLog(@"Resigned first responder for email field or password field");
     }
     [NavigationManager presentRegistrationScreenWithNavigationController:self.navigationController];
 }
