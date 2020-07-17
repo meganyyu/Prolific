@@ -25,7 +25,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     return self;
 }
 
-- (instancetype)initWithId:(NSString *)roundId dictionary:(NSDictionary *)data submissions:(NSMutableArray *)submissions {
+- (instancetype)initWithId:(NSString *)roundId
+                dictionary:(NSDictionary *)data
+               submissions:(NSMutableArray *)submissions {
     self = [self init];
     
     if (self) {
