@@ -14,7 +14,10 @@
 {
     self = [super init];
     if (self) {
-        
+        _roundId = nil;
+        _isComplete = NO;
+        _submissions = [[NSMutableArray alloc] init];
+        _winningSnippetId = nil;
     }
     return self;
 }
@@ -24,14 +27,27 @@
     return self;
 }
 
+- (RoundBuilder *)isComplete:(BOOL)value {
+    _isComplete = value;
+    return self;
+}
+
 - (RoundBuilder *)addSubmission:(Snippet *)snippet {
     [_submissions addObject:snippet];
     return self;
 }
 
+- (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId {
+    _winningSnippetId = winningSnippetId;
+    return self;
+}
+
 - (Round *)build {
-    Round *round = [[Round alloc] initWithBuilder:self];
-    return round;
+    if (_roundId && _submissions) {
+        Round *round = [[Round alloc] initWithBuilder:self];
+        return round;
+    }
+    return nil;
 }
 
 @end

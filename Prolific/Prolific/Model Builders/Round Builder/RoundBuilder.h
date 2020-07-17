@@ -17,15 +17,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RoundBuilder : EntityBuilder
 
-@property (nonatomic, strong, readonly) NSString *roundId;
-@property (nonatomic, readonly) BOOL *isComplete;
-@property (nonatomic, strong, readonly) NSMutableArray<Snippet *> *submissions;
+// required (and immutable) attributes
+@property (nonatomic, strong) NSString *roundId;
+
+// required (and mutable) attributes
+@property (nonatomic) BOOL isComplete;
+@property (nonatomic, strong) NSMutableArray<Snippet *> *submissions;
+
+// optional (and immutable) attributes
+@property (nonatomic, strong) NSString *winningSnippetId;
 
 #pragma mark - Methods
 
 - (RoundBuilder *)withId:(NSString *)roundId;
 
+- (RoundBuilder *)isComplete:(BOOL)value;
+
 - (RoundBuilder *)addSubmission:(Snippet *)snippet;
+
+- (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId;
 
 - (Round *)build;
 

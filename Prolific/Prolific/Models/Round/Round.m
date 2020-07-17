@@ -15,7 +15,10 @@
 - (instancetype)initWithBuilder:(RoundBuilder *)builder {
     self = [super init];
     if (self) {
-        
+        _roundId = builder.roundId;
+        _isComplete = builder.isComplete;
+        _submissions = builder.submissions;
+        _winningSnippetId = builder.winningSnippetId;
     }
     return self;
 }

@@ -17,10 +17,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Round : Entity
 
+// required (and immutable) attributes
 @property (nonatomic, strong, readonly) NSString *roundId;
-@property (nonatomic, readonly) BOOL *isComplete;
-@property (nonatomic, strong, readonly) NSString *winningSnippetId;
+
+// required (and mutable) attributes
+@property (nonatomic, readonly) BOOL isComplete;
 @property (nonatomic, strong, readonly) NSArray<Snippet *> *submissions;
+
+// optional (and immutable) attributes
+@property (nonatomic, strong, readonly) NSString *winningSnippetId;
 
 #pragma mark - Methods
 
