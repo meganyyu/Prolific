@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "Project.h"
+#import "Round.h"
 #import "Snippet.h"
 #import "User.h"
 
@@ -17,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DAO : NSObject
 
 - (void)saveUser:(User *)user;
-
-- (void)saveSnippet:(Snippet *)snippet;
 
 - (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion;
 

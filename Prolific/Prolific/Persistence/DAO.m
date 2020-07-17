@@ -10,17 +10,26 @@
 
 @import FirebaseFirestore;
 #import "ProjectBuilder.h"
+#import "RoundBuilder.h"
+#import "SnippetBuilder.h"
+
+#pragma mark - Constants
 
 static NSString *const kAuthorIdKey = @"authorId";
-static NSString *const kTextKey = @"text";
+static NSString *const kCurrentRoundKey = @"currentRound";
+static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kProjectsKey = @"projects";
+static NSString *const kRoundsKey = @"rounds";
 static NSString *const kSeedKey = @"seed";
-static NSString *const kCurrentRoundKey = @"currentRound";
+static NSString *const kSubmissionsKey = @"submissions";
+static NSString *const kTextKey = @"text";
 static NSString *const kUsersKey = @"users";
 static NSString *const kUsernameKey = @"username";
+static NSString *const kVoteCountKey = @"voteCount";
+static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 @interface DAO ()
 
@@ -113,9 +122,9 @@ static NSString *const kUsernameKey = @"username";
 
 - (void)getProjectWithId:(NSString *)projectId
     completion:(void(^)(Project *project, NSError *error))completion {
-    FIRDocumentReference *docRef =
+    FIRDocumentReference *projRef =
     [[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId];
-    [docRef getDocumentWithCompletion:^(FIRDocumentSnapshot *snapshot, NSError *error) {
+    [projRef getDocumentWithCompletion:^(FIRDocumentSnapshot *snapshot, NSError *error) {
         Project *proj = [self buildProjectWithId:projectId
                                         fromData:snapshot.data];
         
@@ -131,16 +140,49 @@ static NSString *const kUsernameKey = @"username";
 
 #pragma mark - Helper functions
 
+- (Snippet *)buildSnippetWithId:(NSString *)snippetId
+                   fromData:(NSDictionary *)data {
+    SnippetBuilder *const snippetBuilder = [[SnippetBuilder alloc] initWithId:snippetId
+                                                                   dictionary:data];
+    Snippet *const snippet = [snippetBuilder build];
+    
+    if (snippet != nil) {
+        NSLog(@"Snippet successfully built from data!: %@", snippet);
+        return snippet;
+    } else {
+        NSLog(@"Can't build snippet from data.");
+        return nil;
+    }
+}
+
+- (Round *)buildRoundWithId:(NSString *)roundId
+                   fromData:(NSDictionary *)data {
+    NSMutableArray *const submissions = [[NSMutableArray alloc] init];
+    //FIXME: fill array with submissions from Firebase
+    
+    RoundBuilder *const roundBuilder = [[RoundBuilder alloc] initWithId:roundId
+                                                             dictionary:data
+                                                            submissions:submissions];
+    Round *const round = [roundBuilder build];
+    
+    if (round != nil) {
+        NSLog(@"Round successfully built from data!: %@", round);
+        return round;
+    } else {
+        NSLog(@"Can't build round from data.");
+        return nil;
+    }
+}
+
 - (Project *)buildProjectWithId:(NSString *)projectId
                        fromData:(NSDictionary *)data {
-    ProjectBuilder *const projbuilder = [[ProjectBuilder alloc] init];
-    Project *const proj = [[[[[[projbuilder
-                                withId:projectId]
-                               withName:data[kNameKey]]
-                              withSeed:data[kSeedKey]]
-                             withCurrentRoundNumber:data[kCurrentRoundKey]]
-                            isComplete:data[kIsCompleteKey]]
-                           build];
+    NSMutableArray *const rounds = [[NSMutableArray alloc] init];
+    //FIXME: fill array with rounds from Firebase
+    
+    ProjectBuilder *const projbuilder = [[ProjectBuilder alloc] initWithId:projectId
+                                                                dictionary:data
+                                                                    rounds:rounds];
+    Project *const proj = [projbuilder build];
     
     if (proj != nil) {
         NSLog(@"Project successfully built from data!: %@", proj);
