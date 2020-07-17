@@ -30,6 +30,7 @@ static NSString *const kUsernameKey = @"username";
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UIButton *registerButton;
 @property (nonatomic, strong) UIButton *returnToLoginButton;
+@property (nonatomic, strong) UILabel *errorLabel;
 
 @end
 
@@ -93,6 +94,11 @@ static NSString *const kUsernameKey = @"username";
     _returnToLoginButton.clipsToBounds = YES;
     [_registerContentView addSubview:_returnToLoginButton];
     [_returnToLoginButton addTarget:self action:@selector(didTapReturnToLoginButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _errorLabel = [[UILabel alloc] init];
+    _errorLabel.textColor = [UIColor redColor];
+    _errorLabel.numberOfLines = 0;
+    [_registerContentView addSubview:_errorLabel];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -106,7 +112,7 @@ static NSString *const kUsernameKey = @"username";
     
     // login content view
     CGFloat const viewWidth = boundsWidth;
-    CGFloat const viewHeight = boundsHeight * 0.6;
+    CGFloat const viewHeight = boundsHeight * 0.7;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
     NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
@@ -114,7 +120,7 @@ static NSString *const kUsernameKey = @"username";
 
     // displayName field
     CGFloat const fieldWidth = viewWidth * 0.75;
-    CGFloat const fieldHeight = (viewHeight * 0.75) / 6.0;
+    CGFloat const fieldHeight = (viewHeight * 0.75) / 7.0;
     CGFloat const displayNameFieldX = _registerContentView.center.x - fieldWidth / 2;
     CGFloat const displayNameFieldY = 0;
     NSLog(@"fieldWidth: %f, fieldHeight: %f, displayNameFieldX: %f, displayNameFieldY: %f", fieldWidth, fieldHeight, displayNameFieldX, displayNameFieldY);
@@ -138,9 +144,16 @@ static NSString *const kUsernameKey = @"username";
     NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
+    // error label
+    CGFloat const errorLabelX = usernameFieldX;
+    CGFloat const errorLabelY = viewHeight - fieldHeight;
+    _errorLabel.alpha = 0;
+    NSLog(@"errorLabelX: %f, errorLabelY: %f", errorLabelX, errorLabelY);
+    _errorLabel.frame = CGRectMake(errorLabelX, errorLabelY, fieldWidth, fieldHeight);
+    
     // login button
     CGFloat const loginButtonX = usernameFieldX;
-    CGFloat const loginButtonY = viewHeight - fieldHeight;
+    CGFloat const loginButtonY = errorLabelY - fieldHeight - 10;
     NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
     _returnToLoginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
     
@@ -175,11 +188,14 @@ static NSString *const kUsernameKey = @"username";
                      displayName: (NSString *)displayName {
     NSString *const fieldEntryError = [self validateFields];
     
-    NSDictionary *const cleanedFields = [self getCleanedFields];
-    
     if (fieldEntryError) {
+        [self showError:fieldEntryError];
         NSLog(@"%@", fieldEntryError);
     } else {
+        [self hideError];
+        
+        NSDictionary *const cleanedFields = [self getCleanedFields];
+        
         [[FIRAuth auth] createUserWithEmail:cleanedFields[kEmailKey]
                                    password:cleanedFields[kPasswordKey]
                                  completion:^(FIRAuthDataResult * _Nullable authResult,
@@ -203,6 +219,7 @@ static NSString *const kUsernameKey = @"username";
                     NSLog(@"Account creation failed, aborting.");
                 }
             } else {
+                [self showError:error.localizedDescription];
                 NSLog(@"Account creation failed: %@", error.localizedDescription);
             }
         }];
@@ -210,6 +227,15 @@ static NSString *const kUsernameKey = @"username";
 }
 
 #pragma mark - Helper functions
+
+- (void)showError:(NSString *)message {
+    _errorLabel.text = message;
+    _errorLabel.alpha = 1;
+}
+
+- (void)hideError {
+    _errorLabel.alpha = 0;
+}
 
 - (void)resignFields {
     if (_displayNameField.isFirstResponder || _usernameField.isFirstResponder || _passwordField.isFirstResponder || _emailField.isFirstResponder) {
@@ -251,7 +277,7 @@ static NSString *const kUsernameKey = @"username";
     NSPredicate *const passwordRequirements = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}"];
     BOOL const isValidPassword = [passwordRequirements evaluateWithObject:cleanedFields[kPasswordKey]];
     if (!isValidPassword) {
-        return @"Please make sure password is at least 8 characters, contains a special character and a number.";
+        return @"Please make sure password is at least 8 characters, contains a special character ($, @, #, !, %, *, ?, or &) and a number.";
     }
     
     return nil;

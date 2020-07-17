@@ -13,6 +13,9 @@
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 
+static NSString *const kEmailKey = @"email";
+static NSString *const kPasswordKey = @"password";
+
 #pragma mark - Interface
 
 @interface LoginViewController ()
@@ -22,6 +25,7 @@
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIButton *goToRegisterButton;
+@property (nonatomic, strong) UILabel *errorLabel;
 
 @end
 
@@ -73,6 +77,11 @@
     _goToRegisterButton.clipsToBounds = YES;
     [_loginContentView addSubview:_goToRegisterButton];
     [_goToRegisterButton addTarget:self action:@selector(didTapGoToRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _errorLabel = [[UILabel alloc] init];
+    _errorLabel.textColor = [UIColor redColor];
+    _errorLabel.numberOfLines = 0;
+    [_loginContentView addSubview:_errorLabel];
 }
 
 - (void)viewDidLayoutSubviews { //FIXME: should I be setting frames or bounds?
@@ -86,7 +95,7 @@
     
     // login content view
     CGFloat const viewWidth = boundsWidth;
-    CGFloat const viewHeight = boundsHeight * 0.4;
+    CGFloat const viewHeight = boundsHeight * 0.5;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
     NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
@@ -94,7 +103,7 @@
 
     // email field
     CGFloat const fieldWidth = viewWidth * 0.75;
-    CGFloat const fieldHeight = (viewHeight * 0.75) / 4;
+    CGFloat const fieldHeight = (viewHeight * 0.75) / 5.0;
     CGFloat const emailFieldX = _loginContentView.center.x - fieldWidth / 2;
     CGFloat const emailFieldY = 0;
     NSLog(@"fieldWidth: %f, fieldHeight: %f, emailFieldX: %f, emailFieldY: %f", fieldWidth, fieldHeight, emailFieldX, emailFieldY);
@@ -106,9 +115,16 @@
     NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
+    // error label
+    CGFloat const errorLabelX = emailFieldX;
+    CGFloat const errorLabelY = viewHeight - fieldHeight;
+    _errorLabel.alpha = 0;
+    NSLog(@"errorLabelX: %f, errorLabelY: %f", errorLabelX, errorLabelY);
+    _errorLabel.frame = CGRectMake(errorLabelX, errorLabelY, fieldWidth, fieldHeight);
+    
     // register button
     CGFloat const registerButtonX = emailFieldX;
-    CGFloat const registerButtonY = viewHeight - fieldHeight;
+    CGFloat const registerButtonY = errorLabelY - fieldHeight - 10;
     NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
     _goToRegisterButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
     
@@ -123,38 +139,88 @@
 
 - (void)didTapLoginButton:(id)sender{
     NSLog(@"Tapped login button");
-    if (_emailField.isFirstResponder || _passwordField.isFirstResponder) {
-        [_emailField resignFirstResponder];
-        [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for email field or password field");
-    }
+    [self resignFields];
+    
     [self loginUserWithEmail:_emailField.text password:_passwordField.text];
 }
 
 - (void)didTapGoToRegisterButton:(id)sender{
     NSLog(@"Tapped goToRegister button, moving to registration screen");
-    if (_emailField.isFirstResponder || _passwordField.isFirstResponder) {
-        [_emailField resignFirstResponder];
-        [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for email field or password field");
-    }
+    [self resignFields];
+    
     [NavigationManager presentRegistrationScreenWithNavigationController:self.navigationController];
 }
 
-#pragma mark - Firebase Auth
+#pragma mark - Existing user authentication
 
 - (void)loginUserWithEmail:(NSString *)email password:(NSString *)password {
-    [[FIRAuth auth] signInWithEmail:email
-                           password:password
-                         completion:^(FIRAuthDataResult * _Nullable authResult,
-                                          NSError * _Nullable error) {
-        if (!error) {
-            NSLog(@"Logged into account successfully");
-            [self authenticatedTransition];
-        } else {
-            NSLog(@"Account login failed: %@", error.localizedDescription);
-        }
-    }];
+    NSString *const fieldEntryError = [self validateFields];
+    
+    if (fieldEntryError) {
+        [self showError:fieldEntryError];
+        NSLog(@"%@", fieldEntryError);
+    } else {
+        [self hideError];
+        
+        NSDictionary *const cleanedFields = [self getCleanedFields];
+        
+        [[FIRAuth auth] signInWithEmail:cleanedFields[kEmailKey]
+                               password:cleanedFields[kPasswordKey]
+                             completion:^(FIRAuthDataResult * _Nullable authResult,
+                                              NSError * _Nullable error) {
+            if (!error) {
+                [self hideError];
+                NSLog(@"Logged into account successfully");
+                
+                [self authenticatedTransition];
+            } else {
+                [self showError:error.localizedDescription];
+                NSLog(@"Account login failed: %@", error.localizedDescription);
+            }
+        }];
+    }
+}
+
+#pragma mark - Helper functions
+
+- (void)showError:(NSString *)message {
+    _errorLabel.text = message;
+    _errorLabel.alpha = 1;
+}
+
+- (void)hideError {
+    _errorLabel.alpha = 0;
+}
+
+- (void)resignFields {
+    if (_emailField.isFirstResponder || _passwordField.isFirstResponder) {
+        [_emailField resignFirstResponder];
+        [_passwordField resignFirstResponder];
+        NSLog(@"Resigned first responder for all fields");
+    }
+}
+
+/** Returns a dictionary of the cleaned data fields. */
+- (NSDictionary *)getCleanedFields {
+    NSString *const cleanedEmail = [_emailField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedPassword = [_passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            cleanedEmail, kEmailKey,
+            cleanedPassword, kPasswordKey, nil];
+}
+
+/** Check the fields and validate that the data is correct. If everything is correct, method returns nil. Otherwise, returns error message as a string. */
+- (NSString *)validateFields {
+    NSDictionary *cleanedFields = [self getCleanedFields];
+
+    // check that all fields are filled in
+    if ([cleanedFields[kEmailKey] isEqualToString:@""] ||
+        [cleanedFields[kPasswordKey] isEqualToString:@""]) {
+        return @"Please fill in all fields";
+    }
+    
+    return nil;
 }
 
 #pragma mark - Navigation
