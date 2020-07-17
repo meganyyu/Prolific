@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "Project.h"
+#import "Snippet.h"
 #import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,10 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)saveUser:(User *)user;
 
-- (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion;
+- (void)saveSnippet:(Snippet *)snippet;
 
-- (void)getProjectWithId:(NSString *)projectId
-              completion:(void(^)(Project *project, NSError *error))completion;
+- (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion;
 
 @end
 

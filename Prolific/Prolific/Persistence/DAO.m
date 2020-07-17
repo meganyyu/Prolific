@@ -11,6 +11,8 @@
 @import FirebaseFirestore;
 #import "ProjectBuilder.h"
 
+static NSString *const kAuthorIdKey = @"authorId";
+static NSString *const kTextKey = @"text";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
@@ -53,6 +55,29 @@ static NSString *const kUsernameKey = @"username";
             NSLog(@"Error adding document: %@", error);
         } else {
             NSLog(@"Document successfully written with user ID: %@", user.userId);
+        }
+    }];
+}
+
+#pragma mark - Snippet
+
+- (void)createSnippet:(Snippet *)snippet forProjectId:(NSString *)projId {
+    [self getProjectWithId:projId completion:^(Project * _Nonnull project, NSError * _Nonnull error) {
+        NSNumber *const currentRound = project.currentRound;
+    }];
+    
+    NSDictionary *const snippetData = @{
+        kAuthorIdKey: snippet.authorId,
+        kTextKey: snippet.text
+    };
+    
+    __block FIRDocumentReference *ref =
+    [[self.db collectionWithPath:kProjectsKey] addDocumentWithData:snippetData
+                                                     completion:^(NSError * _Nullable error) {
+        if (error != nil) {
+            NSLog(@"Error adding document: %@", error);
+        } else {
+            NSLog(@"Document added with ID: %@", ref.documentID);
         }
     }];
 }
