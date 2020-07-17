@@ -61,6 +61,11 @@ static NSString *const kVoteCountKey = @"voteCount";
     return self;
 }
 
+- (SnippetBuilder *)withCreatedAtDate:(NSDate *)date {
+    _createdAtDate = date;
+    return self;
+}
+
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount {
     _voteCount = voteCount;
     return self;

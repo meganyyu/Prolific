@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SnippetBuilder *)withText:(NSString *)text;
 
+- (SnippetBuilder *)withCreatedAtDate:(NSDate *)date;
+
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount;
 
 /** Returns fully built Snippet if SnippetBuilder has all fields initialized properly. Else returns nil. */
