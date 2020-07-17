@@ -113,7 +113,7 @@ static NSString *const kUsernameKey = @"username";
                                 withId:projectId]
                                withName:data[kNameKey]]
                               withSeed:data[kSeedKey]]
-                             withCurrentRound:data[kCurrentRoundKey]]
+                             withCurrentRoundNumber:data[kCurrentRoundKey]]
                             isComplete:data[kIsCompleteKey]]
                            build];
     

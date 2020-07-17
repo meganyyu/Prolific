@@ -25,9 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 // required (and mutable) attributes
 @property (nonatomic) BOOL isComplete;
 @property (nonatomic, strong) NSNumber *currentRound;
-
-// optional (and mutable) attributes
-@property (nonatomic, strong, nullable) NSMutableArray<Round *> *rounds;
+@property (nonatomic, strong) NSMutableArray<Round *> *rounds;
 
 - (ProjectBuilder *)withId:(NSString *)projectId;
 
@@ -35,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)withSeed:(NSString *)seed;
 
-- (ProjectBuilder *)withCurrentRound:(NSNumber *)roundNumber;
+- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber;
 
 - (ProjectBuilder *)isComplete:(BOOL)value;
 

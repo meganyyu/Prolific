@@ -19,7 +19,7 @@
         _seed = nil;
         _currentRound = nil;
         _isComplete = false;
-        _rounds = [[NSMutableArray alloc] init]; // FIXME: should initialize with a round already in it
+        _rounds = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -39,7 +39,7 @@
     return self;
 }
 
-- (ProjectBuilder *)withCurrentRound:(NSNumber *)roundNumber {
+- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber {
     _currentRound = roundNumber;
     return self;
 }
@@ -55,7 +55,7 @@
 }
 
 - (Project *)build {
-    if (_projectId && _name && _seed && _currentRound) {
+    if (_projectId && _name && _seed && _currentRound && _rounds) {
         Project *proj = [[Project alloc] initWithBuilder:self];
         return proj;
     }
