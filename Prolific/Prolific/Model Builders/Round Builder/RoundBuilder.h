@@ -29,14 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Methods
 
+/** Returns RoundBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a RoundBuilder the same way as init does. */
+- (instancetype)initWithId:(NSString *)roundId dictionary:(NSDictionary *)data submissions:(NSMutableArray *)submissions;
+
 - (RoundBuilder *)withId:(NSString *)roundId;
 
 - (RoundBuilder *)isComplete:(BOOL)value;
 
-- (RoundBuilder *)addSubmission:(Snippet *)snippet;
+- (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions;
 
 - (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId;
 
+/** Returns fully built Round if RoundBuilder has all fields initialized properly. Else returns nil. */
 - (Round *)build;
 
 @end

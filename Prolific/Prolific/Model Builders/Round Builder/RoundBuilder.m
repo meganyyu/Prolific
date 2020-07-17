@@ -8,6 +8,9 @@
 
 #import "RoundBuilder.h"
 
+static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
+
 @implementation RoundBuilder
 
 - (id)init
@@ -22,6 +25,22 @@
     return self;
 }
 
+- (instancetype)initWithId:(NSString *)roundId dictionary:(NSDictionary *)data submissions:(NSMutableArray *)submissions {
+    self = [self init];
+    
+    if (self) {
+        if (roundId && submissions &&
+            [data objectForKey:kIsCompleteKey] &&
+            [data objectForKey:kWinningSnippetIdKey]) {
+            _roundId = roundId;
+            _submissions = submissions;
+            _isComplete = data[kIsCompleteKey];
+            _winningSnippetId = data[kWinningSnippetIdKey];
+        }
+    }
+    return self;
+}
+
 - (RoundBuilder *)withId:(NSString *)roundId {
     _roundId = roundId;
     return self;
@@ -32,8 +51,8 @@
     return self;
 }
 
-- (RoundBuilder *)addSubmission:(Snippet *)snippet {
-    [_submissions addObject:snippet];
+- (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions {
+    _submissions = submissions;
     return self;
 }
 
