@@ -212,15 +212,17 @@ static NSString *const kUsernameKey = @"username";
                                   withDisplayName:cleanedFields[kDisplayNameKey]]
                                  build];
                 if (!newUser) {
-                    [dao saveUser:newUser];
-                    [self authenticatedTransition];
+                    [dao saveUser:newUser completion:^(NSString * _Nonnull userId, NSError * _Nonnull error) {
+                        if (!error) {
+                            [self authenticatedTransition];
+                        }
+                    }];
                 } else {
                     // FIXME: remove user from Firebase Auth if fails to save to Firestore
                     NSLog(@"Account creation failed, aborting.");
                 }
             } else {
                 [self showError:error.localizedDescription];
-                NSLog(@"Account creation failed: %@", error.localizedDescription);
             }
         }];
     }

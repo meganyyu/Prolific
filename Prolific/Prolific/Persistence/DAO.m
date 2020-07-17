@@ -50,7 +50,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 #pragma mark - User
 
-- (void)saveUser:(User *)user {
+- (void)saveUser:(User *)user
+      completion:(void(^)(NSString *userId, NSError *error))completion {
     
     NSDictionary *const userData = @{
         kUsernameKey: user.username,
@@ -61,9 +62,9 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
                                                                        merge:YES
                                                                   completion:^(NSError * _Nullable error) {
         if (error != nil) {
-            NSLog(@"Error adding document: %@", error);
+            completion(nil, error);
         } else {
-            NSLog(@"Document successfully written with user ID: %@", user.userId);
+            completion(user.userId, nil);
         }
     }];
 }
@@ -72,8 +73,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 /** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
-         forProjectId:(NSString *)projectId
-           completion:(void(^)(Snippet *snippet, NSError *error))completion {
+                    forProjectId:(NSString *)projectId
+                      completion:(void(^)(Snippet *snippet, NSError *error))completion {
     
     [self getLatestRoundRefForProjectId:projectId
                              completion:^(FIRDocumentReference *roundRef, NSError *error) {
@@ -152,8 +153,6 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     [[self.db collectionWithPath:kProjectsKey]
      getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
         if (error != nil) {
-            NSLog(@"Error getting project documents from Firestore: %@", error);
-            
             completion(nil, error);
         } else {
             NSMutableArray *const projs = [[NSMutableArray alloc] init];
@@ -186,7 +185,6 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
         if (proj != nil) {
             completion(proj, nil);
         } else {
-            NSLog(@"Project document with id %@ does not exist, or data invalid", projectId);
             completion(nil, error);
         }
     }];
@@ -202,10 +200,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     Snippet *const snippet = [snippetBuilder build];
     
     if (snippet != nil) {
-        NSLog(@"Snippet successfully built from data!: %@", snippet);
         return snippet;
     } else {
-        NSLog(@"Can't build snippet from data.");
         return nil;
     }
 }
@@ -221,10 +217,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     Round *const round = [roundBuilder build];
     
     if (round != nil) {
-        NSLog(@"Round successfully built from data!: %@", round);
         return round;
     } else {
-        NSLog(@"Can't build round from data.");
         return nil;
     }
 }
@@ -240,10 +234,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     Project *const proj = [projbuilder build];
     
     if (proj != nil) {
-        NSLog(@"Project successfully built from data!: %@", proj);
         return proj;
     } else {
-        NSLog(@"Can't build project from data.");
         return nil;
     }
 }
