@@ -8,16 +8,43 @@
 
 #import "SnippetBuilder.h"
 
+static NSString *const kAuthorIdKey = @"authorId";
+static NSString *const kCreatedAtKey = @"createdAt";
+static NSString *const kTextKey = @"text";
+static NSString *const kVoteCountKey = @"voteCount";
+
 @implementation SnippetBuilder
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
-        _snippetId = @"testSnippetId";
-        _authorId = @"testAuthorId";
-        _createdAtDate = [NSDate date];
-        _text = @"";
+        _snippetId = nil;
+        _authorId = nil;
+        _createdAtDate = nil;
+        _text = nil;
+        _voteCount = 0;
+    }
+    return self;
+}
+
+/** Returns SnippetBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a Snippet the same way as init does. */
+- (instancetype)initWithId:(NSString *)snippetId dictionary:(NSDictionary *)data {
+    self = [super init];
+    
+    if (self) {
+        _voteCount = 0;
+        
+        if (snippetId &&
+            [data objectForKey:kAuthorIdKey] &&
+            [data objectForKey:kCreatedAtKey] &&
+            [data objectForKey:kTextKey] &&
+            [data objectForKey:kVoteCountKey]) {
+            _snippetId = snippetId;
+            _authorId = data[kAuthorIdKey];
+            _createdAtDate = data[kCreatedAtKey];
+            _text = data[kTextKey];
+            _voteCount = data[kVoteCountKey];
+        }
     }
     return self;
 }
@@ -43,7 +70,11 @@
 }
 
 - (Snippet *)build {
-    Snippet *snippet = [[Snippet alloc] initWithBuilder:self];
-    return snippet;
+    if (_snippetId && _authorId && _text && _createdAtDate && _voteCount) {
+        Snippet *snippet = [[Snippet alloc] initWithBuilder:self];
+        return snippet;
+    }
+    return nil;
 }
+
 @end

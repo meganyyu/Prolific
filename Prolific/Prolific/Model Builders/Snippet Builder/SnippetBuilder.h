@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Methods
 
+/** Returns SnippetBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a Snippet the same way as init does. */
+- (instancetype)initWithId:(NSString *)snippetId dictionary:(NSDictionary *)data;
+
 - (SnippetBuilder *)withId:(NSString *)snippetId;
 
 - (SnippetBuilder *)withAuthor:(NSString *)authorId;
@@ -37,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount;
 
+/** Returns fully built Snippet if SnippetBuilder has all fields initialized properly. Else returns nil. */
 - (Snippet *)build;
 
 @end
