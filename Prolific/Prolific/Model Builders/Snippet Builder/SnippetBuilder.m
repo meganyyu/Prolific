@@ -27,13 +27,10 @@ static NSString *const kVoteCountKey = @"voteCount";
     return self;
 }
 
-/** Returns SnippetBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a Snippet the same way as init does. */
 - (instancetype)initWithId:(NSString *)snippetId dictionary:(NSDictionary *)data {
-    self = [super init];
+    self = [self init];
     
     if (self) {
-        _voteCount = 0;
-        
         if (snippetId &&
             [data objectForKey:kAuthorIdKey] &&
             [data objectForKey:kCreatedAtKey] &&
