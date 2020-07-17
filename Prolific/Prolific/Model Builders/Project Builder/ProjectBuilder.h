@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *currentRound;
 @property (nonatomic, strong) NSMutableArray<Round *> *rounds;
 
+/** Returns ProjectBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a ProjectBuilder the same way as init does. */
+- (instancetype)initWithId:(NSString *)projectId
+                dictionary:(NSDictionary *)data
+                    rounds:(NSMutableArray *)rounds;
+
 - (ProjectBuilder *)withId:(NSString *)projectId;
 
 - (ProjectBuilder *)withName:(NSString *)projectName;
@@ -37,8 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)isComplete:(BOOL)value;
 
-- (ProjectBuilder *)addRound:(NSString *)aRound;
+- (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds;
 
+/** Returns fully built Project if ProjectBuilder has all fields initialized properly. Else returns nil. */
 - (Project *)build;
 
 @end

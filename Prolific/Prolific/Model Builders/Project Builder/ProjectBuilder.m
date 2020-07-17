@@ -8,6 +8,11 @@
 
 #import "ProjectBuilder.h"
 
+static NSString *const kCurrentRoundKey = @"currentRound";
+static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kNameKey = @"name";
+static NSString *const kSeedKey = @"seed";
+
 @implementation ProjectBuilder
 
 - (id)init
@@ -18,8 +23,30 @@
         _name = nil;
         _seed = nil;
         _currentRound = nil;
-        _isComplete = false;
+        _isComplete = NO;
         _rounds = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString *)projectId
+                dictionary:(NSDictionary *)data
+                    rounds:(NSMutableArray *)rounds {
+    self = [self init];
+    
+    if (self) {
+        if (projectId && rounds &&
+            [data objectForKey:kNameKey] &&
+            [data objectForKey:kSeedKey] &&
+            [data objectForKey:kCurrentRoundKey] &&
+            [data objectForKey:kIsCompleteKey]) {
+            _projectId = projectId;
+            _name = data[kNameKey];
+            _seed = data[kSeedKey];
+            _currentRound = data[kCurrentRoundKey];
+            _isComplete = data[kIsCompleteKey];
+            _rounds = rounds;
+        }
     }
     return self;
 }
@@ -49,8 +76,8 @@
     return self;
 }
 
-- (ProjectBuilder *)addRound:(Round *)round {
-    [_rounds addObject:round];
+- (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds {
+    _rounds = rounds;
     return self;
 }
 
