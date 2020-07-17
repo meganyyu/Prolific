@@ -48,24 +48,32 @@ static NSString *const kUsernameKey = @"username";
     _displayNameField.backgroundColor = [UIColor whiteColor];
     _displayNameField.placeholder = @"Name";
     _displayNameField.borderStyle = UITextBorderStyleRoundedRect;
+    _displayNameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _displayNameField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_displayNameField];
     
     _usernameField = [[UITextField alloc] init];
     _usernameField.backgroundColor = [UIColor whiteColor];
     _usernameField.placeholder = @"Username";
     _usernameField.borderStyle = UITextBorderStyleRoundedRect;
+    _usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_usernameField];
     
     _emailField = [[UITextField alloc] init];
     _emailField.backgroundColor = [UIColor whiteColor];
     _emailField.placeholder = @"Email";
     _emailField.borderStyle = UITextBorderStyleRoundedRect;
+    _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_emailField];
     
     _passwordField = [[UITextField alloc] init];
     _passwordField.backgroundColor = [UIColor whiteColor];
     _passwordField.placeholder = @"Password";
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
+    _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_passwordField];
     
     _registerButton = [[UIButton alloc] init];

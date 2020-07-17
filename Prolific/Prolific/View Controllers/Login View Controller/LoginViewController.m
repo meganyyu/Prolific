@@ -8,7 +8,8 @@
 
 #import "LoginViewController.h"
 
-@import Firebase;
+@import FirebaseAuth;
+@import FirebaseFirestore;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 
@@ -43,12 +44,16 @@
     _usernameField.backgroundColor = [UIColor whiteColor];
     _usernameField.placeholder = @"Username";
     _usernameField.borderStyle = UITextBorderStyleRoundedRect;
+    _usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_loginContentView addSubview:_usernameField];
     
     _passwordField = [[UITextField alloc] init];
     _passwordField.backgroundColor = [UIColor whiteColor];
     _passwordField.placeholder = @"Password";
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
+    _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_loginContentView addSubview:_passwordField];
     
     _loginButton = [[UIButton alloc] init];
