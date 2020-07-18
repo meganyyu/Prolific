@@ -17,19 +17,39 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DAO : NSObject
 
+#pragma mark - User
+
+/** Save a user's data to database. */
 - (void)saveUser:(User *)user
       completion:(void(^)(NSString *userId, NSError *error))completion;
+
+#pragma mark - Snippet
 
 /** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
                     forProjectId:(NSString *)projectId
+                      forRoundId: (NSString *)roundId
                       completion:(void(^)(Snippet *snippet, NSError *error))completion;
 
 /** Gets all submissions from latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
-- (void)getLatestSubmissionsforProjectId:(NSString *)projectId
-                              completion:(void(^)(NSMutableArray *submissions, NSError *error))completion;
+- (void)getAllSubmissionsforRoundId:(NSString *)roundId
+                          projectId:(NSString *)projectId
+                         completion:(void(^)(NSMutableArray *submissions, NSError *error))completion;
 
+#pragma mark - Round
+
+/** Gets all rounds from a project with the identifier projectId, in order from earliest to latest. This is a shallow level retrieval - will not retrieve all submissions for a round. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
+- (void)getAllRoundsForProjectId:(NSString *)projectId
+                      completion:(void(^)(NSMutableArray *rounds, NSError *error))completion;
+
+#pragma mark - Project
+
+/** Gets all projects in order from latest to earliest. This is a shallow level retrieval - will not retrieve all rounds for a project. Will return error message if unable to retrieve projects. */
 - (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion;
+
+/** Gets a specific project with projectId. Will return error message if unable to retrieve specific project. */
+- (void)getProjectWithId:(NSString *)projectId
+              completion:(void(^)(Project *project, NSError *error))completion;
 
 @end
 
