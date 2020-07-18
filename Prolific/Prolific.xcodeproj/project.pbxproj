@@ -18,7 +18,8 @@
 		713AA08B24C0E1E000A5950E /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 713AA08A24C0E1E000A5950E /* DAO.m */; };
 		713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
 		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
-		7165D15224BE056C008E64CD /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */; };
+		714D1F8124C25D2D00749291 /* SubmissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 714D1F8024C25D2D00749291 /* SubmissionViewController.m */; };
+		714D1F8224C2C1B100749291 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */; };
 		7165D15624BE0AE7008E64CD /* ProjectPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ProjectPreviewCell.m */; };
 		7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15924BE1B17008E64CD /* RegisterViewController.m */; };
 		7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
@@ -81,6 +82,8 @@
 		7118C40124BF6BD5005E1816 /* UserBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserBuilder.m; sourceTree = "<group>"; };
 		713AA08924C0E1E000A5950E /* DAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
 		713AA08A24C0E1E000A5950E /* DAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
+		714D1F7F24C25D2D00749291 /* SubmissionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubmissionViewController.h; sourceTree = "<group>"; };
+		714D1F8024C25D2D00749291 /* SubmissionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubmissionViewController.m; sourceTree = "<group>"; };
 		7165D15024BE056C008E64CD /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectDetailsViewController.h; sourceTree = "<group>"; };
 		7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectDetailsViewController.m; sourceTree = "<group>"; };
 		7165D15424BE0AE7008E64CD /* ProjectPreviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectPreviewCell.h; sourceTree = "<group>"; };
@@ -278,6 +281,15 @@
 			path = Persistence;
 			sourceTree = "<group>";
 		};
+		714D1F7E24C25D0600749291 /* Submission View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				714D1F7F24C25D2D00749291 /* SubmissionViewController.h */,
+				714D1F8024C25D2D00749291 /* SubmissionViewController.m */,
+			);
+			path = "Submission View Controller";
+			sourceTree = "<group>";
+		};
 		7165D14C24BE052E008E64CD /* Project Details View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +391,7 @@
 		7191117024BD045800070A32 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				714D1F7E24C25D0600749291 /* Submission View Controller */,
 				7191118724BD1F1F00070A32 /* Prolific Base View Controller */,
 				7191117524BD055000070A32 /* Main Tab Bar Controller */,
 				7191117224BD048000070A32 /* Login View Controller */,
@@ -693,6 +706,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				714D1F8224C2C1B100749291 /* ProjectDetailsViewController.m in Sources */,
 				713AA08D24C1061F00A5950E /* Project.m in Sources */,
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				713AA08B24C0E1E000A5950E /* DAO.m in Sources */,
@@ -706,7 +720,6 @@
 				7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				7191117F24BD088000070A32 /* NavigationManager.m in Sources */,
-				7165D15224BE056C008E64CD /* ProjectDetailsViewController.m in Sources */,
 				7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */,
 				711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
@@ -714,6 +727,7 @@
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,
 				7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */,
 				7118C3F624BF607D005E1816 /* Snippet.m in Sources */,
+				714D1F8124C25D2D00749291 /* SubmissionViewController.m in Sources */,
 				7118C3FC24BF681F005E1816 /* Round.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
