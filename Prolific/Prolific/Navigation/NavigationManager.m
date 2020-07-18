@@ -13,6 +13,7 @@
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
 #import "RegisterViewController.h"
+#import "SubmissionViewController.h"
 #import "ProjectDetailsViewController.h"
 
 @implementation NavigationManager
@@ -41,6 +42,13 @@
     ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
     projectDetailsViewController.project = project;
     [navController pushViewController:projectDetailsViewController animated:YES];
+}
+
++ (void)presentSubmissionViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
+    SubmissionViewController *const submissionViewController = [[SubmissionViewController alloc] init];
+    submissionViewController.round = round;
+    submissionViewController.projectId = projectId;
+    [navController pushViewController:submissionViewController animated:YES];
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {
