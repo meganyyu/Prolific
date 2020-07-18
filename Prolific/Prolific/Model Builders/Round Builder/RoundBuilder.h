@@ -19,9 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and immutable) attributes
 @property (nonatomic, strong) NSString *roundId;
+@property (nonatomic, strong) NSDate *createdAt;
 
 // required (and mutable) attributes
 @property (nonatomic) BOOL isComplete;
+@property (nonatomic, strong) NSDate *endTime;
 @property (nonatomic, strong) NSMutableArray<Snippet *> *submissions;
 
 // optional (and immutable) attributes
@@ -36,7 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (RoundBuilder *)withId:(NSString *)roundId;
 
+- (RoundBuilder *)withCreatedAt:(NSDate *)createdAt;
+
 - (RoundBuilder *)isComplete:(BOOL)value;
+
+- (RoundBuilder *)withEndTime:(NSDate *)endTime;
 
 - (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions;
 

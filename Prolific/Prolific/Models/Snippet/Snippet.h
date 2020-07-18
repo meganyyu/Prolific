@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSString *snippetId;
 @property (nonatomic, strong, readonly) NSString *authorId;
 @property (nonatomic, strong, readonly) NSString *text;
-@property (nonatomic, strong, readonly) NSDate *createdAtDate;
+@property (nonatomic, strong, readonly) NSDate *createdAt;
 
 // required (and mutable) attributes
 @property (nonatomic, strong, readonly) NSNumber *voteCount;

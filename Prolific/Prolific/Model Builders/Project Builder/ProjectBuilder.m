@@ -8,6 +8,7 @@
 
 #import "ProjectBuilder.h"
 
+static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kNameKey = @"name";
@@ -21,6 +22,7 @@ static NSString *const kSeedKey = @"seed";
     if (self) {
         _projectId = nil;
         _name = nil;
+        _createdAt = nil;
         _seed = nil;
         _currentRound = nil;
         _isComplete = NO;
@@ -37,6 +39,7 @@ static NSString *const kSeedKey = @"seed";
     if (self) {
         if (projectId && rounds &&
             [data objectForKey:kNameKey] &&
+            [data objectForKey:kCreatedAtKey] &&
             [data objectForKey:kSeedKey] &&
             [data objectForKey:kCurrentRoundKey] &&
             [data objectForKey:kIsCompleteKey]) {
@@ -61,6 +64,11 @@ static NSString *const kSeedKey = @"seed";
     return self;
 }
 
+- (ProjectBuilder *)withCreatedAt:(NSDate *)createdAt {
+    _createdAt = createdAt;
+    return self;
+}
+
 - (ProjectBuilder *)withSeed:(NSString *)seed {
     _seed = seed;
     return self;
@@ -82,7 +90,7 @@ static NSString *const kSeedKey = @"seed";
 }
 
 - (Project *)build {
-    if (_projectId && _name && _seed && _currentRound && _rounds) {
+    if (_projectId && _name && _createdAt && _seed && _currentRound && _rounds) {
         Project *proj = [[Project alloc] initWithBuilder:self];
         return proj;
     }

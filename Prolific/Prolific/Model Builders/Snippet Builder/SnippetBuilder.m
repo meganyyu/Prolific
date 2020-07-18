@@ -20,7 +20,7 @@ static NSString *const kVoteCountKey = @"voteCount";
     if (self) {
         _snippetId = nil;
         _authorId = nil;
-        _createdAtDate = nil;
+        _createdAt = nil;
         _text = nil;
         _voteCount = 0;
     }
@@ -38,7 +38,7 @@ static NSString *const kVoteCountKey = @"voteCount";
             [data objectForKey:kVoteCountKey]) {
             _snippetId = snippetId;
             _authorId = data[kAuthorIdKey];
-            _createdAtDate = data[kCreatedAtKey];
+            _createdAt = data[kCreatedAtKey];
             _text = data[kTextKey];
             _voteCount = data[kVoteCountKey];
         }
@@ -61,8 +61,8 @@ static NSString *const kVoteCountKey = @"voteCount";
     return self;
 }
 
-- (SnippetBuilder *)withCreatedAtDate:(NSDate *)date {
-    _createdAtDate = date;
+- (SnippetBuilder *)withCreatedAt:(NSDate *)date {
+    _createdAt = date;
     return self;
 }
 
@@ -72,7 +72,7 @@ static NSString *const kVoteCountKey = @"voteCount";
 }
 
 - (Snippet *)build {
-    if (_snippetId && _authorId && _text && _createdAtDate && _voteCount) {
+    if (_snippetId && _authorId && _text && _createdAt && _voteCount) {
         Snippet *snippet = [[Snippet alloc] initWithBuilder:self];
         return snippet;
     }

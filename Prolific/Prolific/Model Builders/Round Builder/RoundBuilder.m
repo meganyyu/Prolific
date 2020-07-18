@@ -8,6 +8,8 @@
 
 #import "RoundBuilder.h"
 
+static NSString *const kCreatedAtKey = @"createdAt";
+static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
@@ -18,7 +20,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     self = [super init];
     if (self) {
         _roundId = nil;
+        _createdAt = nil;
         _isComplete = NO;
+        _endTime = nil;
         _submissions = [[NSMutableArray alloc] init];
         _winningSnippetId = nil;
     }
@@ -33,10 +37,13 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     if (self) {
         if (roundId && submissions &&
             [data objectForKey:kIsCompleteKey] &&
-            [data objectForKey:kWinningSnippetIdKey]) {
+            [data objectForKey:kCreatedAtKey] &&
+            [data objectForKey:kEndTimeKey]) {
             _roundId = roundId;
             _submissions = submissions;
             _isComplete = data[kIsCompleteKey];
+        }
+        if ([data objectForKey:kWinningSnippetIdKey]) {
             _winningSnippetId = data[kWinningSnippetIdKey];
         }
     }
@@ -48,8 +55,18 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     return self;
 }
 
+- (RoundBuilder *)withCreatedAt:(NSDate *)createdAt {
+    _createdAt = createdAt;
+    return self;
+}
+
 - (RoundBuilder *)isComplete:(BOOL)value {
     _isComplete = value;
+    return self;
+}
+
+- (RoundBuilder *)withEndTime:(NSDate *)endTime {
+    _endTime = endTime;
     return self;
 }
 
@@ -64,7 +81,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 }
 
 - (Round *)build {
-    if (_roundId && _submissions) {
+    if (_roundId && _submissions && _createdAt && _endTime) {
         Round *round = [[Round alloc] initWithBuilder:self];
         return round;
     }

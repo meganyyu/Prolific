@@ -19,9 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and immutable) attributes
 @property (nonatomic, strong, readonly) NSString *roundId;
+@property (nonatomic, strong, readonly) NSDate *createdAt;
 
 // required (and mutable) attributes
 @property (nonatomic, readonly) BOOL isComplete;
+@property (nonatomic, strong, readonly) NSDate *endTime;
 @property (nonatomic, strong, readonly) NSArray<Snippet *> *submissions;
 
 // optional (and immutable) attributes

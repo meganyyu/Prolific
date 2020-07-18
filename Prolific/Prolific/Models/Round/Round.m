@@ -17,6 +17,8 @@
     if (self) {
         _roundId = builder.roundId;
         _isComplete = builder.isComplete;
+        _createdAt = builder.createdAt;
+        _endTime = builder.endTime;
         _submissions = builder.submissions;
         _winningSnippetId = builder.winningSnippetId;
     }

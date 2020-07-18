@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *snippetId;
 @property (nonatomic, strong) NSString *authorId;
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSDate *createdAtDate;
+@property (nonatomic, strong) NSDate *createdAt;
 
 // required (and mutable) attributes
 @property (nonatomic, strong) NSNumber *voteCount;
@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SnippetBuilder *)withText:(NSString *)text;
 
-- (SnippetBuilder *)withCreatedAtDate:(NSDate *)date;
+- (SnippetBuilder *)withCreatedAt:(NSDate *)date;
 
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount;
 
