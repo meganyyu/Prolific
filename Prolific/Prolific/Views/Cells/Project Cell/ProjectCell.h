@@ -6,7 +6,7 @@
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseCell.h"
 
 #import "Project.h"
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ProjectCellDelegate;
 
-@interface ProjectCell : UICollectionViewCell
+@interface ProjectCell : BaseCell
 
 @property (nonatomic, strong) Project *project;
 @property (nonatomic, weak) id<ProjectCellDelegate> delegate;
