@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *seedContentLabel;
 @property (nonatomic, strong) UIButton *composeButton;
+@property (nonatomic, strong) UIButton *previewButton;
 @property (nonatomic, strong) DAO *dao;
 //@property (nonatomic, strong) NSMutableArray *roundsArray;
 
@@ -75,6 +76,13 @@
     _composeButton.tintColor = [UIColor whiteColor];
     [_projectView addSubview:_composeButton];
     
+    _previewButton = [[UIButton alloc] init];
+    _previewButton.backgroundColor = [UIColor lightGrayColor];
+    [_previewButton setTitle:@"See submitted snippets for latest round" forState:normal];
+    [_previewButton addTarget:self action:@selector(onTapPreview:) forControlEvents:UIControlEventTouchUpInside];
+    _previewButton.tintColor = [UIColor whiteColor];
+    [_projectView addSubview:_previewButton];
+    
     [self refreshData];
 }
 
@@ -104,6 +112,11 @@
     CGFloat const composeButtonX = _projectView.center.x - 150;
     CGFloat const composeButtonY = boundsHeight - 300;
     _composeButton.frame = CGRectMake(composeButtonX, composeButtonY, 300, 30);
+    
+    // preview button
+    CGFloat const previewButtonX = _projectView.center.x - 200;
+    CGFloat const previewButtonY = boundsHeight - 200;
+    _previewButton.frame = CGRectMake(previewButtonX, previewButtonY, 400, 30);
 }
 
 - (void)refreshData {
@@ -130,8 +143,20 @@
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
         [NavigationManager presentSubmissionViewControllerForRound:currentRound
-                   projectId:_project.projectId
-        navigationController:self.navigationController];
+                                                         projectId:_project.projectId
+                                              navigationController:self.navigationController];
+    } else {
+        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
+    }
+}
+
+- (void)onTapPreview:(id)sender {
+    int latestRoundNumber = (int) _project.rounds.count - 1;
+    if (latestRoundNumber >= 0) {
+        Round *const currentRound = _project.rounds[latestRoundNumber];
+        [NavigationManager presentRoundSubmissionsViewControllerForRound:currentRound
+                                                        projectId:_project.projectId
+                                                    navigationController:self.navigationController];
     } else {
         NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
     }

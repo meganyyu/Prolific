@@ -14,6 +14,7 @@
 #import "MainTabBarController.h"
 #import "RegisterViewController.h"
 #import "SubmissionViewController.h"
+#import "RoundSubmissionsViewController.h"
 #import "ProjectDetailsViewController.h"
 
 @implementation NavigationManager
@@ -48,6 +49,13 @@
     submissionViewController.round = round;
     submissionViewController.projectId = projectId;
     [navController pushViewController:submissionViewController animated:YES];
+}
+
++ (void)presentRoundSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
+    RoundSubmissionsViewController *const roundSubmissionsViewController = [[RoundSubmissionsViewController alloc] init];
+    roundSubmissionsViewController.round = round;
+    roundSubmissionsViewController.projectId = projectId;
+    [navController pushViewController:roundSubmissionsViewController animated:YES];
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {

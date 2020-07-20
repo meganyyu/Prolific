@@ -27,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
                                       projectId:(NSString *)projectId
                            navigationController:(UINavigationController *)navController;
 
++ (void)presentRoundSubmissionsViewControllerForRound:(Round *)round
+                                            projectId:(NSString *)projectId
+                                 navigationController:(UINavigationController *)navController;
+
 + (void)exitTopViewController:(UINavigationController *)navController;
 
 + (void)exitToRootViewController:(UINavigationController *)navController;

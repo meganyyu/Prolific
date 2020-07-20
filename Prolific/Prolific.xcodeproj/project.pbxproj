@@ -42,6 +42,7 @@
 		7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191118324BD1D6500070A32 /* ProlificBaseViewController.m */; };
 		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 		71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
+		71CF520224C65B2F008DB4EF /* RoundSubmissionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520124C65B2F008DB4EF /* RoundSubmissionsViewController.m */; };
 		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
 		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
@@ -130,6 +131,8 @@
 		7191117E24BD088000070A32 /* NavigationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationManager.m; sourceTree = "<group>"; };
 		7191118224BD1D6500070A32 /* ProlificBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProlificBaseViewController.h; sourceTree = "<group>"; };
 		7191118324BD1D6500070A32 /* ProlificBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificBaseViewController.m; sourceTree = "<group>"; };
+		71CF520024C65B2F008DB4EF /* RoundSubmissionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundSubmissionsViewController.h; sourceTree = "<group>"; };
+		71CF520124C65B2F008DB4EF /* RoundSubmissionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundSubmissionsViewController.m; sourceTree = "<group>"; };
 		857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.release.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.release.xcconfig"; sourceTree = "<group>"; };
 		895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.debug.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -450,6 +453,7 @@
 				7191117324BD048900070A32 /* Home View Controller */,
 				7191117624BD055D00070A32 /* Favorites View Controller */,
 				7165D14C24BE052E008E64CD /* Project Details View Controller */,
+				71CF51FF24C65ADA008DB4EF /* Round Submissions View Controller */,
 				714D1F7E24C25D0600749291 /* Submission View Controller */,
 			);
 			path = "View Controllers";
@@ -506,6 +510,15 @@
 				7191118324BD1D6500070A32 /* ProlificBaseViewController.m */,
 			);
 			path = "Prolific Base View Controller";
+			sourceTree = "<group>";
+		};
+		71CF51FF24C65ADA008DB4EF /* Round Submissions View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				71CF520024C65B2F008DB4EF /* RoundSubmissionsViewController.h */,
+				71CF520124C65B2F008DB4EF /* RoundSubmissionsViewController.m */,
+			);
+			path = "Round Submissions View Controller";
 			sourceTree = "<group>";
 		};
 		FF52A583CD9670382704644A /* Frameworks */ = {
@@ -764,6 +777,7 @@
 				713AA08D24C1061F00A5950E /* Project.m in Sources */,
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				713AA08B24C0E1E000A5950E /* DAO.m in Sources */,
+				71CF520224C65B2F008DB4EF /* RoundSubmissionsViewController.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,
