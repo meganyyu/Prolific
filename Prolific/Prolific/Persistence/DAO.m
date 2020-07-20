@@ -79,7 +79,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     NSDictionary *const snippetData = @{
         kAuthorIdKey: snippetBuilder.authorId,
         kTextKey: snippetBuilder.text,
-        kVoteCountKey: snippetBuilder.voteCount
+        kVoteCountKey: snippetBuilder.voteCount,
+        kCreatedAtKey: snippetBuilder.createdAt
     };
     
     __block FIRDocumentReference *ref =
@@ -88,9 +89,7 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
         if (error != nil) {
             completion(nil, error);
         } else {
-            NSDate *date = [NSDate date]; //FIXME: use Firebase's server time instead
-            Snippet *snippet = [[[snippetBuilder withId:ref.documentID]
-                                 withCreatedAt:date]
+            Snippet *snippet = [[snippetBuilder withId:ref.documentID]
                                 build];
             snippet ? completion(snippet, nil) : completion(nil, error);
         }
@@ -110,7 +109,7 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
             completion(nil, error);
         } else {
             NSMutableArray *submissions = [[NSMutableArray alloc] init];
-            for (FIRDocumentSnapshot *document in snapshot.documents) {
+            for (FIRDocumentSnapshot *const document in snapshot.documents) {
                 Snippet *const snippet = [self buildSnippetWithId:document.documentID
                                                          fromData:document.data];
                 if (snippet) {
@@ -139,7 +138,7 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
             NSMutableArray *rounds = [[NSMutableArray alloc] init];
             for (FIRDocumentSnapshot *document in snapshot.documents) {
                 Round *const round = [self buildRoundWithId:document.documentID
-                                                         fromData:document.data];
+                                                   fromData:document.data];
                 if (round) {
                     [rounds addObject:round];
                 }
@@ -180,8 +179,7 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
             completion(nil, error);
         } else {
             NSMutableArray *const projs = [[NSMutableArray alloc] init];
-            
-            for (FIRDocumentSnapshot *document in snapshot.documents) {
+            for (FIRDocumentSnapshot *const document in snapshot.documents) {
                 Project *const proj = [self buildProjectWithId:document.documentID
                                                       fromData:document.data];
                 if (proj) {

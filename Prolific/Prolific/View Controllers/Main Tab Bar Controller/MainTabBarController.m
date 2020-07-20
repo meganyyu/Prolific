@@ -42,8 +42,6 @@
     [tabBarAppearance setBackgroundColor:[UIColor whiteColor]];
     [self setTabBarItemColors:tabBarAppearance.stackedLayoutAppearance];
     tabBar.standardAppearance = tabBarAppearance;
-    
-    NSLog(@"Reached end of MainTabBarController viewDidLoad");
 }
 
 - (void)setupViewControllers {

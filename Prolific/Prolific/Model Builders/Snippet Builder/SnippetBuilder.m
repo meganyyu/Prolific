@@ -8,6 +8,8 @@
 
 #import "SnippetBuilder.h"
 
+@import Firebase;
+
 static NSString *const kAuthorIdKey = @"authorId";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kTextKey = @"text";
@@ -19,10 +21,10 @@ static NSString *const kVoteCountKey = @"voteCount";
     self = [super init];
     if (self) {
         _snippetId = nil;
-        _authorId = nil;
-        _createdAt = nil;
+        _authorId = [FIRAuth auth].currentUser.uid;
+        _createdAt = [FIRTimestamp timestamp].dateValue;
         _text = nil;
-        _voteCount = 0;
+        _voteCount = [NSNumber numberWithInt:0];
     }
     return self;
 }

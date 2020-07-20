@@ -35,7 +35,6 @@
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController {
     RegisterViewController *const registerViewController = [[RegisterViewController alloc] init];
     [navController pushViewController:registerViewController animated:YES];
-    NSLog(@"Reached presentRegistrationScreen in NavManager, navController is? %@", NSStringFromClass([navController class]));
 }
 
 + (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController {

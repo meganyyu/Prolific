@@ -11,7 +11,7 @@
 #import "DAO.h"
 @import FirebaseAuth;
 #import "NavigationManager.h"
-#import "ProjectPreviewCell.h"
+#import "ProjectCell.h"
 #import "Project.h"
 #import "ProjectBuilder.h"
 
@@ -40,7 +40,7 @@
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
 
-    [_collectionView registerClass:[ProjectPreviewCell class] forCellWithReuseIdentifier:@"projectCell"];
+    [_collectionView registerClass:[ProjectCell class] forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor grayColor]];
 
     [self.view addSubview:_collectionView];
@@ -87,9 +87,8 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProjectPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
+    ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
-    NSLog(@"Getting cell with project name: %@", cell.project.name);
     return cell;
 }
 

@@ -108,14 +108,12 @@ static NSString *const kUsernameKey = @"username";
     CGFloat const boundsWidth = CGRectGetWidth(bounds);
     CGFloat const boundsHeight = CGRectGetHeight(bounds);
     CGPoint const center = self.view.center;
-    NSLog(@"frameWidth: %f, frameHeight: %f, centerX: %f, centerY: %f", boundsWidth, boundsHeight, center.x, center.y);
     
     // login content view
     CGFloat const viewWidth = boundsWidth;
     CGFloat const viewHeight = boundsHeight * 0.7;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
-    NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
     _registerContentView.frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
 
     // displayName field
@@ -123,58 +121,49 @@ static NSString *const kUsernameKey = @"username";
     CGFloat const fieldHeight = (viewHeight * 0.75) / 7.0;
     CGFloat const displayNameFieldX = _registerContentView.center.x - fieldWidth / 2;
     CGFloat const displayNameFieldY = 0;
-    NSLog(@"fieldWidth: %f, fieldHeight: %f, displayNameFieldX: %f, displayNameFieldY: %f", fieldWidth, fieldHeight, displayNameFieldX, displayNameFieldY);
     _displayNameField.frame = CGRectMake(displayNameFieldX, displayNameFieldY, fieldWidth, fieldHeight);
     
     // username field
     CGFloat const usernameFieldX = displayNameFieldX;
     CGFloat const usernameFieldY = displayNameFieldY + fieldHeight;
-    NSLog(@"usernameFieldX: %f, usernameFieldY: %f", usernameFieldX, usernameFieldY);
     _usernameField.frame = CGRectMake(usernameFieldX, usernameFieldY, fieldWidth, fieldHeight);
     
     // email field
     CGFloat const emailFieldX = usernameFieldX;
     CGFloat const emailFieldY = usernameFieldY + fieldHeight;
-    NSLog(@"emailFieldX: %f, emailFieldY: %f", emailFieldX, emailFieldY);
     _emailField.frame = CGRectMake(emailFieldX, emailFieldY, fieldWidth, fieldHeight);
     
     // password field
     CGFloat const passwordFieldX = usernameFieldX;
     CGFloat const passwordFieldY = emailFieldY + fieldHeight;
-    NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
     // error label
     CGFloat const errorLabelX = usernameFieldX;
     CGFloat const errorLabelY = viewHeight - fieldHeight;
     _errorLabel.alpha = 0;
-    NSLog(@"errorLabelX: %f, errorLabelY: %f", errorLabelX, errorLabelY);
     _errorLabel.frame = CGRectMake(errorLabelX, errorLabelY, fieldWidth, fieldHeight);
     
     // login button
     CGFloat const loginButtonX = usernameFieldX;
     CGFloat const loginButtonY = errorLabelY - fieldHeight - 10;
-    NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
     _returnToLoginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
     
     // registration button
     CGFloat const registerButtonX = usernameFieldX;
     CGFloat const registerButtonY = loginButtonY - fieldHeight - 10;
-    NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
     _registerButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions
 
 - (void)didTapRegisterButton:(id)sender{
-    NSLog(@"Tapped sign up button");
     [self resignFields];
     
     [self registerUserWithUsername:_usernameField.text email:_emailField.text password:_passwordField.text displayName:_displayNameField.text];
 }
 
 - (void)didTapReturnToLoginButton:(id)sender{
-    NSLog(@"Tapped returnToLogin button, leaving registration screen");
     [self resignFields];
     
     [NavigationManager exitTopViewController:self.navigationController];
@@ -190,7 +179,6 @@ static NSString *const kUsernameKey = @"username";
     
     if (fieldEntryError) {
         [self showError:fieldEntryError];
-        NSLog(@"%@", fieldEntryError);
     } else {
         [self hideError];
         
@@ -201,8 +189,6 @@ static NSString *const kUsernameKey = @"username";
                                  completion:^(FIRAuthDataResult * _Nullable authResult,
                                               NSError * _Nullable error) {
             if (!error) {
-                NSLog(@"Created account successfully, saving to Firestore...");
-                
                 DAO *const dao = [[DAO alloc] init];
                 UserBuilder *const userBuilder = [[UserBuilder alloc] init];
                 User *const newUser = [[[[[userBuilder
@@ -245,7 +231,6 @@ static NSString *const kUsernameKey = @"username";
         [_usernameField resignFirstResponder];
         [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for all fields");
     }
 }
 

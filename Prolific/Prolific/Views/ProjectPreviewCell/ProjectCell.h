@@ -12,9 +12,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ProjectPreviewCell : UICollectionViewCell
+@protocol ProjectCellDelegate;
+
+@interface ProjectCell : UICollectionViewCell
 
 @property (nonatomic, strong) Project *project;
+@property (nonatomic, weak) id<ProjectCellDelegate> delegate;
+
+@end
+
+@protocol ProjectCellDelegate
 
 @end
 

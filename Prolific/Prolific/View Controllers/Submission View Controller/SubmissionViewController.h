@@ -8,8 +8,8 @@
 
 #import "ProlificBaseViewController.h"
 
-#import "Project.h"
 #import "Round.h"
+#import "Snippet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

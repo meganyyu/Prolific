@@ -20,7 +20,7 @@
 		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		714D1F8124C25D2D00749291 /* SubmissionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 714D1F8024C25D2D00749291 /* SubmissionViewController.m */; };
 		714D1F8224C2C1B100749291 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */; };
-		7165D15624BE0AE7008E64CD /* ProjectPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ProjectPreviewCell.m */; };
+		7165D15624BE0AE7008E64CD /* ProjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15524BE0AE7008E64CD /* ProjectCell.m */; };
 		7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15924BE1B17008E64CD /* RegisterViewController.m */; };
 		7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
 		7165D15D24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
@@ -86,8 +86,8 @@
 		714D1F8024C25D2D00749291 /* SubmissionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubmissionViewController.m; sourceTree = "<group>"; };
 		7165D15024BE056C008E64CD /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectDetailsViewController.h; sourceTree = "<group>"; };
 		7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectDetailsViewController.m; sourceTree = "<group>"; };
-		7165D15424BE0AE7008E64CD /* ProjectPreviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectPreviewCell.h; sourceTree = "<group>"; };
-		7165D15524BE0AE7008E64CD /* ProjectPreviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectPreviewCell.m; sourceTree = "<group>"; };
+		7165D15424BE0AE7008E64CD /* ProjectCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectCell.h; sourceTree = "<group>"; };
+		7165D15524BE0AE7008E64CD /* ProjectCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectCell.m; sourceTree = "<group>"; };
 		7165D15824BE1B17008E64CD /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		7165D15924BE1B17008E64CD /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -183,10 +183,10 @@
 			isa = PBXGroup;
 			children = (
 				713AA08324C0D5FD00A5950E /* Entity */,
-				713AA08424C0D60700A5950E /* Project Builder */,
 				713AA08524C0D61200A5950E /* User Builder */,
 				713AA08624C0D61D00A5950E /* Snippet Builder */,
 				713AA08724C0D62500A5950E /* Round Builder */,
+				713AA08424C0D60700A5950E /* Project Builder */,
 			);
 			path = "Model Builders";
 			sourceTree = "<group>";
@@ -302,8 +302,8 @@
 		7165D15324BE0AAE008E64CD /* ProjectPreviewCell */ = {
 			isa = PBXGroup;
 			children = (
-				7165D15424BE0AE7008E64CD /* ProjectPreviewCell.h */,
-				7165D15524BE0AE7008E64CD /* ProjectPreviewCell.m */,
+				7165D15424BE0AE7008E64CD /* ProjectCell.h */,
+				7165D15524BE0AE7008E64CD /* ProjectCell.m */,
 			);
 			path = ProjectPreviewCell;
 			sourceTree = "<group>";
@@ -391,7 +391,6 @@
 		7191117024BD045800070A32 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				714D1F7E24C25D0600749291 /* Submission View Controller */,
 				7191118724BD1F1F00070A32 /* Prolific Base View Controller */,
 				7191117524BD055000070A32 /* Main Tab Bar Controller */,
 				7191117224BD048000070A32 /* Login View Controller */,
@@ -399,6 +398,7 @@
 				7191117324BD048900070A32 /* Home View Controller */,
 				7191117624BD055D00070A32 /* Favorites View Controller */,
 				7165D14C24BE052E008E64CD /* Project Details View Controller */,
+				714D1F7E24C25D0600749291 /* Submission View Controller */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -716,7 +716,7 @@
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				7118C3F324BE888F005E1816 /* Entity.m in Sources */,
 				711746E524BFC4F00021F9CD /* RoundBuilder.m in Sources */,
-				7165D15624BE0AE7008E64CD /* ProjectPreviewCell.m in Sources */,
+				7165D15624BE0AE7008E64CD /* ProjectCell.m in Sources */,
 				7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				7191117F24BD088000070A32 /* NavigationManager.m in Sources */,

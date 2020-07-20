@@ -6,9 +6,11 @@
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import "ProjectPreviewCell.h"
+#import "ProjectCell.h"
 
-@interface ProjectPreviewCell ()
+#pragma mark - Interface
+
+@interface ProjectCell ()
 
 @property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -16,7 +18,9 @@
 
 @end
 
-@implementation ProjectPreviewCell
+#pragma mark - Implementation
+
+@implementation ProjectCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -39,8 +43,6 @@
         _seedContentLabel.textColor = [UIColor blackColor];
         _seedContentLabel.numberOfLines = 0;
         [_cellView addSubview:_seedContentLabel];
-        
-        NSLog(@"Created cells!");
     }
     return self;
 }
@@ -60,14 +62,12 @@
     CGFloat const labelX = 0.05 * boundsWidth;
     CGFloat const nameLabelHeight = 0.2 * boundsHeight;
     CGFloat const nameLabelY = 0.05 * boundsHeight;
-    NSLog(@"labelWidth: %f, nameLabelHeight: %f, labelX: %f, nameLabelY: %f", labelWidth, nameLabelHeight, labelX, nameLabelY);
     _nameLabel.frame = CGRectMake(labelX, nameLabelY, labelWidth, nameLabelHeight);
     _nameLabel.text = _project.name;
     
     // seed content label
     CGFloat const seedContentLabelHeight = 0.6 * boundsHeight;
     CGFloat const seedContentLabelY = nameLabelHeight + 0.05 * boundsHeight;
-    NSLog(@"labelWidth: %f, seedContentLabelHeight: %f, labelX: %f, seedContentLabelY: %f", labelWidth, seedContentLabelHeight, labelX, seedContentLabelY);
     _seedContentLabel.frame = CGRectMake(labelX, seedContentLabelY, labelWidth, seedContentLabelHeight);
     _seedContentLabel.text = _project.seed;
 }

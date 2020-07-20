@@ -8,6 +8,8 @@
 
 #import "RoundBuilder.h"
 
+@import Firebase;
+
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kIsCompleteKey = @"isComplete";
@@ -20,9 +22,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     self = [super init];
     if (self) {
         _roundId = nil;
-        _createdAt = nil;
+        _createdAt = [FIRTimestamp timestamp].dateValue;
         _isComplete = NO;
-        _endTime = nil;
+        _endTime = [FIRTimestamp timestamp].dateValue;
         _submissions = [[NSMutableArray alloc] init];
         _winningSnippetId = nil;
     }

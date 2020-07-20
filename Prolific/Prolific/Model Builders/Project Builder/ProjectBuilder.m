@@ -8,6 +8,8 @@
 
 #import "ProjectBuilder.h"
 
+@import Firebase;
+
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kIsCompleteKey = @"isComplete";
@@ -22,9 +24,9 @@ static NSString *const kSeedKey = @"seed";
     if (self) {
         _projectId = nil;
         _name = nil;
-        _createdAt = nil;
+        _createdAt = [FIRTimestamp timestamp].dateValue;
         _seed = nil;
-        _currentRound = nil;
+        _currentRound = [NSNumber numberWithInt:0];
         _isComplete = NO;
         _rounds = [[NSMutableArray alloc] init];
     }
@@ -45,6 +47,7 @@ static NSString *const kSeedKey = @"seed";
             [data objectForKey:kIsCompleteKey]) {
             _projectId = projectId;
             _name = data[kNameKey];
+            _createdAt = data[kCreatedAtKey];
             _seed = data[kSeedKey];
             _currentRound = data[kCurrentRoundKey];
             _isComplete = data[kIsCompleteKey];

@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor lightGrayColor];
     
     self.navigationItem.title = @"Project Details";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
@@ -36,7 +36,7 @@
     self.navigationItem.leftBarButtonItem = backButton;
     
     _submissionView = [[UIView alloc] init];
-    _submissionView.backgroundColor = [UIColor whiteColor];
+    _submissionView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:_submissionView];
     
     _submissionTextView = [[UITextView alloc] init];
@@ -70,9 +70,9 @@
     _submissionTextView.frame = CGRectMake(textViewX, textViewY, textViewWidth, textViewHeight);
     
     // submission button
-    CGFloat const submitButtonX = _submissionView.center.x;
-    CGFloat const submitButtonY = boundsHeight - 30;
-    _submitButton.frame = CGRectMake(submitButtonX, submitButtonY, 60, 30);
+    CGFloat const submitButtonX = _submissionView.center.x - 75;
+    CGFloat const submitButtonY = boundsHeight - 300;
+    _submitButton.frame = CGRectMake(submitButtonX, submitButtonY, 150, 30);
 }
 
 #pragma mark - User Actions
@@ -112,7 +112,6 @@
 - (void)resignFields {
     if (_submissionTextView.isFirstResponder) {
         [_submissionTextView resignFirstResponder];
-        NSLog(@"Resigned first responders");
     }
 }
 
