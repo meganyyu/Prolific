@@ -45,8 +45,9 @@
     [_submissionView addSubview:_submissionTextView];
     
     _submitButton = [[UIButton alloc] init];
-    _submitButton.backgroundColor = [UIColor lightGrayColor];
-    [_submitButton setTitle:@"Submit a snippet!" forState:normal];
+    _submitButton.backgroundColor = [UIColor blueColor];
+    [_submitButton setTitle:@"Submit!" forState:normal];
+    [_submitButton addTarget:self action:@selector(onTapSubmit:) forControlEvents:UIControlEventTouchUpInside];
     _submitButton.tintColor = [UIColor whiteColor];
     [_submissionView addSubview:_submitButton];
     
@@ -77,12 +78,24 @@
 
 #pragma mark - User Actions
 
-- (void)didTapSubmitButton:(id)sender{
-    NSLog(@"Tapped submit button");
+- (void)onTapSubmit:(id)sender{
     [self resignFields];
     
-    [self submitSnippet];
-    [NavigationManager exitTopViewController:self.navigationController];
+    [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
+        if (snippet) {
+            [self.delegate didSubmit:snippet round:round];
+            
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [NavigationManager exitTopViewController:strongSelf.navigationController];
+                }
+            });
+        } else {
+            NSLog(@"Failed to submit snippet, try again.");
+        }
+    }];
 }
 
 - (void)onTapBack:(id)sender{
@@ -93,16 +106,18 @@
 
 #pragma mark - Snippet submission
 
-- (void)submitSnippet {
+- (void)submitSnippetWithCompletion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion {
     DAO *const dao = [[DAO alloc] init];
-    SnippetBuilder *const snippetBuilder = [[[[SnippetBuilder alloc] init]
-                                             withText:_submissionTextView.text]
-                                            withAuthor:[FIRAuth auth].currentUser.uid];
-    [dao submitSnippetWithBuilder:snippetBuilder forProjectId:_projectId forRoundId:_round.roundId completion:^(Snippet * _Nonnull snippet, NSError * _Nonnull error) {
+    SnippetBuilder *const snippetBuilder = [[[SnippetBuilder alloc] init]
+                                             withText:_submissionTextView.text];
+    [dao submitSnippetWithBuilder:snippetBuilder
+                     forProjectId:_projectId
+                         forRound: _round
+                       completion:^(Snippet *snippet, Round *round, NSError *error) {
         if (error) {
-            NSLog(@"Snippet submission unsuccessful: %@", error.localizedDescription);
+            completion(nil, nil, error);
         } else {
-            NSLog(@"Snippet submission successful: %@", snippet);
+            completion(snippet, round, nil);
         }
     }];
 }

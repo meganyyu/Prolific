@@ -13,10 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol SubmissionViewControllerDelegate
+
+- (void)didSubmit:(Snippet *)snippet round:(Round *)round;
+
+@end
+
 @interface SubmissionViewController : ProlificBaseViewController
 
 @property (nonatomic, strong) NSString *projectId;
 @property (nonatomic, strong) Round *round;
+@property (nonatomic, weak) id<SubmissionViewControllerDelegate> delegate;
 
 @end
 

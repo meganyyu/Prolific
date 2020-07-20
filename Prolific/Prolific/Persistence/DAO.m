@@ -69,11 +69,11 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
                     forProjectId:(NSString *)projectId
-                      forRoundId: (NSString *)roundId
-                      completion:(void(^)(Snippet *snippet, NSError *error))completion {
+                      forRound: (Round *)round
+                      completion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion {
     FIRCollectionReference *const submissionsRef =
     [[[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
-       collectionWithPath:kRoundsKey] documentWithPath:roundId]
+       collectionWithPath:kRoundsKey] documentWithPath:round.roundId]
      collectionWithPath:kSubmissionsKey];
     
     NSDictionary *const snippetData = @{
@@ -87,11 +87,16 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     [submissionsRef addDocumentWithData:snippetData
                              completion:^(NSError * _Nullable error) {
         if (error != nil) {
-            completion(nil, error);
+            completion(nil, nil, error);
         } else {
             Snippet *snippet = [[snippetBuilder withId:ref.documentID]
                                 build];
-            snippet ? completion(snippet, nil) : completion(nil, error);
+            if (snippet) {
+                [round.submissions addObject:snippet];
+                completion(snippet, round, nil);
+            } else {
+                completion(nil, nil, error);
+            }
         }
     }];
 }
