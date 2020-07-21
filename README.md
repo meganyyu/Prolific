@@ -81,10 +81,10 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - [x] User can view starter projects, ordered by creation date, in their feed
     - At the moment, starter projects are sourced from [WritingExercises.co.uk](https://writingexercises.co.uk/firstlinegenerator.php)
 - [x] User can tap a starter project to view project details & navigate through snippets-so-far
-- [ ] User can compose and submit snippets to the latest round of an existing starter project (text-only first)
+- [x] User can compose and submit snippets to the latest round of an existing starter project (text-only first)
 
 *Sprint 2*
-- [ ] Before a "winning" snippet is chosen, user can tap the latest snippet in a project to view the snippets that have been submitted for a round
+- [x] Before a "winning" snippet is chosen, user can tap the latest snippet in a project to view the snippets that have been submitted for a round
 - [ ] User can vote on a submitted snippet to indicate which one they want to win a round
 - [ ] Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up (if no snippets have been submitted, add more time)
 - [ ] Setup user analytics to track user interaction with projects & snippets
