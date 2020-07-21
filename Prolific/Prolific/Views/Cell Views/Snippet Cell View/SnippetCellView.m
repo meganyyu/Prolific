@@ -45,8 +45,8 @@
     CGFloat const voteCountLabelHeight = 0.2 * boundsHeight;
     CGFloat const voteCountLabelWidth = 0.3 * boundsWidth;
     CGFloat const voteCountLabelX = boundsWidth - voteCountLabelWidth;
-    CGFloat const voteCountLabelY = boundsHeight - 0.05 * boundsHeight;
-    _seedContentLabel.frame = CGRectMake(voteCountLabelX, voteCountLabelY, voteCountLabelWidth, voteCountLabelHeight);
+    CGFloat const voteCountLabelY = boundsHeight - voteCountLabelHeight;
+    _voteCountLabel.frame = CGRectMake(voteCountLabelX, voteCountLabelY, voteCountLabelWidth, voteCountLabelHeight);
     [self addSubview:_voteCountLabel];
 }
 

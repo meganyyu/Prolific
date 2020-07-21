@@ -17,6 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
     //[appearance configureWithOpaqueBackground];
     [appearance setBackgroundColor:[UIColor whiteColor]];

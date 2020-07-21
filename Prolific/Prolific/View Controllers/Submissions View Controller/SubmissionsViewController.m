@@ -8,15 +8,16 @@
 
 #import "SubmissionsViewController.h"
 
-@import FirebaseAuth;
 #import "DAO.h"
+@import FirebaseAuth;
 #import "NavigationManager.h"
+#import "SnippetCell.h"
 
-@interface SubmissionsViewController ()
+@interface SubmissionsViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, strong) UIView *submissionsView;
-
+@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
+@property (nonatomic, strong) NSMutableArray *snippetArray;
 
 @end
 
@@ -29,6 +30,18 @@
     
     self.view.backgroundColor = [UIColor lightGrayColor];
     
+    // collection view layout
+    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    [_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
+    [_collectionView setBackgroundColor:[UIColor whiteColor]];
+    
+    [self.view addSubview:_collectionView];
+    
+    // Navigation customization
     self.navigationItem.title = @"Round Submissions";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
                                                                    style:UIBarButtonItemStylePlain
@@ -36,32 +49,28 @@
                                                                   action:@selector(onTapBack:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
-    _submissionsView = [[UIView alloc] init];
-    _submissionsView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:_submissionsView];
-    
-    [self refreshData];
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    CGRect const bounds = self.view.bounds;
-    CGFloat const boundsWidth = CGRectGetWidth(bounds);
-    CGFloat const boundsHeight = CGRectGetHeight(bounds);
-    
-    // submission view
-    _submissionsView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
+    [self loadSubmissions];
 }
 
 #pragma mark - Load submissions
 
-- (void)refreshData {
+- (void)loadSubmissions {
     [_dao getAllSubmissionsforRoundId:_round.roundId projectId:_projectId completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
         if (submissions) {
             for (Snippet *snippet in submissions) {
                 NSLog(@"Snippet text: %@", snippet.text);
             }
+            self.snippetArray = (NSMutableArray *) submissions;
+            
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf.collectionView reloadData];
+                }
+            });
+        } else {
+            NSLog(@"Error retrieving submissions: %@", error.localizedDescription);
         }
     }];
 }
@@ -70,6 +79,30 @@
 
 - (void)onTapBack:(id)sender{
     [NavigationManager exitTopViewController:self.navigationController];
+}
+
+#pragma mark - UICollectionViewDataSource Protocol
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return _snippetArray.count;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    SnippetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"snippetCell" forIndexPath:indexPath];
+    cell.snippet = _snippetArray[indexPath.item];
+    return cell;
+}
+
+#pragma mark - UICollectionViewDelegate Protocol
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Protocol
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 7.0);
 }
 
 @end

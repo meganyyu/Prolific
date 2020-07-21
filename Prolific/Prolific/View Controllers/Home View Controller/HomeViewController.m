@@ -20,7 +20,7 @@
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *projectArray;
+@property (nonatomic, strong) NSMutableArray *projectArray;
 
 @end
 
@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    // collection view layout
     
      UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -59,7 +59,7 @@
     DAO *dao = [[DAO alloc] init];
     [dao getAllProjectsWithCompletion:^(NSArray * _Nonnull projects, NSError * _Nonnull error) {
         if (projects) {
-            self.projectArray = projects;
+            self.projectArray = (NSMutableArray *) projects;
             
             __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{

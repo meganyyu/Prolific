@@ -41,10 +41,10 @@
 		7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191118324BD1D6500070A32 /* ProlificBaseViewController.m */; };
 		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 		71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
-		71CF520224C65B2F008DB4EF /* SubmissionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520124C65B2F008DB4EF /* SubmissionsViewController.m */; };
 		71CF520624C66CC9008DB4EF /* BaseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520524C66CC9008DB4EF /* BaseCellView.m */; };
 		71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520824C66CF8008DB4EF /* SnippetCellView.m */; };
 		71CF520A24C6CD76008DB4EF /* NavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117E24BD088000070A32 /* NavigationManager.m */; };
+		71CF521424C74B32008DB4EF /* SubmissionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520124C65B2F008DB4EF /* SubmissionsViewController.m */; };
 		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
 		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
@@ -829,6 +829,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71CF521424C74B32008DB4EF /* SubmissionsViewController.m in Sources */,
 				71CF520A24C6CD76008DB4EF /* NavigationManager.m in Sources */,
 				7188D85C24C6568C00E50876 /* ProjectCell.m in Sources */,
 				7188D85524C6522D00E50876 /* SnippetCell.m in Sources */,
@@ -837,7 +838,6 @@
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				713AA08B24C0E1E000A5950E /* DAO.m in Sources */,
 				71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */,
-				71CF520224C65B2F008DB4EF /* SubmissionsViewController.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,
