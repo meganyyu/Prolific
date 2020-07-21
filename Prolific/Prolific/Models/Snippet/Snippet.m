@@ -9,6 +9,7 @@
 #import "Snippet.h"
 
 @import FirebaseFirestore;
+@import FirebaseAuth;
 
 @implementation Snippet
 
@@ -22,8 +23,13 @@
         _text = builder.text;
         _createdAt = builder.createdAt;
         _voteCount = builder.voteCount;
+        _userVoted = builder.userVoted;
     }
     return self;
+}
+
+- (void)updateCurrentUserVote {
+    _userVoted = !_userVoted;
 }
 
 @end
