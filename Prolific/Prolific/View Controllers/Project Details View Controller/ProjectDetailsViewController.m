@@ -17,13 +17,12 @@
 @interface ProjectDetailsViewController () <ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) UIView *projectView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *seedContentLabel;
 @property (nonatomic, strong) UIButton *composeButton;
 @property (nonatomic, strong) UIButton *previewButton;
-@property (nonatomic, strong) DAO *dao;
-//@property (nonatomic, strong) NSMutableArray *roundsArray;
 
 @end
 
@@ -54,6 +53,7 @@
     
     [self.view addSubview:_collectionView];
     
+    // TODO: turn into collection view
     
     _projectView = [[UIView alloc] init];
     _projectView.backgroundColor = [UIColor whiteColor];

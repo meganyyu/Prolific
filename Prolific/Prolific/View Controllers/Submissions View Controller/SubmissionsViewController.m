@@ -31,16 +31,8 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     
     // collection view layout
-    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    
-    [_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
-    [_collectionView setBackgroundColor:[UIColor whiteColor]];
-    
-    [self.view addSubview:_collectionView];
-    
+    [self setupCollectionView];
+        
     // Navigation customization
     self.navigationItem.title = @"Round Submissions";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
@@ -52,14 +44,24 @@
     [self loadSubmissions];
 }
 
+- (void)setupCollectionView {
+    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    [_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
+    [_collectionView setBackgroundColor:[UIColor grayColor]];
+    
+    [self.view addSubview:_collectionView];
+
+}
+
 #pragma mark - Load submissions
 
 - (void)loadSubmissions {
     [_dao getAllSubmissionsforRoundId:_round.roundId projectId:_projectId completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
         if (submissions) {
-            for (Snippet *snippet in submissions) {
-                NSLog(@"Snippet text: %@", snippet.text);
-            }
             self.snippetArray = (NSMutableArray *) submissions;
             
             __weak typeof(self) weakSelf = self;
