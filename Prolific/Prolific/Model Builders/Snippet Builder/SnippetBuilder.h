@@ -22,12 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *snippetId;
 @property (nonatomic, strong) NSString *authorId;
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic, strong) NSDate *createdAtDate;
+@property (nonatomic, strong) NSDate *createdAt;
 
 // required (and mutable) attributes
 @property (nonatomic, strong) NSNumber *voteCount;
 
 #pragma mark - Methods
+
+/** Returns SnippetBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a SnippetBuilder the same way as init does. */
+- (instancetype)initWithId:(NSString *)snippetId dictionary:(NSDictionary *)data;
 
 - (SnippetBuilder *)withId:(NSString *)snippetId;
 
@@ -35,8 +38,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SnippetBuilder *)withText:(NSString *)text;
 
+- (SnippetBuilder *)withCreatedAt:(NSDate *)date;
+
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount;
 
+/** Returns fully built Snippet if SnippetBuilder has all fields initialized properly. Else returns nil. */
 - (Snippet *)build;
 
 @end

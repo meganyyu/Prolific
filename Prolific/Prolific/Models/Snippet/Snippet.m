@@ -20,7 +20,7 @@
         _snippetId = builder.snippetId;
         _authorId = builder.authorId;
         _text = builder.text;
-        _createdAtDate = builder.createdAtDate;
+        _createdAt = builder.createdAt;
         _voteCount = builder.voteCount;
     }
     return self;

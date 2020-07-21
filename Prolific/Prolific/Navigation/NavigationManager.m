@@ -13,6 +13,8 @@
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
 #import "RegisterViewController.h"
+#import "ComposeSnippetViewController.h"
+#import "SubmissionsViewController.h"
 #import "ProjectDetailsViewController.h"
 
 @implementation NavigationManager
@@ -34,13 +36,26 @@
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController {
     RegisterViewController *const registerViewController = [[RegisterViewController alloc] init];
     [navController pushViewController:registerViewController animated:YES];
-    NSLog(@"Reached presentRegistrationScreen in NavManager, navController is? %@", NSStringFromClass([navController class]));
 }
 
 + (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController {
     ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
     projectDetailsViewController.project = project;
     [navController pushViewController:projectDetailsViewController animated:YES];
+}
+
++ (void)presentComposeSnippetViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
+    ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] init];
+    composeSnippetViewController.round = round;
+    composeSnippetViewController.projectId = projectId;
+    [navController pushViewController:composeSnippetViewController animated:YES];
+}
+
++ (void)presentSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
+    SubmissionsViewController *const submissionsViewController = [[SubmissionsViewController alloc] init];
+    submissionsViewController.round = round;
+    submissionsViewController.projectId = projectId;
+    [navController pushViewController:submissionsViewController animated:YES];
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {

@@ -11,7 +11,7 @@
 #import "DAO.h"
 @import FirebaseAuth;
 #import "NavigationManager.h"
-#import "ProjectPreviewCell.h"
+#import "ProjectCell.h"
 #import "Project.h"
 #import "ProjectBuilder.h"
 
@@ -20,7 +20,7 @@
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *projectArray;
+@property (nonatomic, strong) NSMutableArray *projectArray;
 
 @end
 
@@ -33,14 +33,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    // collection view layout
     
      UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
 
-    [_collectionView registerClass:[ProjectPreviewCell class] forCellWithReuseIdentifier:@"projectCell"];
+    [_collectionView registerClass:[ProjectCell class] forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor grayColor]];
 
     [self.view addSubview:_collectionView];
@@ -59,7 +59,7 @@
     DAO *dao = [[DAO alloc] init];
     [dao getAllProjectsWithCompletion:^(NSArray * _Nonnull projects, NSError * _Nonnull error) {
         if (projects) {
-            self.projectArray = projects;
+            self.projectArray = (NSMutableArray *) projects;
             
             __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -87,9 +87,8 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProjectPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
+    ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell" forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
-    NSLog(@"Getting cell with project name: %@", cell.project.name);
     return cell;
 }
 

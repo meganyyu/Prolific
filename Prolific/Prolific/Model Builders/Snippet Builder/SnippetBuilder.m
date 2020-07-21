@@ -8,16 +8,42 @@
 
 #import "SnippetBuilder.h"
 
+@import Firebase;
+
+static NSString *const kAuthorIdKey = @"authorId";
+static NSString *const kCreatedAtKey = @"createdAt";
+static NSString *const kTextKey = @"text";
+static NSString *const kVoteCountKey = @"voteCount";
+
 @implementation SnippetBuilder
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
-        _snippetId = @"testSnippetId";
-        _authorId = @"testAuthorId";
-        _createdAtDate = [NSDate date];
-        _text = @"";
+        _snippetId = nil;
+        _authorId = [FIRAuth auth].currentUser.uid;
+        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _text = nil;
+        _voteCount = [NSNumber numberWithInt:0];
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString *)snippetId dictionary:(NSDictionary *)data {
+    self = [self init];
+    
+    if (self) {
+        if (snippetId &&
+            [data objectForKey:kAuthorIdKey] &&
+            [data objectForKey:kCreatedAtKey] &&
+            [data objectForKey:kTextKey] &&
+            [data objectForKey:kVoteCountKey]) {
+            _snippetId = snippetId;
+            _authorId = data[kAuthorIdKey];
+            _createdAt = data[kCreatedAtKey];
+            _text = data[kTextKey];
+            _voteCount = data[kVoteCountKey];
+        }
     }
     return self;
 }
@@ -37,13 +63,22 @@
     return self;
 }
 
+- (SnippetBuilder *)withCreatedAt:(NSDate *)date {
+    _createdAt = date;
+    return self;
+}
+
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount {
     _voteCount = voteCount;
     return self;
 }
 
 - (Snippet *)build {
-    Snippet *snippet = [[Snippet alloc] initWithBuilder:self];
-    return snippet;
+    if (_snippetId && _authorId && _text && _createdAt && _voteCount) {
+        Snippet *snippet = [[Snippet alloc] initWithBuilder:self];
+        return snippet;
+    }
+    return nil;
 }
+
 @end

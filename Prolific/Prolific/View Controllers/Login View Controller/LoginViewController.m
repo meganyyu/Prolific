@@ -91,14 +91,12 @@ static NSString *const kPasswordKey = @"password";
     CGFloat const boundsWidth = CGRectGetWidth(bounds);
     CGFloat const boundsHeight = CGRectGetHeight(bounds);
     CGPoint const center = self.view.center;
-    NSLog(@"frameWidth: %f, frameHeight: %f, centerX: %f, centerY: %f", boundsWidth, boundsHeight, center.x, center.y);
     
     // login content view
     CGFloat const viewWidth = boundsWidth;
     CGFloat const viewHeight = boundsHeight * 0.5;
     CGFloat const viewX = center.x - viewWidth / 2;
     CGFloat const viewY = center.y - viewHeight / 2;
-    NSLog(@"viewWidth: %f, viewHeight: %f, viewX: %f, viewY: %f", viewWidth, viewHeight, viewX, viewY);
     _loginContentView.frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
 
     // email field
@@ -106,46 +104,39 @@ static NSString *const kPasswordKey = @"password";
     CGFloat const fieldHeight = (viewHeight * 0.75) / 5.0;
     CGFloat const emailFieldX = _loginContentView.center.x - fieldWidth / 2;
     CGFloat const emailFieldY = 0;
-    NSLog(@"fieldWidth: %f, fieldHeight: %f, emailFieldX: %f, emailFieldY: %f", fieldWidth, fieldHeight, emailFieldX, emailFieldY);
     _emailField.frame = CGRectMake(emailFieldX, emailFieldY, fieldWidth, fieldHeight);
     
     // password field
     CGFloat const passwordFieldX = emailFieldX;
     CGFloat const passwordFieldY = emailFieldY + fieldHeight;
-    NSLog(@"passwordFieldX: %f, passwordFieldY: %f", passwordFieldX, passwordFieldY);
     _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
     
     // error label
     CGFloat const errorLabelX = emailFieldX;
     CGFloat const errorLabelY = viewHeight - fieldHeight;
     _errorLabel.alpha = 0;
-    NSLog(@"errorLabelX: %f, errorLabelY: %f", errorLabelX, errorLabelY);
     _errorLabel.frame = CGRectMake(errorLabelX, errorLabelY, fieldWidth, fieldHeight);
     
     // register button
     CGFloat const registerButtonX = emailFieldX;
     CGFloat const registerButtonY = errorLabelY - fieldHeight - 10;
-    NSLog(@"registerButtonX: %f, registerButtonY: %f", registerButtonX, registerButtonY);
     _goToRegisterButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
     
     // login button
     CGFloat const loginButtonX = emailFieldX;
     CGFloat const loginButtonY = registerButtonY - fieldHeight - 10;
-    NSLog(@"loginButtonX: %f, loginButtonY: %f", loginButtonX, loginButtonY);
     _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions
 
 - (void)didTapLoginButton:(id)sender{
-    NSLog(@"Tapped login button");
     [self resignFields];
     
     [self loginUserWithEmail:_emailField.text password:_passwordField.text];
 }
 
 - (void)didTapGoToRegisterButton:(id)sender{
-    NSLog(@"Tapped goToRegister button, moving to registration screen");
     [self resignFields];
     
     [NavigationManager presentRegistrationScreenWithNavigationController:self.navigationController];
@@ -158,7 +149,6 @@ static NSString *const kPasswordKey = @"password";
     
     if (fieldEntryError) {
         [self showError:fieldEntryError];
-        NSLog(@"%@", fieldEntryError);
     } else {
         [self hideError];
         
@@ -170,12 +160,10 @@ static NSString *const kPasswordKey = @"password";
                                               NSError * _Nullable error) {
             if (!error) {
                 [self hideError];
-                NSLog(@"Logged into account successfully");
                 
                 [self authenticatedTransition];
             } else {
                 [self showError:error.localizedDescription];
-                NSLog(@"Account login failed: %@", error.localizedDescription);
             }
         }];
     }
@@ -196,7 +184,6 @@ static NSString *const kPasswordKey = @"password";
     if (_emailField.isFirstResponder || _passwordField.isFirstResponder) {
         [_emailField resignFirstResponder];
         [_passwordField resignFirstResponder];
-        NSLog(@"Resigned first responder for all fields");
     }
 }
 

@@ -22,14 +22,13 @@ NS_ASSUME_NONNULL_BEGIN
 // required (and immutable) attributes
 @property (nonatomic, strong, readonly) NSString *projectId;
 @property (nonatomic, strong, readonly) NSString *name;
+@property (nonatomic, strong, readonly) NSDate *createdAt;
 @property (nonatomic, strong, readonly) NSString *seed;
 
 // required (and mutable) attributes
 @property (nonatomic, readonly) BOOL isComplete;
-@property (nonatomic, strong, readonly) NSNumber *currentRound;
-
-// optional (and mutable) attributes
-@property (nonatomic, strong, readonly, nullable) NSMutableArray<Round *> *rounds;
+@property (nonatomic, strong, readonly) NSNumber *currentRound; //FIXME: may not need this property at all
+@property (nonatomic, strong) NSMutableArray<Round *> *rounds;
 
 #pragma mark - Methods
 

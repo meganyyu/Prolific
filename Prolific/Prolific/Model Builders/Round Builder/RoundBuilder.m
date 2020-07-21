@@ -8,13 +8,46 @@
 
 #import "RoundBuilder.h"
 
+@import Firebase;
+
+static NSString *const kCreatedAtKey = @"createdAt";
+static NSString *const kEndTimeKey = @"endTime";
+static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
+
 @implementation RoundBuilder
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        
+        _roundId = nil;
+        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _isComplete = NO;
+        _endTime = [FIRTimestamp timestamp].dateValue;
+        _submissions = [[NSMutableArray alloc] init];
+        _winningSnippetId = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString *)roundId
+                dictionary:(NSDictionary *)data
+               submissions:(NSMutableArray *)submissions {
+    self = [self init];
+    
+    if (self) {
+        if (roundId && submissions &&
+            [data objectForKey:kIsCompleteKey] &&
+            [data objectForKey:kCreatedAtKey] &&
+            [data objectForKey:kEndTimeKey]) {
+            _roundId = roundId;
+            _submissions = submissions;
+            _isComplete = data[kIsCompleteKey];
+        }
+        if ([data objectForKey:kWinningSnippetIdKey]) {
+            _winningSnippetId = data[kWinningSnippetIdKey];
+        }
     }
     return self;
 }
@@ -24,14 +57,37 @@
     return self;
 }
 
-- (RoundBuilder *)addSubmission:(Snippet *)snippet {
-    [_submissions addObject:snippet];
+- (RoundBuilder *)withCreatedAt:(NSDate *)createdAt {
+    _createdAt = createdAt;
+    return self;
+}
+
+- (RoundBuilder *)isComplete:(BOOL)value {
+    _isComplete = value;
+    return self;
+}
+
+- (RoundBuilder *)withEndTime:(NSDate *)endTime {
+    _endTime = endTime;
+    return self;
+}
+
+- (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions {
+    _submissions = submissions;
+    return self;
+}
+
+- (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId {
+    _winningSnippetId = winningSnippetId;
     return self;
 }
 
 - (Round *)build {
-    Round *round = [[Round alloc] initWithBuilder:self];
-    return round;
+    if (_roundId && _submissions && _createdAt && _endTime) {
+        Round *round = [[Round alloc] initWithBuilder:self];
+        return round;
+    }
+    return nil;
 }
 
 @end

@@ -8,6 +8,14 @@
 
 #import "ProjectBuilder.h"
 
+@import Firebase;
+
+static NSString *const kCreatedAtKey = @"createdAt";
+static NSString *const kCurrentRoundKey = @"currentRound";
+static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kNameKey = @"name";
+static NSString *const kSeedKey = @"seed";
+
 @implementation ProjectBuilder
 
 - (id)init
@@ -16,10 +24,35 @@
     if (self) {
         _projectId = nil;
         _name = nil;
+        _createdAt = [FIRTimestamp timestamp].dateValue;
         _seed = nil;
-        _currentRound = nil;
-        _isComplete = false;
-        _rounds = [[NSMutableArray alloc] init]; // FIXME: should initialize with a round already in it
+        _currentRound = [NSNumber numberWithInt:0];
+        _isComplete = NO;
+        _rounds = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString *)projectId
+                dictionary:(NSDictionary *)data
+                    rounds:(NSMutableArray *)rounds {
+    self = [self init];
+    
+    if (self) {
+        if (projectId && rounds &&
+            [data objectForKey:kNameKey] &&
+            [data objectForKey:kCreatedAtKey] &&
+            [data objectForKey:kSeedKey] &&
+            [data objectForKey:kCurrentRoundKey] &&
+            [data objectForKey:kIsCompleteKey]) {
+            _projectId = projectId;
+            _name = data[kNameKey];
+            _createdAt = data[kCreatedAtKey];
+            _seed = data[kSeedKey];
+            _currentRound = data[kCurrentRoundKey];
+            _isComplete = data[kIsCompleteKey];
+            _rounds = rounds;
+        }
     }
     return self;
 }
@@ -34,12 +67,17 @@
     return self;
 }
 
+- (ProjectBuilder *)withCreatedAt:(NSDate *)createdAt {
+    _createdAt = createdAt;
+    return self;
+}
+
 - (ProjectBuilder *)withSeed:(NSString *)seed {
     _seed = seed;
     return self;
 }
 
-- (ProjectBuilder *)withCurrentRound:(NSNumber *)roundNumber {
+- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber {
     _currentRound = roundNumber;
     return self;
 }
@@ -49,13 +87,13 @@
     return self;
 }
 
-- (ProjectBuilder *)addRound:(Round *)round {
-    [_rounds addObject:round];
+- (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds {
+    _rounds = rounds;
     return self;
 }
 
 - (Project *)build {
-    if (_projectId && _name && _seed && _currentRound) {
+    if (_projectId && _name && _createdAt && _seed && _currentRound && _rounds) {
         Project *proj = [[Project alloc] initWithBuilder:self];
         return proj;
     }
