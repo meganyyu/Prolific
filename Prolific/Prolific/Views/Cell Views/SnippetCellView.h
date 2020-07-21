@@ -1,5 +1,5 @@
 //
-//  ProjectCellView.h
+//  SnippetCellView.h
 //  Prolific
 //
 //  Created by meganyu on 7/20/20.
@@ -10,10 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ProjectCellView : UIView
+@interface SnippetCellView : UIView
 
-@property (nonatomic, strong) UILabel *nameLabel;
+@property (nonatomic, strong) UIImage *profileImage;
+@property (nonatomic, strong) UILabel *usernameLabel;
 @property (nonatomic, strong) UILabel *seedContentLabel;
+@property (nonatomic, strong) UILabel *voteCountLabel;
 
 @end
 

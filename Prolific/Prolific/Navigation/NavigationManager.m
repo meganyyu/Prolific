@@ -13,8 +13,8 @@
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
 #import "RegisterViewController.h"
-#import "SubmissionViewController.h"
-#import "RoundSubmissionsViewController.h"
+#import "ComposeSnippetViewController.h"
+#import "SubmissionsViewController.h"
 #import "ProjectDetailsViewController.h"
 
 @implementation NavigationManager
@@ -44,18 +44,18 @@
     [navController pushViewController:projectDetailsViewController animated:YES];
 }
 
-+ (void)presentSubmissionViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
-    SubmissionViewController *const submissionViewController = [[SubmissionViewController alloc] init];
-    submissionViewController.round = round;
-    submissionViewController.projectId = projectId;
-    [navController pushViewController:submissionViewController animated:YES];
++ (void)presentComposeSnippetViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
+    ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] init];
+    composeSnippetViewController.round = round;
+    composeSnippetViewController.projectId = projectId;
+    [navController pushViewController:composeSnippetViewController animated:YES];
 }
 
-+ (void)presentRoundSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
-    RoundSubmissionsViewController *const roundSubmissionsViewController = [[RoundSubmissionsViewController alloc] init];
-    roundSubmissionsViewController.round = round;
-    roundSubmissionsViewController.projectId = projectId;
-    [navController pushViewController:roundSubmissionsViewController animated:YES];
++ (void)presentSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
+    SubmissionsViewController *const submissionsViewController = [[SubmissionsViewController alloc] init];
+    submissionsViewController.round = round;
+    submissionsViewController.projectId = projectId;
+    [navController pushViewController:submissionsViewController animated:YES];
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {

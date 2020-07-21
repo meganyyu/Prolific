@@ -10,11 +10,11 @@
 
 #import "DAO.h"
 #import "NavigationManager.h"
-#import "SubmissionViewController.h"
+#import "ComposeSnippetViewController.h"
 
 #pragma mark - Interface
 
-@interface ProjectDetailsViewController () <SubmissionViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface ProjectDetailsViewController () <ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIView *projectView;
@@ -142,7 +142,7 @@
     int latestRoundNumber = (int) _project.rounds.count - 1;
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
-        [NavigationManager presentSubmissionViewControllerForRound:currentRound
+        [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
                                                          projectId:_project.projectId
                                               navigationController:self.navigationController];
     } else {
@@ -154,7 +154,7 @@
     int latestRoundNumber = (int) _project.rounds.count - 1;
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
-        [NavigationManager presentRoundSubmissionsViewControllerForRound:currentRound
+        [NavigationManager presentSubmissionsViewControllerForRound:currentRound
                                                         projectId:_project.projectId
                                                     navigationController:self.navigationController];
     } else {
@@ -162,7 +162,7 @@
     }
 }
 
-#pragma mark - SubmissionViewControllerDelegate Protocol
+#pragma mark - ComposeSnippetViewControllerDelegate Protocol
 
 - (void)didSubmit:(Snippet *)snippet round:(Round *)round {
     int latestRoundNumber = (int) _project.rounds.count - 1;

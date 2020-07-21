@@ -1,5 +1,5 @@
 //
-//  RoundSubmissionsViewController.h
+//  SubmissionsViewController.h
 //  Prolific
 //
 //  Created by meganyu on 7/20/20.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RoundSubmissionsViewController : ProlificBaseViewController
+@interface SubmissionsViewController : ProlificBaseViewController
 
 @property (nonatomic, strong) NSString *projectId;
 @property (nonatomic, strong) Round *round;

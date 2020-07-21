@@ -1,26 +1,26 @@
 //
-//  RoundSubmissionsViewController.m
+//  SubmissionsViewController.m
 //  Prolific
 //
 //  Created by meganyu on 7/20/20.
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import "RoundSubmissionsViewController.h"
+#import "SubmissionsViewController.h"
 
 @import FirebaseAuth;
 #import "DAO.h"
 #import "NavigationManager.h"
 
-@interface RoundSubmissionsViewController ()
+@interface SubmissionsViewController ()
 
-@property (nonatomic, strong) UIView *submissionView;
+@property (nonatomic, strong) UIView *submissionsView;
 
 @property (nonatomic, strong) DAO *dao;
 
 @end
 
-@implementation RoundSubmissionsViewController
+@implementation SubmissionsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,9 +36,9 @@
                                                                   action:@selector(onTapBack:)];
     self.navigationItem.leftBarButtonItem = backButton;
     
-    _submissionView = [[UIView alloc] init];
-    _submissionView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:_submissionView];
+    _submissionsView = [[UIView alloc] init];
+    _submissionsView.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:_submissionsView];
     
     [self refreshData];
 }
@@ -51,7 +51,7 @@
     CGFloat const boundsHeight = CGRectGetHeight(bounds);
     
     // submission view
-    _submissionView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
+    _submissionsView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
 }
 
 #pragma mark - Load submissions

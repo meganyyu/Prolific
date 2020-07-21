@@ -1,5 +1,5 @@
 //
-//  SubmissionViewController.h
+//  ComposeSnippetViewController.h
 //  Prolific
 //
 //  Created by meganyu on 7/17/20.
@@ -13,17 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol SubmissionViewControllerDelegate
+@protocol ComposeSnippetViewControllerDelegate
 
 - (void)didSubmit:(Snippet *)snippet round:(Round *)round;
 
 @end
 
-@interface SubmissionViewController : ProlificBaseViewController
+@interface ComposeSnippetViewController : ProlificBaseViewController
 
 @property (nonatomic, strong) NSString *projectId;
 @property (nonatomic, strong) Round *round;
-@property (nonatomic, weak) id<SubmissionViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ComposeSnippetViewControllerDelegate> delegate;
 
 @end
 
