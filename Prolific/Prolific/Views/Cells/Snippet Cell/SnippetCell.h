@@ -8,9 +8,22 @@
 
 #import "BaseCell.h"
 
+#import "Snippet.h"
+#import "SnippetCellView.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol SnippetCellDelegate;
+
 @interface SnippetCell : BaseCell
+
+@property (nonatomic, strong) Snippet *snippet;
+@property (nonatomic, strong) SnippetCellView *cellView;
+@property (nonatomic, weak) id<SnippetCellDelegate> delegate;
+
+@end
+
+@protocol SnippetCellDelegate
 
 @end
 

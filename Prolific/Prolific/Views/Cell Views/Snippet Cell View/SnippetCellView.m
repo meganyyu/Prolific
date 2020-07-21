@@ -23,7 +23,7 @@
     // project name label
     _usernameLabel = [[UILabel alloc] init];
     _usernameLabel.textColor = [UIColor blackColor];
-    _usernameLabel.numberOfLines = 0;
+    _usernameLabel.numberOfLines = 1;
     CGFloat const nameLabelHeight = 0.2 * boundsHeight;
     CGFloat const nameLabelY = 0.05 * boundsHeight;
     _usernameLabel.frame = CGRectMake(labelX, nameLabelY, labelWidth, nameLabelHeight);
@@ -33,10 +33,21 @@
     _seedContentLabel = [[UILabel alloc] init];
     _seedContentLabel.textColor = [UIColor blackColor];
     _seedContentLabel.numberOfLines = 0;
-    CGFloat const seedContentLabelHeight = 0.6 * boundsHeight;
+    CGFloat const seedContentLabelHeight = 0.5 * boundsHeight;
     CGFloat const seedContentLabelY = nameLabelHeight + 0.05 * boundsHeight;
     _seedContentLabel.frame = CGRectMake(labelX, seedContentLabelY, labelWidth, seedContentLabelHeight);
     [self addSubview:_seedContentLabel];
+    
+    // vote count label
+    _voteCountLabel = [[UILabel alloc] init];
+    _voteCountLabel.textColor = [UIColor blackColor];
+    _voteCountLabel.numberOfLines = 1;
+    CGFloat const voteCountLabelHeight = 0.2 * boundsHeight;
+    CGFloat const voteCountLabelWidth = 0.3 * boundsWidth;
+    CGFloat const voteCountLabelX = boundsWidth - voteCountLabelWidth;
+    CGFloat const voteCountLabelY = boundsHeight - 0.05 * boundsHeight;
+    _seedContentLabel.frame = CGRectMake(voteCountLabelX, voteCountLabelY, voteCountLabelWidth, voteCountLabelHeight);
+    [self addSubview:_voteCountLabel];
 }
 
 @end

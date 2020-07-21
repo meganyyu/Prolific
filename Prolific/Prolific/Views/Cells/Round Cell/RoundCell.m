@@ -10,4 +10,10 @@
 
 @implementation RoundCell
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    // TODO: add other labels to Round cell
+}
+
 @end

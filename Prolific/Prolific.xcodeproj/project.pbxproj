@@ -466,6 +466,8 @@
 		7191117124BD046600070A32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				71CF521324C743A8008DB4EF /* Text Fields */,
+				71CF521224C743A1008DB4EF /* Labels */,
 				71CF520324C66C97008DB4EF /* Cell Views */,
 				7188D84F24C651FF00E50876 /* Cells */,
 			);
@@ -529,14 +531,52 @@
 		71CF520324C66C97008DB4EF /* Cell Views */ = {
 			isa = PBXGroup;
 			children = (
+				71CF520B24C74262008DB4EF /* Base Cell View */,
+				71CF520D24C74276008DB4EF /* Snippet Cell View */,
+				71CF520C24C7426F008DB4EF /* Project Cell View */,
+			);
+			path = "Cell Views";
+			sourceTree = "<group>";
+		};
+		71CF520B24C74262008DB4EF /* Base Cell View */ = {
+			isa = PBXGroup;
+			children = (
 				71CF520424C66CC9008DB4EF /* BaseCellView.h */,
 				71CF520524C66CC9008DB4EF /* BaseCellView.m */,
+			);
+			path = "Base Cell View";
+			sourceTree = "<group>";
+		};
+		71CF520C24C7426F008DB4EF /* Project Cell View */ = {
+			isa = PBXGroup;
+			children = (
 				7188D85924C655AB00E50876 /* ProjectCellView.h */,
 				7188D85A24C655AB00E50876 /* ProjectCellView.m */,
+			);
+			path = "Project Cell View";
+			sourceTree = "<group>";
+		};
+		71CF520D24C74276008DB4EF /* Snippet Cell View */ = {
+			isa = PBXGroup;
+			children = (
 				71CF520724C66CF8008DB4EF /* SnippetCellView.h */,
 				71CF520824C66CF8008DB4EF /* SnippetCellView.m */,
 			);
-			path = "Cell Views";
+			path = "Snippet Cell View";
+			sourceTree = "<group>";
+		};
+		71CF521224C743A1008DB4EF /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Labels;
+			sourceTree = "<group>";
+		};
+		71CF521324C743A8008DB4EF /* Text Fields */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Text Fields";
 			sourceTree = "<group>";
 		};
 		FF52A583CD9670382704644A /* Frameworks */ = {
