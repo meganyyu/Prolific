@@ -8,6 +8,8 @@
 
 #import "ProlificBaseViewController.h"
 
+#import "UIColor+ProlificColors.h"
+
 @interface ProlificBaseViewController ()
 
 @end
@@ -17,12 +19,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor ProlificBackgroundGrayColor];
     
     UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
     //[appearance configureWithOpaqueBackground];
     [appearance setBackgroundColor:[UIColor whiteColor]];
-    [appearance setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor lightTextColor]}];
+    [appearance setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor ProlificPrimaryBlueColor]}];
     
     self.navigationItem.standardAppearance = appearance;
     self.navigationItem.scrollEdgeAppearance = appearance;

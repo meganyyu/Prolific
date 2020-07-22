@@ -8,6 +8,8 @@
 
 #import "CountLabel.h"
 
+#import "UIColor+ProlificColors.h"
+
 @implementation CountLabel
 
 - (instancetype)init
@@ -18,7 +20,7 @@
         newFrame.size = CGSizeMake(30, 25);
         self.frame = newFrame;
         
-        self.textColor = [UIColor systemIndigoColor];
+        self.textColor = [UIColor ProlificPrimaryBlueColor];
         self.numberOfLines = 1;
         self.font = [self.font fontWithSize:12];
     }

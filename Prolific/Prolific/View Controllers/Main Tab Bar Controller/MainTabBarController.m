@@ -10,6 +10,7 @@
 
 #import "HomeViewController.h"
 #import "FavoritesViewController.h"
+#import "UIColor+ProlificColors.h"
 
 #pragma mark - Interface
 
@@ -55,11 +56,11 @@
 }
 
 - (void)setTabBarItemColors:(UITabBarItemAppearance *)itemAppearance {
-    itemAppearance.normal.iconColor = [UIColor lightGrayColor];
-    [itemAppearance.normal setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    itemAppearance.normal.iconColor = [UIColor ProlificGray1Color];
+    [itemAppearance.normal setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor ProlificGray1Color]}];
     
-    itemAppearance.selected.iconColor = [UIColor greenColor];
-    [itemAppearance.selected setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor greenColor]}];
+    itemAppearance.selected.iconColor = [UIColor ProlificPrimaryBlueColor];
+    [itemAppearance.selected setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor ProlificPrimaryBlueColor]}];
 }
 
 @end
