@@ -9,11 +9,11 @@
 #import "RegisterViewController.h"
 
 #import "DAO.h"
-
 @import FirebaseAuth;
 @import FirebaseFirestore;
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
+#import "UIColor+ProlificColors.h"
 #import "User.h"
 
 static NSString *const kDisplayNameKey = @"displayName";
@@ -78,16 +78,17 @@ static NSString *const kUsernameKey = @"username";
     [_registerContentView addSubview:_passwordField];
     
     _registerButton = [[UIButton alloc] init];
-    _registerButton.backgroundColor = [UIColor blueColor];
+    _registerButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
     [_registerButton setTitle:@"Sign Up" forState:normal];
     _registerButton.tintColor = [UIColor whiteColor];
     _registerButton.layer.cornerRadius = 5;
     _registerButton.clipsToBounds = YES;
     [_registerContentView addSubview:_registerButton];
-    [_registerButton addTarget:self action:@selector(didTapRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_registerButton addTarget:self action:@selector(didTapRegisterButton:)
+              forControlEvents:UIControlEventTouchUpInside];
     
     _returnToLoginButton = [[UIButton alloc] init];
-    _returnToLoginButton.backgroundColor = [UIColor systemRedColor];
+    _returnToLoginButton.backgroundColor = [UIColor ProlificRedColor];
     [_returnToLoginButton setTitle:@"Cancel" forState:normal];
     _returnToLoginButton.tintColor = [UIColor whiteColor];
     _returnToLoginButton.layer.cornerRadius = 5;
@@ -96,7 +97,7 @@ static NSString *const kUsernameKey = @"username";
     [_returnToLoginButton addTarget:self action:@selector(didTapReturnToLoginButton:) forControlEvents:UIControlEventTouchUpInside];
     
     _errorLabel = [[UILabel alloc] init];
-    _errorLabel.textColor = [UIColor redColor];
+    _errorLabel.textColor = [UIColor ProlificRedColor];
     _errorLabel.numberOfLines = 0;
     [_registerContentView addSubview:_errorLabel];
 }

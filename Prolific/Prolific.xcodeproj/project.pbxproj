@@ -47,6 +47,7 @@
 		71CF521824C7787B008DB4EF /* CountLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF521724C7787B008DB4EF /* CountLabel.m */; };
 		71CF521C24C77D14008DB4EF /* VoteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF521B24C77D14008DB4EF /* VoteButton.m */; };
 		71CF521D24C7A32A008DB4EF /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 713AA08A24C0E1E000A5950E /* DAO.m */; };
+		71CF522124C891F5008DB4EF /* UIColor+ProlificColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF522024C891F5008DB4EF /* UIColor+ProlificColors.m */; };
 		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
 		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
@@ -145,6 +146,8 @@
 		71CF521724C7787B008DB4EF /* CountLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CountLabel.m; sourceTree = "<group>"; };
 		71CF521A24C77D14008DB4EF /* VoteButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VoteButton.h; sourceTree = "<group>"; };
 		71CF521B24C77D14008DB4EF /* VoteButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoteButton.m; sourceTree = "<group>"; };
+		71CF521F24C891F5008DB4EF /* UIColor+ProlificColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+ProlificColors.h"; sourceTree = "<group>"; };
+		71CF522024C891F5008DB4EF /* UIColor+ProlificColors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ProlificColors.m"; sourceTree = "<group>"; };
 		857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.release.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.release.xcconfig"; sourceTree = "<group>"; };
 		895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.debug.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -599,10 +602,20 @@
 		71CF521924C779B2008DB4EF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				71CF521E24C89198008DB4EF /* Color Scheme */,
 				713AA08824C0E0E600A5950E /* Persistence */,
 				7191116F24BD044D00070A32 /* Navigation */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		71CF521E24C89198008DB4EF /* Color Scheme */ = {
+			isa = PBXGroup;
+			children = (
+				71CF521F24C891F5008DB4EF /* UIColor+ProlificColors.h */,
+				71CF522024C891F5008DB4EF /* UIColor+ProlificColors.m */,
+			);
+			path = "Color Scheme";
 			sourceTree = "<group>";
 		};
 		FF52A583CD9670382704644A /* Frameworks */ = {
@@ -883,6 +896,7 @@
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,
 				7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */,
+				71CF522124C891F5008DB4EF /* UIColor+ProlificColors.m in Sources */,
 				7118C3F624BF607D005E1816 /* Snippet.m in Sources */,
 				714D1F8124C25D2D00749291 /* ComposeSnippetViewController.m in Sources */,
 				7188D85B24C655AB00E50876 /* ProjectCellView.m in Sources */,

@@ -12,12 +12,14 @@
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "SnippetBuilder.h"
+#import "UIColor+ProlificColors.h"
 
 @interface ComposeSnippetViewController ()
 
 @property (nonatomic, strong) UIView *composeView;
 @property (nonatomic, strong) UITextView *composeTextView;
 @property (nonatomic, strong) UIButton *submitButton;
+@property (nonatomic, strong) DAO *dao;
 
 @end
 
@@ -26,17 +28,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    _dao = [[DAO alloc] init];
     
     self.navigationItem.title = @"Project Details";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
-                                                                   style:UIBarButtonItemStylePlain
-                                                                  target:self
-                                                                  action:@selector(onTapBack:)];
-    self.navigationItem.leftBarButtonItem = backButton;
+    UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    backButton.frame = CGRectMake(0, 0, 20, 20);
+    [backButton setImage:[UIImage imageNamed:@"back_arrow_icon"]
+                forState:UIControlStateNormal];
+    [backButton addTarget:self
+                 action:@selector(onTapBack:)
+       forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     _composeView = [[UIView alloc] init];
-    _composeView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:_composeView];
     
     _composeTextView = [[UITextView alloc] init];
@@ -45,10 +49,11 @@
     [_composeView addSubview:_composeTextView];
     
     _submitButton = [[UIButton alloc] init];
-    _submitButton.backgroundColor = [UIColor blueColor];
+    _submitButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
+    _submitButton.titleLabel.textColor = [UIColor whiteColor];
     [_submitButton setTitle:@"Submit!" forState:normal];
-    [_submitButton addTarget:self action:@selector(onTapSubmit:) forControlEvents:UIControlEventTouchUpInside];
-    _submitButton.tintColor = [UIColor whiteColor];
+    [_submitButton addTarget:self action:@selector(onTapSubmit:)
+            forControlEvents:UIControlEventTouchUpInside];
     [_composeView addSubview:_submitButton];
     
 }
@@ -107,10 +112,9 @@
 #pragma mark - Snippet submission
 
 - (void)submitSnippetWithCompletion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion {
-    DAO *const dao = [[DAO alloc] init];
     SnippetBuilder *const snippetBuilder = [[[SnippetBuilder alloc] init]
                                              withText:_composeTextView.text];
-    [dao submitSnippetWithBuilder:snippetBuilder
+    [_dao submitSnippetWithBuilder:snippetBuilder
                      forProjectId:_projectId
                          forRound: _round
                        completion:^(Snippet *snippet, Round *round, NSError *error) {

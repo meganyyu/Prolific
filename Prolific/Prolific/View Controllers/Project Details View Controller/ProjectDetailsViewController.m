@@ -12,6 +12,7 @@
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
 #import "RoundCell.h"
+#import "UIColor+ProlificColors.h"
 
 #pragma mark - Interface
 
@@ -41,23 +42,26 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"Project Details";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
-                                                                   style:UIBarButtonItemStylePlain
-                                                                  target:self
-                                                                  action:@selector(onTapBack:)];
-    self.navigationItem.leftBarButtonItem = backButton;
+    UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    backButton.frame = CGRectMake(0, 0, 20, 20);
+    [backButton setImage:[UIImage imageNamed:@"back_arrow_icon"]
+                forState:UIControlStateNormal];
+    [backButton addTarget:self
+                 action:@selector(onTapBack:)
+       forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    //[_collectionView registerClass:[RoundCell class] forCellWithReuseIdentifier:@"roundCell"];
-    [_collectionView setBackgroundColor:[UIColor grayColor]];
+    [_collectionView registerClass:[RoundCell class]
+        forCellWithReuseIdentifier:@"roundCell"];
+    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
     
     // TODO: turn into collection view
     
     _projectView = [[UIView alloc] init];
-    _projectView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_projectView];
     
     _nameLabel = [[UILabel alloc] init];
@@ -71,17 +75,22 @@
     [_projectView addSubview:_seedContentLabel];
     
     _composeButton = [[UIButton alloc] init];
-    _composeButton.backgroundColor = [UIColor lightGrayColor];
-    [_composeButton setTitle:@"Submit a snippet!" forState:normal];
-    [_composeButton addTarget:self action:@selector(onTapCompose:) forControlEvents:UIControlEventTouchUpInside];
+    _composeButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
     _composeButton.tintColor = [UIColor whiteColor];
+    [_composeButton setTitle:@"Submit a snippet!" forState:normal];
+    [_composeButton addTarget:self
+                       action:@selector(onTapCompose:)
+             forControlEvents:UIControlEventTouchUpInside];
     [_projectView addSubview:_composeButton];
     
     _previewButton = [[UIButton alloc] init];
-    _previewButton.backgroundColor = [UIColor lightGrayColor];
-    [_previewButton setTitle:@"See submitted snippets for latest round" forState:normal];
-    [_previewButton addTarget:self action:@selector(onTapPreview:) forControlEvents:UIControlEventTouchUpInside];
+    _previewButton.backgroundColor = [UIColor ProlificGray2Color];
     _previewButton.tintColor = [UIColor whiteColor];
+    [_previewButton setTitle:@"See submitted snippets for latest round"
+                    forState:normal];
+    [_previewButton addTarget:self
+                       action:@selector(onTapPreview:)
+             forControlEvents:UIControlEventTouchUpInside];
     [_projectView addSubview:_previewButton];
     
     [self refreshData];
@@ -124,7 +133,8 @@
     _nameLabel.text = _project.name;
     _seedContentLabel.text = _project.seed;
     
-    [_dao getAllRoundsForProjectId:_project.projectId completion:^(NSMutableArray * _Nonnull rounds, NSError * _Nonnull error) {
+    [_dao getAllRoundsForProjectId:_project.projectId
+                        completion:^(NSMutableArray * _Nonnull rounds, NSError * _Nonnull error) {
         if (rounds) {
             self.project.rounds = rounds;
         } else {
@@ -144,8 +154,8 @@
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
         [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
-                                                         projectId:_project.projectId
-                                              navigationController:self.navigationController];
+                                                             projectId:_project.projectId
+                                                  navigationController:self.navigationController];
     } else {
         NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
     }
@@ -156,8 +166,8 @@
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
         [NavigationManager presentSubmissionsViewControllerForRound:currentRound
-                                                        projectId:_project.projectId
-                                                    navigationController:self.navigationController];
+                                                          projectId:_project.projectId
+                                               navigationController:self.navigationController];
     } else {
         NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
     }
@@ -165,18 +175,21 @@
 
 #pragma mark - ComposeSnippetViewControllerDelegate Protocol
 
-- (void)didSubmit:(Snippet *)snippet round:(Round *)round {
+- (void)didSubmit:(Snippet *)snippet
+            round:(Round *)round {
     int latestRoundNumber = (int) _project.rounds.count - 1;
     latestRoundNumber >= 0 ? _project.rounds[latestRoundNumber] = round : NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
 
-- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView
+                                   cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     return nil;
 }
 
-- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
     return 0;
 }
 
