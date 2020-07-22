@@ -13,7 +13,9 @@
 #import "NavigationManager.h"
 #import "SnippetCell.h"
 
-@interface SubmissionsViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+#pragma mark - Interface
+
+@interface SubmissionsViewController () <SnippetCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
@@ -21,7 +23,11 @@
 
 @end
 
+#pragma mark Implementation
+
 @implementation SubmissionsViewController
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -83,6 +89,20 @@
     [NavigationManager exitTopViewController:self.navigationController];
 }
 
+#pragma mark - SnippetCellDelegate Protocol
+
+- (void)didVote:(Snippet *)snippet {
+    [_dao updateExistingSnippet:snippet
+                   forProjectId:_projectId
+                       forRound:_round
+                     completion:^(NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"undoing vote on local model due to an error updating firebase with vote: %@", error.localizedDescription);
+            [snippet updateCurrentUserVote];
+        }
+    }];
+}
+
 #pragma mark - UICollectionViewDataSource Protocol
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -92,6 +112,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SnippetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"snippetCell" forIndexPath:indexPath];
     cell.snippet = _snippetArray[indexPath.item];
+    cell.delegate = self;
     return cell;
 }
 

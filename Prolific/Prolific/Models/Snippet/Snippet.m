@@ -30,6 +30,7 @@
 
 - (void)updateCurrentUserVote {
     _userVoted = !_userVoted;
+    _voteCount = [NSNumber numberWithInt:[_voteCount intValue] + (_userVoted ? 1 : -1)];
 }
 
 @end

@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol SnippetCellDelegate
 
+- (void)didVote:(Snippet *)snippet;
+
 @end
 
 NS_ASSUME_NONNULL_END

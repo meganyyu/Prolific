@@ -8,7 +8,13 @@
 
 #import "SnippetCell.h"
 
+#import "DAO.h"
+
+#pragma mark - Implementation
+
 @implementation SnippetCell
+
+#pragma mark - Setup
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -30,8 +36,11 @@
                    forControlEvents:UIControlEventTouchUpInside];
 }
 
+#pragma mark - User actions
+
 - (void)onTapVote:(id)sender {
-    NSLog(@"tapped vote");
+    [_snippet updateCurrentUserVote];
+    [self.delegate didVote:_snippet];
 }
 
 @end
