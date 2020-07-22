@@ -8,8 +8,8 @@
 
 #import "VoteButton.h"
 
-static NSString *const kTappedVoteIconKey = @"tapped_vote_icon";
-static NSString *const kUntappedVoteIconKey = @"untapped_vote_icon";
+static NSString *const kTappedVoteIconID = @"tapped_vote_icon";
+static NSString *const kUntappedVoteIconID = @"untapped_vote_icon";
 
 @implementation VoteButton
 
@@ -21,8 +21,8 @@ static NSString *const kUntappedVoteIconKey = @"untapped_vote_icon";
         newFrame.size = CGSizeMake(15, 15);
         self.frame = newFrame;
         
-        [self setImage:[UIImage imageNamed:kUntappedVoteIconKey]
-        forState:normal];
+        [self setImage:[UIImage imageNamed:kUntappedVoteIconID]
+              forState:normal];
     }
     return self;
 }

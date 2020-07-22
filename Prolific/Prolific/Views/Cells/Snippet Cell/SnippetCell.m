@@ -12,6 +12,9 @@
 
 #pragma mark - Implementation
 
+static NSString *const kTappedVoteIconID = @"tapped_vote_icon";
+static NSString *const kUntappedVoteIconID = @"untapped_vote_icon";
+
 @implementation SnippetCell
 
 #pragma mark - Setup
@@ -41,6 +44,11 @@
 - (void)onTapVote:(id)sender {
     [_snippet updateCurrentUserVote];
     [self.delegate didVote:_snippet];
+    
+    UIImage *const voteIcon = [UIImage imageNamed:(_snippet.userVoted ? kTappedVoteIconID : kUntappedVoteIconID)];
+    [_cellView.voteButton setImage:voteIcon
+                          forState:UIControlStateNormal];
+    _cellView.voteCountLabel.text = [_snippet.voteCount stringValue];
 }
 
 @end
