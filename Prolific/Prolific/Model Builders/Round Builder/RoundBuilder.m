@@ -38,12 +38,10 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     if (self) {
         if (roundId && submissions &&
-            [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
-            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
-            [[data objectForKey:kEndTimeKey] isKindOfClass:[FIRTimestamp class]]) {
+            [self validateRequiredDictionaryData:data]) {
             _roundId = roundId;
             _submissions = submissions;
-            _isComplete = data[kIsCompleteKey];
+            _isComplete = [data[kIsCompleteKey] boolValue];
             _createdAt = data[kCreatedAtKey];
             _endTime = data[kEndTimeKey];
         }
@@ -90,6 +88,22 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         return round;
     }
     return nil;
+}
+
+#pragma mark - Helper functions
+
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
+    [self isBoolNumber:[data objectForKey:kIsCompleteKey]] &&
+    [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+    [[data objectForKey:kEndTimeKey] isKindOfClass:[FIRTimestamp class]];
+}
+
+- (BOOL)isBoolNumber:(NSNumber *)num
+{
+   CFTypeID boolID = CFBooleanGetTypeID(); // the type ID of CFBoolean
+   CFTypeID numID = CFGetTypeID((__bridge CFTypeRef)(num)); // the type ID of num
+   return numID == boolID;
 }
 
 @end

@@ -40,11 +40,7 @@ static NSString *const kSeedKey = @"seed";
     
     if (self) {
         if (projectId && rounds &&
-            [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
-            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
-            [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
-            [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
-            [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]]) {
+            [self validateRequiredDictionaryData:data]) {
             _projectId = projectId;
             _rounds = rounds;
             _name = data[kNameKey];
@@ -98,6 +94,24 @@ static NSString *const kSeedKey = @"seed";
         return proj;
     }
     return nil;
+}
+
+#pragma mark - Helper functions
+
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+    [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
+    [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
+    [self isBoolNumber:[data objectForKey:kIsCompleteKey]];
+}
+
+- (BOOL)isBoolNumber:(NSNumber *)num
+{
+   CFTypeID boolID = CFBooleanGetTypeID();
+   CFTypeID numID = CFGetTypeID((__bridge CFTypeRef)(num));
+   return numID == boolID;
 }
 
 @end
