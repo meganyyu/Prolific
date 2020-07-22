@@ -36,19 +36,20 @@ static NSString *const kUserVotesKey = @"userVotes";
     
     if (self) {
         if (snippetId &&
-            [data objectForKey:kAuthorIdKey] &&
-            [data objectForKey:kCreatedAtKey] &&
-            [data objectForKey:kTextKey] &&
-            [data objectForKey:kVoteCountKey] &&
-            [data objectForKey:kUserVotesKey]) {
+            [[data objectForKey:kAuthorIdKey] isKindOfClass:[NSString class]] &&
+            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+            [[data objectForKey:kTextKey] isKindOfClass:[NSString class]] &&
+            [[data objectForKey:kVoteCountKey] isKindOfClass:[NSNumber class]]) {
             _snippetId = snippetId;
             _authorId = data[kAuthorIdKey];
             _createdAt = data[kCreatedAtKey];
             _text = data[kTextKey];
             _voteCount = data[kVoteCountKey];
             
-            NSString *const currUserId = [FIRAuth auth].currentUser.uid;
-            _userVoted = [data[kUserVotesKey] containsObject:currUserId];
+            if ([[data objectForKey:kUserVotesKey] isKindOfClass:[NSArray class]]) {
+                NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+                _userVoted = [data[kUserVotesKey] containsObject:currUserId];
+            }
         }
     }
     return self;

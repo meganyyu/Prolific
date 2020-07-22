@@ -11,6 +11,7 @@
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
+#import "RoundCell.h"
 
 #pragma mark - Interface
 
@@ -48,7 +49,7 @@
     
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    //[_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
+    //[_collectionView registerClass:[RoundCell class] forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView setBackgroundColor:[UIColor grayColor]];
     
     [self.view addSubview:_collectionView];

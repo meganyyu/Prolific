@@ -38,14 +38,16 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     if (self) {
         if (roundId && submissions &&
-            [data objectForKey:kIsCompleteKey] &&
-            [data objectForKey:kCreatedAtKey] &&
-            [data objectForKey:kEndTimeKey]) {
+            [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
+            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+            [[data objectForKey:kEndTimeKey] isKindOfClass:[FIRTimestamp class]]) {
             _roundId = roundId;
             _submissions = submissions;
             _isComplete = data[kIsCompleteKey];
+            _createdAt = data[kCreatedAtKey];
+            _endTime = data[kEndTimeKey];
         }
-        if ([data objectForKey:kWinningSnippetIdKey]) {
+        if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
             _winningSnippetId = data[kWinningSnippetIdKey];
         }
     }

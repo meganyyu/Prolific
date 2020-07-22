@@ -23,8 +23,6 @@ static NSString *const kUntappedVoteIconKey = @"untapped_vote_icon";
         
         [self setImage:[UIImage imageNamed:kUntappedVoteIconKey]
         forState:normal];
-        
-        NSLog(@"made it to  votebutton's init");
     }
     return self;
 }

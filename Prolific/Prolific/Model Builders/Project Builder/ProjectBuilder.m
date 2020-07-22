@@ -40,18 +40,18 @@ static NSString *const kSeedKey = @"seed";
     
     if (self) {
         if (projectId && rounds &&
-            [data objectForKey:kNameKey] &&
-            [data objectForKey:kCreatedAtKey] &&
-            [data objectForKey:kSeedKey] &&
-            [data objectForKey:kCurrentRoundKey] &&
-            [data objectForKey:kIsCompleteKey]) {
+            [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
+            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+            [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
+            [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
+            [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]]) {
             _projectId = projectId;
+            _rounds = rounds;
             _name = data[kNameKey];
             _createdAt = data[kCreatedAtKey];
             _seed = data[kSeedKey];
             _currentRound = data[kCurrentRoundKey];
             _isComplete = data[kIsCompleteKey];
-            _rounds = rounds;
         }
     }
     return self;

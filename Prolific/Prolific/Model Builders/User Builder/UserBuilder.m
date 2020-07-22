@@ -33,6 +33,7 @@
 }
 
 - (UserBuilder *)withEmail:(NSString *)email {
+    // TODO: add validation to check that email is a valid format
     _email = email;
     return self;
 }
