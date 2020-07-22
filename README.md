@@ -85,7 +85,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 *Sprint 2*
 - [x] Before a "winning" snippet is chosen, user can tap the latest snippet in a project to view the snippets that have been submitted for a round
-- [ ] User can vote on a submitted snippet to indicate which one they want to win a round
+- [x] User can vote on a submitted snippet to indicate which one they want to win a round
 - [ ] Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up (if no snippets have been submitted, add more time)
 - [ ] Setup user analytics to track user interaction with projects & snippets
 
