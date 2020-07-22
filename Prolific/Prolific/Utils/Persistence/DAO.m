@@ -9,6 +9,7 @@
 #import "DAO.h"
 
 @import FirebaseFirestore;
+@import FirebaseAuth;
 #import "ProjectBuilder.h"
 #import "RoundBuilder.h"
 #import "SnippetBuilder.h"
@@ -27,6 +28,7 @@ static NSString *const kSeedKey = @"seed";
 static NSString *const kSubmissionsKey = @"submissions";
 static NSString *const kTextKey = @"text";
 static NSString *const kUsersKey = @"users";
+static NSString *const kUserVotesKey = @"userVotes";
 static NSString *const kUsernameKey = @"username";
 static NSString *const kVoteCountKey = @"voteCount";
 static NSString *const kWinningSnippetKey = @"winningSnippet";
@@ -80,7 +82,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
         kAuthorIdKey: snippetBuilder.authorId,
         kTextKey: snippetBuilder.text,
         kVoteCountKey: snippetBuilder.voteCount,
-        kCreatedAtKey: snippetBuilder.createdAt
+        kCreatedAtKey: snippetBuilder.createdAt,
+        kUserVotesKey : [[NSArray alloc] init]
     };
     
     __block FIRDocumentReference *ref =
@@ -98,6 +101,33 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
                 completion(nil, nil, error);
             }
         }
+    }];
+}
+
+- (void)updateExistingSnippet:(Snippet *)snippet forProjectId:(NSString *)projectId forRound:(Round *)round completion:(void(^)(NSError *error))completion {
+    
+    FIRDocumentReference *const snippetRef =
+    [[[[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
+        collectionWithPath:kRoundsKey] documentWithPath:round.roundId]
+      collectionWithPath:kSubmissionsKey] documentWithPath:snippet.snippetId];
+    
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    NSDictionary *snippetData;
+    
+    if (snippet.userVoted) {
+        snippetData = @{
+            kVoteCountKey: snippet.voteCount,
+            kUserVotesKey: [FIRFieldValue fieldValueForArrayUnion:@[currUserId]]
+        };
+    } else {
+        snippetData = @{
+            kVoteCountKey: snippet.voteCount,
+            kUserVotesKey: [FIRFieldValue fieldValueForArrayRemove:@[currUserId]]
+        };
+    }
+    
+    [snippetRef updateData:snippetData completion:^(NSError * _Nullable error) {
+        error ? completion(error) : completion(nil);
     }];
 }
 

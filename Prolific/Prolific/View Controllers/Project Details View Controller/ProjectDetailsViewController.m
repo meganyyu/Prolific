@@ -11,19 +11,19 @@
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
+#import "RoundCell.h"
 
 #pragma mark - Interface
 
 @interface ProjectDetailsViewController () <ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) UIView *projectView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *seedContentLabel;
 @property (nonatomic, strong) UIButton *composeButton;
 @property (nonatomic, strong) UIButton *previewButton;
-@property (nonatomic, strong) DAO *dao;
-//@property (nonatomic, strong) NSMutableArray *roundsArray;
 
 @end
 
@@ -49,11 +49,12 @@
     
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    //[_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
+    //[_collectionView registerClass:[RoundCell class] forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView setBackgroundColor:[UIColor grayColor]];
     
     [self.view addSubview:_collectionView];
     
+    // TODO: turn into collection view
     
     _projectView = [[UIView alloc] init];
     _projectView.backgroundColor = [UIColor whiteColor];

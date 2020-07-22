@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and mutable) attributes
 @property (nonatomic, strong) NSNumber *voteCount;
+@property (nonatomic) BOOL userVoted;
 
 #pragma mark - Methods
 

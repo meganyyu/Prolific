@@ -14,6 +14,7 @@ static NSString *const kAuthorIdKey = @"authorId";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kTextKey = @"text";
 static NSString *const kVoteCountKey = @"voteCount";
+static NSString *const kUserVotesKey = @"userVotes";
 
 @implementation SnippetBuilder
 
@@ -25,6 +26,7 @@ static NSString *const kVoteCountKey = @"voteCount";
         _createdAt = [FIRTimestamp timestamp].dateValue;
         _text = nil;
         _voteCount = [NSNumber numberWithInt:0];
+        _userVoted = NO;
     }
     return self;
 }
@@ -34,15 +36,20 @@ static NSString *const kVoteCountKey = @"voteCount";
     
     if (self) {
         if (snippetId &&
-            [data objectForKey:kAuthorIdKey] &&
-            [data objectForKey:kCreatedAtKey] &&
-            [data objectForKey:kTextKey] &&
-            [data objectForKey:kVoteCountKey]) {
+            [[data objectForKey:kAuthorIdKey] isKindOfClass:[NSString class]] &&
+            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+            [[data objectForKey:kTextKey] isKindOfClass:[NSString class]] &&
+            [[data objectForKey:kVoteCountKey] isKindOfClass:[NSNumber class]]) {
             _snippetId = snippetId;
             _authorId = data[kAuthorIdKey];
             _createdAt = data[kCreatedAtKey];
             _text = data[kTextKey];
             _voteCount = data[kVoteCountKey];
+            
+            if ([[data objectForKey:kUserVotesKey] isKindOfClass:[NSArray class]]) {
+                NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+                _userVoted = [data[kUserVotesKey] containsObject:currUserId];
+            }
         }
     }
     return self;

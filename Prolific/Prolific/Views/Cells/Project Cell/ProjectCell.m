@@ -25,13 +25,13 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    _cellView = [[ProjectCellView alloc] init];
-    [self addSubview:_cellView];
-    
     CGRect const bounds = self.bounds;
     CGFloat const boundsWidth = CGRectGetWidth(bounds);
     CGFloat const boundsHeight = CGRectGetHeight(bounds);
-    [_cellView drawRect:CGRectMake(0, 0, boundsWidth, boundsHeight)];
+    CGRect const cellFrame = CGRectMake(0, 0, boundsWidth, boundsHeight);
+    
+    _cellView = [[ProjectCellView alloc] initWithFrame:cellFrame];
+    [self addSubview:_cellView];
     
     _cellView.nameLabel.text = _project.name;
     _cellView.seedContentLabel.text = _project.seed;

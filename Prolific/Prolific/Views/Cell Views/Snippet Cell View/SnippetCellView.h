@@ -6,16 +6,20 @@
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseCellView.h"
+
+#import "CountLabel.h"
+#import "VoteButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SnippetCellView : UIView
+@interface SnippetCellView : BaseCellView
 
 @property (nonatomic, strong) UIImage *profileImage;
 @property (nonatomic, strong) UILabel *usernameLabel;
 @property (nonatomic, strong) UILabel *seedContentLabel;
-@property (nonatomic, strong) UILabel *voteCountLabel;
+@property (nonatomic, strong) VoteButton *voteButton;
+@property (nonatomic, strong) CountLabel *voteCountLabel;
 
 @end
 

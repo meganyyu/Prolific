@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSDate *createdAt;
 
 // required (and mutable) attributes
-@property (nonatomic, strong, readonly) NSNumber *voteCount;
+@property (nonatomic, strong) NSNumber *voteCount;
+@property (nonatomic) BOOL userVoted;
 
 #pragma mark - Methods
 
@@ -32,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)new NS_UNAVAILABLE;
+
+- (void)updateCurrentUserVote;
 
 @end
 

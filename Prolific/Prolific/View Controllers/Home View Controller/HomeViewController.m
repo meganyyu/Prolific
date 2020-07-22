@@ -34,8 +34,18 @@
     [super viewDidLoad];
     
     // collection view layout
+    [self setupCollectionView];
     
-     UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    // Navigation customization
+    self.navigationItem.title = @"Home";
+    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLogoutButton:)];
+    self.navigationItem.leftBarButtonItem = logoutButton;
+    
+    [self loadProjects];
+}
+
+- (void)setupCollectionView {
+    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -44,13 +54,6 @@
     [_collectionView setBackgroundColor:[UIColor grayColor]];
 
     [self.view addSubview:_collectionView];
-    
-    // Navigation customization
-    self.navigationItem.title = @"Home";
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(didTapLogoutButton:)];
-    self.navigationItem.leftBarButtonItem = logoutButton;
-    
-    [self loadProjects];
 }
 
 #pragma mark - Load data

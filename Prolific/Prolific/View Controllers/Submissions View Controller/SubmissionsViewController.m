@@ -13,7 +13,9 @@
 #import "NavigationManager.h"
 #import "SnippetCell.h"
 
-@interface SubmissionsViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+#pragma mark - Interface
+
+@interface SubmissionsViewController () <SnippetCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
@@ -21,7 +23,11 @@
 
 @end
 
+#pragma mark Implementation
+
 @implementation SubmissionsViewController
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,16 +37,8 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
     
     // collection view layout
-    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    
-    [_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
-    [_collectionView setBackgroundColor:[UIColor whiteColor]];
-    
-    [self.view addSubview:_collectionView];
-    
+    [self setupCollectionView];
+        
     // Navigation customization
     self.navigationItem.title = @"Round Submissions";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow_icon"]
@@ -52,14 +50,24 @@
     [self loadSubmissions];
 }
 
+- (void)setupCollectionView {
+    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    [_collectionView registerClass:[SnippetCell class] forCellWithReuseIdentifier:@"snippetCell"];
+    [_collectionView setBackgroundColor:[UIColor grayColor]];
+    
+    [self.view addSubview:_collectionView];
+
+}
+
 #pragma mark - Load submissions
 
 - (void)loadSubmissions {
     [_dao getAllSubmissionsforRoundId:_round.roundId projectId:_projectId completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
         if (submissions) {
-            for (Snippet *snippet in submissions) {
-                NSLog(@"Snippet text: %@", snippet.text);
-            }
             self.snippetArray = (NSMutableArray *) submissions;
             
             __weak typeof(self) weakSelf = self;
@@ -81,6 +89,20 @@
     [NavigationManager exitTopViewController:self.navigationController];
 }
 
+#pragma mark - SnippetCellDelegate Protocol
+
+- (void)didVote:(Snippet *)snippet {
+    [_dao updateExistingSnippet:snippet
+                   forProjectId:_projectId
+                       forRound:_round
+                     completion:^(NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"undoing vote on local model due to an error updating firebase with vote: %@", error.localizedDescription);
+            [snippet updateCurrentUserVote];
+        }
+    }];
+}
+
 #pragma mark - UICollectionViewDataSource Protocol
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -90,6 +112,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SnippetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"snippetCell" forIndexPath:indexPath];
     cell.snippet = _snippetArray[indexPath.item];
+    cell.delegate = self;
     return cell;
 }
 
