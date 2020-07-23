@@ -20,6 +20,7 @@ static NSString *const kAuthorIdKey = @"authorId";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
+static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kProjectsKey = @"projects";
@@ -71,18 +72,18 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
                     forProjectId:(NSString *)projectId
-                      forRound: (Round *)round
-                      completion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion {
+                      forRoundId:(NSString *)roundId
+                      completion:(void(^)(Snippet *snippet, NSError *error))completion {
     FIRCollectionReference *const submissionsRef =
     [[[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
-       collectionWithPath:kRoundsKey] documentWithPath:round.roundId]
+       collectionWithPath:kRoundsKey] documentWithPath:roundId]
      collectionWithPath:kSubmissionsKey];
     
     NSDictionary *const snippetData = @{
         kAuthorIdKey: snippetBuilder.authorId,
         kTextKey: snippetBuilder.text,
         kVoteCountKey: snippetBuilder.voteCount,
-        kCreatedAtKey: snippetBuilder.createdAt,
+        kCreatedAtKey: [FIRTimestamp timestampWithDate:snippetBuilder.createdAt],
         kUserVotesKey : [[NSArray alloc] init]
     };
     
@@ -90,21 +91,19 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     [submissionsRef addDocumentWithData:snippetData
                              completion:^(NSError * _Nullable error) {
         if (error != nil) {
-            completion(nil, nil, error);
+            completion(nil, error);
         } else {
             Snippet *snippet = [[snippetBuilder withId:ref.documentID]
                                 build];
-            if (snippet) {
-                [round.submissions addObject:snippet];
-                completion(snippet, round, nil);
-            } else {
-                completion(nil, nil, error);
-            }
+            snippet ? completion(snippet, nil) : completion(nil, error);
         }
     }];
 }
 
-- (void)updateExistingSnippet:(Snippet *)snippet forProjectId:(NSString *)projectId forRound:(Round *)round completion:(void(^)(NSError *error))completion {
+- (void)updateExistingSnippet:(Snippet *)snippet
+                 forProjectId:(NSString *)projectId
+                     forRound:(Round *)round
+                   completion:(void(^)(NSError *error))completion {
     
     FIRDocumentReference *const snippetRef =
     [[[[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
@@ -182,8 +181,6 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
         }
     }];
 }
-
-// TODO: write a function to retrieve a full round with all submissions
 
 /** Retrieves Firebase document reference for the latest Round in a Project with ProjectId and passes into completion block. Passes an error into completion block if no relevant document is found. */
 - (void)getLatestRoundRefForProjectId:(NSString *)projectId

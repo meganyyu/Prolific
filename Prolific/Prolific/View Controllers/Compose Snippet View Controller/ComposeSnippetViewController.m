@@ -116,12 +116,13 @@
                                              withText:_composeTextView.text];
     [_dao submitSnippetWithBuilder:snippetBuilder
                      forProjectId:_projectId
-                         forRound: _round
-                       completion:^(Snippet *snippet, Round *round, NSError *error) {
+                        forRoundId:_round.roundId
+                        completion:^(Snippet *snippet, NSError *error) {
         if (error) {
             completion(nil, nil, error);
         } else {
-            completion(snippet, round, nil);
+            [self.round.submissions addObject:snippet];
+            completion(snippet, self.round, nil);
         }
     }];
 }
