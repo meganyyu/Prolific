@@ -23,7 +23,7 @@ static NSString *const kUserVotesKey = @"userVotes";
     if (self) {
         _snippetId = nil;
         _authorId = [FIRAuth auth].currentUser.uid;
-        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _text = nil;
         _voteCount = [NSNumber numberWithInt:0];
         _userVoted = NO;
@@ -36,13 +36,10 @@ static NSString *const kUserVotesKey = @"userVotes";
     
     if (self) {
         if (snippetId &&
-            [[data objectForKey:kAuthorIdKey] isKindOfClass:[NSString class]] &&
-            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
-            [[data objectForKey:kTextKey] isKindOfClass:[NSString class]] &&
-            [[data objectForKey:kVoteCountKey] isKindOfClass:[NSNumber class]]) {
+            [self validateRequiredDictionaryData:data]) {
             _snippetId = snippetId;
             _authorId = data[kAuthorIdKey];
-            _createdAt = data[kCreatedAtKey];
+            _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _text = data[kTextKey];
             _voteCount = data[kVoteCountKey];
             
@@ -86,6 +83,16 @@ static NSString *const kUserVotesKey = @"userVotes";
         return snippet;
     }
     return nil;
+}
+
+#pragma mark - Helper functions
+
+/** Validates that the data passed in through a dictionary is valid. */
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kAuthorIdKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+    [[data objectForKey:kTextKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kVoteCountKey] isKindOfClass:[NSNumber class]];
 }
 
 @end

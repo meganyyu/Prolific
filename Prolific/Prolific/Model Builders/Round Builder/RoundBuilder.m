@@ -22,9 +22,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     self = [super init];
     if (self) {
         _roundId = nil;
-        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _isComplete = NO;
-        _endTime = [FIRTimestamp timestamp].dateValue;
+        _endTime = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _submissions = [[NSMutableArray alloc] init];
         _winningSnippetId = nil;
     }
@@ -42,8 +42,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
             _roundId = roundId;
             _submissions = submissions;
             _isComplete = [data[kIsCompleteKey] boolValue];
-            _createdAt = data[kCreatedAtKey];
-            _endTime = data[kEndTimeKey];
+            _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
+            _endTime = [ProlificUtils convertTimestampToDate:data[kEndTimeKey]];
         }
         if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
             _winningSnippetId = data[kWinningSnippetIdKey];
@@ -62,8 +62,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     return self;
 }
 
-- (RoundBuilder *)isComplete:(BOOL)value {
-    _isComplete = value;
+- (RoundBuilder *)markComplete {
+    _isComplete = YES;
     return self;
 }
 
@@ -92,18 +92,12 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 #pragma mark - Helper functions
 
+/** Validates that the data passed in through a dictionary is valid. */
 - (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
     return [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
-    [self isBoolNumber:[data objectForKey:kIsCompleteKey]] &&
+    [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]] &&
     [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
     [[data objectForKey:kEndTimeKey] isKindOfClass:[FIRTimestamp class]];
-}
-
-- (BOOL)isBoolNumber:(NSNumber *)num
-{
-   CFTypeID boolID = CFBooleanGetTypeID(); // the type ID of CFBoolean
-   CFTypeID numID = CFGetTypeID((__bridge CFTypeRef)(num)); // the type ID of num
-   return numID == boolID;
 }
 
 @end

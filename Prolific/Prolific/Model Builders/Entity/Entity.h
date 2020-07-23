@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "ProlificUtils.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class EntityBuilder;

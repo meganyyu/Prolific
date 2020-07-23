@@ -10,6 +10,7 @@
 
 #import "Entity.h"
 
+@import Firebase;
 #import "Round.h"
 #import "Snippet.h"
 
@@ -40,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (RoundBuilder *)withCreatedAt:(NSDate *)createdAt;
 
-- (RoundBuilder *)isComplete:(BOOL)value;
+- (RoundBuilder *)markComplete;
 
 - (RoundBuilder *)withEndTime:(NSDate *)endTime;
 

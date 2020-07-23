@@ -41,9 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)withSeed:(NSString *)seed;
 
-- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber;
+- (ProjectBuilder *)incrementCurrentRoundNumber;
 
-- (ProjectBuilder *)isComplete:(BOOL)value;
+- (ProjectBuilder *)markComplete;
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds;
 

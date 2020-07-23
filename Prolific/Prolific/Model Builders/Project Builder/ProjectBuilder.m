@@ -24,7 +24,7 @@ static NSString *const kSeedKey = @"seed";
     if (self) {
         _projectId = nil;
         _name = nil;
-        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _seed = nil;
         _currentRound = [NSNumber numberWithInt:0];
         _isComplete = NO;
@@ -44,7 +44,7 @@ static NSString *const kSeedKey = @"seed";
             _projectId = projectId;
             _rounds = rounds;
             _name = data[kNameKey];
-            _createdAt = data[kCreatedAtKey];
+            _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _seed = data[kSeedKey];
             _currentRound = data[kCurrentRoundKey];
             _isComplete = data[kIsCompleteKey];
@@ -73,13 +73,13 @@ static NSString *const kSeedKey = @"seed";
     return self;
 }
 
-- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber {
-    _currentRound = roundNumber;
+- (ProjectBuilder *)incrementCurrentRoundNumber {
+    _currentRound = [NSNumber numberWithInt:[_currentRound intValue] + 1];
     return self;
 }
 
-- (ProjectBuilder *)isComplete:(BOOL)value {
-    _isComplete = value;
+- (ProjectBuilder *)markComplete {
+    _isComplete = YES;
     return self;
 }
 
@@ -104,14 +104,7 @@ static NSString *const kSeedKey = @"seed";
     [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
     [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
     [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
-    [self isBoolNumber:[data objectForKey:kIsCompleteKey]];
-}
-
-- (BOOL)isBoolNumber:(NSNumber *)num
-{
-   CFTypeID boolID = CFBooleanGetTypeID();
-   CFTypeID numID = CFGetTypeID((__bridge CFTypeRef)(num));
-   return numID == boolID;
+    [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]];
 }
 
 @end
