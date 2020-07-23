@@ -133,10 +133,67 @@
     _nameLabel.text = _project.name;
     _seedContentLabel.text = _project.seed;
     
+    __weak typeof (self) weakSelf = self;
     [_dao getAllRoundsForProjectId:_project.projectId
                         completion:^(NSMutableArray * _Nonnull rounds, NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            return;
+        }
+        
         if (rounds) {
-            self.project.rounds = rounds;
+            strongSelf.project.rounds = rounds;
+            
+            Round *const latestRound = strongSelf.project.rounds[strongSelf.project.rounds.count - 1];
+            
+            [strongSelf.dao getAllSubmissionsforRoundId:latestRound.roundId
+                                    projectId:strongSelf.project.projectId
+                                   completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
+                if (submissions) {
+                    latestRound.submissions = (NSMutableArray *) submissions;
+                    
+                    if ([latestRound needToMarkAsComplete]) {
+                        [latestRound markCompleteAndSetWinningSnippet];
+                        
+                        RoundBuilder *const newRoundBuilder = [[RoundBuilder alloc] init];
+                        [strongSelf.dao saveNewRoundWithBuilder:newRoundBuilder
+                                             forProjectId:strongSelf.project.projectId
+                                               completion:^(Round *round, NSError *error) {
+                            __strong typeof (weakSelf) strongSelf = weakSelf;
+                            if (strongSelf == nil) {
+                                return;
+                            }
+                            
+                            if (round) {
+                                [strongSelf.project.rounds addObject:round];
+                                NSLog(@"Made a new round.");
+                            } else {
+                                NSLog(@"Failed to start a new round, try again.");
+                            }
+                            
+                            [strongSelf.dao updateExistingRound:latestRound
+                                             forProjectId:strongSelf.project.projectId
+                                               completion:^(NSError * _Nonnull error) {
+                                if (error) {
+                                    NSLog(@"Error marking round as complete.");
+                                }
+                            }];
+                        }];
+                    } else if ([latestRound needToExtendTime]) {
+                        [latestRound extendEndTime];
+                        
+                        [strongSelf.dao updateExistingRound:latestRound
+                                         forProjectId:strongSelf.project.projectId
+                                           completion:^(NSError * _Nonnull error) {
+                            if (error) {
+                                NSLog(@"Error extending time for round.");
+                            }
+                        }];
+                    }
+                } else {
+                    NSLog(@"Error retrieving submissions for latestRound: %@", error.localizedDescription);
+                }
+            }];
         } else {
             NSLog(@"Failed to load rounds for project");
         }

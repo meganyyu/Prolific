@@ -27,7 +27,6 @@
     return self;
 }
 
-/** Only returns true if round contains at least one submission, hasn't already been marked as complete, and current time is past specified round end time. */
 - (BOOL)needToMarkAsComplete {
     NSDate *const currTime = [FIRTimestamp timestamp].dateValue;
     if (!_isComplete &&
@@ -38,7 +37,6 @@
     return NO;
 }
 
-/** Only returns true if round contains no submissions, hasn't been marked as complete, and current time is past specified round end time. */
 - (BOOL)needToExtendTime {
     NSDate *const currTime = [FIRTimestamp timestamp].dateValue;
     if (!_isComplete &&
@@ -49,7 +47,6 @@
     return NO;
 }
 
-/** Only extends the end time by 1 day if there are no submissions in the round. */
 - (BOOL)extendEndTime {
     if (_submissions.count == 0) {
         NSDateComponents *const dayComponent = [[NSDateComponents alloc] init];
@@ -65,7 +62,6 @@
     return NO;
 }
 
-/** Only marks a round as complete and sets a winning snippet Id if the round is ready and hasn't already been marked as complete. */
 - (BOOL)markCompleteAndSetWinningSnippet {
     if ([self needToMarkAsComplete]) {
         _isComplete = YES;
