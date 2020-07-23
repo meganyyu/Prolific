@@ -44,7 +44,7 @@
     self.navigationItem.title = @"Project Details";
     UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     backButton.frame = CGRectMake(0, 0, 20, 20);
-    [backButton setImage:[UIImage imageNamed:@"back_arrow_icon"]
+    [backButton setImage:[UIImage imageNamed:@"back-arrow-icon"]
                 forState:UIControlStateNormal];
     [backButton addTarget:self
                  action:@selector(onTapBack:)
@@ -63,12 +63,12 @@
     
     _projectView = [[UIView alloc] init];
     [self.view addSubview:_projectView];
-    
+
     _nameLabel = [[UILabel alloc] init];
     _nameLabel.textColor = [UIColor blackColor];
     _nameLabel.numberOfLines = 0;
     [_projectView addSubview:_nameLabel];
-    
+
     _seedContentLabel = [[UILabel alloc] init];
     _seedContentLabel.textColor = [UIColor blackColor];
     _seedContentLabel.numberOfLines = 0;

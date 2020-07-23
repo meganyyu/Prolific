@@ -8,8 +8,8 @@
 
 #import "VoteButton.h"
 
-static NSString *const kTappedVoteIconID = @"tapped_vote_icon";
-static NSString *const kUntappedVoteIconID = @"untapped_vote_icon";
+static NSString *const kTappedVoteIconID = @"tapped-vote-icon";
+static NSString *const kUntappedVoteIconID = @"untapped-vote-icon";
 
 @implementation VoteButton
 

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "tapped_vote_icon.png",
+      "filename" : "tapped-submit-icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "tapped_vote_icon@2x.png",
+      "filename" : "tapped-submit-icon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "tapped_vote_icon@3x.png",
+      "filename" : "tapped-submit-icon@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
