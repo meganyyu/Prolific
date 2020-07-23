@@ -42,14 +42,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"Project Details";
-    UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    backButton.frame = CGRectMake(0, 0, 20, 20);
-    [backButton setImage:[UIImage imageNamed:@"back-arrow-icon"]
-                forState:UIControlStateNormal];
-    [backButton addTarget:self
-                 action:@selector(onTapBack:)
-       forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [super setupBackButton];
     
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -201,10 +194,6 @@
 }
 
 #pragma mark - User actions
-
-- (void)onTapBack:(id)sender {
-    [NavigationManager exitTopViewController:self.navigationController];
-}
 
 - (void)onTapCompose:(id)sender {
     int latestRoundNumber = (int) _project.rounds.count - 1;

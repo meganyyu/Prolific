@@ -31,14 +31,7 @@
     _dao = [[DAO alloc] init];
     
     self.navigationItem.title = @"Project Details";
-    UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    backButton.frame = CGRectMake(0, 0, 20, 20);
-    [backButton setImage:[UIImage imageNamed:@"back-arrow-icon"]
-                forState:UIControlStateNormal];
-    [backButton addTarget:self
-                 action:@selector(onTapBack:)
-       forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [super setupBackButton];
     
     _composeView = [[UIView alloc] init];
     [self.view addSubview:_composeView];
@@ -101,12 +94,6 @@
             NSLog(@"Failed to submit snippet, try again.");
         }
     }];
-}
-
-- (void)onTapBack:(id)sender{
-    [self resignFields];
-    
-    [NavigationManager exitTopViewController:self.navigationController];
 }
 
 #pragma mark - Snippet submission
