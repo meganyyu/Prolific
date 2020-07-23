@@ -137,9 +137,7 @@
     [_dao getAllRoundsForProjectId:_project.projectId
                         completion:^(NSMutableArray * _Nonnull rounds, NSError * _Nonnull error) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) {
-            return;
-        }
+        if (strongSelf == nil) return;
         
         if (rounds) {
             strongSelf.project.rounds = rounds;
@@ -150,39 +148,41 @@
                                     projectId:strongSelf.project.projectId
                                    completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
                 if (submissions) {
-                    latestRound.submissions = (NSMutableArray *) submissions;
+                    RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
+                                                        withSubmissions:submissions];
+                    RoundBuilder *const roundBuilderMarkedComplete = [roundBuilder markCompleteAndSetWinningSnippet];
+                    RoundBuilder *const roundBuilderExtendedTime = [roundBuilder extendEndTime];
                     
-                    if ([latestRound needToMarkAsComplete]) {
-                        [latestRound markCompleteAndSetWinningSnippet];
+                    if (roundBuilderMarkedComplete) {
+                        Round *const updatedLatestRound = [roundBuilder build];
+                        //TODO: update project's rounds array with updatedLatestRound
                         
                         RoundBuilder *const newRoundBuilder = [[RoundBuilder alloc] init];
                         [strongSelf.dao saveNewRoundWithBuilder:newRoundBuilder
                                              forProjectId:strongSelf.project.projectId
                                                completion:^(Round *round, NSError *error) {
                             __strong typeof (weakSelf) strongSelf = weakSelf;
-                            if (strongSelf == nil) {
-                                return;
-                            }
+                            if (strongSelf == nil) return;
                             
                             if (round) {
                                 [strongSelf.project.rounds addObject:round];
-                                NSLog(@"Made a new round.");
                             } else {
                                 NSLog(@"Failed to start a new round, try again.");
                             }
-                            
-                            [strongSelf.dao updateExistingRound:latestRound
-                                             forProjectId:strongSelf.project.projectId
-                                               completion:^(NSError * _Nonnull error) {
-                                if (error) {
-                                    NSLog(@"Error marking round as complete.");
-                                }
-                            }];
                         }];
-                    } else if ([latestRound needToExtendTime]) {
-                        [latestRound extendEndTime];
                         
-                        [strongSelf.dao updateExistingRound:latestRound
+                        [strongSelf.dao updateExistingRound:updatedLatestRound
+                                         forProjectId:strongSelf.project.projectId
+                                           completion:^(NSError * _Nonnull error) {
+                            if (error) {
+                                NSLog(@"Error marking round as complete.");
+                            }
+                        }];
+                    } else if (roundBuilderExtendedTime) {
+                        Round *const extendedLatestRound = [roundBuilder build];
+                        //TODO: update project's rounds array with updatedLatestRound
+                        
+                        [strongSelf.dao updateExistingRound:extendedLatestRound
                                          forProjectId:strongSelf.project.projectId
                                            completion:^(NSError * _Nonnull error) {
                             if (error) {

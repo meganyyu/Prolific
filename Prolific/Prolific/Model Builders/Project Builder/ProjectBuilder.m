@@ -53,6 +53,21 @@ static NSString *const kSeedKey = @"seed";
     return self;
 }
 
+- (instancetype)initWithProject:(Project *)project {
+    self = [self init];
+    
+    if (self) {
+        _projectId = project.projectId;
+        _name = project.name;
+        _createdAt = project.createdAt;
+        _seed = project.seed;
+        _currentRound = project.currentRound;
+        _isComplete = project.isComplete;
+        _rounds = project.rounds;
+    }
+    return self;
+}
+
 - (ProjectBuilder *)withId:(NSString *)projectId {
     _projectId = projectId;
     return self;
