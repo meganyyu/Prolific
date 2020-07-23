@@ -159,6 +159,60 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 
 #pragma mark - Rounds
 
+- (void)saveNewRoundWithBuilder:(RoundBuilder *)roundBuilder
+                   forProjectId:(NSString *)projectId
+                    completion:(void(^)(Round *round,  NSError *error))completion {
+    FIRCollectionReference *const roundsRef =
+    [[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
+       collectionWithPath:kRoundsKey];
+    
+    NSDictionary *const roundData = @{
+        kCreatedAtKey: [FIRTimestamp timestampWithDate:roundBuilder.createdAt],
+        kIsCompleteKey: [NSNumber numberWithBool:roundBuilder.isComplete],
+        kEndTimeKey: [FIRTimestamp timestampWithDate:roundBuilder.endTime]
+    };
+    
+    __block FIRDocumentReference *ref =
+    [roundsRef addDocumentWithData:roundData
+                             completion:^(NSError * _Nullable error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            Round *round = [[roundBuilder withId:ref.documentID]
+                                build];
+            round ? completion(round, nil) : completion(nil, error);
+        }
+    }];
+}
+
+- (void)updateExistingRound:(Round *)round
+               forProjectId:(NSString *)projectId
+                 completion:(void(^)(NSError *error))completion {
+    
+    FIRDocumentReference *const roundRef =
+    [[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
+        collectionWithPath:kRoundsKey] documentWithPath:round.roundId];
+    
+    NSDictionary *roundData;
+    
+    if (round.winningSnippetId) {
+        roundData = @{
+            kEndTimeKey: [FIRTimestamp timestampWithDate: round.endTime],
+            kIsCompleteKey: [NSNumber numberWithBool:round.isComplete],
+            kWinningSnippetKey: round.winningSnippetId
+        };
+    } else {
+        roundData = @{
+            kEndTimeKey: [FIRTimestamp timestampWithDate: round.endTime],
+            kIsCompleteKey: [NSNumber numberWithBool:round.isComplete]
+        };
+    }
+    
+    [roundRef updateData:roundData completion:^(NSError * _Nullable error) {
+        error ? completion(error) : completion(nil);
+    }];
+}
+
 - (void)getAllRoundsForProjectId:(NSString *)projectId
                       completion:(void(^)(NSMutableArray *rounds, NSError *error))completion {
     FIRCollectionReference *const roundsRef =
