@@ -8,6 +8,11 @@
 
 #import "UserBuilder.h"
 
+@import Firebase;
+
+static NSString *const kUsernameKey = @"username";
+static NSString *const kDisplayNameKey = @"displayName";
+
 @implementation UserBuilder
 
 - (id)init
@@ -49,6 +54,14 @@
         return user;
     }
     return nil;
+}
+
+#pragma mark - Helper functions
+
+/** Validates that the data passed in through a dictionary is valid. */
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kUsernameKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kDisplayNameKey] isKindOfClass:[NSString class]];
 }
 
 @end
