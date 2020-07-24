@@ -111,6 +111,14 @@
 
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Project *const selectedProj = _projectArray[indexPath.item];
+    [FIRAnalytics logEventWithName:kFIREventSelectContent
+                        parameters:@{
+                            kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedProj.projectId],
+                            kFIRParameterItemName:selectedProj.name,
+                            kFIRParameterContentType:@"project"
+                        }];
+    
     [NavigationManager presentProjectDetailsViewControllerForProject:_projectArray[indexPath.item] navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
