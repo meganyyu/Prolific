@@ -45,4 +45,27 @@ static NSString *const kProfileIconId = @"profile-icon";
     [_profileView addSubview:_profileImageButton];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    CGRect const bounds = self.view.bounds;
+    CGFloat const boundsWidth = CGRectGetWidth(bounds);
+    CGFloat const boundsHeight = CGRectGetHeight(bounds);
+    
+    // profile view
+    _profileView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
+    
+    // profile picture
+    CGFloat const imageViewWidth = 0.4 * boundsWidth;
+    CGFloat const imageViewHeight = imageViewWidth;
+    CGFloat const imageViewX = _profileView.center.x - imageViewWidth / 2.0;
+    CGFloat const imageViewY = _profileView.center.y - imageViewHeight / 2.0;
+    _profileImageView.frame = CGRectMake(imageViewX, imageViewY, imageViewWidth, imageViewHeight);
+    
+    // profile picture button
+    CGFloat const profileImageButtonX = _profileView.center.x - 150;
+    CGFloat const profileImageButtonY = boundsHeight - 300;
+    _profileImageButton.frame = CGRectMake(profileImageButtonX, profileImageButtonY, 300, 30);
+}
+
 @end
