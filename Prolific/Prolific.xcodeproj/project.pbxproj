@@ -17,6 +17,7 @@
 		7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C40124BF6BD5005E1816 /* UserBuilder.m */; };
 		713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
 		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
+		71483FF824CB9680004B352E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71483FF724CB9680004B352E /* ProfileViewController.m */; };
 		714D1F8124C25D2D00749291 /* ComposeSnippetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 714D1F8024C25D2D00749291 /* ComposeSnippetViewController.m */; };
 		714D1F8224C2C1B100749291 /* ProjectDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15124BE056C008E64CD /* ProjectDetailsViewController.m */; };
 		7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7165D15924BE1B17008E64CD /* RegisterViewController.m */; };
@@ -95,6 +96,8 @@
 		7118C40124BF6BD5005E1816 /* UserBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserBuilder.m; sourceTree = "<group>"; };
 		713AA08924C0E1E000A5950E /* DAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
 		713AA08A24C0E1E000A5950E /* DAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
+		71483FF624CB9680004B352E /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		71483FF724CB9680004B352E /* ProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		714D1F7F24C25D2D00749291 /* ComposeSnippetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeSnippetViewController.h; sourceTree = "<group>"; };
 		714D1F8024C25D2D00749291 /* ComposeSnippetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeSnippetViewController.m; sourceTree = "<group>"; };
 		7165D15024BE056C008E64CD /* ProjectDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectDetailsViewController.h; sourceTree = "<group>"; };
@@ -320,6 +323,15 @@
 			path = Persistence;
 			sourceTree = "<group>";
 		};
+		71483FF524CB965A004B352E /* Profile View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				71483FF624CB9680004B352E /* ProfileViewController.h */,
+				71483FF724CB9680004B352E /* ProfileViewController.m */,
+			);
+			path = "Profile View Controller";
+			sourceTree = "<group>";
+		};
 		714D1F7E24C25D0600749291 /* Compose Snippet View Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,6 +483,7 @@
 				7191117524BD055000070A32 /* Main Tab Bar Controller */,
 				7191117224BD048000070A32 /* Login View Controller */,
 				7165D15724BE1AE5008E64CD /* Register View Controller */,
+				71483FF524CB965A004B352E /* Profile View Controller */,
 				7191117324BD048900070A32 /* Home View Controller */,
 				7191117624BD055D00070A32 /* Favorites View Controller */,
 				7165D14C24BE052E008E64CD /* Project Details View Controller */,
@@ -914,6 +927,7 @@
 				7188D85C24C6568C00E50876 /* ProjectCell.m in Sources */,
 				7188D85524C6522D00E50876 /* SnippetCell.m in Sources */,
 				714D1F8224C2C1B100749291 /* ProjectDetailsViewController.m in Sources */,
+				71483FF824CB9680004B352E /* ProfileViewController.m in Sources */,
 				713AA08D24C1061F00A5950E /* Project.m in Sources */,
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */,
