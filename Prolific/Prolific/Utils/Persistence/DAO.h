@@ -23,6 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)saveUser:(User *)user
       completion:(void(^)(NSString *userId, NSError *error))completion;
 
+/** Gets user with userId. */
+- (void)getUserWithId:(NSString *)userId
+           completion:(void(^)(User *user, NSError *error))completion;
+
 #pragma mark - Snippet
 
 /** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */

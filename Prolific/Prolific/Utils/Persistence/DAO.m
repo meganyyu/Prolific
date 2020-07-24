@@ -68,6 +68,19 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
+- (void)getUserWithId:(NSString *)userId
+           completion:(void(^)(User *user, NSError *error))completion {
+    [[[_db collectionWithPath:kUsersKey] documentWithPath:userId] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            NSLog(@"Data for user: %@", snapshot.data);
+            User *const user = [self buildUserWithId:userId fromData:snapshot.data];
+            user ? completion(user, nil) : completion(nil, error);
+        }
+    }];
+}
+
 #pragma mark - Snippet
 
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
