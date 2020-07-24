@@ -32,7 +32,7 @@ static NSString *const kUsersKey = @"users";
 static NSString *const kUserVotesKey = @"userVotes";
 static NSString *const kUsernameKey = @"username";
 static NSString *const kVoteCountKey = @"voteCount";
-static NSString *const kWinningSnippetKey = @"winningSnippet";
+static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 @interface DAO ()
 
@@ -155,7 +155,26 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     }];
 }
 
-// TODO: write a function that retrieves a specific snippet with snippetId from round with roundId
+- (void)getSubmissionWithId:(NSString *)snippetId
+                 forRoundId:(NSString *)roundId
+                  projectId:(NSString *)projectId
+                 completion:(void(^)(Snippet *snippet, NSError *error))completion {
+    FIRDocumentReference *const submissionRef =
+    [[[[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
+        collectionWithPath:kRoundsKey] documentWithPath:roundId]
+      collectionWithPath:kSubmissionsKey] documentWithPath:snippetId];
+    
+    [submissionRef getDocumentWithCompletion:^(FIRDocumentSnapshot *snapshot, NSError *error) {
+        Snippet *snippet = [self buildSnippetWithId:snippetId
+                                    fromData:snapshot.data];
+    
+        if (snippet != nil) {
+            completion(snippet, nil);
+        } else {
+            completion(nil, error);
+        }
+    }];
+}
 
 #pragma mark - Rounds
 
@@ -199,7 +218,7 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
         roundData = @{
             kEndTimeKey: [FIRTimestamp timestampWithDate: round.endTime],
             kIsCompleteKey: [NSNumber numberWithBool:round.isComplete],
-            kWinningSnippetKey: round.winningSnippetId
+            kWinningSnippetIdKey: round.winningSnippetId
         };
     } else {
         roundData = @{
@@ -277,9 +296,8 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
     }];
 }
 
-// TODO: modify this function to retrieve a full project with rounds
 - (void)getProjectWithId:(NSString *)projectId
-    completion:(void(^)(Project *project, NSError *error))completion {
+              completion:(void(^)(Project *project, NSError *error))completion {
     FIRDocumentReference *projRef =
     [[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId];
     [projRef getDocumentWithCompletion:^(FIRDocumentSnapshot *snapshot, NSError *error) {
@@ -312,7 +330,6 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 - (Round *)buildRoundWithId:(NSString *)roundId
                    fromData:(NSDictionary *)data {
     NSMutableArray *const submissions = [[NSMutableArray alloc] init];
-    //FIXME: fill array with submissions from Firebase
     
     RoundBuilder *const roundBuilder = [[RoundBuilder alloc] initWithId:roundId
                                                              dictionary:data
@@ -329,7 +346,6 @@ static NSString *const kWinningSnippetKey = @"winningSnippet";
 - (Project *)buildProjectWithId:(NSString *)projectId
                        fromData:(NSDictionary *)data {
     NSMutableArray *const rounds = [[NSMutableArray alloc] init];
-    //FIXME: fill array with rounds from Firebase
     
     ProjectBuilder *const projbuilder = [[ProjectBuilder alloc] initWithId:projectId
                                                                 dictionary:data

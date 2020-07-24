@@ -39,6 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
                           projectId:(NSString *)projectId
                          completion:(void(^)(NSMutableArray *submissions, NSError *error))completion;
 
+/** Gets submissions with the identifier snippetId from a specified round and project. Will return error message if snippet document does not exist. */
+- (void)getSubmissionWithId:(NSString *)snippetId
+                 forRoundId:(NSString *)roundId
+                  projectId:(NSString *)projectId
+                 completion:(void(^)(Snippet *snippet, NSError *error))completion;
+
 #pragma mark - Round
 
 /** Saves a new round to a project with identifier projectId. Will return error message if project document does not have any rounds as expected. */
