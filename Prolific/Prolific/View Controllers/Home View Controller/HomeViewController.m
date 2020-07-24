@@ -16,6 +16,8 @@
 #import "ProjectBuilder.h"
 #import "UIColor+ProlificColors.h"
 
+static NSString *const kProfileIconId = @"profile-icon";
+
 #pragma mark - Interface
 
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -47,6 +49,8 @@
                                                                     target:self
                                                                     action:@selector(didTapLogoutButton:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
+    [self setupProfileButton];
+    
     
     [self loadProjects];
 }
@@ -63,6 +67,17 @@
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
 
     [self.view addSubview:_collectionView];
+}
+
+- (void)setupProfileButton {
+    UIButton *const profileButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    profileButton.frame = CGRectMake(0, 0, 40, 40);
+    [profileButton setImage:[UIImage imageNamed:kProfileIconId]
+                forState:UIControlStateNormal];
+    [profileButton addTarget:self
+                      action:@selector(onTapProfile:)
+            forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:profileButton];
 }
 
 #pragma mark - Load data
@@ -90,6 +105,10 @@
 
 - (void)didTapLogoutButton:(UIBarButtonItem *)sender {
     [self logoutUser];
+}
+
+- (void)onTapProfile:(id)sender {
+    NSLog(@"Tapped profile!");
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
