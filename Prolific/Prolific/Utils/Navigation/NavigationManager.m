@@ -15,6 +15,7 @@
 #import "RegisterViewController.h"
 #import "ComposeSnippetViewController.h"
 #import "SubmissionsViewController.h"
+#import "ProfileViewController.h"
 #import "ProjectDetailsViewController.h"
 
 @implementation NavigationManager
@@ -42,6 +43,12 @@
     ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
     projectDetailsViewController.project = project;
     [navController pushViewController:projectDetailsViewController animated:YES];
+}
+
++ (void)presentProfileViewControllerForUser:(User *)user navigationController:(UINavigationController *)navController {
+    ProfileViewController *const profileViewController = [[ProfileViewController alloc] init];
+    profileViewController.user = user;
+    [navController pushViewController:profileViewController animated:YES];
 }
 
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {

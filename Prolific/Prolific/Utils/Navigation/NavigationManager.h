@@ -10,6 +10,7 @@
 
 #import "SceneDelegate.h"
 #import "Project.h"
+#import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
 
 + (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController;
+
++ (void)presentProfileViewControllerForUser:(User *)user navigationController:(UINavigationController *)navController;
 
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round
                                       projectId:(NSString *)projectId
