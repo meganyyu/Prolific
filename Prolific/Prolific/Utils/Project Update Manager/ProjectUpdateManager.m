@@ -15,7 +15,6 @@
 + (void)updateProject:(Project *)project
            completion:(void(^)(Project *project, NSError *error))completion {
     DAO *const dao = [[DAO alloc] init];
-    
     // Populate project model with all the rounds for the project fetched from server
     [dao getAllRoundsForProjectId:project.projectId
                        completion:^(NSMutableArray *rounds, NSError *error) {
@@ -47,7 +46,8 @@
                             updatedProj ? completion(updatedProj, nil) : completion(nil, error);
                         }
                         else {
-                            completion(project, error);
+                            Project *const projWithRounds = [updatedProjBuilder build];
+                            projWithRounds ? completion(projWithRounds, error) : completion(nil, error);
                         }
                     }];
                 } else {
