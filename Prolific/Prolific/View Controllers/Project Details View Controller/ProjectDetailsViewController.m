@@ -211,6 +211,15 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
     if (indexPath.item == _project.rounds.count) {
+        Round *selectedRound = _project.rounds[indexPath.item];
+        
+        [FIRAnalytics logEventWithName:kFIREventSelectContent
+        parameters:@{
+            kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedRound.roundId],
+            kFIRParameterItemName:selectedRound.roundId,
+            kFIRParameterContentType:@"round"
+        }];
+        
         [self didTapPreview];
     }
 }
