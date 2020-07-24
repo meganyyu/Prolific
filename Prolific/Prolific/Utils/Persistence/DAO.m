@@ -62,8 +62,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     };
     
     [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] setData:userData
-                                                                       merge:YES
-                                                                  completion:^(NSError * _Nullable error) {
+                                                                         merge:YES
+                                                                    completion:^(NSError *error) {
         error ? completion(nil, error) : completion(user.userId, nil);
     }];
 }
@@ -313,6 +313,19 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 }
 
 #pragma mark - Helper functions
+
+- (User *)buildUserWithId:(NSString *)userId
+                   fromData:(NSDictionary *)data {
+    UserBuilder *const userBuilder = [[UserBuilder alloc] initWithId:userId
+                                                          dictionary:data];
+    User *const user = [userBuilder build];
+    
+    if (user != nil) {
+        return user;
+    } else {
+        return nil;
+    }
+}
 
 - (Snippet *)buildSnippetWithId:(NSString *)snippetId
                    fromData:(NSDictionary *)data {
