@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProjectUpdateManager : NSObject
 
+/** Updates a project's latest round or adds any new rounds as necessary. If successful, passes project back through completion block. Else passes back nil project and error. */
 + (void)updateProject:(Project *)project
            completion:(void(^)(Project *project, NSError *error))completion;
 
