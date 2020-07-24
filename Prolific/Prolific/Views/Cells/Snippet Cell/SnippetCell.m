@@ -10,25 +10,29 @@
 
 #import "DAO.h"
 
-#pragma mark - Implementation
-
 static NSString *const kTappedVoteIconID = @"tapped-vote-icon";
 static NSString *const kUntappedVoteIconID = @"untapped-vote-icon";
 
+#pragma mark - Implementation
+
 @implementation SnippetCell
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _cellView = [[SnippetCellView alloc] initWithFrame:frame];
+        [self.contentView addSubview:_cellView];
+    }
+    return self;
+}
 
 #pragma mark - Setup
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGRect const bounds = self.bounds;
-    CGFloat const boundsWidth = CGRectGetWidth(bounds);
-    CGFloat const boundsHeight = CGRectGetHeight(bounds);
-    CGRect const cellFrame = CGRectMake(0, 0, boundsWidth, boundsHeight);
-    
-    _cellView = [[SnippetCellView alloc] initWithFrame:cellFrame];
-    [self addSubview:_cellView];
+    _cellView.frame = self.contentView.bounds;
     
     _cellView.usernameLabel.text = _snippet.authorId;
     _cellView.seedContentLabel.text = _snippet.text;
