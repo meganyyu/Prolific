@@ -13,9 +13,10 @@
 
 static NSString *const kProfileIconId = @"profile-icon";
 
-@interface ProfileViewController ()
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) DAO *dao;
+@property UIImagePickerController *imagePickerVC;
 @property (nonatomic, strong) UIView *profileView;
 @property (nonatomic, strong) UIImageView *profileImageView;
 @property (nonatomic, strong) UIButton *profileImageButton;
@@ -31,6 +32,8 @@ static NSString *const kProfileIconId = @"profile-icon";
     
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
+    
+    [self setupImagePicker];
     
     _profileView = [[UIView alloc] init];
     [self.view addSubview:_profileView];
@@ -66,6 +69,19 @@ static NSString *const kProfileIconId = @"profile-icon";
     CGFloat const profileImageButtonX = _profileView.center.x - 150;
     CGFloat const profileImageButtonY = boundsHeight - 300;
     _profileImageButton.frame = CGRectMake(profileImageButtonX, profileImageButtonY, 300, 30);
+}
+
+- (void)setupImagePicker {
+    _imagePickerVC = [UIImagePickerController new];
+    _imagePickerVC.delegate = self;
+    _imagePickerVC.allowsEditing = YES;
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    } else {
+        NSLog(@"Camera 🚫 available so we will use photo library instead");
+        _imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
 }
 
 @end
