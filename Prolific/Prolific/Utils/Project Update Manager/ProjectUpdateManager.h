@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)updateProject:(Project *)project
            completion:(void(^)(Project *project, NSError *error))completion;
 
++ (void)updateLatestRound:(Round *)latestRound
+withSubmissions:(NSMutableArray *)submissions
+   forProjectId:(NSString *)projId
+               completion:(void(^)(Round *updatedRound, Round *newRound, NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -20,67 +20,36 @@
     [dao getAllRoundsForProjectId:project.projectId
                        completion:^(NSMutableArray *rounds, NSError *error) {
         if (rounds) {
-            // If successfully retrieved rounds, then populate the latest round with all of its submissions
+            // Populate the latest round with all of its submissions
             Round *const latestRound = rounds[rounds.count - 1];
             
             [dao getAllSubmissionsforRoundId:latestRound.roundId
                                    projectId:project.projectId
                                   completion:^(NSMutableArray *submissions, NSError *error) {
                 if (submissions) {
-                    // If fetching submissions was successful, then check whether the latest round should be completed, extended, or left alone
-                    RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
-                                                        withSubmissions:submissions];
-                    RoundBuilder *const roundBuilderMarkedComplete = [roundBuilder markCompleteAndSetWinningSnippet];
-                    RoundBuilder *const roundBuilderExtendedTime = [roundBuilder extendEndTime];
+                    // Check whether the latest round should be completed, extended, or left alone, and update project accordingly
                     
-                    if (roundBuilderMarkedComplete) {
-                        // If the round should be marked as complete, update the latest round on both server/client and...
-                        Round *const updatedLatestRound = [roundBuilder build];
-                        
-                        [dao updateExistingRound:updatedLatestRound
-                                         forProjectId:project.projectId
-                                           completion:^(NSError * _Nonnull error) {
-                            if (error) {
-                                completion(nil, error);
-                            } else {
-                                // ...start a new round if updating the latest round was successful!
-                                RoundBuilder *const newRoundBuilder = [[RoundBuilder alloc] init];
-                                [dao saveNewRoundWithBuilder:newRoundBuilder
-                                                forProjectId:project.projectId
-                                                  completion:^(Round *round, NSError *error) {
-                                    if (round) {
-                                        // And then compile a project with the updated latest round and the new round
-                                        Project *const updatedProj = [[[[[[ProjectBuilder alloc] initWithProject:project]
-                                                                   withRounds:rounds]
-                                                                  updateLatestRound:updatedLatestRound]
-                                                                 addRound:round]
-                                                                build];
-                                        updatedProj ? completion(updatedProj, nil) : completion(nil, error);
-                                    } else {
-                                        completion(nil, error);
-                                    }
-                                }];
+                    [ProjectUpdateManager updateLatestRound:latestRound
+                                            withSubmissions:submissions
+                                               forProjectId:project.projectId
+                                                 completion:^(Round *updatedRound, Round *newRound, NSError *error) {
+                        ProjectBuilder *updatedProjBuilder = [[[ProjectBuilder alloc] initWithProject:project]
+                                                              withRounds:rounds];
+                        if (error) {
+                            completion(nil, error);
+                        }
+                        else if (updatedRound) {
+                            updatedProjBuilder = [updatedProjBuilder updateLatestRound:updatedRound];
+                            if (newRound) {
+                                updatedProjBuilder = [updatedProjBuilder addRound:newRound];
                             }
-                        }];
-                    } else if (roundBuilderExtendedTime) {
-                        // If the round should be extended instead, then update the latest round on both server/client
-                        Round *const extendedLatestRound = [roundBuilder build];
-                        
-                        [dao updateExistingRound:extendedLatestRound
-                                         forProjectId:project.projectId
-                                           completion:^(NSError *error) {
-                            if (error) {
-                                completion(nil, error);
-                            } else {
-                                // compile a project wiht the updated latest round
-                                Project *const updatedProj = [[[[[ProjectBuilder alloc] initWithProject:project]
-                                                          withRounds:rounds]
-                                                         updateLatestRound:extendedLatestRound]
-                                                        build];
-                                updatedProj ? completion(updatedProj, nil) : completion(nil, error);
-                            }
-                        }];
-                    }
+                            Project *const updatedProj = [updatedProjBuilder build];
+                            updatedProj ? completion(updatedProj, nil) : completion(nil, error);
+                        }
+                        else {
+                            completion(project, error);
+                        }
+                    }];
                 } else {
                     // If fetching latest round's submissions was unsuccessful, just return the project with its rounds for now
                     Project *const projWithRounds = [[[[ProjectBuilder alloc] initWithProject:project]
@@ -93,6 +62,59 @@
             completion(nil, error);
         }
     }];
+}
+
++ (void)updateLatestRound:(Round *)latestRound
+          withSubmissions:(NSMutableArray *)submissions
+             forProjectId:(NSString *)projId
+               completion:(void(^)(Round *updatedRound, Round *newRound, NSError *error))completion {
+    DAO *const dao = [[DAO alloc] init];
+    
+    RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
+                                        withSubmissions:submissions];
+    RoundBuilder *const roundBuilderMarkedComplete = [roundBuilder markCompleteAndSetWinningSnippet];
+    RoundBuilder *const roundBuilderExtendedTime = [roundBuilder extendEndTime];
+    
+    if (roundBuilderMarkedComplete) {
+        // If the round should be marked as complete, update the latest round on both server/client and...
+        Round *const updatedLatestRound = [roundBuilder build];
+        
+        [dao updateExistingRound:updatedLatestRound
+                    forProjectId:projId
+                      completion:^(NSError *error) {
+            if (error) {
+                completion(nil, nil, error);
+            } else {
+                // ...start a new round.
+                RoundBuilder *const newRoundBuilder = [[RoundBuilder alloc] init];
+                [dao saveNewRoundWithBuilder:newRoundBuilder
+                                forProjectId:projId
+                                  completion:^(Round *newRound, NSError *error) {
+                    if (newRound) {
+                        completion(updatedLatestRound, newRound, nil);
+                    } else {
+                        completion(nil, nil, error);
+                    }
+                }];
+            }
+        }];
+    } else if (roundBuilderExtendedTime) {
+        // If the round should be extended instead, update the latest round on both server/client
+        Round *const extendedLatestRound = [roundBuilder build];
+        
+        [dao updateExistingRound:extendedLatestRound
+                    forProjectId:projId
+                      completion:^(NSError *error) {
+            if (error) {
+                completion(nil, nil, error);
+            } else {
+                completion(extendedLatestRound, nil, nil);
+            }
+        }];
+    }
+    
+    // if no updates need to be made and no error, just pass back nil
+    completion(nil, nil, nil);
 }
 
 @end
