@@ -11,8 +11,11 @@
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
+#import "ProjectCell.h"
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
+
+static NSString *const kRoundComposeIconId = @"round-compose-icon";
 
 #pragma mark - Interface
 
@@ -38,8 +41,6 @@
     [super viewDidLoad];
     
     _dao = [[DAO alloc] init];
-    
-    self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"Project Details";
     [super setupBackButton];
@@ -140,6 +141,9 @@
             [strongSelf.dao getAllSubmissionsforRoundId:latestRound.roundId
                                     projectId:strongSelf.project.projectId
                                    completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
+                __strong typeof (weakSelf) strongSelf = weakSelf;
+                if (strongSelf == nil) return;
+                
                 if (submissions) {
                     RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
                                                         withSubmissions:submissions];
@@ -148,7 +152,16 @@
                     
                     if (roundBuilderMarkedComplete) {
                         Round *const updatedLatestRound = [roundBuilder build];
-                        //TODO: update project's rounds array with updatedLatestRound
+                        int latestRoundNumber = (int) strongSelf.project.rounds.count - 1;
+                        strongSelf.project.rounds[latestRoundNumber] = updatedLatestRound;
+                        
+                        [strongSelf.dao updateExistingRound:updatedLatestRound
+                                         forProjectId:strongSelf.project.projectId
+                                           completion:^(NSError * _Nonnull error) {
+                            if (error) {
+                                NSLog(@"Error marking round as complete.");
+                            }
+                        }];
                         
                         RoundBuilder *const newRoundBuilder = [[RoundBuilder alloc] init];
                         [strongSelf.dao saveNewRoundWithBuilder:newRoundBuilder
@@ -173,7 +186,8 @@
                         }];
                     } else if (roundBuilderExtendedTime) {
                         Round *const extendedLatestRound = [roundBuilder build];
-                        //TODO: update project's rounds array with updatedLatestRound
+                        int latestRoundNumber = (int) strongSelf.project.rounds.count - 1;
+                        strongSelf.project.rounds[latestRoundNumber] = extendedLatestRound;
                         
                         [strongSelf.dao updateExistingRound:extendedLatestRound
                                          forProjectId:strongSelf.project.projectId
@@ -215,7 +229,7 @@
                                                           projectId:_project.projectId
                                                navigationController:self.navigationController];
     } else {
-        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
+        NSLog(@"Nothing to preview.");
     }
 }
 
@@ -224,7 +238,7 @@
 - (void)didSubmit:(Snippet *)snippet
             round:(Round *)round {
     int latestRoundNumber = (int) _project.rounds.count - 1;
-    latestRoundNumber >= 0 ? _project.rounds[latestRoundNumber] = round : NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
+    latestRoundNumber >= 0 ? _project.rounds[latestRoundNumber] = round : NSLog(@"Error, project's rounds array has no Round objects in it.");
 }
 
 #pragma mark - UICollectionViewDataSource Protocol

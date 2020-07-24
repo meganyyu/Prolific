@@ -35,12 +35,10 @@
     
     _dao = [[DAO alloc] init];
     
-    // collection view layout
-    [self setupCollectionView];
-    
-    // Navigation customization
     self.navigationItem.title = @"Round Submissions";
     [super setupBackButton];
+    
+    [self setupCollectionView];
     
     [self loadSubmissions];
 }
