@@ -35,19 +35,10 @@
     
     _dao = [[DAO alloc] init];
     
-    // collection view layout
-    [self setupCollectionView];
-    
-    // Navigation customization
     self.navigationItem.title = @"Round Submissions";
-    UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    backButton.frame = CGRectMake(0, 0, 20, 20);
-    [backButton setImage:[UIImage imageNamed:@"back_arrow_icon"]
-                forState:UIControlStateNormal];
-    [backButton addTarget:self
-                 action:@selector(onTapBack:)
-       forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [super setupBackButton];
+    
+    [self setupCollectionView];
     
     [self loadSubmissions];
 }
@@ -87,12 +78,6 @@
             NSLog(@"Error retrieving submissions: %@", error.localizedDescription);
         }
     }];
-}
-
-#pragma mark - User Actions
-
-- (void)onTapBack:(id)sender{
-    [NavigationManager exitTopViewController:self.navigationController];
 }
 
 #pragma mark - SnippetCellDelegate Protocol

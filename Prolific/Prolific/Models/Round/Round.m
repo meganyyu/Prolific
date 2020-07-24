@@ -8,6 +8,8 @@
 
 #import "Round.h"
 
+@import Firebase;
+
 @implementation Round
 
 #pragma mark - Initializer

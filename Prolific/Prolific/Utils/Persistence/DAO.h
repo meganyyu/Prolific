@@ -28,8 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
                     forProjectId:(NSString *)projectId
-                        forRound: (Round *)round
-                      completion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion;
+                      forRoundId:(NSString *)roundId
+                      completion:(void(^)(Snippet *snippet, NSError *error))completion;
 
 /** Updates a snippet for a round in a project with the identifier projectId. Will return error message if update unsuccessful. */
 - (void)updateExistingSnippet:(Snippet *)snippet forProjectId:(NSString *)projectId forRound:(Round *)round completion:(void(^)(NSError *error))completion;
@@ -39,7 +39,23 @@ NS_ASSUME_NONNULL_BEGIN
                           projectId:(NSString *)projectId
                          completion:(void(^)(NSMutableArray *submissions, NSError *error))completion;
 
+/** Gets submissions with the identifier snippetId from a specified round and project. Will return error message if snippet document does not exist. */
+- (void)getSubmissionWithId:(NSString *)snippetId
+                 forRoundId:(NSString *)roundId
+                  projectId:(NSString *)projectId
+                 completion:(void(^)(Snippet *snippet, NSError *error))completion;
+
 #pragma mark - Round
+
+/** Saves a new round to a project with identifier projectId. Will return error message if project document does not have any rounds as expected. */
+- (void)saveNewRoundWithBuilder:(RoundBuilder *)roundBuilder
+                     forProjectId:(NSString *)projectId
+                     completion:(void(^)(Round *round, NSError *error))completion;
+
+/** Updates a round in a project with the identifier projectId. Will return error message if update unsuccessful. */
+- (void)updateExistingRound:(Round *)round
+               forProjectId:(NSString *)projectId
+                 completion:(void(^)(NSError *error))completion;
 
 /** Gets all rounds from a project with the identifier projectId, in order from earliest to latest. This is a shallow level retrieval - will not retrieve all submissions for a round. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
 - (void)getAllRoundsForProjectId:(NSString *)projectId

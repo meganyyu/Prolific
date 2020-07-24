@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProlificBaseViewController : UIViewController
 
+- (void)setupBackButton;
+
 @end
 
 NS_ASSUME_NONNULL_END

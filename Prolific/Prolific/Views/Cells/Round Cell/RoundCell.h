@@ -6,11 +6,17 @@
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import "SnippetCell.h"
+#import "BaseCell.h"
+
+#import "Snippet.h"
+#import "RoundCellView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RoundCell : SnippetCell
+@interface RoundCell : BaseCell
+
+@property (nonatomic, strong, nullable) Snippet *snippet;
+@property (nonatomic, strong) RoundCellView *cellView;
 
 @end
 

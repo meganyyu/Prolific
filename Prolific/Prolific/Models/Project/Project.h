@@ -27,8 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and mutable) attributes
 @property (nonatomic, readonly) BOOL isComplete;
-@property (nonatomic, strong, readonly) NSNumber *currentRound; //FIXME: may not need this property at all
-@property (nonatomic, strong) NSMutableArray<Round *> *rounds;
+@property (nonatomic, strong, readonly) NSNumber *currentRound;
+@property (nonatomic, strong, readonly) NSMutableArray<Round *> *rounds;
 
 #pragma mark - Methods
 

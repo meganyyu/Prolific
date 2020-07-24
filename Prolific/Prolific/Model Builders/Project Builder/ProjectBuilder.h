@@ -33,6 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
                 dictionary:(NSDictionary *)data
                     rounds:(NSMutableArray *)rounds;
 
+/** Returns ProjectBuilder with all fields initialized as a copy of a Project model. */
+- (instancetype)initWithProject:(Project *)project;
+
 - (ProjectBuilder *)withId:(NSString *)projectId;
 
 - (ProjectBuilder *)withName:(NSString *)projectName;
@@ -41,11 +44,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)withSeed:(NSString *)seed;
 
-- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber;
+- (ProjectBuilder *)incrementCurrentRoundNumber;
 
-- (ProjectBuilder *)isComplete:(BOOL)value;
+- (ProjectBuilder *)markComplete;
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds;
+
+- (ProjectBuilder *)updateLatestRound:(Round *)updatedRound;
+
+- (ProjectBuilder *)addRound:(Round *)round;
 
 /** Returns fully built Project if ProjectBuilder has all fields initialized properly. Else returns nil. */
 - (Project *)build;

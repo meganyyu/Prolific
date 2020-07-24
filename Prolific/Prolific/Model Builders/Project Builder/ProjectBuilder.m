@@ -24,7 +24,7 @@ static NSString *const kSeedKey = @"seed";
     if (self) {
         _projectId = nil;
         _name = nil;
-        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _seed = nil;
         _currentRound = [NSNumber numberWithInt:0];
         _isComplete = NO;
@@ -40,19 +40,30 @@ static NSString *const kSeedKey = @"seed";
     
     if (self) {
         if (projectId && rounds &&
-            [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
-            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
-            [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
-            [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
-            [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]]) {
+            [self validateRequiredDictionaryData:data]) {
             _projectId = projectId;
             _rounds = rounds;
             _name = data[kNameKey];
-            _createdAt = data[kCreatedAtKey];
+            _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _seed = data[kSeedKey];
             _currentRound = data[kCurrentRoundKey];
             _isComplete = data[kIsCompleteKey];
         }
+    }
+    return self;
+}
+
+- (instancetype)initWithProject:(Project *)project {
+    self = [self init];
+    
+    if (self) {
+        _projectId = project.projectId;
+        _name = project.name;
+        _createdAt = project.createdAt;
+        _seed = project.seed;
+        _currentRound = project.currentRound;
+        _isComplete = project.isComplete;
+        _rounds = project.rounds;
     }
     return self;
 }
@@ -77,18 +88,32 @@ static NSString *const kSeedKey = @"seed";
     return self;
 }
 
-- (ProjectBuilder *)withCurrentRoundNumber:(NSNumber *)roundNumber {
-    _currentRound = roundNumber;
+- (ProjectBuilder *)incrementCurrentRoundNumber {
+    _currentRound = [NSNumber numberWithInt:[_currentRound intValue] + 1];
     return self;
 }
 
-- (ProjectBuilder *)isComplete:(BOOL)value {
-    _isComplete = value;
+- (ProjectBuilder *)markComplete {
+    _isComplete = YES;
     return self;
 }
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds {
     _rounds = rounds;
+    return self;
+}
+
+- (ProjectBuilder *)updateLatestRound:(Round *)updatedRound {
+    int latestRoundNumber = (int) _rounds.count - 1;
+    if (latestRoundNumber >= 0) {
+        _rounds[latestRoundNumber] = updatedRound;
+        return self;
+    }
+    return nil;
+}
+
+- (ProjectBuilder *)addRound:(Round *)round {
+    [_rounds addObject:round];
     return self;
 }
 
@@ -98,6 +123,17 @@ static NSString *const kSeedKey = @"seed";
         return proj;
     }
     return nil;
+}
+
+#pragma mark - Helper functions
+
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+    [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
+    [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
+    [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]];
 }
 
 @end

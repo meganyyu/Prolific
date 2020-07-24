@@ -22,9 +22,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     self = [super init];
     if (self) {
         _roundId = nil;
-        _createdAt = [FIRTimestamp timestamp].dateValue;
+        _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _isComplete = NO;
-        _endTime = [FIRTimestamp timestamp].dateValue;
+        _endTime = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _submissions = [[NSMutableArray alloc] init];
         _winningSnippetId = nil;
     }
@@ -38,18 +38,30 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     if (self) {
         if (roundId && submissions &&
-            [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
-            [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
-            [[data objectForKey:kEndTimeKey] isKindOfClass:[FIRTimestamp class]]) {
+            [self validateRequiredDictionaryData:data]) {
             _roundId = roundId;
             _submissions = submissions;
-            _isComplete = data[kIsCompleteKey];
-            _createdAt = data[kCreatedAtKey];
-            _endTime = data[kEndTimeKey];
+            _isComplete = [data[kIsCompleteKey] boolValue];
+            _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
+            _endTime = [ProlificUtils convertTimestampToDate:data[kEndTimeKey]];
         }
         if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
             _winningSnippetId = data[kWinningSnippetIdKey];
         }
+    }
+    return self;
+}
+
+- (instancetype)initWithRound:(Round *)round {
+    self = [self init];
+    
+    if (self) {
+        _roundId = round.roundId;
+        _createdAt = round.createdAt;
+        _isComplete = round.isComplete;
+        _endTime = round.endTime;
+        _submissions = round.submissions;
+        _winningSnippetId = round.winningSnippetId;
     }
     return self;
 }
@@ -64,8 +76,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     return self;
 }
 
-- (RoundBuilder *)isComplete:(BOOL)value {
-    _isComplete = value;
+- (RoundBuilder *)markComplete {
+    _isComplete = YES;
     return self;
 }
 
@@ -76,6 +88,11 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions {
     _submissions = submissions;
+    return self;
+}
+
+- (RoundBuilder *)addSubmission:(Snippet *)snippet {
+    [_submissions addObject:snippet];
     return self;
 }
 
@@ -90,6 +107,70 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         return round;
     }
     return nil;
+}
+
+#pragma mark - Round completion
+
+- (RoundBuilder *)markCompleteAndSetWinningSnippet {
+    if ([self needToMarkAsComplete]) {
+        _isComplete = YES;
+        
+        Snippet *winningSnippetSoFar = _submissions[0];
+        
+        for (Snippet *const snippet in _submissions) {
+            if (snippet.voteCount > winningSnippetSoFar.voteCount) {
+                winningSnippetSoFar = snippet;
+            }
+        }
+        _winningSnippetId = winningSnippetSoFar.snippetId;
+        return self;
+    }
+    return nil;
+}
+
+- (RoundBuilder *)extendEndTime {
+    if ([self needToExtendTime]) {
+        NSDateComponents *const dayComponent = [[NSDateComponents alloc] init];
+        dayComponent.day = 1;
+        NSLog(@"Extending deadline! End time is originally: %@", _endTime);
+        NSCalendar *const currCalendar = [NSCalendar currentCalendar];
+        NSDate *const extendedEndTime = [currCalendar dateByAddingComponents:dayComponent toDate:_endTime options:0];
+        
+        _endTime = extendedEndTime;
+        NSLog(@"New end time is: %@", _endTime);
+        return self;
+    }
+    return nil;
+}
+
+#pragma mark - Helper functions
+
+/** Validates that the data passed in through a dictionary is valid. */
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
+    [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]] &&
+    [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
+    [[data objectForKey:kEndTimeKey] isKindOfClass:[FIRTimestamp class]];
+}
+
+- (BOOL)needToMarkAsComplete {
+    NSDate *const currTime = [FIRTimestamp timestamp].dateValue;
+    if (!_isComplete &&
+        _submissions.count > 0 &&
+        [currTime timeIntervalSinceDate:_endTime] > 0) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)needToExtendTime {
+    NSDate *const currTime = [FIRTimestamp timestamp].dateValue;
+    if (!_isComplete &&
+        _submissions.count == 0 &&
+        [currTime timeIntervalSinceDate:_endTime] > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

@@ -31,14 +31,7 @@
     _dao = [[DAO alloc] init];
     
     self.navigationItem.title = @"Project Details";
-    UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    backButton.frame = CGRectMake(0, 0, 20, 20);
-    [backButton setImage:[UIImage imageNamed:@"back_arrow_icon"]
-                forState:UIControlStateNormal];
-    [backButton addTarget:self
-                 action:@selector(onTapBack:)
-       forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    [super setupBackButton];
     
     _composeView = [[UIView alloc] init];
     [self.view addSubview:_composeView];
@@ -87,7 +80,8 @@
     [self resignFields];
     
     [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
-        if (snippet) {
+        if (snippet && round) {
+            self.round = round;
             [self.delegate didSubmit:snippet round:round];
             
             __weak typeof(self) weakSelf = self;
@@ -103,25 +97,27 @@
     }];
 }
 
-- (void)onTapBack:(id)sender{
-    [self resignFields];
-    
-    [NavigationManager exitTopViewController:self.navigationController];
-}
-
 #pragma mark - Snippet submission
 
 - (void)submitSnippetWithCompletion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion {
     SnippetBuilder *const snippetBuilder = [[[SnippetBuilder alloc] init]
                                              withText:_composeTextView.text];
+    
+    __weak typeof(self) weakSelf = self;
     [_dao submitSnippetWithBuilder:snippetBuilder
                      forProjectId:_projectId
-                         forRound: _round
-                       completion:^(Snippet *snippet, Round *round, NSError *error) {
+                        forRoundId:_round.roundId
+                        completion:^(Snippet *snippet, NSError *error) {
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
         if (error) {
             completion(nil, nil, error);
         } else {
-            completion(snippet, round, nil);
+            RoundBuilder *const roundBuilder = [[RoundBuilder alloc] initWithRound:strongSelf.round];
+            Round *const updatedRound = [[roundBuilder addSubmission:snippet]
+                                   build];
+            completion(snippet, updatedRound, nil);
         }
     }];
 }

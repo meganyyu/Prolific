@@ -48,6 +48,9 @@
 		71CF521C24C77D14008DB4EF /* VoteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF521B24C77D14008DB4EF /* VoteButton.m */; };
 		71CF521D24C7A32A008DB4EF /* DAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 713AA08A24C0E1E000A5950E /* DAO.m */; };
 		71CF522124C891F5008DB4EF /* UIColor+ProlificColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF522024C891F5008DB4EF /* UIColor+ProlificColors.m */; };
+		71CF522524C9257A008DB4EF /* ProlificUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF522424C9257A008DB4EF /* ProlificUtils.m */; };
+		71F55C4624CA36C000B266BF /* RoundCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F55C4524CA36C000B266BF /* RoundCellView.m */; };
+		71F55C4E24CB388300B266BF /* ProjectUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */; };
 		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
 		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
@@ -148,6 +151,12 @@
 		71CF521B24C77D14008DB4EF /* VoteButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VoteButton.m; sourceTree = "<group>"; };
 		71CF521F24C891F5008DB4EF /* UIColor+ProlificColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+ProlificColors.h"; sourceTree = "<group>"; };
 		71CF522024C891F5008DB4EF /* UIColor+ProlificColors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ProlificColors.m"; sourceTree = "<group>"; };
+		71CF522324C9257A008DB4EF /* ProlificUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProlificUtils.h; sourceTree = "<group>"; };
+		71CF522424C9257A008DB4EF /* ProlificUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificUtils.m; sourceTree = "<group>"; };
+		71F55C4424CA36C000B266BF /* RoundCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundCellView.h; sourceTree = "<group>"; };
+		71F55C4524CA36C000B266BF /* RoundCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundCellView.m; sourceTree = "<group>"; };
+		71F55C4C24CB388300B266BF /* ProjectUpdateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectUpdateManager.h; sourceTree = "<group>"; };
+		71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectUpdateManager.m; sourceTree = "<group>"; };
 		857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.release.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.release.xcconfig"; sourceTree = "<group>"; };
 		895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.debug.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -542,6 +551,7 @@
 			children = (
 				71CF520B24C74262008DB4EF /* Base Cell View */,
 				71CF520D24C74276008DB4EF /* Snippet Cell View */,
+				71F55C4324CA369800B266BF /* Round Cell View */,
 				71CF520C24C7426F008DB4EF /* Project Cell View */,
 			);
 			path = "Cell Views";
@@ -602,6 +612,8 @@
 		71CF521924C779B2008DB4EF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				71F55C4B24CB387000B266BF /* Project Update Manager */,
+				71CF522224C92512008DB4EF /* Prolific Utils */,
 				71CF521E24C89198008DB4EF /* Color Scheme */,
 				713AA08824C0E0E600A5950E /* Persistence */,
 				7191116F24BD044D00070A32 /* Navigation */,
@@ -616,6 +628,33 @@
 				71CF522024C891F5008DB4EF /* UIColor+ProlificColors.m */,
 			);
 			path = "Color Scheme";
+			sourceTree = "<group>";
+		};
+		71CF522224C92512008DB4EF /* Prolific Utils */ = {
+			isa = PBXGroup;
+			children = (
+				71CF522324C9257A008DB4EF /* ProlificUtils.h */,
+				71CF522424C9257A008DB4EF /* ProlificUtils.m */,
+			);
+			path = "Prolific Utils";
+			sourceTree = "<group>";
+		};
+		71F55C4324CA369800B266BF /* Round Cell View */ = {
+			isa = PBXGroup;
+			children = (
+				71F55C4424CA36C000B266BF /* RoundCellView.h */,
+				71F55C4524CA36C000B266BF /* RoundCellView.m */,
+			);
+			path = "Round Cell View";
+			sourceTree = "<group>";
+		};
+		71F55C4B24CB387000B266BF /* Project Update Manager */ = {
+			isa = PBXGroup;
+			children = (
+				71F55C4C24CB388300B266BF /* ProjectUpdateManager.h */,
+				71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */,
+			);
+			path = "Project Update Manager";
 			sourceTree = "<group>";
 		};
 		FF52A583CD9670382704644A /* Frameworks */ = {
@@ -879,6 +918,7 @@
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,
+				71CF522524C9257A008DB4EF /* ProlificUtils.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
@@ -887,6 +927,7 @@
 				711746E524BFC4F00021F9CD /* RoundBuilder.m in Sources */,
 				71CF520624C66CC9008DB4EF /* BaseCellView.m in Sources */,
 				7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */,
+				71F55C4624CA36C000B266BF /* RoundCellView.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				7188D85824C6526F00E50876 /* RoundCell.m in Sources */,
 				7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */,
@@ -900,6 +941,7 @@
 				7118C3F624BF607D005E1816 /* Snippet.m in Sources */,
 				714D1F8124C25D2D00749291 /* ComposeSnippetViewController.m in Sources */,
 				7188D85B24C655AB00E50876 /* ProjectCellView.m in Sources */,
+				71F55C4E24CB388300B266BF /* ProjectUpdateManager.m in Sources */,
 				7118C3FC24BF681F005E1816 /* Round.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

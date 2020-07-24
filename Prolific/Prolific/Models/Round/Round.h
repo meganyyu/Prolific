@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 // required (and mutable) attributes
 @property (nonatomic, readonly) BOOL isComplete;
 @property (nonatomic, strong, readonly) NSDate *endTime;
-@property (nonatomic, strong) NSMutableArray<Snippet *> *submissions;
+@property (nonatomic, strong, readonly) NSMutableArray<Snippet *> *submissions;
 
 // optional (and immutable) attributes
 @property (nonatomic, strong, readonly) NSString *winningSnippetId;
