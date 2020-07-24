@@ -27,6 +27,21 @@ static NSString *const kDisplayNameKey = @"displayName";
     return self;
 }
 
+- (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data {
+    self = [self init];
+    
+    if (self) {
+        if (userId &&
+            [self validateRequiredDictionaryData:data]) {
+            _userId = userId;
+            _username = data[kUsernameKey];
+            _email = @""; //FIXME: load with actual email from FIRAuth
+            _displayName = data[kDisplayNameKey];
+        }
+    }
+    return self;
+}
+
 - (UserBuilder *)withId:(NSString *)userId {
     _userId = userId;
     return self;
