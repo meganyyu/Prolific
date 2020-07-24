@@ -12,6 +12,7 @@
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
 #import "ProjectCell.h"
+#import "ProjectUpdateManager.h"
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
 
@@ -98,89 +99,25 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
 
 - (void)refreshData {
     __weak typeof (self) weakSelf = self;
-    [_dao getAllRoundsForProjectId:_project.projectId
-                        completion:^(NSMutableArray * _Nonnull rounds, NSError * _Nonnull error) {
+    [ProjectUpdateManager updateProject:_project completion:^(Project *project, NSError *error) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return;
         
-        if (rounds) {
-            strongSelf.project.rounds = rounds;
-            
-            Round *const latestRound = strongSelf.project.rounds[strongSelf.project.rounds.count - 1];
-            
-            [strongSelf.dao getAllSubmissionsforRoundId:latestRound.roundId
-                                    projectId:strongSelf.project.projectId
-                                   completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
-                __strong typeof (weakSelf) strongSelf = weakSelf;
-                if (strongSelf == nil) return;
-                
-                if (submissions) {
-                    RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
-                                                        withSubmissions:submissions];
-                    RoundBuilder *const roundBuilderMarkedComplete = [roundBuilder markCompleteAndSetWinningSnippet];
-                    RoundBuilder *const roundBuilderExtendedTime = [roundBuilder extendEndTime];
-                    
-                    if (roundBuilderMarkedComplete) {
-                        Round *const updatedLatestRound = [roundBuilder build];
-                        int latestRoundNumber = (int) strongSelf.project.rounds.count - 1;
-                        strongSelf.project.rounds[latestRoundNumber] = updatedLatestRound;
-                        
-                        [strongSelf.dao updateExistingRound:updatedLatestRound
-                                         forProjectId:strongSelf.project.projectId
-                                           completion:^(NSError * _Nonnull error) {
-                            if (error) {
-                                NSLog(@"Error marking round as complete.");
-                            }
-                        }];
-                        
-                        RoundBuilder *const newRoundBuilder = [[RoundBuilder alloc] init];
-                        [strongSelf.dao saveNewRoundWithBuilder:newRoundBuilder
-                                             forProjectId:strongSelf.project.projectId
-                                               completion:^(Round *round, NSError *error) {
-                            __strong typeof (weakSelf) strongSelf = weakSelf;
-                            if (strongSelf == nil) return;
-                            
-                            if (round) {
-                                [strongSelf.project.rounds addObject:round];
-                            } else {
-                                NSLog(@"Failed to start a new round, try again.");
-                            }
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                typeof(self) strongSelf = weakSelf;
-                                if (strongSelf) {
-                                    [strongSelf.collectionView reloadData];
-                                }
-                            });
-                        }];
-                    } else if (roundBuilderExtendedTime) {
-                        Round *const extendedLatestRound = [roundBuilder build];
-                        int latestRoundNumber = (int) strongSelf.project.rounds.count - 1;
-                        strongSelf.project.rounds[latestRoundNumber] = extendedLatestRound;
-                        
-                        [strongSelf.dao updateExistingRound:extendedLatestRound
-                                         forProjectId:strongSelf.project.projectId
-                                           completion:^(NSError * _Nonnull error) {
-                            if (error) {
-                                NSLog(@"Error extending time for round.");
-                            }
-                        }];
-                    }
-                } else {
-                    NSLog(@"Error retrieving submissions for latestRound: %@", error.localizedDescription);
-                }
-            }];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf.collectionView reloadData];
-                }
-            });
+        if (error) {
+            NSLog(@"Error, please try reloading page again: %@", error);
         } else {
-            NSLog(@"Failed to load rounds for project");
+            strongSelf.project = project;
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            typeof(self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.collectionView reloadData];
+            }
+        });
     }];
+    
+    
 }
 
 #pragma mark - User actions
@@ -213,8 +150,15 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
 
 - (void)didSubmit:(Snippet *)snippet
             round:(Round *)round {
-    int latestRoundNumber = (int) _project.rounds.count - 1;
-    latestRoundNumber >= 0 ? _project.rounds[latestRoundNumber] = round : NSLog(@"Error, project's rounds array has no Round objects in it.");
+    ProjectBuilder *projBuilder = [[[ProjectBuilder alloc] initWithProject:_project]
+                                   updateLatestRound:round];
+    
+    if (projBuilder) {
+        Project *updatedProj = [projBuilder build];
+        _project = updatedProj;
+    } else {
+        NSLog(@"Error adding submission to project.");
+    }
 }
 
 #pragma mark - UICollectionViewDataSource Protocol

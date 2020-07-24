@@ -80,7 +80,8 @@
     [self resignFields];
     
     [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
-        if (snippet) {
+        if (snippet && round) {
+            self.round = round;
             [self.delegate didSubmit:snippet round:round];
             
             __weak typeof(self) weakSelf = self;
@@ -101,15 +102,22 @@
 - (void)submitSnippetWithCompletion:(void(^)(Snippet *snippet, Round *round, NSError *error))completion {
     SnippetBuilder *const snippetBuilder = [[[SnippetBuilder alloc] init]
                                              withText:_composeTextView.text];
+    
+    __weak typeof(self) weakSelf = self;
     [_dao submitSnippetWithBuilder:snippetBuilder
                      forProjectId:_projectId
                         forRoundId:_round.roundId
                         completion:^(Snippet *snippet, NSError *error) {
+        typeof(self) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
         if (error) {
             completion(nil, nil, error);
         } else {
-            [self.round.submissions addObject:snippet];
-            completion(snippet, self.round, nil);
+            RoundBuilder *const roundBuilder = [[RoundBuilder alloc] initWithRound:strongSelf.round];
+            Round *const updatedRound = [[roundBuilder addSubmission:snippet]
+                                   build];
+            completion(snippet, updatedRound, nil);
         }
     }];
 }
