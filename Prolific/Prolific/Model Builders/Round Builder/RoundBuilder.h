@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions;
 
+- (RoundBuilder *)addSubmission:(Snippet *)snippet;
+
 - (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId;
 
 /** Returns fully built Round if RoundBuilder has all fields initialized properly. Else returns nil. */

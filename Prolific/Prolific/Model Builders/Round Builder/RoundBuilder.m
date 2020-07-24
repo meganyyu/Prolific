@@ -91,6 +91,11 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     return self;
 }
 
+- (RoundBuilder *)addSubmission:(Snippet *)snippet {
+    [_submissions addObject:snippet];
+    return self;
+}
+
 - (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId {
     _winningSnippetId = winningSnippetId;
     return self;

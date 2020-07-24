@@ -103,6 +103,20 @@ static NSString *const kSeedKey = @"seed";
     return self;
 }
 
+- (ProjectBuilder *)updateLatestRound:(Round *)updatedRound {
+    int latestRoundNumber = (int) _rounds.count - 1;
+    if (latestRoundNumber >= 0) {
+        _rounds[latestRoundNumber] = updatedRound;
+        return self;
+    }
+    return nil;
+}
+
+- (ProjectBuilder *)addRound:(Round *)round {
+    [_rounds addObject:round];
+    return self;
+}
+
 - (Project *)build {
     if (_projectId && _name && _createdAt && _seed && _currentRound && _rounds) {
         Project *proj = [[Project alloc] initWithBuilder:self];

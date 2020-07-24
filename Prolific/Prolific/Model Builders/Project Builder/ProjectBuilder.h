@@ -50,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds;
 
+- (ProjectBuilder *)updateLatestRound:(Round *)updatedRound;
+
+- (ProjectBuilder *)addRound:(Round *)round;
+
 /** Returns fully built Project if ProjectBuilder has all fields initialized properly. Else returns nil. */
 - (Project *)build;
 
