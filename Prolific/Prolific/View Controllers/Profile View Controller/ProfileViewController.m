@@ -96,4 +96,20 @@ static NSString *const kProfileIconId = @"profile-icon";
                      completion:nil];
 }
 
+#pragma mark - Image Controls
+
+- (void)imagePickerController:(UIImagePickerController *)picker
+didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
+    UIImage *const editedImage = info[UIImagePickerControllerEditedImage];
+    
+    [_profileImageView setImage:editedImage];
+    
+    //TODO: send to Firebase cloud storage
+    
+    NSLog(@"finished picking an image!");
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+
 @end
