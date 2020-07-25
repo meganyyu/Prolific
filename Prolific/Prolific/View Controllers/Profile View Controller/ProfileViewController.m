@@ -45,6 +45,9 @@ static NSString *const kProfileIconId = @"profile-icon";
     _profileImageButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
     _profileImageButton.titleLabel.textColor = [UIColor whiteColor];
     [_profileImageButton setTitle:@"Click to change profile picture!" forState:normal];
+    [_profileImageButton addTarget:self
+                              action:@selector(onProfileImageTap:)
+                    forControlEvents:UIControlEventTouchUpInside];
     [_profileView addSubview:_profileImageButton];
 }
 
@@ -82,6 +85,15 @@ static NSString *const kProfileIconId = @"profile-icon";
         NSLog(@"Camera 🚫 available so we will use photo library instead");
         _imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
+}
+
+#pragma mark - User actions
+
+- (void)onProfileImageTap:(id)sender {
+    NSLog(@"Requested to change profile picture!");
+    [self presentViewController:_imagePickerVC
+                       animated:YES
+                     completion:nil];
 }
 
 @end
