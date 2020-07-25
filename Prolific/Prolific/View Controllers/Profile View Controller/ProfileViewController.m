@@ -101,8 +101,10 @@ static NSString *const kProfileIconId = @"profile-icon";
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
     UIImage *const editedImage = info[UIImagePickerControllerEditedImage];
+    UIImage *const resizedImage = [self resizeImage:editedImage
+    withSize:CGSizeMake(300, 300)];
     
-    [_profileImageView setImage:editedImage];
+    [_profileImageView setImage:resizedImage];
     
     //TODO: send to Firebase cloud storage
     
@@ -111,5 +113,19 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
                              completion:nil];
 }
 
+- (UIImage *)resizeImage:(UIImage *)image
+                withSize:(CGSize)size {
+    UIImageView *resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    
+    resizeImageView.contentMode = UIViewContentModeScaleAspectFill;
+    resizeImageView.image = image;
+    
+    UIGraphicsBeginImageContext(size);
+    [resizeImageView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 
 @end
