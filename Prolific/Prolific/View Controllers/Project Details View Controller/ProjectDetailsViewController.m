@@ -8,6 +8,7 @@
 
 #import "ProjectDetailsViewController.h"
 
+#import "ButtonCell.h"
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
@@ -44,7 +45,6 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
     [super setupBackButton];
     
     [self setupCollectionView];
-    // TODO: turn into collection view
     
     _projectView = [[UIView alloc] init];
     [self.view addSubview:_projectView];
@@ -72,6 +72,8 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
         forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView registerClass:[ProjectCell class]
     forCellWithReuseIdentifier:@"projectCell"];
+    [_collectionView registerClass:[ButtonCell class]
+    forCellWithReuseIdentifier:@"buttonCell"];
     
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
