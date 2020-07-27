@@ -44,6 +44,16 @@ static NSString *const kProfileIconId = @"profile-icon";
     _profileImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kProfileIconId]];
     [_profileView addSubview:_profileImageView];
     
+    __weak typeof (self) weakSelf = self;
+    [_dao getProfileImageforUser:_user completion:^(UIImage *userImage, NSError *error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        if (userImage) {
+            [self.profileImageView setImage:userImage];
+        }
+    }];
+    
     _profileImageButton = [[UIButton alloc] init];
     _profileImageButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
     _profileImageButton.titleLabel.textColor = [UIColor whiteColor];
