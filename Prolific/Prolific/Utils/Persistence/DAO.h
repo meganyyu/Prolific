@@ -74,6 +74,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getProjectWithId:(NSString *)projectId
               completion:(void(^)(Project *project, NSError *error))completion;
 
+#pragma mark - Cloud Storage
+
+- (void)uploadProfileImage:(NSData *)imageData
+                   forUser:(User *)user
+                completion:(void(^)(NSURL *downloadURL, NSError *error))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

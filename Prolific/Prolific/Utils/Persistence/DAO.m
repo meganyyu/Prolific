@@ -23,6 +23,7 @@ static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kProfileImagesRef = @"profileImages";
 static NSString *const kProjectsKey = @"projects";
 static NSString *const kRoundsKey = @"rounds";
 static NSString *const kSeedKey = @"seed";
@@ -37,6 +38,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 @interface DAO ()
 
 @property (nonatomic, strong) FIRFirestore *db;
+@property (nonatomic, strong) FIRStorage *storage;
 
 @end
 
@@ -47,6 +49,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     self = [super init];
     if (self) {
         _db = [FIRFirestore firestore];
+        _storage = [FIRStorage storage];
     }
     return self;
 }
@@ -321,6 +324,39 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
             completion(proj, nil);
         } else {
             completion(nil, error);
+        }
+    }];
+}
+
+#pragma mark - Cloud Storage
+
+- (void)uploadProfileImage:(NSData *)imageData
+                   forUser:(User *)user
+                completion:(void(^)(NSURL *downloadURL, NSError *error))completion {
+    NSString *const currUserId = user.userId;
+    
+    FIRStorageReference *const storageRef = [_storage reference];
+    FIRStorageReference *const profileImagesRef = [storageRef child:kProfileImagesRef];
+    FIRStorageReference *const profileImageRef = [profileImagesRef child:[NSString stringWithFormat:@"%@.png", currUserId]];
+    
+    FIRStorageMetadata *const uploadMetadata = [[FIRStorageMetadata alloc] init];
+    uploadMetadata.contentType = @"image/png";
+    
+    FIRStorageUploadTask *const uploadTask = [profileImageRef putData:imageData
+                                                             metadata:uploadMetadata
+                                                           completion:^(FIRStorageMetadata *metadata,
+                                                                        NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            [profileImageRef downloadURLWithCompletion:^(NSURL * _Nullable URL, NSError * _Nullable error) {
+                if (error != nil) {
+                    completion(nil, error);
+                } else {
+                    NSURL *downloadURL = URL;
+                    completion(downloadURL, nil);
+                }
+            }];
         }
     }];
 }
