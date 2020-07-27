@@ -11,6 +11,7 @@
 #import "DAO.h"
 @import Firebase;
 #import "UIColor+ProlificColors.h"
+#import "CircularProgressBar.h"
 
 static NSString *const kProfileIconId = @"profile-icon";
 
@@ -21,6 +22,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 @property (nonatomic, strong) UIView *profileView;
 @property (nonatomic, strong) UIImageView *profileImageView;
 @property (nonatomic, strong) UIButton *profileImageButton;
+@property (nonatomic, strong) CircularProgressBar *uploadProgressBar;
 
 @end
 
@@ -50,6 +52,10 @@ static NSString *const kProfileIconId = @"profile-icon";
                               action:@selector(onProfileImageTap:)
                     forControlEvents:UIControlEventTouchUpInside];
     [_profileView addSubview:_profileImageButton];
+    
+    _uploadProgressBar = [[CircularProgressBar alloc] init];
+    _uploadProgressBar.hidden = YES;
+    [_profileView addSubview:_uploadProgressBar];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -68,6 +74,13 @@ static NSString *const kProfileIconId = @"profile-icon";
     CGFloat const imageViewX = _profileView.center.x - imageViewWidth / 2.0;
     CGFloat const imageViewY = _profileView.center.y - imageViewHeight / 2.0;
     _profileImageView.frame = CGRectMake(imageViewX, imageViewY, imageViewWidth, imageViewHeight);
+    
+    // progress bar
+    CGFloat const progressBarWidth = 0.8 * imageViewHeight;
+    CGFloat const progressBarHeight = progressBarWidth;
+    CGFloat const progressBarX = _profileImageView.center.x - progressBarWidth / 2.0;
+    CGFloat const progressBarY = _profileImageView.center.y - progressBarHeight / 2.0;
+    _uploadProgressBar.frame = CGRectMake(progressBarX, progressBarY, progressBarWidth, progressBarHeight);
     
     // profile picture button
     CGFloat const profileImageButtonX = _profileView.center.x - 150;
@@ -134,7 +147,8 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
 - (void)uploadImage:(UIImage *)profileImage {
     NSData *const imageData = UIImagePNGRepresentation(profileImage);
     
-    [_dao uploadProfileImage:imageData forUser:_user completion:^(NSURL * _Nonnull downloadURL, NSError * _Nonnull error) {
+    __weak typeof (self) weakSelf = self;
+    FIRStorageUploadTask *const uploadTask = [_dao uploadProfileImage:imageData forUser:_user completion:^(NSURL *downloadURL, NSError *error) {
         if (error) {
             NSLog(@"Error uploading data: %@", error.localizedDescription);
         }
