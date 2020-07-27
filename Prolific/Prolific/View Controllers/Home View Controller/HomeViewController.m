@@ -166,7 +166,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 7.0);
+    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 6.0);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return collectionView.frame.size.height * 0.05;
 }
 
 #pragma mark - Firebase Auth
