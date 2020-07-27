@@ -77,6 +77,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 *Sprint 1*
 - [x] User can create a new account
+    - [x] Add Firestore SDK & Firebase Authentication SDK to app
 - [x] User can login/logout of app
 - [x] User can view starter projects, ordered by creation date, in their feed
     - At the moment, starter projects are sourced from [WritingExercises.co.uk](https://writingexercises.co.uk/firstlinegenerator.php)
@@ -86,16 +87,16 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 *Sprint 2*
 - [x] Before a "winning" snippet is chosen, user can tap the latest snippet in a project to view the snippets that have been submitted for a round
 - [x] User can vote on a submitted snippet to indicate which one they want to win a round
-- [ ] Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up (if no snippets have been submitted, add more time)
-- [ ] Setup user analytics to track user interaction with projects & snippets
+- [x] Create logic for choosing a "winning" snippet: after a certain amount of time, votes are counted up (if no snippets have been submitted, add more time)
+- [x] Setup user analytics to track user interaction with projects & snippets
 
 *Sprint 3*
-- [ ] User can compose snippets using images (ability to take photos in-app + upload photos through device)
+- [x] User can change their profile image (ability to take photos in-app + upload photos through device)
+    - [ ] Set up Cloud Storage for Firebase
 - [ ] User can follow/unfollow a project
 - [ ] User can view projects they are following in their Favorites page
 - [ ] Create MVP version of ranking algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to rank what order users see snippets that have been submitted to a project
 - [ ] Create logic for finalizing a snippet: maybe there are different types of snippets you can create - a "normal" snippet and a "final" snippet. Or maybe for each starter project, there are a limited number of snippets that can be made and the story has to finish within that number of snippets.
-- [ ] User can integrate account with Facebook SDK
 
 *Sprint 4*
 - [ ] Improve UI! Check that required UI elements are there
@@ -108,15 +109,17 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - [ ] User can compose their own starter projects
 - [ ] User can see their profile page with their own projects/snippets they've contributed to other projects and a count of their contributions
 - [ ] User can customize their profile
-- [ ] User can receive notifications when their snippet is liked or a project they are contributing to is added to
-- [ ] User can post snippets using other forms of media as well (e.g. video, voice recordings - potentially a better format?)
-    - [ ] Create custom camera view
+- [ ] User can receive push notifications or see notifications on a notifications page
+    - [ ] Notified when their snippet is liked
+    - [ ] Notified when a round has finished for a project they are following
+- [ ] Create custom camera view
+- [ ] User can post snippets using other forms of media as well (e.g. images)
 
 **Tier 2 Stretch Stories**
 - [ ] User can view other user’s profiles by tapping on the author photo of a snippet, and see what projects they've created
 - [ ] User can search for other users
 - [ ] User can friend/unfriend other users
-    - [ ] User can add friends from Facebook (or other social media!)
+    - [ ] User can login from and add friends from Facebook (or other social media!)
 - [ ] Update Explore Feed
     - [ ] User can see recent, but also trending projects in Explore page
     - [ ] Users can search for projects by title
@@ -124,7 +127,6 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 **Tier 3 Stretch Stories**
 - [ ] Users can make projects private
 - [ ] Users can invite other users to a private project
-- [ ] User can share projects to social media apps? Need to work out logic of how that works (unless it's only sharing a snippet)
 
 ### 2. Screen Archetypes
 
