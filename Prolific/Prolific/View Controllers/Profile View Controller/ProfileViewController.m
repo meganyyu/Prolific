@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 
 #import "DAO.h"
+@import Firebase;
 #import "UIColor+ProlificColors.h"
 
 static NSString *const kProfileIconId = @"profile-icon";
@@ -106,7 +107,7 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
     
     [_profileImageView setImage:resizedImage];
     
-    //TODO: send to Firebase cloud storage
+    [self uploadImage:resizedImage];
     
     NSLog(@"finished picking an image!");
     [self dismissViewControllerAnimated:YES
@@ -126,6 +127,18 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
     UIGraphicsEndImageContext();
     
     return newImage;
+}
+
+#pragma mark - Firebase Storage
+
+- (void)uploadImage:(UIImage *)profileImage {
+    NSData *const imageData = UIImagePNGRepresentation(profileImage);
+    
+    [_dao uploadProfileImage:imageData forUser:_user completion:^(NSURL * _Nonnull downloadURL, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"Error uploading data: %@", error.localizedDescription);
+        }
+    }];
 }
 
 @end
