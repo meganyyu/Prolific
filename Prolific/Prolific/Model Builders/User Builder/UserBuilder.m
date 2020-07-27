@@ -8,6 +8,12 @@
 
 #import "UserBuilder.h"
 
+@import Firebase;
+
+static NSString *const kUsernameKey = @"username";
+static NSString *const kDisplayNameKey = @"displayName";
+static NSString *const kProfileImageRefKey = @"profileImageRef";
+
 @implementation UserBuilder
 
 - (id)init
@@ -18,6 +24,21 @@
         _username = nil;
         _email = nil;
         _displayName = nil;
+    }
+    return self;
+}
+
+- (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data {
+    self = [self init];
+    
+    if (self) {
+        if (userId &&
+            [self validateRequiredDictionaryData:data]) {
+            _userId = userId;
+            _username = data[kUsernameKey];
+            _email = @""; //FIXME: load with actual email from FIRAuth
+            _displayName = data[kDisplayNameKey];
+        }
     }
     return self;
 }
@@ -49,6 +70,14 @@
         return user;
     }
     return nil;
+}
+
+#pragma mark - Helper functions
+
+/** Validates that the data passed in through a dictionary is valid. */
+- (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
+    return [[data objectForKey:kUsernameKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kDisplayNameKey] isKindOfClass:[NSString class]];
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "Round.h"
 #import "Snippet.h"
 #import "User.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +23,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** Save a user's data to database. */
 - (void)saveUser:(User *)user
       completion:(void(^)(NSString *userId, NSError *error))completion;
+
+/** Gets user with userId. */
+- (void)getUserWithId:(NSString *)userId
+           completion:(void(^)(User *user, NSError *error))completion;
+
+/** Follows a project for a user. */
+- (void)followProject:(Project *)project
+              forUser:(User *)user
+           completion:(void(^)(NSError *error))completion;
 
 #pragma mark - Snippet
 
@@ -69,6 +79,17 @@ NS_ASSUME_NONNULL_BEGIN
 /** Gets a specific project with projectId. Will return error message if unable to retrieve specific project. */
 - (void)getProjectWithId:(NSString *)projectId
               completion:(void(^)(Project *project, NSError *error))completion;
+
+#pragma mark - Firebase Storage
+
+/** Uploads a profile image under a user's id to server. */
+- (FIRStorageUploadTask *)uploadProfileImage:(NSData *)imageData
+                                     forUser:(User *)user
+                                  completion:(void(^)(NSURL *downloadURL, NSError *error))completion;
+
+/** Retrieves a profile image for a user from server. */
+- (void)getProfileImageforUser:(User *)user
+                    completion:(void(^)(UIImage *userImage, NSError *error))completion;
 
 @end
 

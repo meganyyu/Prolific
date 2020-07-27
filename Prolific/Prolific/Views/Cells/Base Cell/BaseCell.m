@@ -14,6 +14,19 @@
 
 @implementation BaseCell
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.layer.shadowColor = UIColor.blackColor.CGColor;
+        self.layer.shadowOffset = CGSizeMake(4.0, 4.0);
+        self.layer.shadowRadius = 20.0;
+        self.layer.shadowOpacity = 0.25;
+        self.layer.cornerRadius = 10.0;
+    }
+    return self;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     

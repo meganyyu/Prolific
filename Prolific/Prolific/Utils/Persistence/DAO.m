@@ -21,8 +21,10 @@ static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEndTimeKey = @"endTime";
+static NSString *const kProjectsFollowingKey = @"projectsFollowing";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kProfileImagesRef = @"profileImages";
 static NSString *const kProjectsKey = @"projects";
 static NSString *const kRoundsKey = @"rounds";
 static NSString *const kSeedKey = @"seed";
@@ -37,6 +39,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 @interface DAO ()
 
 @property (nonatomic, strong) FIRFirestore *db;
+@property (nonatomic, strong) FIRStorage *storage;
 
 @end
 
@@ -47,6 +50,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     self = [super init];
     if (self) {
         _db = [FIRFirestore firestore];
+        _storage = [FIRStorage storage];
     }
     return self;
 }
@@ -62,9 +66,38 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     };
     
     [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] setData:userData
-                                                                       merge:YES
-                                                                  completion:^(NSError * _Nullable error) {
+                                                                         merge:YES
+                                                                    completion:^(NSError *error) {
         error ? completion(nil, error) : completion(user.userId, nil);
+    }];
+}
+
+- (void)getUserWithId:(NSString *)userId
+           completion:(void(^)(User *user, NSError *error))completion {
+    [[[_db collectionWithPath:kUsersKey] documentWithPath:userId] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            NSLog(@"Data for user: %@", snapshot.data);
+            User *const user = [self buildUserWithId:userId fromData:snapshot.data];
+            user ? completion(user, nil) : completion(nil, error);
+        }
+    }];
+}
+
+- (void)followProject:(Project *)project
+              forUser:(User *)user
+           completion:(void(^)(NSError *error))completion {
+    FIRCollectionReference *const projsFollowingRef = [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] collectionWithPath:kProjectsFollowingKey];
+    
+    NSDictionary *const data = @{
+        kNameKey: project.projectId
+    };
+    
+    [[projsFollowingRef documentWithPath:project.projectId] setData:data
+                                                              merge:YES
+                                                         completion:^(NSError *error) {
+        error ? completion(error) : completion(nil);
     }];
 }
 
@@ -312,7 +345,74 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
+#pragma mark - Cloud Storage
+
+- (FIRStorageUploadTask *)uploadProfileImage:(NSData *)imageData
+                                     forUser:(User *)user
+                                  completion:(void(^)(NSURL *downloadURL, NSError *error))completion {
+    NSString *const currUserId = user.userId;
+    
+    FIRStorageReference *const storageRef = [_storage reference];
+    FIRStorageReference *const profileImagesRef = [storageRef child:kProfileImagesRef];
+    FIRStorageReference *const profileImageRef = [profileImagesRef child:[NSString stringWithFormat:@"%@.png", currUserId]];
+    
+    FIRStorageMetadata *const uploadMetadata = [[FIRStorageMetadata alloc] init];
+    uploadMetadata.contentType = @"image/png";
+    
+    FIRStorageUploadTask *const uploadTask = [profileImageRef putData:imageData
+                                                             metadata:uploadMetadata
+                                                           completion:^(FIRStorageMetadata *metadata,
+                                                                        NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            [profileImageRef downloadURLWithCompletion:^(NSURL *URL, NSError *error) {
+                if (error != nil) {
+                    completion(nil, error);
+                } else {
+                    NSURL *downloadURL = URL;
+                    completion(downloadURL, nil);
+                }
+            }];
+        }
+    }];
+    
+    return uploadTask;
+}
+
+- (void)getProfileImageforUser:(User *)user
+                    completion:(void(^)(UIImage *userImage, NSError *error))completion {
+    NSString *const userId = user.userId;
+    
+    FIRStorageReference *const storageRef = [_storage reference];
+    FIRStorageReference *const profileImagesRef = [storageRef child:kProfileImagesRef];
+    FIRStorageReference *const profileImageRef = [profileImagesRef child:[NSString stringWithFormat:@"%@.png", userId]];
+    
+    [profileImageRef dataWithMaxSize:1 * 1024 * 1024 completion:^(NSData *data, NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            UIImage *userImage = [UIImage imageWithData:data];
+            completion(userImage, nil);
+        }
+    }];
+}
+
+
 #pragma mark - Helper functions
+
+- (User *)buildUserWithId:(NSString *)userId
+                   fromData:(NSDictionary *)data {
+    UserBuilder *const userBuilder = [[UserBuilder alloc] initWithId:userId
+                                                          dictionary:data];
+    User *const user = [userBuilder build];
+    
+    if (user != nil) {
+        return user;
+    } else {
+        return nil;
+    }
+}
 
 - (Snippet *)buildSnippetWithId:(NSString *)snippetId
                    fromData:(NSDictionary *)data {

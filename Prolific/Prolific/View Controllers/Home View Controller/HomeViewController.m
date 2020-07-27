@@ -16,6 +16,8 @@
 #import "ProjectBuilder.h"
 #import "UIColor+ProlificColors.h"
 
+static NSString *const kProfileIconId = @"profile-icon";
+
 #pragma mark - Interface
 
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -47,6 +49,8 @@
                                                                     target:self
                                                                     action:@selector(didTapLogoutButton:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
+    [self setupProfileButton];
+    
     
     [self loadProjects];
 }
@@ -63,6 +67,17 @@
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
 
     [self.view addSubview:_collectionView];
+}
+
+- (void)setupProfileButton {
+    UIButton *const profileButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    profileButton.frame = CGRectMake(0, 0, 40, 40);
+    [profileButton setImage:[UIImage imageNamed:kProfileIconId]
+                forState:UIControlStateNormal];
+    [profileButton addTarget:self
+                      action:@selector(onTapProfile:)
+            forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:profileButton];
 }
 
 #pragma mark - Load data
@@ -90,6 +105,29 @@
 
 - (void)didTapLogoutButton:(UIBarButtonItem *)sender {
     [self logoutUser];
+}
+
+- (void)onTapProfile:(id)sender {
+    NSLog(@"Tapped profile!");
+    
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    
+    __weak typeof (self) weakSelf = self;
+    [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        if (user) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [NavigationManager presentProfileViewControllerForUser:user navigationController:strongSelf.navigationController];
+                }
+            });
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
@@ -128,7 +166,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 7.0);
+    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 6.0);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return collectionView.frame.size.height * 0.05;
 }
 
 #pragma mark - Firebase Auth
