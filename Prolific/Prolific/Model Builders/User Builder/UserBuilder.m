@@ -12,6 +12,7 @@
 
 static NSString *const kUsernameKey = @"username";
 static NSString *const kDisplayNameKey = @"displayName";
+static NSString *const kProfileImageRefKey = @"profileImageRef";
 
 @implementation UserBuilder
 

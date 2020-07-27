@@ -330,9 +330,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 #pragma mark - Cloud Storage
 
-- (void)uploadProfileImage:(NSData *)imageData
-                   forUser:(User *)user
-                completion:(void(^)(NSURL *downloadURL, NSError *error))completion {
+- (FIRStorageUploadTask *)uploadProfileImage:(NSData *)imageData
+                                     forUser:(User *)user
+                                  completion:(void(^)(NSURL *downloadURL, NSError *error))completion {
     NSString *const currUserId = user.userId;
     
     FIRStorageReference *const storageRef = [_storage reference];
@@ -349,7 +349,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         if (error != nil) {
             completion(nil, error);
         } else {
-            [profileImageRef downloadURLWithCompletion:^(NSURL * _Nullable URL, NSError * _Nullable error) {
+            [profileImageRef downloadURLWithCompletion:^(NSURL *URL, NSError *error) {
                 if (error != nil) {
                     completion(nil, error);
                 } else {
@@ -359,7 +359,28 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
             }];
         }
     }];
+    
+    return uploadTask;
 }
+
+- (void)getProfileImageforUser:(User *)user
+               completion:(void(^)(UIImage *userImage, NSError *error))completion {
+    NSString *const userId = user.userId;
+    
+    FIRStorageReference *const storageRef = [_storage reference];
+    FIRStorageReference *const profileImagesRef = [storageRef child:kProfileImagesRef];
+    FIRStorageReference *const profileImageRef = [profileImagesRef child:[NSString stringWithFormat:@"%@.png", userId]];
+    
+    [profileImageRef dataWithMaxSize:1 * 1024 * 1024 completion:^(NSData *data, NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            UIImage *userImage = [UIImage imageWithData:data];
+            completion(userImage, nil);
+        }
+    }];
+}
+
 
 #pragma mark - Helper functions
 

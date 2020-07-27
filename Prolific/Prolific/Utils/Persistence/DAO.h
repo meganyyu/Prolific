@@ -12,6 +12,7 @@
 #import "Round.h"
 #import "Snippet.h"
 #import "User.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -76,9 +77,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Cloud Storage
 
-- (void)uploadProfileImage:(NSData *)imageData
-                   forUser:(User *)user
-                completion:(void(^)(NSURL *downloadURL, NSError *error))completion;
+- (FIRStorageUploadTask *)uploadProfileImage:(NSData *)imageData
+                                     forUser:(User *)user
+                                  completion:(void(^)(NSURL *downloadURL, NSError *error))completion;
+
+- (void)getProfileImageforUser:(User *)user
+                      completion:(void(^)(UIImage *userImage, NSError *error))completion;
 
 @end
 
