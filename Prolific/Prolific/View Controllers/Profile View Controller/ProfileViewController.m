@@ -153,6 +153,25 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
             NSLog(@"Error uploading data: %@", error.localizedDescription);
         }
     }];
+    
+    [uploadTask observeStatus:FIRStorageTaskStatusProgress
+                      handler:^(FIRStorageTaskSnapshot *snapshot) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        strongSelf.uploadProgressBar.hidden = NO;
+        strongSelf.uploadProgressBar.progress = snapshot.progress.fractionCompleted;
+        NSLog(@"You are %f complete:", snapshot.progress.fractionCompleted);
+    }];
+    
+    [uploadTask observeStatus:FIRStorageTaskStatusSuccess
+                      handler:^(FIRStorageTaskSnapshot *snapshot) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        strongSelf.uploadProgressBar.hidden = YES;
+    }];
+    
 }
 
 @end
