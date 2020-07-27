@@ -32,6 +32,14 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
         self.layer.shadowOffset = CGSizeMake(0.0, 0.0);
         self.layer.shadowRadius = 0.0;
         self.layer.shadowOpacity = 0.0;
+        
+        _composeButton = [[UIButton alloc] init];
+        [_composeButton setImage:[UIImage imageNamed:kRoundComposeIconId] forState:normal];
+        _composeButton.tintColor = [UIColor whiteColor];
+        [_composeButton addTarget:self
+                           action:@selector(onTapCompose:)
+                 forControlEvents:UIControlEventTouchUpInside];
+        [_cellView addSubview:_composeButton];
     }
     return self;
 }
