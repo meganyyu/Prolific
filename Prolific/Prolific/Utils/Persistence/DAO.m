@@ -21,6 +21,7 @@ static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEndTimeKey = @"endTime";
+static NSString *const kProjectsFollowingKey = @"projectsFollowing";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kProfileImagesRef = @"profileImages";
@@ -81,6 +82,22 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
             User *const user = [self buildUserWithId:userId fromData:snapshot.data];
             user ? completion(user, nil) : completion(nil, error);
         }
+    }];
+}
+
+- (void)followProject:(Project *)project
+              forUser:(User *)user
+           completion:(void(^)(NSError *error))completion {
+    FIRCollectionReference *const projsFollowingRef = [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] collectionWithPath:kProjectsFollowingKey];
+    
+    NSDictionary *const data = @{
+        kNameKey: project.projectId
+    };
+    
+    [[projsFollowingRef documentWithPath:project.projectId] setData:data
+                                                              merge:YES
+                                                         completion:^(NSError *error) {
+        error ? completion(error) : completion(nil);
     }];
 }
 
@@ -364,7 +381,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 }
 
 - (void)getProfileImageforUser:(User *)user
-               completion:(void(^)(UIImage *userImage, NSError *error))completion {
+                    completion:(void(^)(UIImage *userImage, NSError *error))completion {
     NSString *const userId = user.userId;
     
     FIRStorageReference *const storageRef = [_storage reference];

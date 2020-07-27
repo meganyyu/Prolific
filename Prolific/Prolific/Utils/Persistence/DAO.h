@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getUserWithId:(NSString *)userId
            completion:(void(^)(User *user, NSError *error))completion;
 
+/** Follows a project for a user. */
+- (void)followProject:(Project *)project
+              forUser:(User *)user
+           completion:(void(^)(NSError *error))completion;
+
 #pragma mark - Snippet
 
 /** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
@@ -75,14 +80,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getProjectWithId:(NSString *)projectId
               completion:(void(^)(Project *project, NSError *error))completion;
 
-#pragma mark - Cloud Storage
+#pragma mark - Firebase Storage
 
+/** Uploads a profile image under a user's id to server. */
 - (FIRStorageUploadTask *)uploadProfileImage:(NSData *)imageData
                                      forUser:(User *)user
                                   completion:(void(^)(NSURL *downloadURL, NSError *error))completion;
 
+/** Retrieves a profile image for a user from server. */
 - (void)getProfileImageforUser:(User *)user
-                      completion:(void(^)(UIImage *userImage, NSError *error))completion;
+                    completion:(void(^)(UIImage *userImage, NSError *error))completion;
 
 @end
 
