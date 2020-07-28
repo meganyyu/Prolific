@@ -9,12 +9,10 @@
 #import "TextCell.h"
 #import "UIColor+ProlificColors.h"
 
-static NSString *const kRoundComposeIconId = @"round-compose-icon";
-
 @interface TextCell ()
 
 @property (nonatomic, strong) UIView *cellView;
-@property (nonatomic, strong) UIButton *composeButton;
+@property (nonatomic, strong) UITextView *composeTextView;
 
 @end
 
@@ -33,25 +31,18 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
         self.layer.shadowRadius = 0.0;
         self.layer.shadowOpacity = 0.0;
         
-        _composeButton = [[UIButton alloc] init];
-        [_composeButton setImage:[UIImage imageNamed:kRoundComposeIconId] forState:normal];
-        _composeButton.tintColor = [UIColor whiteColor];
-        [_composeButton addTarget:self
-                           action:@selector(onTapCompose:)
-                 forControlEvents:UIControlEventTouchUpInside];
-        [_cellView addSubview:_composeButton];
+        _composeTextView = [[UITextView alloc] init];
+        _composeTextView.tintColor = [UIColor whiteColor];
+        _composeTextView.textColor = [UIColor grayColor];
+        _composeTextView.text = @"What happens next?";
+        [_cellView addSubview:_composeTextView];
     }
     return self;
 }
 
 - (void)layoutSubviews {
     _cellView.frame = self.contentView.bounds;
-    
-    CGFloat const composeButtonWidth = 100;
-    CGFloat const composeButtonHeight = 100;
-    CGFloat const composeButtonX = _cellView.center.x - composeButtonWidth / 2.0;
-    CGFloat const composeButtonY = _cellView.center.y - composeButtonHeight / 2.0;
-    _composeButton.frame = CGRectMake(composeButtonX, composeButtonY, composeButtonWidth, composeButtonHeight);
+    _composeTextView.frame = _cellView.frame;
 }
 
 @end

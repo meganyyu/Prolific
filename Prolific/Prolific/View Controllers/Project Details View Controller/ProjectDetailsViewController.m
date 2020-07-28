@@ -8,7 +8,7 @@
 
 #import "ProjectDetailsViewController.h"
 
-#import "ButtonCell.h"
+#import "TextCell.h"
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
@@ -72,7 +72,7 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
         forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView registerClass:[ProjectCell class]
     forCellWithReuseIdentifier:@"projectCell"];
-    [_collectionView registerClass:[ButtonCell class]
+    [_collectionView registerClass:[TextCell class]
     forCellWithReuseIdentifier:@"buttonCell"];
     
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
