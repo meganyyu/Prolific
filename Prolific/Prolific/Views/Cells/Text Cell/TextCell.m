@@ -9,7 +9,7 @@
 #import "TextCell.h"
 #import "UIColor+ProlificColors.h"
 
-@interface TextCell ()
+@interface TextCell () <UITextViewDelegate>
 
 @property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UITextView *composeTextView;
@@ -43,6 +43,11 @@
 - (void)layoutSubviews {
     _cellView.frame = self.contentView.bounds;
     _composeTextView.frame = _cellView.frame;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [_delegate didTapCompose];
+    return NO;
 }
 
 @end

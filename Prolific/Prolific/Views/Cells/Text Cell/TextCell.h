@@ -10,7 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol TextCellDelegate;
+
 @interface TextCell : BaseCell
+
+@property (nonatomic, weak) id<TextCellDelegate> delegate;
+
+@end
+
+@protocol TextCellDelegate
+
+- (void)didTapCompose;
 
 @end
 
