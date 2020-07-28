@@ -10,7 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol FollowButtonDelegate
+
+- (void)didFollow;
+
+@end
+
 @interface FollowButton : UIButton
+
+@property (nonatomic, weak) id<FollowButtonDelegate> delegate;
+@property (nonatomic) BOOL isTapped;
 
 @end
 

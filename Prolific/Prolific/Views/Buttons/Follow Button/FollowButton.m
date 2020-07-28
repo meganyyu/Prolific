@@ -21,10 +21,27 @@ static NSString *const kUntappedFollowIconID = @"untapped-follow-icon";
         newFrame.size = CGSizeMake(30, 30);
         self.frame = newFrame;
         
+        _isTapped = NO;
+        
         [self setImage:[UIImage imageNamed:kUntappedFollowIconID]
               forState:normal];
+        [self addTarget:self action:@selector(onTapFollow:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    UIImage *const followIcon = [UIImage imageNamed:(_isTapped ? kTappedFollowIconID : kUntappedFollowIconID)];
+    [self setImage:followIcon forState:UIControlStateNormal];
+}
+
+- (void)onTapFollow:(id)sender {
+    _isTapped = !_isTapped;
+    
+    [self setNeedsLayout];
+    [_delegate didFollow];
 }
 
 @end
