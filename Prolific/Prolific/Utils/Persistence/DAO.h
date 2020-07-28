@@ -28,10 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getUserWithId:(NSString *)userId
            completion:(void(^)(User *user, NSError *error))completion;
 
-/** Follows a project for a user. */
+/** Follows a project for a user on server side. */
 - (void)followProject:(Project *)project
               forUser:(User *)user
            completion:(void(^)(NSError *error))completion;
+
+/** Unfollows a project for a user on server side. */
+- (void)unfollowProject:(Project *)project
+                forUser:(User *)user
+             completion:(void(^)(NSError *error))completion;
 
 #pragma mark - Snippet
 

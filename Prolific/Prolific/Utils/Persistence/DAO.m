@@ -91,13 +91,25 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     FIRCollectionReference *const projsFollowingRef = [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] collectionWithPath:kProjectsFollowingKey];
     
     NSDictionary *const data = @{
-        kNameKey: project.projectId
+        kNameKey: project.name,
+        kCreatedAtKey: project.createdAt,
+        kSeedKey: project.seed
     };
     
     [[projsFollowingRef documentWithPath:project.projectId] setData:data
                                                               merge:YES
                                                          completion:^(NSError *error) {
         error ? completion(error) : completion(nil);
+    }];
+}
+
+- (void)unfollowProject:(Project *)project
+                forUser:(User *)user
+             completion:(void(^)(NSError *error))completion {
+    FIRCollectionReference *const projsFollowingRef = [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] collectionWithPath:kProjectsFollowingKey];
+    
+    [[projsFollowingRef documentWithPath:project.projectId] deleteDocumentWithCompletion:^(NSError * _Nullable error) {
+        error? completion(error) : completion(nil);
     }];
 }
 
