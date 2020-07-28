@@ -15,6 +15,8 @@ static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kNameKey = @"name";
 static NSString *const kSeedKey = @"seed";
+static NSString *const kFollowCountKey = @"followCount";
+static NSString *const kUsersFollowingKey = @"usersFollowing";
 
 @implementation ProjectBuilder
 
@@ -29,6 +31,8 @@ static NSString *const kSeedKey = @"seed";
         _currentRound = [NSNumber numberWithInt:0];
         _isComplete = NO;
         _rounds = [[NSMutableArray alloc] init];
+        _followCount = 0;
+        _userFollowed = NO;
     }
     return self;
 }
@@ -48,6 +52,12 @@ static NSString *const kSeedKey = @"seed";
             _seed = data[kSeedKey];
             _currentRound = data[kCurrentRoundKey];
             _isComplete = data[kIsCompleteKey];
+            _followCount = data[kFollowCountKey];
+            
+            if ([[data objectForKey:kUsersFollowingKey] isKindOfClass:[NSArray class]]) {
+                NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+                _userFollowed = [data[kUsersFollowingKey] containsObject:currUserId];
+            }
         }
     }
     return self;
@@ -64,6 +74,8 @@ static NSString *const kSeedKey = @"seed";
         _currentRound = project.currentRound;
         _isComplete = project.isComplete;
         _rounds = project.rounds;
+        _followCount = project.followCount;
+        _userFollowed = project.userFollowed;
     }
     return self;
 }
@@ -93,6 +105,11 @@ static NSString *const kSeedKey = @"seed";
     return self;
 }
 
+- (ProjectBuilder *)withFollowCount:(NSNumber *)followCount {
+    _followCount = followCount;
+    return self;
+}
+
 - (ProjectBuilder *)markComplete {
     _isComplete = YES;
     return self;
@@ -118,10 +135,11 @@ static NSString *const kSeedKey = @"seed";
 }
 
 - (Project *)build {
-    if (_projectId && _name && _createdAt && _seed && _currentRound && _rounds) {
+    if (_projectId && _name && _createdAt && _seed && _currentRound && _rounds && _followCount) {
         Project *proj = [[Project alloc] initWithBuilder:self];
         return proj;
     }
+    NSLog(@"reached some project that didn't build right");
     return nil;
 }
 
@@ -133,7 +151,8 @@ static NSString *const kSeedKey = @"seed";
     [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
     [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
     [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
-    [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]];
+    [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]] &&
+    [[data objectForKey:kFollowCountKey] isKindOfClass:[NSNumber class]];
 }
 
 @end

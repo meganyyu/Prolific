@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isComplete;
 @property (nonatomic, strong) NSNumber *currentRound;
 @property (nonatomic, strong) NSMutableArray<Round *> *rounds;
+@property (nonatomic, strong) NSNumber *followCount;
+@property (nonatomic) BOOL userFollowed;
 
 /** Returns ProjectBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a ProjectBuilder the same way as init does. */
 - (instancetype)initWithId:(NSString *)projectId
@@ -45,6 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (ProjectBuilder *)withSeed:(NSString *)seed;
 
 - (ProjectBuilder *)incrementCurrentRoundNumber;
+
+- (SnippetBuilder *)withFollowCount:(NSNumber *)followCount;
 
 - (ProjectBuilder *)markComplete;
 

@@ -29,10 +29,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL isComplete;
 @property (nonatomic, strong, readonly) NSNumber *currentRound;
 @property (nonatomic, strong, readonly) NSMutableArray<Round *> *rounds;
+@property (nonatomic, strong) NSNumber *followCount;
+@property (nonatomic) BOOL userFollowed;
 
 #pragma mark - Methods
 
 - (instancetype)initWithBuilder:(ProjectBuilder *)builder;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+- (instancetype)new NS_UNAVAILABLE;
+
+- (void)updateCurrentUserFollowing ;
 
 @end
 

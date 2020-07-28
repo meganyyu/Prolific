@@ -20,8 +20,15 @@
         _currentRound = builder.currentRound;
         _isComplete = builder.isComplete;
         _rounds = builder.rounds;
+        _followCount = builder.followCount;
+        _userFollowed = builder.userFollowed;
     }
     return self;
+}
+
+- (void)updateCurrentUserFollowing {
+    _userFollowed = !_userFollowed;
+    _followCount = [NSNumber numberWithInt:[_followCount intValue] + (_userFollowed ? 1 : -1)];
 }
 
 @end
