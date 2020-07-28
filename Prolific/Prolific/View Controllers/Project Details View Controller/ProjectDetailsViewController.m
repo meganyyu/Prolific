@@ -23,7 +23,6 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
-@property (nonatomic, strong) UIView *projectView;
 
 @end
 
@@ -42,9 +41,6 @@
     [super setupBackButton];
     
     [self setupCollectionView];
-    
-    _projectView = [[UIView alloc] init];
-    [self.view addSubview:_projectView];
     
     [self refreshData];
 }
@@ -68,17 +64,6 @@
     
     [self.view addSubview:_collectionView];
 
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    CGRect const bounds = self.view.bounds;
-    CGFloat const boundsWidth = CGRectGetWidth(bounds);
-    CGFloat const boundsHeight = CGRectGetHeight(bounds);
-    
-    // project view
-    _projectView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
 }
 
 - (void)refreshData {
