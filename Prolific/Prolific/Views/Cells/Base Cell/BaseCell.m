@@ -18,11 +18,15 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        UIBezierPath *const shadowPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:10.0f];
+        self.layer.masksToBounds = NO;
         self.layer.shadowColor = UIColor.blackColor.CGColor;
-        self.layer.shadowOffset = CGSizeMake(4.0, 4.0);
+        self.layer.shadowOffset = CGSizeMake(4.0f, 4.0f);
         self.layer.shadowRadius = 20.0;
         self.layer.shadowOpacity = 0.25;
         self.layer.cornerRadius = 10.0;
+        self.layer.shadowPath = shadowPath.CGPath;
+        self.contentView.clipsToBounds = YES;
     }
     return self;
 }
