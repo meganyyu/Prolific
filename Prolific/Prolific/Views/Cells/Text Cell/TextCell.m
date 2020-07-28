@@ -33,6 +33,7 @@
         [self.contentView addSubview:_cellView];
         
         _composeTextView = [[UITextView alloc] init];
+        _composeTextView.delegate = self;
         _composeTextView.backgroundColor = [UIColor ProlificGray1Color];
         _composeTextView.textColor = [UIColor darkGrayColor];
         _composeTextView.text = @"\n\nWhat happens next?";
@@ -47,7 +48,7 @@
     _composeTextView.frame = _cellView.frame;
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     [_delegate didTapCompose];
     return NO;
 }
