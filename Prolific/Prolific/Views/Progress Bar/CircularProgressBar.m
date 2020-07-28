@@ -33,25 +33,25 @@
     CGFloat innerCircleRadius = 50;
     CGFloat backgroundCircleRadius = 83;
     
-    UIBezierPath *circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width / 2.0, rect.size.height / 2.0)
+    UIBezierPath *const circlePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width / 2.0, rect.size.height / 2.0)
                                                         radius:innerCircleRadius
                                                     startAngle:_startAngle
                                                       endAngle:(_endAngle - _startAngle) * _progress + _startAngle clockwise:YES];
     
-    UIBezierPath *backgroundCirclePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width / 2.0, rect.size.height / 2.0)
+    UIBezierPath *const backgroundCirclePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(rect.size.width / 2.0, rect.size.height / 2.0)
                                                                         radius:backgroundCircleRadius
                                                                     startAngle:_startAngle
                                                                       endAngle:_endAngle
                                                                      clockwise:YES];
     
-    CAShapeLayer *backgroundCircle = [CAShapeLayer layer];
+    CAShapeLayer *const backgroundCircle = [CAShapeLayer layer];
     backgroundCircle.path = backgroundCirclePath.CGPath;
     backgroundCircle.fillColor = [UIColor grayColor].CGColor;
     backgroundCircle.opacity = 0.3;
     
     [self.layer addSublayer:backgroundCircle];
     
-    CAShapeLayer *progressCircle = [CAShapeLayer layer];
+    CAShapeLayer *const progressCircle = [CAShapeLayer layer];
     progressCircle.path = circlePath.CGPath;
     progressCircle.strokeColor = [UIColor lightGrayColor].CGColor;
     progressCircle.fillColor = [UIColor clearColor].CGColor;

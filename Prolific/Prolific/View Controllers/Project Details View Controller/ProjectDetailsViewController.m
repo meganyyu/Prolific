@@ -8,6 +8,7 @@
 
 #import "ProjectDetailsViewController.h"
 
+#import "TextCell.h"
 #import "DAO.h"
 #import "NavigationManager.h"
 #import "ComposeSnippetViewController.h"
@@ -16,16 +17,12 @@
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
 
-static NSString *const kRoundComposeIconId = @"round-compose-icon";
-
 #pragma mark - Interface
 
-@interface ProjectDetailsViewController () <ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface ProjectDetailsViewController () <TextCellDelegate, ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
-@property (nonatomic, strong) UIView *projectView;
-@property (nonatomic, strong) UIButton *composeButton;
 
 @end
 
@@ -44,18 +41,6 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
     [super setupBackButton];
     
     [self setupCollectionView];
-    // TODO: turn into collection view
-    
-    _projectView = [[UIView alloc] init];
-    [self.view addSubview:_projectView];
-
-    _composeButton = [[UIButton alloc] init];
-    [_composeButton setImage:[UIImage imageNamed:kRoundComposeIconId] forState:normal];
-    _composeButton.tintColor = [UIColor whiteColor];
-    [_composeButton addTarget:self
-                       action:@selector(onTapCompose:)
-             forControlEvents:UIControlEventTouchUpInside];
-    [_projectView addSubview:_composeButton];
     
     [self refreshData];
 }
@@ -72,29 +57,13 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
         forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView registerClass:[ProjectCell class]
     forCellWithReuseIdentifier:@"projectCell"];
+    [_collectionView registerClass:[TextCell class]
+    forCellWithReuseIdentifier:@"textCell"];
     
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
 
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    CGRect const bounds = self.view.bounds;
-    CGFloat const boundsWidth = CGRectGetWidth(bounds);
-    CGFloat const boundsHeight = CGRectGetHeight(bounds);
-    
-    // project view
-    _projectView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
-    
-    // compose button
-    CGFloat const composeButtonWidth = 100;
-    CGFloat const composeButtonHeight = 100;
-    CGFloat const composeButtonX = _projectView.center.x - composeButtonWidth / 2.0;
-    CGFloat const composeButtonY = boundsHeight - composeButtonHeight * 2.0;
-    _composeButton.frame = CGRectMake(composeButtonX, composeButtonY, composeButtonWidth, composeButtonHeight);
 }
 
 - (void)refreshData {
@@ -116,23 +85,9 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
             }
         });
     }];
-    
-    
 }
 
 #pragma mark - User actions
-
-- (void)onTapCompose:(id)sender {
-    int latestRoundNumber = (int) _project.rounds.count - 1;
-    if (latestRoundNumber >= 0) {
-        Round *const currentRound = _project.rounds[latestRoundNumber];
-        [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
-                                                             projectId:_project.projectId
-                                                  navigationController:self.navigationController];
-    } else {
-        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
-    }
-}
 
 - (void)didTapPreview {
     int latestRoundNumber = (int) _project.rounds.count - 1;
@@ -146,15 +101,29 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
     }
 }
 
+#pragma mark - TextCellDelegate Protocol
+
+- (void)didTapCompose {
+    int latestRoundNumber = (int) _project.rounds.count - 1;
+    if (latestRoundNumber >= 0) {
+        Round *const currentRound = _project.rounds[latestRoundNumber];
+        [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
+                                                             projectId:_project.projectId
+                                                  navigationController:self.navigationController];
+    } else {
+        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
+    }
+}
+
 #pragma mark - ComposeSnippetViewControllerDelegate Protocol
 
 - (void)didSubmit:(Snippet *)snippet
             round:(Round *)round {
-    ProjectBuilder *projBuilder = [[[ProjectBuilder alloc] initWithProject:_project]
+    ProjectBuilder *const projBuilder = [[[ProjectBuilder alloc] initWithProject:_project]
                                    updateLatestRound:round];
     
     if (projBuilder) {
-        Project *updatedProj = [projBuilder build];
+        Project *const updatedProj = [projBuilder build];
         _project = updatedProj;
     } else {
         NSLog(@"Error adding submission to project.");
@@ -165,22 +134,27 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return _project.rounds.count;
+    return _project.rounds.count + 2;
 }
 
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView
                                    cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if (indexPath.item == 0) {
-        ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
+        ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
                                                                       forIndexPath:indexPath];
         cell.project = _project;
         
         return cell;
+    } else if (indexPath.item == _project.rounds.count + 1) {
+        TextCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"textCell"
+                                                                         forIndexPath:indexPath];
+        cell.delegate = self;
+        return cell;
     } else {
-        RoundCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"roundCell"
+        RoundCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"roundCell"
                                                                     forIndexPath:indexPath];
         
-        Round *const round = _project.rounds[indexPath.item];
+        Round *const round = _project.rounds[indexPath.item - 1];
         if (round.winningSnippetId) {
             [_dao getSubmissionWithId:round.winningSnippetId
                            forRoundId:round.roundId
@@ -211,7 +185,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
     if (indexPath.item == _project.rounds.count) {
-        Round *selectedRound = _project.rounds[indexPath.item];
+        Round *selectedRound = _project.rounds[indexPath.item - 1];
         
         [FIRAnalytics logEventWithName:kFIREventSelectContent
         parameters:@{
