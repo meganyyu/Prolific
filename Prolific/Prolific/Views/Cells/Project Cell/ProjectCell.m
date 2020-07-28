@@ -8,6 +8,7 @@
 
 #import "ProjectCell.h"
 
+#import "FollowButton.h"
 #import "ProjectCellView.h"
 
 #pragma mark - Interface
@@ -22,16 +23,20 @@
 
 @implementation ProjectCell
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _cellView = [[ProjectCellView alloc] initWithFrame:frame];
+        [self.contentView addSubview:_cellView];
+    }
+    return self;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGRect const bounds = self.bounds;
-    CGFloat const boundsWidth = CGRectGetWidth(bounds);
-    CGFloat const boundsHeight = CGRectGetHeight(bounds);
-    CGRect const cellFrame = CGRectMake(0, 0, boundsWidth, boundsHeight);
-    
-    _cellView = [[ProjectCellView alloc] initWithFrame:cellFrame];
-    [self addSubview:_cellView];
+    _cellView.frame = self.contentView.bounds;
     
     _cellView.nameLabel.text = _project.name;
     _cellView.seedContentLabel.text = _project.seed;
