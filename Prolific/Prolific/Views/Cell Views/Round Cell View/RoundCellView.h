@@ -8,14 +8,14 @@
 
 #import "SnippetCellView.h"
 
-#import "CountLabel.h"
+#import "Snippet.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RoundCellView : SnippetCellView
 
-@property (nonatomic, strong) CountLabel *roundCountLabel;
-@property (nonatomic, strong) UIButton *openButton;
+@property (nonatomic) BOOL showSnippet;
+@property (nonatomic, strong) Snippet *snippet;
 
 @end
 

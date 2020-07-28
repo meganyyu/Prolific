@@ -8,8 +8,17 @@
 
 #import "RoundCellView.h"
 
+#import "CountLabel.h"
+
 static NSString *const kForwardArrowIconId = @"forward-arrow-icon";
 static NSString *const kFinishedVoteIconID = @"finished-vote-icon";
+
+@interface RoundCellView ()
+
+@property (nonatomic, strong) CountLabel *roundCountLabel;
+@property (nonatomic, strong) UIButton *openButton;
+
+@end
 
 @implementation RoundCellView
 
@@ -52,4 +61,24 @@ static NSString *const kFinishedVoteIconID = @"finished-vote-icon";
     [self.voteButton setImage:[UIImage imageNamed:kFinishedVoteIconID] forState:normal];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (_showSnippet) {
+        self.usernameLabel.hidden = NO;
+        self.voteCountLabel.hidden = NO;
+        self.voteButton.hidden = NO;
+        _openButton.hidden = YES;
+        
+        self.usernameLabel.text = _snippet.authorId;
+        self.seedContentLabel.text = _snippet.text;
+        self.voteCountLabel.text = [_snippet.voteCount stringValue];
+    } else {
+        self.usernameLabel.hidden = YES;
+        self.voteCountLabel.hidden = YES;
+        self.voteButton.hidden = YES;
+        
+        self.seedContentLabel.text = @"Voting in progress!";
+    }
+}
 @end
