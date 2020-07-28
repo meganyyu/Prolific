@@ -21,7 +21,7 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
 
 #pragma mark - Interface
 
-@interface ProjectDetailsViewController () <ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface ProjectDetailsViewController () <TextCellDelegate, ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
@@ -145,6 +145,20 @@ static NSString *const kRoundComposeIconId = @"round-compose-icon";
                                                navigationController:self.navigationController];
     } else {
         NSLog(@"Nothing to preview.");
+    }
+}
+
+#pragma mark - TextCellDelegate Protocol
+
+- (void)didTapCompose {
+    int latestRoundNumber = (int) _project.rounds.count - 1;
+    if (latestRoundNumber >= 0) {
+        Round *const currentRound = _project.rounds[latestRoundNumber];
+        [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
+                                                             projectId:_project.projectId
+                                                  navigationController:self.navigationController];
+    } else {
+        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
     }
 }
 
