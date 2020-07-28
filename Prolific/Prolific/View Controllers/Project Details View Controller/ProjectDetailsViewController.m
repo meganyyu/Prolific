@@ -149,7 +149,6 @@
         TextCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"textCell"
                                                                          forIndexPath:indexPath];
         cell.delegate = self;
-        NSLog(@"reached here");
         return cell;
     } else {
         RoundCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"roundCell"
@@ -186,7 +185,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     
     if (indexPath.item == _project.rounds.count) {
-        Round *selectedRound = _project.rounds[indexPath.item];
+        Round *selectedRound = _project.rounds[indexPath.item - 1];
         
         [FIRAnalytics logEventWithName:kFIREventSelectContent
         parameters:@{
