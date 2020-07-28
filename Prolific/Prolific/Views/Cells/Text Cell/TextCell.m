@@ -24,17 +24,19 @@
     if (self) {
         self.backgroundColor = [UIColor ProlificBackgroundGrayColor];
         
-        _cellView = [[UIView alloc] initWithFrame:frame];
-        [self.contentView addSubview:_cellView];
-        
         self.layer.shadowOffset = CGSizeMake(0.0, 0.0);
         self.layer.shadowRadius = 0.0;
         self.layer.shadowOpacity = 0.0;
+        self.clipsToBounds = YES;
+        
+        _cellView = [[UIView alloc] initWithFrame:frame];
+        [self.contentView addSubview:_cellView];
         
         _composeTextView = [[UITextView alloc] init];
-        _composeTextView.tintColor = [UIColor whiteColor];
-        _composeTextView.textColor = [UIColor grayColor];
-        _composeTextView.text = @"What happens next?";
+        _composeTextView.backgroundColor = [UIColor ProlificGray1Color];
+        _composeTextView.textColor = [UIColor darkGrayColor];
+        _composeTextView.text = @"\n\nWhat happens next?";
+        [_composeTextView setFont:[UIFont systemFontOfSize:18]];
         [_cellView addSubview:_composeTextView];
     }
     return self;
