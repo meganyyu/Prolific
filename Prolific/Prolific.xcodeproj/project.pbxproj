@@ -42,7 +42,7 @@
 		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 		71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
 		71C2D81F24CF679900E12391 /* CircularProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D81E24CF679900E12391 /* CircularProgressBar.m */; };
-		71C2D82424CF957500E12391 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D82324CF957500E12391 /* ButtonCell.m */; };
+		71C2D82424CF957500E12391 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D82324CF957500E12391 /* TextCell.m */; };
 		71CF520624C66CC9008DB4EF /* BaseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520524C66CC9008DB4EF /* BaseCellView.m */; };
 		71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520824C66CF8008DB4EF /* SnippetCellView.m */; };
 		71CF520A24C6CD76008DB4EF /* NavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117E24BD088000070A32 /* NavigationManager.m */; };
@@ -146,8 +146,8 @@
 		7191118324BD1D6500070A32 /* ProlificBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificBaseViewController.m; sourceTree = "<group>"; };
 		71C2D81D24CF679900E12391 /* CircularProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularProgressBar.h; sourceTree = "<group>"; };
 		71C2D81E24CF679900E12391 /* CircularProgressBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularProgressBar.m; sourceTree = "<group>"; };
-		71C2D82224CF957500E12391 /* ButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonCell.h; sourceTree = "<group>"; };
-		71C2D82324CF957500E12391 /* ButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ButtonCell.m; sourceTree = "<group>"; };
+		71C2D82224CF957500E12391 /* TextCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
+		71C2D82324CF957500E12391 /* TextCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextCell.m; sourceTree = "<group>"; };
 		71CF520024C65B2F008DB4EF /* SubmissionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubmissionsViewController.h; sourceTree = "<group>"; };
 		71CF520124C65B2F008DB4EF /* SubmissionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SubmissionsViewController.m; sourceTree = "<group>"; };
 		71CF520424C66CC9008DB4EF /* BaseCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseCellView.h; sourceTree = "<group>"; };
@@ -405,8 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				7188D84D24C651E000E50876 /* Base Cell */,
-				71C2D82024CF94CD00E12391 /* Button Cell */,
-				71C2D82124CF94D400E12391 /* Text Field Cell */,
+				71C2D82024CF94CD00E12391 /* Text Cell */,
 				7188D84E24C651EE00E50876 /* Snippet Cell */,
 				7188D84C24C651B600E50876 /* Round Cell */,
 				7165D15324BE0AAE008E64CD /* Project Cell */,
@@ -568,20 +567,13 @@
 			path = "Progress Bar";
 			sourceTree = "<group>";
 		};
-		71C2D82024CF94CD00E12391 /* Button Cell */ = {
+		71C2D82024CF94CD00E12391 /* Text Cell */ = {
 			isa = PBXGroup;
 			children = (
-				71C2D82224CF957500E12391 /* ButtonCell.h */,
-				71C2D82324CF957500E12391 /* ButtonCell.m */,
+				71C2D82224CF957500E12391 /* TextCell.h */,
+				71C2D82324CF957500E12391 /* TextCell.m */,
 			);
-			path = "Button Cell";
-			sourceTree = "<group>";
-		};
-		71C2D82124CF94D400E12391 /* Text Field Cell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Text Field Cell";
+			path = "Text Cell";
 			sourceTree = "<group>";
 		};
 		71CF51FF24C65ADA008DB4EF /* Submissions View Controller */ = {
@@ -961,7 +953,7 @@
 				7188D85C24C6568C00E50876 /* ProjectCell.m in Sources */,
 				7188D85524C6522D00E50876 /* SnippetCell.m in Sources */,
 				714D1F8224C2C1B100749291 /* ProjectDetailsViewController.m in Sources */,
-				71C2D82424CF957500E12391 /* ButtonCell.m in Sources */,
+				71C2D82424CF957500E12391 /* TextCell.m in Sources */,
 				71483FF824CB9680004B352E /* ProfileViewController.m in Sources */,
 				713AA08D24C1061F00A5950E /* Project.m in Sources */,
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,

@@ -6,19 +6,19 @@
 //  Copyright © 2020 meganyu. All rights reserved.
 //
 
-#import "ButtonCell.h"
+#import "TextCell.h"
 #import "UIColor+ProlificColors.h"
 
 static NSString *const kRoundComposeIconId = @"round-compose-icon";
 
-@interface ButtonCell ()
+@interface TextCell ()
 
 @property (nonatomic, strong) UIView *cellView;
 @property (nonatomic, strong) UIButton *composeButton;
 
 @end
 
-@implementation ButtonCell
+@implementation TextCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
