@@ -48,10 +48,17 @@
     CGFloat const seedContentLabelY = nameLabelHeight + 0.05 * boundsHeight;
     _seedContentLabel.frame = CGRectMake(labelX, seedContentLabelY, labelWidth, seedContentLabelHeight);
     
+    // follow count label
+    CGFloat const followCountLabelWidth = _followCountLabel.bounds.size.width;
+    CGFloat const followCountLabelHeight = _followCountLabel.bounds.size.height;
+    CGFloat const followCountLabelX = labelWidth - followCountLabelWidth;
+    CGFloat const followCountLabelY = boundsHeight - followCountLabelHeight - 0.05 * boundsHeight;;
+    _followCountLabel.frame = CGRectMake(followCountLabelX, followCountLabelY, followCountLabelWidth, followCountLabelHeight);
+    
     // follow button
-    CGFloat const followButtonHeight = _followButton.frame.size.height;
-    CGFloat const followButtonWidth = _followButton.frame.size.width;
-    CGFloat const followButtonX = labelWidth - followButtonWidth;
+    CGFloat const followButtonHeight = _followButton.bounds.size.height;
+    CGFloat const followButtonWidth = _followButton.bounds.size.width;
+    CGFloat const followButtonX = followCountLabelX - followButtonWidth - 5;
     CGFloat const followButtonY = boundsHeight - followButtonHeight - 0.05 * boundsHeight;
     _followButton.frame = CGRectMake(followButtonX, followButtonY, followButtonWidth, followButtonHeight);
 }
