@@ -1,5 +1,5 @@
 //
-//  UserEngagementManager.h
+//  RoundRanker.h
 //  Prolific
 //
 //  Created by meganyu on 7/29/20.
@@ -15,13 +15,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UserEngagementManager : NSObject
+@interface RoundRanker : NSObject
 
 + (NSArray *)rankSubmissionsForRound:(Round *)round;
 
 + (NSDictionary *)scoreSubmissionsForRound:(Round *)round;
 
 + (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet;
+
 
 @end
 
