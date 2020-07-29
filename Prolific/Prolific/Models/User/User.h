@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSString *username;
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *displayName;
+@property (nonatomic, strong, readonly) NSDecimalNumber *karma;
 
 #pragma mark - Methods
 

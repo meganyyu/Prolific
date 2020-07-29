@@ -25,9 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *displayName;
-
-// optional attributes
-@property (nonatomic, strong) NSArray *projectsfollowing;
+@property (nonatomic, strong, readonly) NSDecimalNumber *karma;
 
 #pragma mark - Methods
 
@@ -42,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UserBuilder *)withDisplayName:(NSString *)displayName;
 
+- (UserBuilder *)withKarma:(NSDecimalNumber *)karma;
+
+/** Returns fully built User if UserBuilder has all fields initialized properly. Else returns nil. */
 - (User *)build;
 
 @end
