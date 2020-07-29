@@ -160,7 +160,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
                             kFIRParameterContentType:@"project"
                         }];
     
-    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj navigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj forUser:_currUser navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 

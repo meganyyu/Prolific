@@ -95,6 +95,7 @@
         Round *const currentRound = _project.rounds[latestRoundNumber];
         [NavigationManager presentSubmissionsViewControllerForRound:currentRound
                                                           projectId:_project.projectId
+                                                            forUser:_currUser
                                                navigationController:self.navigationController];
     } else {
         NSLog(@"Nothing to preview.");
