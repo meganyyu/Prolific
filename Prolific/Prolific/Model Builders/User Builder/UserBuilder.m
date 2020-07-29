@@ -46,6 +46,19 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
     return self;
 }
 
+- (instancetype)initWithUser:(User *)user {
+    self = [self init];
+    
+    if (self) {
+        _userId = user.userId;
+        _username = user.username;
+        _email = user.email;
+        _displayName = user.displayName;
+        _karma = user.karma;
+    }
+    return self;
+}
+
 - (UserBuilder *)withId:(NSString *)userId {
     _userId = userId;
     return self;

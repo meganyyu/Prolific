@@ -32,6 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Returns UserBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a UserBuilder the same way as init does. */
 - (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data;
 
+/** Returns UserBuilder with all fields initialized as a copy of a User model. */
+- (instancetype)initWithUser:(User *)user;
+
 - (UserBuilder *)withId:(NSString *)userId;
 
 - (UserBuilder *)withUsername:(NSString *)username;
