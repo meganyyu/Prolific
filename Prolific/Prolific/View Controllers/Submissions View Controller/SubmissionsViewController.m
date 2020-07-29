@@ -83,13 +83,30 @@
 #pragma mark - SnippetCellDelegate Protocol
 
 - (void)didVote:(Snippet *)snippet {
+    __weak typeof (self) weakSelf = self;
     [_dao updateExistingSnippet:snippet
                    forProjectId:_projectId
                        forRound:_round
                      completion:^(NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
         if (error) {
             NSLog(@"undoing vote on local model due to an error updating firebase with vote: %@", error.localizedDescription);
             [snippet updateCurrentUserVote];
+        } else {
+            Round *const round = [[[[RoundBuilder alloc] initWithRound:strongSelf.round]
+                                   updateRoundVoteCountBy:(snippet.userVoted ? 1 : -1) forUser:strongSelf.currUser]
+                                  build] ;
+            
+            [strongSelf.dao updateExistingRound:round forProjectId:strongSelf.projectId completion:^(NSError * _Nonnull error) {
+                if (error) {
+                    NSLog(@"undoing vote on local model due to error updating firebase with vote: %@", error.localizedDescription);
+                    [snippet updateCurrentUserVote];
+                } else {
+                    NSLog(@"success! Round vote data: %@", round.voteData);
+                }
+            }];
         }
     }];
 }
