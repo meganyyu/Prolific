@@ -16,6 +16,7 @@
     if (self) {
         _cellView = [[RoundCellView alloc] initWithFrame:frame];
         [self.contentView addSubview:_cellView];
+        _cellView.snippet = _snippet;
     }
     return self;
 }
@@ -28,19 +29,12 @@
     _cellView.frame = self.contentView.bounds;
     
     if (_snippet) {
-        _cellView.usernameLabel.hidden = NO;
-        _cellView.voteCountLabel.hidden = NO;
-        _cellView.voteButton.hidden = NO;
-        
-        _cellView.usernameLabel.text = _snippet.authorId;
-        _cellView.seedContentLabel.text = _snippet.text;
-        _cellView.voteCountLabel.text = [_snippet.voteCount stringValue];
+        _cellView.showSnippet = YES;
+        _cellView.snippet = _snippet;
+        [_cellView setNeedsLayout];
     } else {
-        _cellView.usernameLabel.hidden = YES;
-        _cellView.voteCountLabel.hidden = YES;
-        _cellView.voteButton.hidden = YES;
-        
-        _cellView.seedContentLabel.text = @"Voting in progress!";
+        _cellView.showSnippet = NO;
+        [_cellView setNeedsLayout];
     }
 }
 

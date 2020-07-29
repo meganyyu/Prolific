@@ -21,7 +21,7 @@ static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEndTimeKey = @"endTime";
-static NSString *const kProjectsFollowingKey = @"projectsFollowing";
+static NSString *const kFollowCountKey = @"followCount";
 static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kProfileImagesRef = @"profileImages";
@@ -31,6 +31,7 @@ static NSString *const kSeedKey = @"seed";
 static NSString *const kSubmissionsKey = @"submissions";
 static NSString *const kTextKey = @"text";
 static NSString *const kUsersKey = @"users";
+static NSString *const kUsersFollowingKey = @"usersFollowing";
 static NSString *const kUserVotesKey = @"userVotes";
 static NSString *const kUsernameKey = @"username";
 static NSString *const kVoteCountKey = @"voteCount";
@@ -85,19 +86,25 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
-- (void)followProject:(Project *)project
-              forUser:(User *)user
-           completion:(void(^)(NSError *error))completion {
-    FIRCollectionReference *const projsFollowingRef = [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] collectionWithPath:kProjectsFollowingKey];
+- (void)getAllFollowedProjectsforUserId:(NSString *)userId
+                             completion:(void(^)(NSArray *projects, NSError *error))completion {
+    FIRCollectionReference *const projectsRef = [self.db collectionWithPath:kProjectsKey];
     
-    NSDictionary *const data = @{
-        kNameKey: project.projectId
-    };
-    
-    [[projsFollowingRef documentWithPath:project.projectId] setData:data
-                                                              merge:YES
-                                                         completion:^(NSError *error) {
-        error ? completion(error) : completion(nil);
+    [[projectsRef queryWhereField:kUsersFollowingKey arrayContains:userId]
+     getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            NSMutableArray *const projs = [[NSMutableArray alloc] init];
+            for (FIRDocumentSnapshot *const document in snapshot.documents) {
+                Project *const proj = [self buildProjectWithId:document.documentID
+                                                      fromData:document.data];
+                if (proj) {
+                    [projs addObject:proj];
+                }
+            }
+            completion(projs, nil);
+        }
     }];
 }
 
@@ -307,6 +314,30 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 }
 
 #pragma mark - Projects
+
+- (void)updateFollowersforProject:(Project *)project
+                       withUserId:(NSString *)userId
+                       completion:(void(^)(NSError *error))completion {    
+    FIRDocumentReference *const projRef = [[self.db collectionWithPath:kProjectsKey] documentWithPath:project.projectId];
+    
+    NSDictionary *projData;
+    
+    if (project.userFollowed) {
+        projData = @{
+            kFollowCountKey: project.followCount,
+            kUsersFollowingKey: [FIRFieldValue fieldValueForArrayUnion:@[userId]]
+        };
+    } else {
+        projData = @{
+            kFollowCountKey: project.followCount,
+            kUsersFollowingKey: [FIRFieldValue fieldValueForArrayRemove:@[userId]]
+        };
+    }
+    
+    [projRef updateData:projData completion:^(NSError *error) {
+        error ? completion(error) : completion(nil);
+    }];
+}
 
 - (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion {
     FIRCollectionReference *const projectsRef = [self.db collectionWithPath:kProjectsKey];

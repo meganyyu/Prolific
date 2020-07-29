@@ -142,6 +142,7 @@ static NSString *const kProfileIconId = @"profile-icon";
     ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
                                                                   forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
+    cell.cellView.followButton.hidden = YES;
     return cell;
 }
 
@@ -157,7 +158,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
                             kFIRParameterContentType:@"project"
                         }];
     
-    [NavigationManager presentProjectDetailsViewControllerForProject:_projectArray[indexPath.item] navigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 

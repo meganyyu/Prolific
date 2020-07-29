@@ -19,7 +19,7 @@
 
 #pragma mark - Interface
 
-@interface ProjectDetailsViewController () <TextCellDelegate, ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface ProjectDetailsViewController () <ProjectCellDelegate, TextCellDelegate, ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
@@ -101,6 +101,19 @@
     }
 }
 
+#pragma mark - ProjectCellDelegate Protocol
+
+- (void)didFollow:(Project *)project {
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    
+    [_dao updateFollowersforProject:project withUserId:currUserId completion:^(NSError *error) {
+        if (error) {
+            NSLog(@"undoing follow on local model due to an error updating firebase with follow: %@", error.localizedDescription);
+            [project updateCurrentUserFollowing];
+        }
+    }];
+}
+
 #pragma mark - TextCellDelegate Protocol
 
 - (void)didTapCompose {
@@ -143,7 +156,7 @@
         ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
                                                                       forIndexPath:indexPath];
         cell.project = _project;
-        
+        cell.delegate = self;
         return cell;
     } else if (indexPath.item == _project.rounds.count + 1) {
         TextCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"textCell"

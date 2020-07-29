@@ -40,6 +40,7 @@
 		7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191117824BD05A000070A32 /* FavoritesViewController.m */; };
 		7191118424BD1D6500070A32 /* ProlificBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191118324BD1D6500070A32 /* ProlificBaseViewController.m */; };
 		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
+		71A3076F24D09FF700F11B94 /* FollowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A3076E24D09FF700F11B94 /* FollowButton.m */; };
 		71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
 		71C2D81F24CF679900E12391 /* CircularProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D81E24CF679900E12391 /* CircularProgressBar.m */; };
 		71C2D82424CF957500E12391 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D82324CF957500E12391 /* TextCell.m */; };
@@ -144,6 +145,8 @@
 		7191117E24BD088000070A32 /* NavigationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavigationManager.m; sourceTree = "<group>"; };
 		7191118224BD1D6500070A32 /* ProlificBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProlificBaseViewController.h; sourceTree = "<group>"; };
 		7191118324BD1D6500070A32 /* ProlificBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificBaseViewController.m; sourceTree = "<group>"; };
+		71A3076D24D09FF700F11B94 /* FollowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FollowButton.h; sourceTree = "<group>"; };
+		71A3076E24D09FF700F11B94 /* FollowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FollowButton.m; sourceTree = "<group>"; };
 		71C2D81D24CF679900E12391 /* CircularProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularProgressBar.h; sourceTree = "<group>"; };
 		71C2D81E24CF679900E12391 /* CircularProgressBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularProgressBar.m; sourceTree = "<group>"; };
 		71C2D82224CF957500E12391 /* TextCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
@@ -558,6 +561,24 @@
 			path = "Prolific Base View Controller";
 			sourceTree = "<group>";
 		};
+		71A3076B24D09FCE00F11B94 /* Vote Button */ = {
+			isa = PBXGroup;
+			children = (
+				71CF521A24C77D14008DB4EF /* VoteButton.h */,
+				71CF521B24C77D14008DB4EF /* VoteButton.m */,
+			);
+			path = "Vote Button";
+			sourceTree = "<group>";
+		};
+		71A3076C24D09FD300F11B94 /* Follow Button */ = {
+			isa = PBXGroup;
+			children = (
+				71A3076D24D09FF700F11B94 /* FollowButton.h */,
+				71A3076E24D09FF700F11B94 /* FollowButton.m */,
+			);
+			path = "Follow Button";
+			sourceTree = "<group>";
+		};
 		71C2D81C24CF677500E12391 /* Progress Bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -642,8 +663,8 @@
 		71CF521524C77642008DB4EF /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				71CF521A24C77D14008DB4EF /* VoteButton.h */,
-				71CF521B24C77D14008DB4EF /* VoteButton.m */,
+				71A3076C24D09FD300F11B94 /* Follow Button */,
+				71A3076B24D09FCE00F11B94 /* Vote Button */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -978,6 +999,7 @@
 				7188D85224C6521900E50876 /* BaseCell.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,
+				71A3076F24D09FF700F11B94 /* FollowButton.m in Sources */,
 				7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */,
 				71CF522124C891F5008DB4EF /* UIColor+ProlificColors.m in Sources */,
 				7118C3F624BF607D005E1816 /* Snippet.m in Sources */,

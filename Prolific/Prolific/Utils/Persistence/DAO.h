@@ -28,10 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getUserWithId:(NSString *)userId
            completion:(void(^)(User *user, NSError *error))completion;
 
-/** Follows a project for a user. */
-- (void)followProject:(Project *)project
-              forUser:(User *)user
-           completion:(void(^)(NSError *error))completion;
+/** Retrieves all projects that a user is following. Passes back array of projects if successful. Else passes back error. */
+- (void)getAllFollowedProjectsforUserId:(NSString *)userId
+                             completion:(void(^)(NSArray *projects, NSError *error))completion;
 
 #pragma mark - Snippet
 
@@ -72,6 +71,11 @@ NS_ASSUME_NONNULL_BEGIN
                       completion:(void(^)(NSMutableArray *rounds, NSError *error))completion;
 
 #pragma mark - Project
+
+/** Updates a project with a new follower or unfollower. Will return error message if update unsuccessful. */
+- (void)updateFollowersforProject:(Project *)project
+                       withUserId:(NSString *)userId
+                       completion:(void(^)(NSError *error))completion;
 
 /** Gets all projects in order from latest to earliest. This is a shallow level retrieval - will not retrieve all rounds for a project. Will return error message if unable to retrieve projects. */
 - (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion;
