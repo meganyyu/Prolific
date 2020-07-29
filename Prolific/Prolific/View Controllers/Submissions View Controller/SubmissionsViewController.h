@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *projectId;
 @property (nonatomic, strong) Round *round;
+@property (nonatomic, strong) User *currUser;
 
 @end
 

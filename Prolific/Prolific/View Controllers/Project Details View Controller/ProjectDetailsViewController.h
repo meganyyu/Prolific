@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ProjectDetailsViewController : ProlificBaseViewController
 
 @property (nonatomic, strong) Project *project;
+@property (nonatomic, strong) User *currUser;
 
 @end
 

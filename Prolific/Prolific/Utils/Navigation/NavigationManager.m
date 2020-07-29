@@ -39,9 +39,10 @@
     [navController pushViewController:registerViewController animated:YES];
 }
 
-+ (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController {
++ (void)presentProjectDetailsViewControllerForProject:(Project *)project forUser:(User *)user navigationController:(UINavigationController *)navController {
     ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
     projectDetailsViewController.project = project;
+    projectDetailsViewController.currUser = user;
     [navController pushViewController:projectDetailsViewController animated:YES];
 }
 
@@ -58,10 +59,11 @@
     [navController pushViewController:composeSnippetViewController animated:YES];
 }
 
-+ (void)presentSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
++ (void)presentSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId forUser:(User *)user navigationController:(UINavigationController *)navController {
     SubmissionsViewController *const submissionsViewController = [[SubmissionsViewController alloc] init];
     submissionsViewController.round = round;
     submissionsViewController.projectId = projectId;
+    submissionsViewController.currUser = user;
     [navController pushViewController:submissionsViewController animated:YES];
 }
 

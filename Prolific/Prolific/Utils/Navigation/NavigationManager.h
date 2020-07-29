@@ -22,17 +22,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
 
-+ (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController;
++ (void)presentProjectDetailsViewControllerForProject:(Project *)project forUser:(User *)user navigationController:(UINavigationController *)navController;
 
 + (void)presentProfileViewControllerForUser:(User *)user navigationController:(UINavigationController *)navController;
 
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round
-                                      projectId:(NSString *)projectId
-                           navigationController:(UINavigationController *)navController;
+                                          projectId:(NSString *)projectId
+                               navigationController:(UINavigationController *)navController;
 
 + (void)presentSubmissionsViewControllerForRound:(Round *)round
-                                            projectId:(NSString *)projectId
-                                 navigationController:(UINavigationController *)navController;
+                                       projectId:(NSString *)projectId
+                                         forUser:(User *)user
+                            navigationController:(UINavigationController *)navController;
 
 + (void)exitTopViewController:(UINavigationController *)navController;
 

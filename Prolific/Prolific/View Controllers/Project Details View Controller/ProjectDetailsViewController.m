@@ -56,14 +56,14 @@
     [_collectionView registerClass:[RoundCell class]
         forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView registerClass:[ProjectCell class]
-    forCellWithReuseIdentifier:@"projectCell"];
+        forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView registerClass:[TextCell class]
-    forCellWithReuseIdentifier:@"textCell"];
+        forCellWithReuseIdentifier:@"textCell"];
     
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
-
+    
 }
 
 - (void)refreshData {
@@ -133,7 +133,7 @@
 - (void)didSubmit:(Snippet *)snippet
             round:(Round *)round {
     ProjectBuilder *const projBuilder = [[[ProjectBuilder alloc] initWithProject:_project]
-                                   updateLatestRound:round];
+                                         updateLatestRound:round];
     
     if (projBuilder) {
         Project *const updatedProj = [projBuilder build];
@@ -154,7 +154,7 @@
                                    cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if (indexPath.item == 0) {
         ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
-                                                                      forIndexPath:indexPath];
+                                                                            forIndexPath:indexPath];
         cell.project = _project;
         cell.delegate = self;
         return cell;
@@ -165,7 +165,7 @@
         return cell;
     } else {
         RoundCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"roundCell"
-                                                                    forIndexPath:indexPath];
+                                                                          forIndexPath:indexPath];
         
         Round *const round = _project.rounds[indexPath.item - 1];
         if (round.winningSnippetId) {
@@ -201,11 +201,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         Round *selectedRound = _project.rounds[indexPath.item - 1];
         
         [FIRAnalytics logEventWithName:kFIREventSelectContent
-        parameters:@{
-            kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedRound.roundId],
-            kFIRParameterItemName:selectedRound.roundId,
-            kFIRParameterContentType:@"round"
-        }];
+                            parameters:@{
+                                kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedRound.roundId],
+                                kFIRParameterItemName:selectedRound.roundId,
+                                kFIRParameterContentType:@"round"
+                            }];
         
         [self didTapPreview];
     }
