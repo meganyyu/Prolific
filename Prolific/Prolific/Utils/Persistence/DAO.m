@@ -22,8 +22,9 @@ static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kFollowCountKey = @"followCount";
-static NSString *const kNameKey = @"name";
 static NSString *const kIsCompleteKey = @"isComplete";
+static NSString *const kKarmaKey = @"karma";
+static NSString *const kNameKey = @"name";
 static NSString *const kProfileImagesRef = @"profileImages";
 static NSString *const kProjectsKey = @"projects";
 static NSString *const kRoundsKey = @"rounds";
@@ -63,7 +64,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     NSDictionary *const userData = @{
         kUsernameKey: user.username,
-        kDisplayNameKey: user.displayName
+        kDisplayNameKey: user.displayName,
+        kKarmaKey: user.karma
     };
     
     [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] setData:userData
@@ -79,7 +81,6 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         if (error != nil) {
             completion(nil, error);
         } else {
-            NSLog(@"Data for user: %@", snapshot.data);
             User *const user = [self buildUserWithId:userId fromData:snapshot.data];
             user ? completion(user, nil) : completion(nil, error);
         }
