@@ -13,6 +13,7 @@
 @import Firebase;
 #import "Round.h"
 #import "Snippet.h"
+#import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // optional (and immutable) attributes
 @property (nonatomic, strong) NSString *winningSnippetId;
+
+// optional (and mutable) attributes
+@property (nonatomic, strong) NSMutableDictionary *voteData;
 
 #pragma mark - Methods
 
@@ -53,6 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions;
 
 - (RoundBuilder *)addSubmission:(Snippet *)snippet;
+
+- (RoundBuilder *)updateRoundVoteCountBy:(NSInteger)numOfNewVotes
+                                 forUser:(User *)user;
 
 - (RoundBuilder *)withWinningSnippetId:(NSString *)winningSnippetId;
 

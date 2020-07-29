@@ -14,6 +14,9 @@ static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
+static NSString *const kVoteDataKey = @"voteData";
+static NSString *const kVoteCountKey = @"voteCount";
+static NSString *const kCurrentKarmaKey = @"currentKarma";
 
 @implementation RoundBuilder
 
@@ -27,6 +30,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         _endTime = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _submissions = [[NSMutableArray alloc] init];
         _winningSnippetId = nil;
+        _voteData = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -44,9 +48,13 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
             _isComplete = [data[kIsCompleteKey] boolValue];
             _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _endTime = [ProlificUtils convertTimestampToDate:data[kEndTimeKey]];
-        }
-        if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
-            _winningSnippetId = data[kWinningSnippetIdKey];
+            
+            if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
+                _winningSnippetId = data[kWinningSnippetIdKey];
+            }
+            if ([[data objectForKey:kVoteDataKey] isKindOfClass:[NSDictionary class]]) {
+                _voteData = [[data objectForKey:kVoteDataKey] mutableCopy];
+            }
         }
     }
     return self;
@@ -62,6 +70,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         _endTime = round.endTime;
         _submissions = round.submissions;
         _winningSnippetId = round.winningSnippetId;
+        _voteData = [round.voteData mutableCopy];
     }
     return self;
 }
@@ -93,6 +102,29 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (RoundBuilder *)addSubmission:(Snippet *)snippet {
     [_submissions addObject:snippet];
+    return self;
+}
+
+- (RoundBuilder *)updateRoundVoteCountBy:(NSInteger)numOfNewVotes
+                                 forUser:(User *)user {
+    NSMutableDictionary *userVoteData = _voteData[user.userId];
+    NSInteger newVoteCount = [userVoteData[kVoteCountKey] integerValue] + numOfNewVotes;
+    NSDecimalNumber *currentKarma = user.karma;
+    
+    if (userVoteData == nil) {
+        userVoteData = [[NSMutableDictionary alloc] init];
+        newVoteCount = numOfNewVotes;
+    }
+    
+    if (newVoteCount >= 0) {
+        [userVoteData setValue:[NSNumber numberWithLong:newVoteCount] forKey:kVoteCountKey];
+        [userVoteData setValue:currentKarma forKey:kCurrentKarmaKey];
+        
+        [_voteData setValue:userVoteData forKey:user.userId];
+    } else {
+        [_voteData removeObjectForKey:user.userId];
+    }
+    
     return self;
 }
 

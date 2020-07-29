@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 // optional (and immutable) attributes
 @property (nonatomic, strong, readonly) NSString *winningSnippetId;
 
+// optional (and mutable) attributes
+@property (nonatomic, strong, readonly) NSDictionary *voteData;
+
 #pragma mark - Methods
 
 - (instancetype)initWithBuilder:(RoundBuilder *)builder;
