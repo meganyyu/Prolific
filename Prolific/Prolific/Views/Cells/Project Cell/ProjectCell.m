@@ -32,6 +32,24 @@ static NSString *const kUntappedFollowIconID = @"untapped-follow-icon";
     
     _cellView.nameLabel.text = _project.name;
     _cellView.seedContentLabel.text = _project.seed;
+    _cellView.followCountLabel.text = [_project.followCount stringValue];
+    
+    [_cellView.followButton addTarget:self
+                               action:@selector(onTapFollow:)
+                     forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - User actions
+
+- (void)onTapFollow:(id)sender {
+    [_project updateCurrentUserFollowing];
+    [_delegate didFollow:_project];
+    
+    UIImage *const followIcon = [UIImage imageNamed:(_project.userFollowed ? kTappedFollowIconID : kUntappedFollowIconID)];
+    [_cellView.followButton setImage:followIcon
+                            forState:UIControlStateNormal];
+    
+    _cellView.followCountLabel.text = [_project.followCount stringValue];
 }
 
 @end
