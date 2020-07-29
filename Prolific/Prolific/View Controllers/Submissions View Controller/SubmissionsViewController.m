@@ -100,10 +100,14 @@
                                   build] ;
             
             [strongSelf.dao updateExistingRound:round forProjectId:strongSelf.projectId completion:^(NSError * _Nonnull error) {
+                __strong typeof (weakSelf) strongSelf = weakSelf;
+                if (strongSelf == nil) return;
+                
                 if (error) {
                     NSLog(@"undoing vote on local model due to error updating firebase with vote: %@", error.localizedDescription);
                     [snippet updateCurrentUserVote];
                 } else {
+                    strongSelf.round = round;
                     NSLog(@"success! Round vote data: %@", round.voteData);
                 }
             }];
