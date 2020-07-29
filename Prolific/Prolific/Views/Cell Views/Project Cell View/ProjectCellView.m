@@ -8,14 +8,6 @@
 
 #import "ProjectCellView.h"
 
-#import "FollowButton.h"
-
-@interface ProjectCellView () <FollowButtonDelegate>
-
-@property (nonatomic, strong) FollowButton *followButton;
-
-@end
-
 @implementation ProjectCellView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -30,7 +22,6 @@
         
         _followButton = [[FollowButton alloc] init];
         [self addSubview:_followButton];
-        _followButton.delegate = self;
     }
     return self;
 }
@@ -63,10 +54,6 @@
     CGFloat const followButtonX = labelWidth - followButtonWidth;
     CGFloat const followButtonY = boundsHeight - followButtonHeight - 0.05 * boundsHeight;
     _followButton.frame = CGRectMake(followButtonX, followButtonY, followButtonWidth, followButtonHeight);
-}
-
-- (void)didFollow {
-    
 }
 
 @end
