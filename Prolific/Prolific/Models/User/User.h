@@ -26,9 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *displayName;
 
-// optional attributes
-@property (nonatomic, strong, readonly) NSArray *projectsfollowing;
-
 #pragma mark - Methods
 
 - (instancetype)initWithBuilder:(UserBuilder *)builder;
