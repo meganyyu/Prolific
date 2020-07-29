@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Project.h"
+#import "Round.h"
 #import "Snippet.h"
 #import "User.h"
 
@@ -15,7 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UserEngagementManager : NSObject
 
-+ (NSInteger)calculateScoreForSubmission:(Snippet *)snippet;
++ (NSArray *)rankSubmissionsForRound:(Round *)round;
+
++ (NSDictionary *)scoreSubmissionsForRound:(Round *)round;
+
++ (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet;
 
 @end
 

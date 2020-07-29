@@ -10,9 +10,22 @@
 
 @implementation UserEngagementManager
 
-#pragma mark - Submission scoring
+#pragma mark - Round & Submission scoring
 
-+ (NSInteger)calculateScoreForSubmission:(Snippet *)snippet {
++ (NSArray *)rankSubmissionsForRound:(Round *)round {
+    return nil;
+}
+
++ (NSDictionary *)scoreSubmissionsForRound:(Round *)round {
+    NSMutableDictionary *const scores = [[NSMutableDictionary alloc] init];
+    for (Snippet *const submission in round.submissions) {
+        NSDecimalNumber *const score = [UserEngagementManager calculateScoreForSubmission:submission];
+        [scores setObject:score forKey:submission.snippetId];
+    }
+    return scores;
+}
+
++ (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet {
     return 0;
 }
 
