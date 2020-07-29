@@ -8,16 +8,8 @@
 
 #import "ProjectCell.h"
 
-#import "FollowButton.h"
-#import "ProjectCellView.h"
-
-#pragma mark - Interface
-
-@interface ProjectCell ()
-
-@property (nonatomic, strong) ProjectCellView *cellView;
-
-@end
+static NSString *const kTappedFollowIconID = @"tapped-follow-icon";
+static NSString *const kUntappedFollowIconID = @"untapped-follow-icon";
 
 #pragma mark - Implementation
 
