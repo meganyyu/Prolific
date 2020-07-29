@@ -92,31 +92,46 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 *Sprint 3*
 - [x] User can change their profile image (ability to take photos in-app + upload photos through device)
-    - [ ] Set up Cloud Storage for Firebase
-- [ ] User can follow/unfollow a project
-- [ ] User can view projects they are following in their Favorites page
-- [ ] Create MVP version of ranking algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to rank what order users see snippets that have been submitted to a project
-- [ ] Create logic for finalizing a snippet: maybe there are different types of snippets you can create - a "normal" snippet and a "final" snippet. Or maybe for each starter project, there are a limited number of snippets that can be made and the story has to finish within that number of snippets.
+    - [x] Set up Cloud Storage for Firebase
+- [x] User can follow/unfollow a project
+- [x] User can view projects they are following in their Favorites page
+- [ ] Create MVP version of round winner selection algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to determine winning snippet
+    - [ ] Just outline the algorithm for now, and then build on it with tier 1 gamification stretch stories
+- [ ] Create logic for finalizing a snippet: (MVP version) For each starter project, there is a default number of rounds before the story is marked as complete.
 
 *Sprint 4*
 - [ ] Improve UI! Check that required UI elements are there
-    - [ ] Make sure app uses gesture recognizers (e.g. double tap to like, e.g. pinch to scale)
+    - [ ] Make sure app uses gesture recognizers (for MVP: tap user profile image to change it)
     - [ ] Make sure app uses animations (e.g. fade in/out, e.g. animating a view growing and shrinking)
-    - [ ] Choose/add external library to add visual polish
+    - [ ] Choose/add external library to add visual polish (for MVP: Lottie)
 
 **Tier 1 Stretch Stories**
 
 - [ ] User can compose their own starter projects
-- [ ] User can see their profile page with their own projects/snippets they've contributed to other projects and a count of their contributions
+- [ ] Gamification
+    - [ ] Set up system to update karma for user easily
+    - [ ] These engagement factors go through a function to generate your karma:
+        - [ ] submit a snippet: 0.6 x 1 karma
+        - [ ] voting on a snippet: 0.6 x 1 karma
+        - [ ] winning a round: 2.5 x 1 karma
+        - [ ] viewing projects: 0.01 x 1 karma (but only up to 100 views)
+        - [ ] compose a starter project: 1.0 x 1 karma
+    -  Purpose of karma
+        - Votes of users without much karma is worth very little
+        - Power of a user's vote is # votes x karma
+        - If a user votes for multiple snippets in a round then the weight of their vote is divided proportionately by the number of votes the user makes
+- [ ] User can see their profile page with their own projects/snippets they've contributed to other projects and their points
+- [ ] User can view other user’s profiles by tapping on the author photo of a snippet, and see their points/what projects they've created
+
+**Tier 2 Stretch Stories**
+- [ ] Create custom camera view
 - [ ] User can customize their profile
 - [ ] User can receive push notifications or see notifications on a notifications page
     - [ ] Notified when their snippet is liked
     - [ ] Notified when a round has finished for a project they are following
-- [ ] Create custom camera view
 - [ ] User can post snippets using other forms of media as well (e.g. images)
 
-**Tier 2 Stretch Stories**
-- [ ] User can view other user’s profiles by tapping on the author photo of a snippet, and see what projects they've created
+**Tier 3 Stretch Stories**
 - [ ] User can search for other users
 - [ ] User can friend/unfriend other users
     - [ ] User can login from and add friends from Facebook (or other social media!)
@@ -124,9 +139,10 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
     - [ ] User can see recent, but also trending projects in Explore page
     - [ ] Users can search for projects by title
 
-**Tier 3 Stretch Stories**
+**Tier 4 Stretch Stories**
 - [ ] Users can make projects private
 - [ ] Users can invite other users to a private project
+
 
 ### 2. Screen Archetypes
 
@@ -136,7 +152,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
     * User can create a new account
 * Stream
     * User can view a feed of projects
-    * User can like a snippet
+    * User can vote on a snippet
 * Creation
     * User can submit a new snippet to a project
     * User can create a new starter project and post to feed
@@ -169,13 +185,17 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 ## Wireframes
 
-Note: still modifying wireframes, this is a draft of MVP only:
+MVP draft:
 
 <img src="https://github.com/meganyyu/Prolific/blob/main/wireframe_ver%201_Jul_2_2020.png" width=800>
 
-### [BONUS] Digital Wireframes & Mockups
+### Digital Wireframes & Mockups
 
-### [BONUS] Interactive Prototype
+[Figma Digital Wireframes](https://www.figma.com/file/O5dBh4BSnip4KbmVwHQ6Tc/Prolific?node-id=0%3A1)
+
+### Interactive Prototype
+
+[Figma prototype](https://www.figma.com/proto/O5dBh4BSnip4KbmVwHQ6Tc/Prolific?node-id=0%3A3&scaling=scale-down)
 
 ## Schema 
 
@@ -203,16 +223,9 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 
 **users**
 - *user 1*
-    - user id (unique)
+    - username
     - display name
-    - **following** (projects user is following)
-        - id 1
-        - id 2
-        - ...
-    - **projects**
-        - id 1
-        - id 2
-        - ...
+    - profile image reference
 - *user 2*
 - ...
 
@@ -220,17 +233,11 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 - *project 1*
     - id
     - name
-    - current round
+    - seed (starter text)
+    - current round #
     - isComplete flag (marks if project is complete)
+    - usersFollowing (array of userIds who are following project)
     - **rounds**
-        - *round 0* (contains initial starter snippet - do I need this?)
-            - submissionCount
-            - isComplete flag (if true, round becomes immutable)
-            - **submissions**
-                - *snippet 1*
-            - **votes**
-                - *snippet id 1*
-                    - value:
         - *round 1*
             - submissionCount
             - isComplete flag
@@ -238,13 +245,10 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
                 - *snippet 1*
                     - author
                     - content
+                    - voteCount
+                    - userVotes (array of userIds who have voted on this snippet)
                 - *snippet 2*
                 - *snippet 3*
-            - **votes**
-                - *snippet id 1*
-                    - value:
-                - *snippet id 2*
-                    - value:
         - *round 2*
         - *round 3*
         - ...
@@ -262,39 +266,43 @@ Rough draft! Will likely change as I understand Firestore better. [Docs](https:/
 | Property | Type  | Description |
 | -------- | -------- | -------- |
 | userId | String | unique id for author (default field) |
+| username | String | user's username |
 | displayName | String | user's unique alias |
-| password | String | user's password |
-| projectsFollowing | MutableArray of project ids | collection of projects user is following |
-| projects | MutableArray of project ids | collection of user's own projects |
+| email | String | user's unique alias |
 
 #### **Projects**
 | Property | Type | Description |
 | -------- | -------- | -------- |
-| projectId | String | unique id for the project |
-| starterSnippet | Pointer to Snippet | the initial Snippet |
-| isCompleted | Boolean | is true if the project has been completed |
+| projectId | String | unique id for the project (default field) |
+| name | String | name of project |
+| seed | String | the starter text for the Project |
+| isComplete | Boolean | is true if the project has been completed |
+| currentRound | Number | current latest round number of project |
+| Rounds | MutableArray of Pointers to Rounds | all the rounds of a project |
+| followCount | Number | number of followers for the project |
+| userFollowed | Boolean | marks whether current user has followed this project |
 
 #### **Rounds**
 | Property | Type | Description |
 | -------- | -------- | -------- |
-| submissionCount | int | number of snippets submitted to this round |
+| roundId | String | unique id for the Round (default field) |
+| createdAt | DateTime | date when round is created (default field) |
 | isComplete | Boolean | is the round finished? |
+| endTime | DateTime | date when round will be completed |
 | Submissions | MutableArray of Pointers to Snippets | all the submitted snippets |
-| Votes | Dictionary | each key (snippet ID) has a value (# votes) |
+| winningSnippetId | String | unique id for the Snippet that won the round, nil if round is incomplete |
 
 #### **Snippets**
 | Property | Type | Description |
 | -------- | -------- | -------- |
 | snippetId | String | unique id for the Snippet (default field) |
-| author | Pointer to User | Snippet author |
-| text | String | Snippet text by author |
-| image | File | Snippet image by author |
-| votesCount | Number | number of votes for the Snippet |
+| authorId | String | id of user who submitted snippet |
 | createdAt | DateTime | date when snippet is created (default field) |
-| isPartOfProject | Boolean | marks whether this snippet has been chosen to be part of a project |
-| project | Pointer to Project | points to the Project to which this snippet was submitted, even if the snippet was not actually chosen (i.e. isPartOfProject is false) |
+| text | String | Snippet text by author |
+| voteCount | Number | number of votes for the Snippet |
+| userVoted | Boolean | marks whether current user has voted on this snippet |
 
-#### Overview of actions you can take on each object
+#### Overview of actions user can take on each object
 
 * **Users**
     * Can create a user - when registering
