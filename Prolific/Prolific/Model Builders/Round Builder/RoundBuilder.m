@@ -116,7 +116,7 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
         newVoteCount = numOfNewVotes;
     }
     
-    if (newVoteCount >= 0) {
+    if (newVoteCount > 0) {
         [userVoteData setValue:[NSNumber numberWithLong:newVoteCount] forKey:kVoteCountKey];
         [userVoteData setValue:currentKarma forKey:kCurrentKarmaKey];
         

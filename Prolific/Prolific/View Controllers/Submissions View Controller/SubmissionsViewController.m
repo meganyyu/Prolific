@@ -13,6 +13,7 @@
 #import "NavigationManager.h"
 #import "SnippetCell.h"
 #import "UIColor+ProlificColors.h"
+#import "RoundRanker.h"
 
 #pragma mark - Interface
 
@@ -108,7 +109,6 @@
                     [snippet updateCurrentUserVote];
                 } else {
                     strongSelf.round = round;
-                    NSLog(@"success! Round vote data: %@", round.voteData);
                 }
             }];
         }
