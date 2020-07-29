@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet;
 
++ (NSDictionary *)computeVoteWeightsForRound:(Round *)round;
 
 @end
 

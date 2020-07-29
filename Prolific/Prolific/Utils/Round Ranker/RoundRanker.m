@@ -8,6 +8,9 @@
 
 #import "RoundRanker.h"
 
+static NSString *const kVoteCountKey = @"voteCount";
+static NSString *const kCurrentKarmaKey = @"currentKarma";
+
 @implementation RoundRanker
 
 + (NSArray *)rankSubmissionsForRound:(Round *)round {
@@ -25,6 +28,25 @@
 
 + (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet {
     return 0;
+}
+
++ (NSDictionary *)computeVoteWeightsForRound:(Round *)round {
+    NSMutableDictionary *const voteWeights = [[NSMutableDictionary alloc] init];
+    
+    for (id userId in round.voteData) {
+        NSDictionary *const userVoteData = [round.voteData objectForKey:userId];
+        
+        NSDecimalNumber *const voteCount = [NSDecimalNumber decimalNumberWithDecimal:[userVoteData[kVoteCountKey] decimalValue]];
+        NSDecimalNumber *const currentKarma = [NSDecimalNumber decimalNumberWithDecimal:[userVoteData[kCurrentKarmaKey] decimalValue]];
+        
+        if ([voteCount compare:[NSNumber numberWithInt:0]] != NSOrderedSame) {
+            NSDecimalNumber *const voteWeight = [currentKarma decimalNumberByDividingBy:voteCount];
+            
+            [voteWeights setValue:voteWeight forKey:userId];
+        }
+    }
+    
+    return voteWeights;
 }
 
 @end
