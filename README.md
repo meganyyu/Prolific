@@ -11,38 +11,40 @@ Original App Design Project
 
 ## Overview
 ### Description
-Prolific is an app that encourages people to become co-creators by allowing users to contribute to projects using snippets of text and short media to create a story in a finish-the-sentence style format.
+Prolific is a social app where users become co-creators by building stories together in a finish-the-story style game.
 
 ### Possible Iterations
 These aren't necessarily iterations I'll implement at FBU, but are possible future directions for the app.
 
 **MVP**
-- App contains some existing starter projects for now (e.g. sourced from famous quotes/famous  movie lines), which are displayed in the home feed.
+- App contains some existing starter projects for now (e.g. sourced from writing sites/famous quotes), which are displayed in the home feed.
 - Users can compose and submit snippets to these existing starter projects to continue the story.
 - For each starter project, after a certain amount of time, all the votes are counted up, and the "winning" snippet is chosen.
+    - Winning snippets are chosen based on an algorithm (main complex algorithm for FBU)
+        - Purpose?
+            - (1) make sure app doesn't only promote latest, top voted, or popular projects/snippets
+            - (2) fraud detection: counter abuse from voters (i.e. same users always vote for another user)
+        - Have a class that locally and directly calculates some basic score (based on simple factors like votes, views, etc.) to rank what order users see snippets that have been submitted to a project
 - Once a winning snippet has been chosen, it is added to the project and users can again repeat the process of composing and adding snippets to this updated project.
-- Use user analytics to rank projects & snippets (main complex algorithm for FBU)
-    - Purpose?
-        - (1) make sure app doesn't only promote latest, top voted, or popular projects/snippets
-        - (2) fraud detection: counter abuse from voters (i.e. same users always vote for another user)
-    - Have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to rank what order users see snippets that have been submitted to a project
+- Use user analytics as a tool to get an overview of activity on projects & snippets
+- Users can follow a project to view project in their favorites
 
 **Iteration 2**
 - Bringing in content creators! Users can now compose their own starter projects for other users to add to.
-- Users can follow a project to be updated when a winning snippet has been chosen to continue the story.
-- Users can follow other users to be updated on when they create a starter project
-- How do you end a project?: A user can mark a snippet that they post as an "ending-type" snippet. If that snippet gets chosen as the "winning" snippet, then the project ends.
-- Use user analytics to rank what order you see projects on your explore page (so that you don't just interact with the top interacted projects, but see new ones too)
-
-**Iteration 3**
-- Private projects - users can create private projects that is only visible to a group of people (like creating a private game room!), snippets can only be posted to these projects by certain people
+- Initial gamification of app
+    - Users can gain karma based on user engagement, how many times their snippets have won, etc.
+- User has more controls over when a project ends. Either the user who owns the starter project can choose how many rounds they want, or users submitting to a project can mark a snippet that they post as an "ending-type" snippet. If that snippet gets chosen as the "winning" snippet, then the project ends.
+- Basic profile customization
+- Users can follow other users
 
 **Possible future iterations?**
-- Modify class that deals with user analytics to instead send out the data to some server to do more complex analysis (e.g. maybe we want votes from new, unique users that haven't voted for that particular user before to count more than habitual voters --> need a graph database)
+- Users following a project get notifications each time a round ends/starts
+- Modify class that deals with user engagement/scoring to instead send out the data to some server to do more complex analysis (e.g. maybe we want votes from new, unique users that haven't voted for that particular user before to count more than habitual voters --> need a graph database)
 - More gamification of the app
     - Users can set project types to change the pacing of the project's storyline - normal, speed-round, etc.
     - Temporary projects - have the option to make an entire project deletable - anyone who submits to that project will be notified that the entire project is deletable
-    - Users can collect points based on how many times their snippets have won?
+- Private projects - users can create private projects that is only visible to a group of people (like creating a private game room!), snippets can only be posted to these projects by certain people
+- Find way to rank what order you see projects on your explore page (so that you don't just interact with the top interacted projects, but see new ones too)
 
 
 ### App Evaluation
@@ -111,11 +113,11 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - [ ] Gamification
     - [ ] Set up system to update karma for user easily
     - [ ] These engagement factors go through a function to generate your karma:
-        - [ ] submit a snippet: 0.6 x 1 karma
-        - [ ] voting on a snippet: 0.6 x 1 karma
-        - [ ] winning a round: 2.5 x 1 karma
-        - [ ] viewing projects: 0.01 x 1 karma (but only up to 100 views)
-        - [ ] compose a starter project: 1.0 x 1 karma
+        - [ ] submit a snippet: 0.6 x user karma
+        - [ ] voting on a snippet: 0.6 x user karma
+        - [ ] winning a round: 2.5 x user karma
+        - [ ] viewing projects: 0.01 x user karma (but only up to 100 views)
+        - [ ] compose a starter project: 1.0 x user karma
     -  Purpose of karma
         - Votes of users without much karma is worth very little
         - Power of a user's vote is # votes x karma
@@ -219,7 +221,7 @@ MVP draft:
 #### Users Document
 Note: **bold** text indicates a collection, *italicized* text indicates a document.
 
-Rough draft! Will likely change as I understand Firestore better. [Docs](https://firebase.google.com/docs/firestore/manage-data/structure-data)
+[Firestore Docs](https://firebase.google.com/docs/firestore/manage-data/structure-data)
 
 **users**
 - *user 1*
