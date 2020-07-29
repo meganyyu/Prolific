@@ -33,6 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Returns SnippetBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a SnippetBuilder the same way as init does. */
 - (instancetype)initWithId:(NSString *)snippetId dictionary:(NSDictionary *)data;
 
+/** Returns SnippetBuilder with all fields initialized as a copy of a Snippet model. */
+- (instancetype)initWithSnippet:(Snippet *)snippet;
+
 - (SnippetBuilder *)withId:(NSString *)snippetId;
 
 - (SnippetBuilder *)withAuthor:(NSString *)authorId;

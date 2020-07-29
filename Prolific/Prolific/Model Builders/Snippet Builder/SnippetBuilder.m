@@ -52,6 +52,20 @@ static NSString *const kUserVotesKey = @"userVotes";
     return self;
 }
 
+- (instancetype)initWithSnippet:(Snippet *)snippet {
+    self = [self init];
+    
+    if (self) {
+        _snippetId = snippet.snippetId;
+        _authorId = snippet.authorId;
+        _createdAt = snippet.createdAt;
+        _text = snippet.text;
+        _voteCount = snippet.voteCount;
+        _userVoted = snippet.userVoted;
+    }
+    return self;
+}
+
 - (SnippetBuilder *)withId:(NSString *)snippetId {
     _snippetId = snippetId;
     return self;
