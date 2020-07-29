@@ -36,6 +36,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 static NSString *const kUserVotesKey = @"userVotes";
 static NSString *const kUsernameKey = @"username";
 static NSString *const kVoteCountKey = @"voteCount";
+static NSString *const kVoteDataKey = @"voteData";
 static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 @interface DAO ()
@@ -264,7 +265,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     } else {
         roundData = @{
             kEndTimeKey: [FIRTimestamp timestampWithDate: round.endTime],
-            kIsCompleteKey: [NSNumber numberWithBool:round.isComplete]
+            kIsCompleteKey: [NSNumber numberWithBool:round.isComplete],
+            kVoteDataKey: round.voteData
         };
     }
     
