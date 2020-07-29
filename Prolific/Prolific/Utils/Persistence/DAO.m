@@ -90,7 +90,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
                              completion:(void(^)(NSArray *projects, NSError *error))completion {
     FIRCollectionReference *const projectsRef = [self.db collectionWithPath:kProjectsKey];
     
-    [[[projectsRef queryOrderedByField:kCreatedAtKey] queryWhereField:kUsersFollowingKey arrayContains:userId]
+    [[projectsRef queryWhereField:kUsersFollowingKey arrayContains:userId]
      getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
         if (error != nil) {
             completion(nil, error);
@@ -351,8 +351,6 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
             for (FIRDocumentSnapshot *const document in snapshot.documents) {
                 Project *const proj = [self buildProjectWithId:document.documentID
                                                       fromData:document.data];
-                NSLog(@"project document data: %@", document.data);
-                NSLog(@"project in DAO: %@", proj.name);
                 if (proj) {
                     [projs addObject:proj];
                 }
