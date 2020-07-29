@@ -42,6 +42,8 @@
     
     // Navigation customization
     self.navigationItem.title = @"Favorites";
+    
+    [self loadProjects];
 }
 
 - (void)setupCollectionView {
@@ -56,6 +58,28 @@
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
 
     [self.view addSubview:_collectionView];
+}
+
+#pragma mark - Load data
+
+- (void)loadProjects {
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    
+    [_dao getAllFollowedProjectsforUserId:currUserId completion:^(NSArray *projects, NSError * error) {
+        if (projects) {
+            self.projectArray = (NSMutableArray *) projects;
+            
+            __weak typeof(self) weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf.collectionView reloadData];
+                }
+            });
+        } else {
+            NSLog(@"Error retrieving projects: %@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
