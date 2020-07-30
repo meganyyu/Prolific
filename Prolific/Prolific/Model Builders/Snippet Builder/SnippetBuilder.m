@@ -27,6 +27,7 @@ static NSString *const kUserVotesKey = @"userVotes";
         _text = nil;
         _voteCount = [NSNumber numberWithInt:0];
         _userVoted = NO;
+        _userVotes = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -46,6 +47,8 @@ static NSString *const kUserVotesKey = @"userVotes";
             if ([[data objectForKey:kUserVotesKey] isKindOfClass:[NSArray class]]) {
                 NSString *const currUserId = [FIRAuth auth].currentUser.uid;
                 _userVoted = [data[kUserVotesKey] containsObject:currUserId];
+                
+                _userVotes = [data[kUserVotesKey] mutableCopy];
             }
         }
     }
@@ -62,6 +65,7 @@ static NSString *const kUserVotesKey = @"userVotes";
         _text = snippet.text;
         _voteCount = snippet.voteCount;
         _userVoted = snippet.userVoted;
+        _userVotes = [snippet.userVotes mutableCopy];
     }
     return self;
 }
@@ -88,6 +92,14 @@ static NSString *const kUserVotesKey = @"userVotes";
 
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount {
     _voteCount = voteCount;
+    return self;
+}
+
+- (SnippetBuilder *)updateCurrentUserVote {
+    _userVoted ? [_userVotes removeObject:[FIRAuth auth].currentUser.uid] : [_userVotes addObject:[FIRAuth auth].currentUser.uid];
+    _userVoted = !_userVoted;
+    _voteCount = [NSNumber numberWithInt:[_voteCount intValue] + (_userVoted ? 1 : -1)];
+    
     return self;
 }
 

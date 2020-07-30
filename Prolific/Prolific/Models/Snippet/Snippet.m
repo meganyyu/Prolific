@@ -24,13 +24,9 @@
         _createdAt = builder.createdAt;
         _voteCount = builder.voteCount;
         _userVoted = builder.userVoted;
+        _userVotes = builder.userVotes;
     }
     return self;
-}
-
-- (void)updateCurrentUserVote {
-    _userVoted = !_userVoted;
-    _voteCount = [NSNumber numberWithInt:[_voteCount intValue] + (_userVoted ? 1 : -1)];
 }
 
 @end

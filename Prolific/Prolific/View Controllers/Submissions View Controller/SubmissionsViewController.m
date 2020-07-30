@@ -93,8 +93,7 @@
         if (strongSelf == nil) return;
         
         if (error) {
-            NSLog(@"undoing vote on local model due to an error updating firebase with vote: %@", error.localizedDescription);
-            [snippet updateCurrentUserVote];
+            NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
         } else {
             Round *const round = [[[[RoundBuilder alloc] initWithRound:strongSelf.round]
                                    updateRoundVoteCountBy:(snippet.userVoted ? 1 : -1) forUser:strongSelf.currUser]
@@ -105,8 +104,7 @@
                 if (strongSelf == nil) return;
                 
                 if (error) {
-                    NSLog(@"undoing vote on local model due to error updating firebase with vote: %@", error.localizedDescription);
-                    [snippet updateCurrentUserVote];
+                    NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
                 } else {
                     strongSelf.round = round;
                 }
