@@ -19,15 +19,26 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
 
 + (NSDictionary *)scoreSubmissionsForRound:(Round *)round {
     NSMutableDictionary *const scores = [[NSMutableDictionary alloc] init];
+    NSDictionary *const voteWeights = [RoundRanker computeVoteWeightsForRound:round];
+    
     for (Snippet *const submission in round.submissions) {
-        NSDecimalNumber *const score = [RoundRanker calculateScoreForSubmission:submission];
-        [scores setObject:score forKey:submission.snippetId];
+        NSDecimalNumber *const score = [RoundRanker calculateScoreForSubmission:submission withVoteWeights:voteWeights];
+        [scores setValue:score forKey:submission.snippetId];
     }
     return scores;
 }
 
-+ (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet {
-    return 0;
++ (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet withVoteWeights:(NSDictionary *)voteWeights {
+    NSDecimalNumber *totalScore = [NSDecimalNumber zero];
+    
+    for (NSString *const userId in snippet.userVotes) {
+        NSDecimalNumber *voteWeight = [voteWeights valueForKey:userId];
+        
+        if (voteWeight != nil) {
+            totalScore = [totalScore decimalNumberByAdding:voteWeight];
+        }
+    }
+    return totalScore;
 }
 
 + (NSDictionary *)computeVoteWeightsForRound:(Round *)round {

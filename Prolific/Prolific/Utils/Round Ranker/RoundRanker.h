@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDictionary *)scoreSubmissionsForRound:(Round *)round;
 
-+ (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet;
++ (NSDecimalNumber *)calculateScoreForSubmission:(Snippet *)snippet withVoteWeights:(NSDictionary *)voteWeights;
 
 + (NSDictionary *)computeVoteWeightsForRound:(Round *)round;
 
