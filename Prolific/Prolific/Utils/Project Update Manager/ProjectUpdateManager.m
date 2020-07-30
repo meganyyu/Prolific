@@ -37,7 +37,7 @@
                         if (error) {
                             completion(nil, error);
                         }
-                        else if (updatedRound) {
+                        else {
                             updatedProjBuilder = [updatedProjBuilder updateLatestRound:updatedRound];
                             if (newRound) {
                                 updatedProjBuilder = [updatedProjBuilder addRound:newRound];
@@ -45,16 +45,12 @@
                             Project *const updatedProj = [updatedProjBuilder build];
                             updatedProj ? completion(updatedProj, nil) : completion(nil, error);
                         }
-                        else {
-                            Project *const projWithRounds = [updatedProjBuilder build];
-                            projWithRounds ? completion(projWithRounds, error) : completion(nil, error);
-                        }
                     }];
                 } else {
                     // If fetching latest round's submissions was unsuccessful, just return the project with its rounds for now
                     Project *const projWithRounds = [[[[ProjectBuilder alloc] initWithProject:project]
-                                                   withRounds:rounds]
-                                                   build];
+                                                      withRounds:rounds]
+                                                     build];
                     projWithRounds ? completion(projWithRounds, nil) : completion(nil, error);
                 }
             }];
@@ -113,8 +109,9 @@
         }];
     }
     
-    // if no updates need to be made and no error, just pass back nil
-    completion(nil, nil, nil);
+    // if no updates need to be made and no error, just pass back latest round with submissions
+    Round *const populatedLatestRound = [roundBuilder build];
+    completion(populatedLatestRound, nil, nil);
 }
 
 @end
