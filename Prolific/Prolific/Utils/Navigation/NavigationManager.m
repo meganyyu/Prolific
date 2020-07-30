@@ -68,17 +68,11 @@
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {
-    UIViewController *const poppedVC = [navController popViewControllerAnimated:YES];
-    NSString *const vcType = NSStringFromClass([poppedVC class]);
-    NSLog(@"Popped a view controller of type %@", vcType);
+    [navController popViewControllerAnimated:YES];
 }
 
 + (void)exitToRootViewController:(UINavigationController *)navController {
-    NSArray<__kindof UIViewController *> *const poppedVCs = [navController popToRootViewControllerAnimated:YES];
-    NSLog(@"Popped view controllers of type:");
-    for (UIViewController *const vc in poppedVCs) {
-        NSLog(@"%@", NSStringFromClass([vc class]));
-    }
+    [navController popToRootViewControllerAnimated:YES];
 }
 
 @end
