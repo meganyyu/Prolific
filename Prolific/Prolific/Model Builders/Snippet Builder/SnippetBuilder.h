@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // optional (and mutable) attributes
 @property (nonatomic, strong) NSMutableArray *userVotes;
+@property (nonatomic, strong) NSNumber *rank;
+@property (nonatomic, strong) NSDecimalNumber *score;
 
 #pragma mark - Methods
 
@@ -50,6 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount;
 
 - (SnippetBuilder *)updateCurrentUserVote;
+
+- (SnippetBuilder *)withRank:(NSNumber *)rank;
+
+- (SnippetBuilder *)withScore:(NSDecimalNumber *)score;
 
 /** Returns fully built Snippet if SnippetBuilder has all fields initialized properly. Else returns nil. */
 - (Snippet *)build;

@@ -15,6 +15,8 @@ static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kTextKey = @"text";
 static NSString *const kVoteCountKey = @"voteCount";
 static NSString *const kUserVotesKey = @"userVotes";
+static NSString *const kRankKey = @"rank";
+static NSString *const kScoreKey = @"score";
 
 @implementation SnippetBuilder
 
@@ -28,6 +30,8 @@ static NSString *const kUserVotesKey = @"userVotes";
         _voteCount = [NSNumber numberWithInt:0];
         _userVoted = NO;
         _userVotes = [[NSMutableArray alloc] init];
+        _rank = nil;
+        _score = [NSDecimalNumber zero];
     }
     return self;
 }
@@ -50,6 +54,12 @@ static NSString *const kUserVotesKey = @"userVotes";
                 
                 _userVotes = [data[kUserVotesKey] mutableCopy];
             }
+            if ([[data objectForKey:kRankKey] isKindOfClass:[NSNumber class]]) {
+                _rank = [data objectForKey:kRankKey];
+            }
+            if ([[data objectForKey:kScoreKey] isKindOfClass:[NSNumber class]]) {
+                _score = [NSDecimalNumber decimalNumberWithDecimal:[[data objectForKey:kScoreKey] decimalValue]];
+            }
         }
     }
     return self;
@@ -66,6 +76,8 @@ static NSString *const kUserVotesKey = @"userVotes";
         _voteCount = snippet.voteCount;
         _userVoted = snippet.userVoted;
         _userVotes = [snippet.userVotes mutableCopy];
+        _rank = snippet.rank;
+        _score = snippet.score;
     }
     return self;
 }
@@ -100,6 +112,16 @@ static NSString *const kUserVotesKey = @"userVotes";
     _userVoted = !_userVoted;
     _voteCount = [NSNumber numberWithInt:[_voteCount intValue] + (_userVoted ? 1 : -1)];
     
+    return self;
+}
+
+- (SnippetBuilder *)withRank:(NSNumber *)rank {
+    _rank = rank;
+    return self;
+}
+
+- (SnippetBuilder *)withScore:(NSDecimalNumber *)score {
+    _score = score;
     return self;
 }
 

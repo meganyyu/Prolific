@@ -25,6 +25,8 @@
         _voteCount = builder.voteCount;
         _userVoted = builder.userVoted;
         _userVotes = builder.userVotes;
+        _rank = builder.rank;
+        _score = builder.score;
     }
     return self;
 }

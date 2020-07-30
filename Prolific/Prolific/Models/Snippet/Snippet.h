@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // optional (and mutable) attributes
 @property (nonatomic, strong, readonly) NSArray *userVotes;
+@property (nonatomic, strong, readonly) NSNumber *rank;
+@property (nonatomic, strong, readonly) NSDecimalNumber *score;
 
 #pragma mark - Methods
 
