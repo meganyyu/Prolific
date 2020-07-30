@@ -8,13 +8,17 @@
 
 #import "RoundRanker.h"
 
+#import "DAO.h"
+
 static NSString *const kVoteCountKey = @"voteCount";
 static NSString *const kCurrentKarmaKey = @"currentKarma";
 
+#pragma mark - Implementation
+
 @implementation RoundRanker
 
-+ (NSArray *)rankSubmissionsForRound:(Round *)round {
-    return nil;
++ (NSArray *)rankSubmissionsForScores:(NSDictionary *)scores {
+    return [scores keysSortedByValueUsingSelector:@selector(comparator)];
 }
 
 + (NSDictionary *)scoreSubmissionsForRound:(Round *)round {
