@@ -59,11 +59,17 @@
     
 }
 
+#pragma mark - User Actions
+
+- (void)onTapBack:(id)sender{
+    [NavigationManager exitTopViewControllerWithUpdatedProject:_project navigationController:self.navigationController];
+}
+
 #pragma mark - Load submissions
 
 - (void)loadSubmissions {
     [_dao getAllSubmissionsforRoundId:_round.roundId
-                            projectId:_projectId
+                            projectId:_project.projectId
                            completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
         if (submissions) {
             self.snippetArray = (NSMutableArray *) submissions;
@@ -91,7 +97,7 @@
     
     __weak typeof (self) weakSelf = self;
     [_dao updateExistingSnippet:snippet
-                   forProjectId:_projectId
+                   forProjectId:_project.projectId
                        forRound:_round
                      completion:^(NSError * _Nonnull error) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
@@ -100,7 +106,7 @@
         if (error) {
             NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
         } else {
-            [strongSelf.dao updateExistingRound:round forProjectId:strongSelf.projectId completion:^(NSError * _Nonnull error) {
+            [strongSelf.dao updateExistingRound:round forProjectId:strongSelf.project.projectId completion:^(NSError * _Nonnull error) {
                 __strong typeof (weakSelf) strongSelf = weakSelf;
                 if (strongSelf == nil) return;
                 

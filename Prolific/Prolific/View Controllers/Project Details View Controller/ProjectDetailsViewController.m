@@ -93,8 +93,9 @@
     int latestRoundNumber = (int) _project.rounds.count - 1;
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
+        
         [NavigationManager presentSubmissionsViewControllerForRound:currentRound
-                                                          projectId:_project.projectId
+                                                            project:_project
                                                             forUser:_currUser
                                                navigationController:self.navigationController];
     } else {
