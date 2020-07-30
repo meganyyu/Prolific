@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RoundRanker : NSObject
 
++ (Round *)updateRanksForRound:(Round *)round;
+
 + (NSArray *)rankSubmissionsForScores:(NSDictionary *)scores;
 
 + (NSDictionary *)scoreSubmissionsForRound:(Round *)round;
