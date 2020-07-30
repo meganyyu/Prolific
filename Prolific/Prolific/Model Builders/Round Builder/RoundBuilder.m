@@ -105,6 +105,18 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
     return self;
 }
 
+- (RoundBuilder *)updateExistingSubmissionWithSubmission:(Snippet *)updatedSnippet {
+    NSUInteger const index = [_submissions indexOfObjectPassingTest:^BOOL(Snippet *snippet, NSUInteger idx, BOOL *stop) {
+        return [_submissions[idx].snippetId isEqual:updatedSnippet.snippetId];
+    }];
+    
+    if (index != NSNotFound) {
+        _submissions[index] = updatedSnippet;
+        return self;
+    }
+    return nil;
+}
+
 - (RoundBuilder *)updateRoundVoteCountBy:(NSInteger)numOfNewVotes
                                  forUser:(User *)user {
     NSMutableDictionary *userVoteData = _voteData[user.userId];

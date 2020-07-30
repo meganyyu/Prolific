@@ -56,7 +56,7 @@
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
-
+    
 }
 
 #pragma mark - Load submissions
@@ -84,6 +84,11 @@
 #pragma mark - SnippetCellDelegate Protocol
 
 - (void)didVote:(Snippet *)snippet {
+    Round *const round = [[[[[RoundBuilder alloc] initWithRound:_round]
+                            updateExistingSubmissionWithSubmission:snippet]
+                           updateRoundVoteCountBy:(snippet.userVoted ? 1 : -1) forUser:_currUser]
+                          build] ;
+    
     __weak typeof (self) weakSelf = self;
     [_dao updateExistingSnippet:snippet
                    forProjectId:_projectId
@@ -95,10 +100,6 @@
         if (error) {
             NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
         } else {
-            Round *const round = [[[[RoundBuilder alloc] initWithRound:strongSelf.round]
-                                   updateRoundVoteCountBy:(snippet.userVoted ? 1 : -1) forUser:strongSelf.currUser]
-                                  build] ;
-            
             [strongSelf.dao updateExistingRound:round forProjectId:strongSelf.projectId completion:^(NSError * _Nonnull error) {
                 __strong typeof (weakSelf) strongSelf = weakSelf;
                 if (strongSelf == nil) return;

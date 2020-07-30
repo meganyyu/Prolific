@@ -58,6 +58,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (RoundBuilder *)addSubmission:(Snippet *)snippet;
 
+- (RoundBuilder *)updateExistingSubmissionWithSubmission:(Snippet *)updatedSnippet;
+
 - (RoundBuilder *)updateRoundVoteCountBy:(NSInteger)numOfNewVotes
                                  forUser:(User *)user;
 
