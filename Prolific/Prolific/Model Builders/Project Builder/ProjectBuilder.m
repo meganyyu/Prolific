@@ -110,6 +110,13 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
     return self;
 }
 
+- (ProjectBuilder *)updateCurrentUserFollowing {
+    _userFollowed = !_userFollowed;
+    _followCount = [NSNumber numberWithInt:[_followCount intValue] + (_userFollowed ? 1 : -1)];
+    
+    return self;
+}
+
 - (ProjectBuilder *)markComplete {
     _isComplete = YES;
     return self;
@@ -139,7 +146,6 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         Project *proj = [[Project alloc] initWithBuilder:self];
         return proj;
     }
-    NSLog(@"reached some project that didn't build right");
     return nil;
 }
 

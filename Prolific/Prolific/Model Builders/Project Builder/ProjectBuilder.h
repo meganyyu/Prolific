@@ -48,7 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)incrementCurrentRoundNumber;
 
-- (SnippetBuilder *)withFollowCount:(NSNumber *)followCount;
+- (ProjectBuilder *)withFollowCount:(NSNumber *)followCount;
+
+- (ProjectBuilder *)updateCurrentUserFollowing;
 
 - (ProjectBuilder *)markComplete;
 

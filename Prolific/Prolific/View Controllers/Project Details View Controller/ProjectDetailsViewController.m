@@ -109,8 +109,7 @@
     
     [_dao updateFollowersforProject:project withUserId:currUserId completion:^(NSError *error) {
         if (error) {
-            NSLog(@"undoing follow on local model due to an error updating firebase with follow: %@", error.localizedDescription);
-            [project updateCurrentUserFollowing];
+            NSLog(@"Error updating firebase with follow: %@", error.localizedDescription);
         }
     }];
 }
