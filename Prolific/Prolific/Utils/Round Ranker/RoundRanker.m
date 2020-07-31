@@ -39,7 +39,9 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
 }
 
 + (NSArray *)rankSubmissionsForScores:(NSDictionary *)scores {
-    return [scores keysSortedByValueUsingSelector:@selector(comparator)];
+    return [scores keysSortedByValueUsingComparator:^NSComparisonResult(id score1, id score2) {
+        return -[score1 compare:score2];
+    }];
 }
 
 + (NSDictionary *)scoreSubmissionsForRound:(Round *)round {
