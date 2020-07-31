@@ -21,7 +21,9 @@ static NSString *const kProfileIconId = @"profile-icon";
 @property UIImagePickerController *imagePickerVC;
 @property (nonatomic, strong) UIView *profileView;
 @property (nonatomic, strong) UIImageView *profileImageView;
-@property (nonatomic, strong) UIButton *profileImageButton;
+@property (nonatomic, strong) UILabel *usernameLabel;
+@property (nonatomic, strong) UILabel *displayNameLabel;
+@property (nonatomic, strong) UILabel *karmaLabel;
 @property (nonatomic, strong) CircularProgressBar *uploadProgressBar;
 
 @end
@@ -42,6 +44,10 @@ static NSString *const kProfileIconId = @"profile-icon";
     [self.view addSubview:_profileView];
     
     _profileImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kProfileIconId]];
+    UITapGestureRecognizer *const profileImageTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                                            action:@selector(onProfileImageTap:)];
+    [_profileImageView addGestureRecognizer:profileImageTapGestureRecognizer];
+    [_profileImageView setUserInteractionEnabled:YES];
     [_profileView addSubview:_profileImageView];
     
     __weak typeof (self) weakSelf = self;
@@ -54,14 +60,17 @@ static NSString *const kProfileIconId = @"profile-icon";
         }
     }];
     
-    _profileImageButton = [[UIButton alloc] init];
-    _profileImageButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
-    _profileImageButton.titleLabel.textColor = [UIColor whiteColor];
-    [_profileImageButton setTitle:@"Click to change profile picture!" forState:normal];
-    [_profileImageButton addTarget:self
-                            action:@selector(onProfileImageTap:)
-                  forControlEvents:UIControlEventTouchUpInside];
-    [_profileView addSubview:_profileImageButton];
+    _usernameLabel = [[UILabel alloc] init];
+    _usernameLabel.text = _user.username;
+    [_profileView addSubview:_usernameLabel];
+    
+    _displayNameLabel = [[UILabel alloc] init];
+    _displayNameLabel.text = _user.displayName;
+    [_profileView addSubview:_displayNameLabel];
+    
+    _karmaLabel = [[UILabel alloc] init];
+    _karmaLabel.text = [_user.karma stringValue];
+    [_profileView addSubview:_karmaLabel];
     
     _uploadProgressBar = [[CircularProgressBar alloc] init];
     _uploadProgressBar.hidden = YES;
@@ -81,8 +90,8 @@ static NSString *const kProfileIconId = @"profile-icon";
     // profile picture
     CGFloat const imageViewWidth = 0.4 * boundsWidth;
     CGFloat const imageViewHeight = imageViewWidth;
-    CGFloat const imageViewX = _profileView.center.x - imageViewWidth / 2.0;
-    CGFloat const imageViewY = _profileView.center.y - imageViewHeight / 2.0;
+    CGFloat const imageViewX = 0.1 * boundsWidth;
+    CGFloat const imageViewY = 0.2 * boundsHeight;
     _profileImageView.frame = CGRectMake(imageViewX, imageViewY, imageViewWidth, imageViewHeight);
     
     // progress bar
@@ -92,10 +101,18 @@ static NSString *const kProfileIconId = @"profile-icon";
     CGFloat const progressBarY = _profileImageView.center.y - progressBarHeight / 2.0;
     _uploadProgressBar.frame = CGRectMake(progressBarX, progressBarY, progressBarWidth, progressBarHeight);
     
-    // profile picture button
-    CGFloat const profileImageButtonX = _profileView.center.x - 150;
-    CGFloat const profileImageButtonY = boundsHeight - 300;
-    _profileImageButton.frame = CGRectMake(profileImageButtonX, profileImageButtonY, 300, 30);
+    // user info labels
+    CGFloat const labelX = imageViewX;
+    CGFloat const labelWidth = 80;
+    CGFloat const labelHeight = 20;
+    CGFloat const displayNameLabelY = imageViewY + imageViewHeight + 20;
+    _displayNameLabel.frame = CGRectMake(labelX, displayNameLabelY, labelWidth, labelHeight);
+    
+    CGFloat const usernameLabelY = displayNameLabelY + labelHeight + 8;
+    _usernameLabel.frame = CGRectMake(labelX, usernameLabelY, labelWidth, labelHeight);
+    
+    CGFloat const karmaLabelY = usernameLabelY + labelHeight + 8;
+    _karmaLabel.frame = CGRectMake(labelX, karmaLabelY, labelWidth, labelHeight);
 }
 
 - (void)setupImagePicker {
@@ -113,7 +130,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 
 #pragma mark - User actions
 
-- (void)onProfileImageTap:(id)sender {
+- (void)onProfileImageTap:(UITapGestureRecognizer *)sender {
     NSLog(@"Requested to change profile picture!");
     [self presentViewController:_imagePickerVC
                        animated:YES
