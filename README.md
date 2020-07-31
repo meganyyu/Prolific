@@ -97,9 +97,9 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
     - [x] Set up Cloud Storage for Firebase
 - [x] User can follow/unfollow a project
 - [x] User can view projects they are following in their Favorites page
-- [ ] Create MVP version of round winner selection algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to determine winning snippet
-    - [ ] Just outline the algorithm for now, and then build on it with tier 1 gamification stretch stories
-- [ ] Create logic for finalizing a snippet: (MVP version) For each starter project, there is a default number of rounds before the story is marked as complete.
+- [x] Create MVP version of round winner selection algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to determine winning snippet
+    - [x] Just outline the algorithm for now, and then build on it with tier 1 gamification stretch stories
+- [] Create logic for finalizing a snippet: (MVP version) For each starter project, there is a default number of rounds before the story is marked as complete.
 
 *Sprint 4*
 - [ ] Improve UI! Check that required UI elements are there
