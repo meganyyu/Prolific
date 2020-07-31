@@ -124,15 +124,18 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
        collectionWithPath:kRoundsKey] documentWithPath:roundId]
      collectionWithPath:kSubmissionsKey];
     
-    NSDictionary *const snippetData = @{
-        kAuthorIdKey: snippetBuilder.authorId,
-        kTextKey: snippetBuilder.text,
-        kVoteCountKey: snippetBuilder.voteCount,
-        kCreatedAtKey: [FIRTimestamp timestampWithDate:snippetBuilder.createdAt],
-        kUserVotesKey : snippetBuilder.userVotes,
-        kRankKey : snippetBuilder.rank,
-        kScoreKey : snippetBuilder.score
-    };
+    NSMutableDictionary *const snippetData = [[NSMutableDictionary alloc] init];
+    [snippetData setValue:snippetBuilder.authorId forKey:kAuthorIdKey];
+    [snippetData setValue:snippetBuilder.text forKey:kTextKey];
+    [snippetData setValue:snippetBuilder.voteCount forKey:kVoteCountKey];
+    [snippetData setValue:[FIRTimestamp timestampWithDate:snippetBuilder.createdAt] forKey:kCreatedAtKey];
+    [snippetData setValue:snippetBuilder.userVotes forKey:kUserVotesKey];
+    [snippetData setValue:snippetBuilder.rank forKey:kRankKey];
+    [snippetData setValue:snippetBuilder.score forKey:kScoreKey];
+    
+    if (snippetBuilder.rank == nil) {
+        [snippetData setValue:[NSNull null] forKey:kRankKey];
+    }
     
     __block FIRDocumentReference *ref =
     [submissionsRef addDocumentWithData:snippetData
@@ -160,13 +163,18 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     NSString *const currUserId = [FIRAuth auth].currentUser.uid;
     NSMutableDictionary *const snippetData = [[NSMutableDictionary alloc] init];
     
-    [snippet setValue:snippet.voteCount forKey:kVoteCountKey];
-    [snippet setValue:[FIRFieldValue fieldValueForArrayUnion:@[currUserId]] forKey:kUserVotesKey];
-    [snippet setValue:snippet.rank forKey:kRankKey];
-    [snippet setValue:snippet.score forKey:kScoreKey];
+    [snippetData setValue:snippet.voteCount forKey:kVoteCountKey];
+    [snippetData setValue:snippet.rank forKey:kRankKey];
+    [snippetData setValue:snippet.score forKey:kScoreKey];
     
-    if (!snippet.userVoted) {
-        [snippet setValue:[FIRFieldValue fieldValueForArrayRemove:@[currUserId]] forKey:kUserVotesKey];
+    if (snippet.rank == nil) {
+        [snippetData setValue:[NSNull null] forKey:kRankKey];
+    }
+    
+    if (snippet.userVoted) {
+        [snippetData setValue:[FIRFieldValue fieldValueForArrayUnion:@[currUserId]] forKey:kUserVotesKey];
+    } else {
+        [snippetData setValue:[FIRFieldValue fieldValueForArrayRemove:@[currUserId]] forKey:kUserVotesKey];
     }
     
     [snippetRef updateData:snippetData completion:^(NSError * _Nullable error) {
@@ -233,7 +241,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         kCreatedAtKey: [FIRTimestamp timestampWithDate:roundBuilder.createdAt],
         kIsCompleteKey: [NSNumber numberWithBool:roundBuilder.isComplete],
         kEndTimeKey: [FIRTimestamp timestampWithDate:roundBuilder.endTime],
-        kVoteDataKey: roundBuilder.voteData
+        kVoteDataKey: roundBuilder.voteData,
+        kWinningSnippetIdKey: [NSNull null]
     };
     
     __block FIRDocumentReference *ref =
@@ -257,12 +266,15 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     [[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
         collectionWithPath:kRoundsKey] documentWithPath:round.roundId];
     
-    NSDictionary *const roundData = @{
-        kEndTimeKey: [FIRTimestamp timestampWithDate: round.endTime],
-        kIsCompleteKey: [NSNumber numberWithBool:round.isComplete],
-        kVoteDataKey: round.voteData,
-        kWinningSnippetIdKey: round.winningSnippetId
-    };
+    NSMutableDictionary *const roundData = [[NSMutableDictionary alloc] init];
+    [roundData setValue:[FIRTimestamp timestampWithDate: round.endTime] forKey:kEndTimeKey];
+    [roundData setValue:[NSNumber numberWithBool:round.isComplete] forKey:kIsCompleteKey];
+    [roundData setValue:round.voteData forKey:kVoteDataKey];
+    [roundData setValue:round.winningSnippetId forKey:kWinningSnippetIdKey];
+    
+    if (round.winningSnippetId == nil) {
+        [roundData setValue:[NSNull null] forKey:kWinningSnippetIdKey];
+    }
     
     [roundRef updateData:roundData completion:^(NSError * _Nullable error) {
         error ? completion(error) : completion(nil);
