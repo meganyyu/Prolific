@@ -204,7 +204,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
        collectionWithPath:kRoundsKey] documentWithPath:roundId]
      collectionWithPath:kSubmissionsKey];
     
-    [submissionsRef getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
+    [[submissionsRef queryOrderedByField:kRankKey] getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
         if (error != nil) {
             completion(nil, error);
         } else {
