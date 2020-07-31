@@ -37,7 +37,7 @@ static NSString *const kBackArrowIconId = @"back-arrow-icon";
 - (void)setupBackButton {
     UIButton *const backButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     backButton.frame = CGRectMake(0, 0, 20, 20);
-    [backButton setImage:[UIImage imageNamed:kBackArrowIconId]
+    [backButton setImage:[[UIImage imageNamed:kBackArrowIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                 forState:UIControlStateNormal];
     [backButton addTarget:self
                  action:@selector(onTapBack:)

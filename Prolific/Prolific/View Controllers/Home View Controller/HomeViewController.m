@@ -89,7 +89,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 - (void)setupProfileButton {
     UIButton *const profileButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     profileButton.frame = CGRectMake(0, 0, 40, 40);
-    [profileButton setImage:[UIImage imageNamed:kProfileIconId]
+    [profileButton setImage:[[UIImage imageNamed:kProfileIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                 forState:UIControlStateNormal];
     [profileButton addTarget:self
                       action:@selector(onTapProfile:)
