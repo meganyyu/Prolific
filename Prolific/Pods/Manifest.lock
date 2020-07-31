@@ -330,6 +330,7 @@ PODS:
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.4.0)
   - leveldb-library (1.22)
+  - lottie-ios (2.5.3)
   - nanopb (1.30905.0):
     - nanopb/decode (= 1.30905.0)
     - nanopb/encode (= 1.30905.0)
@@ -342,6 +343,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Firestore
   - Firebase/Storage
+  - lottie-ios (= 2.5.3)
 
 SPEC REPOS:
   trunk:
@@ -362,6 +364,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - leveldb-library
+    - lottie-ios
     - nanopb
     - PromisesObjC
 
@@ -383,9 +386,10 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+  lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
 
-PODFILE CHECKSUM: 8664a74675ff294804d59780dd508e77eef3cf5e
+PODFILE CHECKSUM: fd78a155c49fcc0db4bd35542322fc869a5c886e
 
 COCOAPODS: 1.9.3

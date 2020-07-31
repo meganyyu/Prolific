@@ -9,7 +9,8 @@ target 'Prolific' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
-  pod 'Firebase/Storage' 
+  pod 'Firebase/Storage'
+  pod 'lottie-ios', '2.5.3'
 
   target 'ProlificTests' do
     inherit! :search_paths
