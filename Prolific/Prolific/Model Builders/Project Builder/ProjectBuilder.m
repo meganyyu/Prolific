@@ -46,7 +46,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         if (projectId && rounds &&
             [self validateRequiredDictionaryData:data]) {
             _projectId = projectId;
-            _rounds = rounds;
+            _rounds = [rounds mutableCopy];
             _name = data[kNameKey];
             _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _seed = data[kSeedKey];
@@ -73,7 +73,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         _seed = project.seed;
         _currentRound = project.currentRound;
         _isComplete = project.isComplete;
-        _rounds = project.rounds;
+        _rounds = [project.rounds mutableCopy];
         _followCount = project.followCount;
         _userFollowed = project.userFollowed;
     }
@@ -123,7 +123,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 }
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds {
-    _rounds = rounds;
+    _rounds = [rounds mutableCopy];
     return self;
 }
 

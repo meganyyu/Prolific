@@ -44,7 +44,7 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
         if (roundId && submissions &&
             [self validateRequiredDictionaryData:data]) {
             _roundId = roundId;
-            _submissions = submissions;
+            _submissions = [submissions mutableCopy];
             _isComplete = [data[kIsCompleteKey] boolValue];
             _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _endTime = [ProlificUtils convertTimestampToDate:data[kEndTimeKey]];
@@ -68,7 +68,7 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
         _createdAt = round.createdAt;
         _isComplete = round.isComplete;
         _endTime = round.endTime;
-        _submissions = round.submissions;
+        _submissions = [round.submissions mutableCopy];
         _winningSnippetId = round.winningSnippetId;
         _voteData = [round.voteData mutableCopy];
     }
@@ -96,7 +96,7 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
 }
 
 - (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions {
-    _submissions = submissions;
+    _submissions = [submissions mutableCopy];
     return self;
 }
 
