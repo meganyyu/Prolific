@@ -19,23 +19,27 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
 
 + (Round *)updateRanksForRound:(Round *)round {
     NSDictionary *const scores = [RoundRanker scoreSubmissionsForRound:round];
-    NSArray *const rankedSnippetIds = [RoundRanker rankSubmissionsForScores:scores];
     
-    RoundBuilder *roundBuilder = [[[RoundBuilder alloc] initWithRound:round]
-                                  withWinningSnippetId:rankedSnippetIds[0]];
-    
-    for (Snippet *snippet in round.submissions) {
-        NSNumber *const rank = [NSNumber numberWithLong:[rankedSnippetIds indexOfObject:snippet.snippetId] + 1];
-        NSDecimalNumber *const score = [scores valueForKey:snippet.snippetId];
+    if (scores.count > 0) {
+        NSArray *const rankedSnippetIds = [RoundRanker rankSubmissionsForScores:scores];
         
-        Snippet *const updatedSnippet = [[[[[SnippetBuilder alloc] initWithSnippet:snippet]
-                                           withRank:rank]
-                                          withScore:score]
-                                         build];
-        roundBuilder = [roundBuilder updateExistingSubmissionWithSubmission:updatedSnippet];
+        RoundBuilder *roundBuilder = [[[RoundBuilder alloc] initWithRound:round]
+                                      withWinningSnippetId:rankedSnippetIds[0]];
+        
+        for (Snippet *snippet in round.submissions) {
+            NSNumber *const rank = [NSNumber numberWithLong:[rankedSnippetIds indexOfObject:snippet.snippetId] + 1];
+            NSDecimalNumber *const score = [scores valueForKey:snippet.snippetId];
+            
+            Snippet *const updatedSnippet = [[[[[SnippetBuilder alloc] initWithSnippet:snippet]
+                                               withRank:rank]
+                                              withScore:score]
+                                             build];
+            roundBuilder = [roundBuilder updateExistingSubmissionWithSubmission:updatedSnippet];
+        }
+        
+        return [roundBuilder build];
     }
-    
-    return [roundBuilder build];
+    return round;
 }
 
 + (NSArray *)rankSubmissionsForScores:(NSDictionary *)scores {

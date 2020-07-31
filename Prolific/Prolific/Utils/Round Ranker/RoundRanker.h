@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RoundRanker : NSObject
 
-/** Returns a Round model with all the submissions' scores and ranks calculated and updated. Also update's Round's winning snippet id so far. */
+/** Returns a Round model with all the submissions' scores and ranks calculated and updated. Also update's Round's winning snippet id so far. Returns original round with no changes if round has no submissions to score. */
 + (Round *)updateRanksForRound:(Round *)round;
 
 + (NSArray *)rankSubmissionsForScores:(NSDictionary *)scores;
