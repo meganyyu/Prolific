@@ -19,12 +19,13 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
 
 + (Round *)updateRanksForRound:(Round *)round {
     NSDictionary *const scores = [RoundRanker scoreSubmissionsForRound:round];
-    NSArray *const rankedRoundIds = [RoundRanker rankSubmissionsForScores:scores];
+    NSArray *const rankedSnippetIds = [RoundRanker rankSubmissionsForScores:scores];
     
-    RoundBuilder *roundBuilder = [[RoundBuilder alloc] initWithRound:round];
+    RoundBuilder *roundBuilder = [[[RoundBuilder alloc] initWithRound:round]
+                                  withWinningSnippetId:rankedSnippetIds[0]];
     
     for (Snippet *snippet in round.submissions) {
-        NSNumber *const rank = [NSNumber numberWithLong:[rankedRoundIds indexOfObject:snippet.snippetId] + 1];
+        NSNumber *const rank = [NSNumber numberWithLong:[rankedSnippetIds indexOfObject:snippet.snippetId] + 1];
         NSDecimalNumber *const score = [scores valueForKey:snippet.snippetId];
         
         Snippet *const updatedSnippet = [[[[[SnippetBuilder alloc] initWithSnippet:snippet]

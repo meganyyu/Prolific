@@ -68,7 +68,8 @@
 
 - (void)refreshData {
     __weak typeof (self) weakSelf = self;
-    [ProjectUpdateManager updateProject:_project completion:^(Project *project, NSError *error) {
+    [ProjectUpdateManager updateProject:_project
+                             completion:^(Project *project, NSError *error) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return;
         

@@ -112,7 +112,9 @@
         if (error) {
             NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
         } else {
-            [strongSelf.dao updateExistingRound:round forProjectId:strongSelf.project.projectId completion:^(NSError * _Nonnull error) {
+            [strongSelf.dao updateExistingRound:round
+                                   forProjectId:strongSelf.project.projectId
+                                     completion:^(NSError * _Nonnull error) {
                 __strong typeof (weakSelf) strongSelf = weakSelf;
                 if (strongSelf == nil) return;
                 
