@@ -30,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *followCount;
 @property (nonatomic) BOOL userFollowed;
 
+// optional (and immutable) attributes
+@property (nonatomic, strong) NSNumber *roundLimit;
+
 /** Returns ProjectBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a ProjectBuilder the same way as init does. */
 - (instancetype)initWithId:(NSString *)projectId
                 dictionary:(NSDictionary *)data
@@ -46,12 +49,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (ProjectBuilder *)withSeed:(NSString *)seed;
 
+/** Increments current round number if not past round limit. Else, returns nil. */
 - (ProjectBuilder *)incrementCurrentRoundNumber;
 
 - (ProjectBuilder *)withFollowCount:(NSNumber *)followCount;
 
 - (ProjectBuilder *)updateCurrentUserFollowing;
 
+/** Returns a completed project if project is ready to be marked complete. Else returns nil. */
 - (ProjectBuilder *)markComplete;
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds;
@@ -62,6 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Returns fully built Project if ProjectBuilder has all fields initialized properly. Else returns nil. */
 - (Project *)build;
+
+/** Returns YES if need to mark as complete. Else returns NO.*/
+- (BOOL)needToMarkComplete;
 
 @end
 

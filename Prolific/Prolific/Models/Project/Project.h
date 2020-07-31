@@ -32,6 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSNumber *followCount;
 @property (nonatomic, readonly) BOOL userFollowed;
 
+// optional (and immutable) attributes
+@property (nonatomic, strong, readonly) NSNumber *roundLimit;
+
 #pragma mark - Methods
 
 - (instancetype)initWithBuilder:(ProjectBuilder *)builder;

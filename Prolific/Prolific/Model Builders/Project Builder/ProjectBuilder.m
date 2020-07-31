@@ -14,6 +14,7 @@ static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kNameKey = @"name";
+static NSString *const kRoundLimitKey = @"roundLimit";
 static NSString *const kSeedKey = @"seed";
 static NSString *const kFollowCountKey = @"followCount";
 static NSString *const kUsersFollowingKey = @"usersFollowing";
@@ -28,6 +29,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         _name = nil;
         _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _seed = nil;
+        _roundLimit = [NSNumber numberWithInt:10]; // default value for now
         _currentRound = [NSNumber numberWithInt:0];
         _isComplete = NO;
         _rounds = [[NSMutableArray alloc] init];
@@ -58,6 +60,9 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
                 NSString *const currUserId = [FIRAuth auth].currentUser.uid;
                 _userFollowed = [data[kUsersFollowingKey] containsObject:currUserId];
             }
+            if ([[data objectForKey:kRoundLimitKey] isKindOfClass:[NSNumber class]]) {
+                _roundLimit = data[kRoundLimitKey];
+            }
         }
     }
     return self;
@@ -71,6 +76,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         _name = project.name;
         _createdAt = project.createdAt;
         _seed = project.seed;
+        _roundLimit = project.roundLimit;
         _currentRound = project.currentRound;
         _isComplete = project.isComplete;
         _rounds = [project.rounds mutableCopy];
@@ -100,9 +106,17 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
     return self;
 }
 
-- (ProjectBuilder *)incrementCurrentRoundNumber {
-    _currentRound = [NSNumber numberWithInt:[_currentRound intValue] + 1];
+- (ProjectBuilder *)withRoundLimit:(NSNumber *)roundLimit {
+    _roundLimit = roundLimit;
     return self;
+}
+
+- (ProjectBuilder *)incrementCurrentRoundNumber {
+    if (![self needToMarkComplete]) {
+        _currentRound = [NSNumber numberWithInt:[_currentRound intValue] + 1];
+        return self;
+    }
+    return nil;
 }
 
 - (ProjectBuilder *)withFollowCount:(NSNumber *)followCount {
@@ -118,8 +132,11 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 }
 
 - (ProjectBuilder *)markComplete {
-    _isComplete = YES;
-    return self;
+    if ([self needToMarkComplete]) {
+        _isComplete = YES;
+        return self;
+    }
+    return nil;
 }
 
 - (ProjectBuilder *)withRounds:(NSMutableArray<Round *> *)rounds {
@@ -159,6 +176,13 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
     [[data objectForKey:kIsCompleteKey] isKindOfClass:[NSNumber class]] &&
     [ProlificUtils isBoolNumber:[data objectForKey:kIsCompleteKey]] &&
     [[data objectForKey:kFollowCountKey] isKindOfClass:[NSNumber class]];
+}
+
+- (BOOL)needToMarkComplete {
+    if (!_isComplete && _currentRound > _roundLimit) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

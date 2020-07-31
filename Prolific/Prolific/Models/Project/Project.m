@@ -17,6 +17,7 @@
         _name = builder.name;
         _createdAt = builder.createdAt;
         _seed = builder.seed;
+        _roundLimit = builder.roundLimit;
         _currentRound = builder.currentRound;
         _isComplete = builder.isComplete;
         _rounds = builder.rounds;
