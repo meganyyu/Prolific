@@ -43,6 +43,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** Updates a snippet for a round in a project with the identifier projectId. Will return error message if update unsuccessful. */
 - (void)updateExistingSnippet:(Snippet *)snippet forProjectId:(NSString *)projectId forRound:(Round *)round completion:(void(^)(NSError *error))completion;
 
+/** Updates all snippet submissions for a round in a project with the identifier projectId. Will stop process and return error message if any snippets are not updated successfully. */
+- (void)updateAllSubmissionsForRound:(Round *)round
+                        forProjectId:(NSString *)projectId
+                          completion:(void(^)(NSError *error))completion;
+
 /** Gets all submissions from latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */
 - (void)getAllSubmissionsforRoundId:(NSString *)roundId
                           projectId:(NSString *)projectId
@@ -58,7 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Saves a new round to a project with identifier projectId. Will return error message if project document does not have any rounds as expected. */
 - (void)saveNewRoundWithBuilder:(RoundBuilder *)roundBuilder
-                     forProjectId:(NSString *)projectId
+                   forProjectId:(NSString *)projectId
                      completion:(void(^)(Round *round, NSError *error))completion;
 
 /** Updates a round in a project with the identifier projectId. Will return error message if update unsuccessful. */

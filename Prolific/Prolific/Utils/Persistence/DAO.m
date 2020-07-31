@@ -182,6 +182,20 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
+- (void)updateAllSubmissionsForRound:(Round *)round
+                        forProjectId:(NSString *)projectId
+                          completion:(void(^)(NSError *error))completion {
+    for (Snippet *snippet in round.submissions) {
+        [self updateExistingSnippet:snippet forProjectId:projectId forRound:round completion:^(NSError * _Nonnull error) {
+            if (error) {
+                completion(error);
+            }
+        }];
+    }
+    
+    completion(nil);
+}
+
 - (void)getAllSubmissionsforRoundId:(NSString *)roundId
                           projectId:(NSString *)projectId
                          completion:(void(^)(NSMutableArray *submissions, NSError *error))completion {
