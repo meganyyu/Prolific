@@ -29,6 +29,7 @@ static NSString *const kProfileImagesRef = @"profileImages";
 static NSString *const kProjectsKey = @"projects";
 static NSString *const kRankKey = @"rank";
 static NSString *const kRoundsKey = @"rounds";
+static NSString *const kRoundLimitKey = @"roundLimit";
 static NSString *const kScoreKey = @"score";
 static NSString *const kSeedKey = @"seed";
 static NSString *const kSubmissionsKey = @"submissions";
@@ -350,6 +351,20 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     if (!project.userFollowed) {
         [projData setValue:[FIRFieldValue fieldValueForArrayRemove:@[userId]] forKey:kUsersFollowingKey];
     }
+    
+    [projRef updateData:projData completion:^(NSError *error) {
+        error ? completion(error) : completion(nil);
+    }];
+}
+
+- (void)updateProjectProperties:(Project *)project
+                     completion:(void(^)(NSError *error))completion {
+    FIRDocumentReference *const projRef = [[self.db collectionWithPath:kProjectsKey] documentWithPath:project.projectId];
+    
+    NSMutableDictionary *const projData = [[NSMutableDictionary alloc] init];
+    [projData setValue:project.currentRound forKey:kCurrentRoundKey];
+    [projData setValue:project.roundLimit forKey:kRoundLimitKey];
+    [projData setValue:[NSNumber numberWithBool:project.isComplete] forKey:kIsCompleteKey];
     
     [projRef updateData:projData completion:^(NSError *error) {
         error ? completion(error) : completion(nil);

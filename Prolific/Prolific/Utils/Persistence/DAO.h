@@ -82,6 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
                        withUserId:(NSString *)userId
                        completion:(void(^)(NSError *error))completion;
 
+/** Updates a project with any modifiable project properties. Will return error message if update unsuccessful. */
+- (void)updateProjectProperties:(Project *)project
+                     completion:(void(^)(NSError *error))completion;
+
 /** Gets all projects in order from latest to earliest. This is a shallow level retrieval - will not retrieve all rounds for a project. Will return error message if unable to retrieve projects. */
 - (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion;
 
