@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** Returns fully built Round if RoundBuilder has all fields initialized properly. Else returns nil. */
 - (Round *)build;
 
-/** Returns Roundbuilder if round contains at least one submission, hasn't already been marked as complete,
+/** Returns Roundbuilder if round contains at least one submission, hasn't already been marked as complete, submissions have been ranked,
  * and current time is past specified round end time. Else returns nil.
  */
 - (RoundBuilder *)markCompleteAndSetWinningSnippet;

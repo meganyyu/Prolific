@@ -156,18 +156,11 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
 #pragma mark - Round completion
 
 - (RoundBuilder *)markCompleteAndSetWinningSnippet {
-    if ([self needToMarkAsComplete]) {
+    if ([self needToMarkAsComplete] && _winningSnippetId) {
         _isComplete = YES;
-        
-        Snippet *winningSnippetSoFar = _submissions[0];
-        
-        for (Snippet *const snippet in _submissions) {
-            if (snippet.voteCount > winningSnippetSoFar.voteCount) {
-                winningSnippetSoFar = snippet;
-            }
-        }
-        _winningSnippetId = winningSnippetSoFar.snippetId;
         return self;
+    } else if (!_isComplete) {
+        _winningSnippetId = nil;
     }
     return nil;
 }
