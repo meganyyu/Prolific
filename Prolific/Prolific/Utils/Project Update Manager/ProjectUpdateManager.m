@@ -9,6 +9,7 @@
 #import "ProjectUpdateManager.h"
 
 #import "DAO.h"
+#import "RoundRanker.h"
 
 @implementation ProjectUpdateManager
 
@@ -66,8 +67,19 @@
                completion:(void(^)(Round *updatedRound, Round *newRound, NSError *error))completion {
     DAO *const dao = [[DAO alloc] init];
     
-    RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
-                                        withSubmissions:submissions];
+    // Populate round with submissions, then compute and update round's submission's ranks/scores
+    latestRound = [[[[RoundBuilder alloc] initWithRound:latestRound]
+                    withSubmissions:submissions] build];
+    latestRound = [RoundRanker updateRanksForRound:latestRound];
+    [dao updateAllSubmissionsForRound:latestRound
+                         forProjectId:projId
+                           completion:^(NSError *error) {
+        if (error) {
+            completion(nil, nil, error);
+        }
+    }];
+    
+    RoundBuilder *const roundBuilder = [[RoundBuilder alloc] initWithRound:latestRound];
     RoundBuilder *const roundBuilderMarkedComplete = [roundBuilder markCompleteAndSetWinningSnippet];
     RoundBuilder *const roundBuilderExtendedTime = [roundBuilder extendEndTime];
     
