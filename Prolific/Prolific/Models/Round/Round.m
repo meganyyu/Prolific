@@ -23,6 +23,7 @@
         _endTime = builder.endTime;
         _submissions = builder.submissions;
         _winningSnippetId = builder.winningSnippetId;
+        _voteData = builder.voteData;
     }
     return self;
 }

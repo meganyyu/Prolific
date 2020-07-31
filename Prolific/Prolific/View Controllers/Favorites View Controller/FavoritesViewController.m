@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *projectArray;
 @property (nonatomic, strong) DAO *dao;
+@property (nonatomic, strong) User *currUser;
 
 @end
 
@@ -37,13 +38,29 @@
     
     _dao = [[DAO alloc] init];
     
-    // collection view layout
+    [self loadCurrentUser];
+    
     [self setupCollectionView];
     
-    // Navigation customization
     self.navigationItem.title = @"Favorites";
     
     [self loadProjects];
+}
+
+- (void)loadCurrentUser {
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    
+    __weak typeof (self) weakSelf = self;
+    [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        if (user) {
+            strongSelf.currUser = user;
+        } else {
+            NSLog(@"Error loading user: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)setupCollectionView {
@@ -109,7 +126,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
                             kFIRParameterContentType:@"project"
                         }];
     
-    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj navigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj forUser:_currUser navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 

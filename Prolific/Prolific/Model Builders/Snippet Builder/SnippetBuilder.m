@@ -15,6 +15,8 @@ static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kTextKey = @"text";
 static NSString *const kVoteCountKey = @"voteCount";
 static NSString *const kUserVotesKey = @"userVotes";
+static NSString *const kRankKey = @"rank";
+static NSString *const kScoreKey = @"score";
 
 @implementation SnippetBuilder
 
@@ -27,6 +29,9 @@ static NSString *const kUserVotesKey = @"userVotes";
         _text = nil;
         _voteCount = [NSNumber numberWithInt:0];
         _userVoted = NO;
+        _userVotes = [[NSMutableArray alloc] init];
+        _rank = nil;
+        _score = [NSDecimalNumber zero];
     }
     return self;
 }
@@ -46,8 +51,33 @@ static NSString *const kUserVotesKey = @"userVotes";
             if ([[data objectForKey:kUserVotesKey] isKindOfClass:[NSArray class]]) {
                 NSString *const currUserId = [FIRAuth auth].currentUser.uid;
                 _userVoted = [data[kUserVotesKey] containsObject:currUserId];
+                
+                _userVotes = [data[kUserVotesKey] mutableCopy];
+            }
+            if ([[data objectForKey:kRankKey] isKindOfClass:[NSNumber class]]) {
+                _rank = [data objectForKey:kRankKey];
+            }
+            if ([[data objectForKey:kScoreKey] isKindOfClass:[NSNumber class]]) {
+                _score = [NSDecimalNumber decimalNumberWithDecimal:[[data objectForKey:kScoreKey] decimalValue]];
             }
         }
+    }
+    return self;
+}
+
+- (instancetype)initWithSnippet:(Snippet *)snippet {
+    self = [self init];
+    
+    if (self) {
+        _snippetId = snippet.snippetId;
+        _authorId = snippet.authorId;
+        _createdAt = snippet.createdAt;
+        _text = snippet.text;
+        _voteCount = snippet.voteCount;
+        _userVoted = snippet.userVoted;
+        _userVotes = [snippet.userVotes mutableCopy];
+        _rank = snippet.rank;
+        _score = snippet.score;
     }
     return self;
 }
@@ -74,6 +104,24 @@ static NSString *const kUserVotesKey = @"userVotes";
 
 - (SnippetBuilder *)withVoteCount:(NSNumber *)voteCount {
     _voteCount = voteCount;
+    return self;
+}
+
+- (SnippetBuilder *)updateCurrentUserVote {
+    _userVoted ? [_userVotes removeObject:[FIRAuth auth].currentUser.uid] : [_userVotes addObject:[FIRAuth auth].currentUser.uid];
+    _userVoted = !_userVoted;
+    _voteCount = [NSNumber numberWithInt:[_voteCount intValue] + (_userVoted ? 1 : -1)];
+    
+    return self;
+}
+
+- (SnippetBuilder *)withRank:(NSNumber *)rank {
+    _rank = rank;
+    return self;
+}
+
+- (SnippetBuilder *)withScore:(NSDecimalNumber *)score {
+    _score = score;
     return self;
 }
 

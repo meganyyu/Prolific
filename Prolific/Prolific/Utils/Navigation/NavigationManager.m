@@ -39,44 +39,56 @@
     [navController pushViewController:registerViewController animated:YES];
 }
 
-+ (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController {
++ (void)presentProjectDetailsViewControllerForProject:(Project *)project
+                                              forUser:(User *)user
+                                 navigationController:(UINavigationController *)navController {
     ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
     projectDetailsViewController.project = project;
+    projectDetailsViewController.currUser = user;
     [navController pushViewController:projectDetailsViewController animated:YES];
 }
 
-+ (void)presentProfileViewControllerForUser:(User *)user navigationController:(UINavigationController *)navController {
++ (void)presentProfileViewControllerForUser:(User *)user
+                       navigationController:(UINavigationController *)navController {
     ProfileViewController *const profileViewController = [[ProfileViewController alloc] init];
     profileViewController.user = user;
     [navController pushViewController:profileViewController animated:YES];
 }
 
-+ (void)presentComposeSnippetViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
++ (void)presentComposeSnippetViewControllerForRound:(Round *)round
+                                          projectId:(NSString *)projectId
+                               navigationController:(UINavigationController *)navController {
     ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] init];
     composeSnippetViewController.round = round;
     composeSnippetViewController.projectId = projectId;
     [navController pushViewController:composeSnippetViewController animated:YES];
 }
 
-+ (void)presentSubmissionsViewControllerForRound:(Round *)round projectId:(NSString *)projectId navigationController:(UINavigationController *)navController {
++ (void)presentSubmissionsViewControllerForRound:(Round *)round
+                                         project:(Project *)project
+                                         forUser:(User *)user
+                            navigationController:(UINavigationController *)navController {
     SubmissionsViewController *const submissionsViewController = [[SubmissionsViewController alloc] init];
     submissionsViewController.round = round;
-    submissionsViewController.projectId = projectId;
+    submissionsViewController.project = project;
+    submissionsViewController.currUser = user;
     [navController pushViewController:submissionsViewController animated:YES];
 }
 
 + (void)exitTopViewController:(UINavigationController *)navController {
-    UIViewController *const poppedVC = [navController popViewControllerAnimated:YES];
-    NSString *const vcType = NSStringFromClass([poppedVC class]);
-    NSLog(@"Popped a view controller of type %@", vcType);
+    [navController popViewControllerAnimated:YES];
+}
+
++ (void)exitTopViewControllerWithUpdatedProject:(Project *)project
+                           navigationController:(UINavigationController *)navController {
+    if ([navController.topViewController isKindOfClass:[SubmissionsViewController class]]) {
+        ((ProjectDetailsViewController *) navController.presentingViewController).project = project;
+    }
+    [navController popViewControllerAnimated:YES];
 }
 
 + (void)exitToRootViewController:(UINavigationController *)navController {
-    NSArray<__kindof UIViewController *> *const poppedVCs = [navController popToRootViewControllerAnimated:YES];
-    NSLog(@"Popped view controllers of type:");
-    for (UIViewController *const vc in poppedVCs) {
-        NSLog(@"%@", NSStringFromClass([vc class]));
-    }
+    [navController popToRootViewControllerAnimated:YES];
 }
 
 @end

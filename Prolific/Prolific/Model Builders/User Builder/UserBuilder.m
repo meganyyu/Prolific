@@ -12,6 +12,7 @@
 
 static NSString *const kUsernameKey = @"username";
 static NSString *const kDisplayNameKey = @"displayName";
+static NSString *const kKarmaKey = @"karma";
 static NSString *const kProfileImageRefKey = @"profileImageRef";
 
 @implementation UserBuilder
@@ -24,6 +25,7 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
         _username = nil;
         _email = nil;
         _displayName = nil;
+        _karma = [NSDecimalNumber one];
     }
     return self;
 }
@@ -38,7 +40,21 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
             _username = data[kUsernameKey];
             _email = @""; //FIXME: load with actual email from FIRAuth
             _displayName = data[kDisplayNameKey];
+            _karma = [NSDecimalNumber decimalNumberWithDecimal:[data[kKarmaKey] decimalValue]];
         }
+    }
+    return self;
+}
+
+- (instancetype)initWithUser:(User *)user {
+    self = [self init];
+    
+    if (self) {
+        _userId = user.userId;
+        _username = user.username;
+        _email = user.email;
+        _displayName = user.displayName;
+        _karma = user.karma;
     }
     return self;
 }
@@ -64,6 +80,11 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
     return self;
 }
 
+- (UserBuilder *)withKarma:(NSDecimalNumber *)karma {
+    _karma = karma;
+    return self;
+}
+
 - (User *)build {
     if (_userId && _username && _email && _displayName) {
         User *user = [[User alloc] initWithBuilder:self];
@@ -77,7 +98,8 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
 /** Validates that the data passed in through a dictionary is valid. */
 - (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
     return [[data objectForKey:kUsernameKey] isKindOfClass:[NSString class]] &&
-    [[data objectForKey:kDisplayNameKey] isKindOfClass:[NSString class]];
+    [[data objectForKey:kDisplayNameKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kKarmaKey] isKindOfClass:[NSNumber class]];
 }
 
 @end

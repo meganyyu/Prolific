@@ -22,19 +22,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
 
-+ (void)presentProjectDetailsViewControllerForProject:(Project *)project navigationController:(UINavigationController *)navController;
-
-+ (void)presentProfileViewControllerForUser:(User *)user navigationController:(UINavigationController *)navController;
-
-+ (void)presentComposeSnippetViewControllerForRound:(Round *)round
-                                      projectId:(NSString *)projectId
-                           navigationController:(UINavigationController *)navController;
-
-+ (void)presentSubmissionsViewControllerForRound:(Round *)round
-                                            projectId:(NSString *)projectId
++ (void)presentProjectDetailsViewControllerForProject:(Project *)project
+                                              forUser:(User *)user
                                  navigationController:(UINavigationController *)navController;
 
++ (void)presentProfileViewControllerForUser:(User *)user
+                       navigationController:(UINavigationController *)navController;
+
++ (void)presentComposeSnippetViewControllerForRound:(Round *)round
+                                          projectId:(NSString *)projectId
+                               navigationController:(UINavigationController *)navController;
+
++ (void)presentSubmissionsViewControllerForRound:(Round *)round
+                                         project:(Project *)project
+                                         forUser:(User *)user
+                            navigationController:(UINavigationController *)navController;
+
 + (void)exitTopViewController:(UINavigationController *)navController;
+
++ (void)exitTopViewControllerWithUpdatedProject:(Project *)project
+                           navigationController:(UINavigationController *)navController;
 
 + (void)exitToRootViewController:(UINavigationController *)navController;
 

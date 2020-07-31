@@ -42,7 +42,15 @@ static NSString *const kUntappedFollowIconID = @"untapped-follow-icon";
 #pragma mark - User actions
 
 - (void)onTapFollow:(id)sender {
-    [_project updateCurrentUserFollowing];
+    Project *const updatedProject = [[[[ProjectBuilder alloc] initWithProject:_project]
+                                      updateCurrentUserFollowing]
+                                     build];
+    if (updatedProject) {
+        _project = updatedProject;
+    } else {
+        return;
+    }
+    
     [_delegate didFollow:_project];
     
     UIImage *const followIcon = [UIImage imageNamed:(_project.userFollowed ? kTappedFollowIconID : kUntappedFollowIconID)];

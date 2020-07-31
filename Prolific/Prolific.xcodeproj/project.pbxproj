@@ -15,6 +15,8 @@
 		7118C3FC24BF681F005E1816 /* Round.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FB24BF681F005E1816 /* Round.m */; };
 		7118C40924BFA25A005E1816 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3EE24BE7267005E1816 /* User.m */; };
 		7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C40124BF6BD5005E1816 /* UserBuilder.m */; };
+		711F75EA24D1D24B0050D5CF /* UserEngagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 711F75E924D1D24B0050D5CF /* UserEngagementManager.m */; };
+		711F75EE24D22BE00050D5CF /* RoundRanker.m in Sources */ = {isa = PBXBuildFile; fileRef = 711F75ED24D22BE00050D5CF /* RoundRanker.m */; };
 		713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
 		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		71483FF824CB9680004B352E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71483FF724CB9680004B352E /* ProfileViewController.m */; };
@@ -97,6 +99,10 @@
 		7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectBuilder.m; sourceTree = "<group>"; };
 		7118C40024BF6BD5005E1816 /* UserBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserBuilder.h; sourceTree = "<group>"; };
 		7118C40124BF6BD5005E1816 /* UserBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserBuilder.m; sourceTree = "<group>"; };
+		711F75E824D1D24B0050D5CF /* UserEngagementManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserEngagementManager.h; sourceTree = "<group>"; };
+		711F75E924D1D24B0050D5CF /* UserEngagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserEngagementManager.m; sourceTree = "<group>"; };
+		711F75EC24D22BE00050D5CF /* RoundRanker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundRanker.h; sourceTree = "<group>"; };
+		711F75ED24D22BE00050D5CF /* RoundRanker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundRanker.m; sourceTree = "<group>"; };
 		713AA08924C0E1E000A5950E /* DAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
 		713AA08A24C0E1E000A5950E /* DAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
 		71483FF624CB9680004B352E /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
@@ -276,6 +282,24 @@
 				7118C3F824BF67E7005E1816 /* Project.m */,
 			);
 			path = Project;
+			sourceTree = "<group>";
+		};
+		711F75E724D1D2080050D5CF /* User Engagement Manager */ = {
+			isa = PBXGroup;
+			children = (
+				711F75E824D1D24B0050D5CF /* UserEngagementManager.h */,
+				711F75E924D1D24B0050D5CF /* UserEngagementManager.m */,
+			);
+			path = "User Engagement Manager";
+			sourceTree = "<group>";
+		};
+		711F75EB24D22BBE0050D5CF /* Round Ranker */ = {
+			isa = PBXGroup;
+			children = (
+				711F75EC24D22BE00050D5CF /* RoundRanker.h */,
+				711F75ED24D22BE00050D5CF /* RoundRanker.m */,
+			);
+			path = "Round Ranker";
 			sourceTree = "<group>";
 		};
 		713AA08324C0D5FD00A5950E /* Entity */ = {
@@ -672,6 +696,8 @@
 		71CF521924C779B2008DB4EF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				711F75EB24D22BBE0050D5CF /* Round Ranker */,
+				711F75E724D1D2080050D5CF /* User Engagement Manager */,
 				71F55C4B24CB387000B266BF /* Project Update Manager */,
 				71CF522224C92512008DB4EF /* Prolific Utils */,
 				71CF521E24C89198008DB4EF /* Color Scheme */,
@@ -970,6 +996,7 @@
 				71CF521D24C7A32A008DB4EF /* DAO.m in Sources */,
 				71CF521424C74B32008DB4EF /* SubmissionsViewController.m in Sources */,
 				71CF521C24C77D14008DB4EF /* VoteButton.m in Sources */,
+				711F75EA24D1D24B0050D5CF /* UserEngagementManager.m in Sources */,
 				71CF520A24C6CD76008DB4EF /* NavigationManager.m in Sources */,
 				7188D85C24C6568C00E50876 /* ProjectCell.m in Sources */,
 				7188D85524C6522D00E50876 /* SnippetCell.m in Sources */,
@@ -977,6 +1004,7 @@
 				71C2D82424CF957500E12391 /* TextCell.m in Sources */,
 				71483FF824CB9680004B352E /* ProfileViewController.m in Sources */,
 				713AA08D24C1061F00A5950E /* Project.m in Sources */,
+				711F75EE24D22BE00050D5CF /* RoundRanker.m in Sources */,
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,

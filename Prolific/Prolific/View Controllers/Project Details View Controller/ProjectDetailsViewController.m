@@ -56,19 +56,20 @@
     [_collectionView registerClass:[RoundCell class]
         forCellWithReuseIdentifier:@"roundCell"];
     [_collectionView registerClass:[ProjectCell class]
-    forCellWithReuseIdentifier:@"projectCell"];
+        forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView registerClass:[TextCell class]
-    forCellWithReuseIdentifier:@"textCell"];
+        forCellWithReuseIdentifier:@"textCell"];
     
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
-
+    
 }
 
 - (void)refreshData {
     __weak typeof (self) weakSelf = self;
-    [ProjectUpdateManager updateProject:_project completion:^(Project *project, NSError *error) {
+    [ProjectUpdateManager updateProject:_project
+                             completion:^(Project *project, NSError *error) {
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return;
         
@@ -93,8 +94,10 @@
     int latestRoundNumber = (int) _project.rounds.count - 1;
     if (latestRoundNumber >= 0) {
         Round *const currentRound = _project.rounds[latestRoundNumber];
+        
         [NavigationManager presentSubmissionsViewControllerForRound:currentRound
-                                                          projectId:_project.projectId
+                                                            project:_project
+                                                            forUser:_currUser
                                                navigationController:self.navigationController];
     } else {
         NSLog(@"Nothing to preview.");
@@ -108,8 +111,7 @@
     
     [_dao updateFollowersforProject:project withUserId:currUserId completion:^(NSError *error) {
         if (error) {
-            NSLog(@"undoing follow on local model due to an error updating firebase with follow: %@", error.localizedDescription);
-            [project updateCurrentUserFollowing];
+            NSLog(@"Error updating firebase with follow: %@", error.localizedDescription);
         }
     }];
 }
@@ -133,7 +135,7 @@
 - (void)didSubmit:(Snippet *)snippet
             round:(Round *)round {
     ProjectBuilder *const projBuilder = [[[ProjectBuilder alloc] initWithProject:_project]
-                                   updateLatestRound:round];
+                                         updateLatestRound:round];
     
     if (projBuilder) {
         Project *const updatedProj = [projBuilder build];
@@ -154,7 +156,7 @@
                                    cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if (indexPath.item == 0) {
         ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
-                                                                      forIndexPath:indexPath];
+                                                                            forIndexPath:indexPath];
         cell.project = _project;
         cell.delegate = self;
         return cell;
@@ -165,7 +167,7 @@
         return cell;
     } else {
         RoundCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"roundCell"
-                                                                    forIndexPath:indexPath];
+                                                                          forIndexPath:indexPath];
         
         Round *const round = _project.rounds[indexPath.item - 1];
         if (round.winningSnippetId) {
@@ -201,11 +203,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         Round *selectedRound = _project.rounds[indexPath.item - 1];
         
         [FIRAnalytics logEventWithName:kFIREventSelectContent
-        parameters:@{
-            kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedRound.roundId],
-            kFIRParameterItemName:selectedRound.roundId,
-            kFIRParameterContentType:@"round"
-        }];
+                            parameters:@{
+                                kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedRound.roundId],
+                                kFIRParameterItemName:selectedRound.roundId,
+                                kFIRParameterContentType:@"round"
+                            }];
         
         [self didTapPreview];
     }

@@ -25,6 +25,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *projectArray;
 @property (nonatomic, strong) DAO *dao;
+@property (nonatomic, strong) User *currUser;
 
 @end
 
@@ -39,10 +40,10 @@ static NSString *const kProfileIconId = @"profile-icon";
     
     _dao = [[DAO alloc] init];
     
-    // collection view layout
+    [self loadCurrentUser];
+    
     [self setupCollectionView];
     
-    // Navigation customization
     self.navigationItem.title = @"Home";
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout"
                                                                      style:UIBarButtonItemStylePlain
@@ -53,6 +54,22 @@ static NSString *const kProfileIconId = @"profile-icon";
     
     
     [self loadProjects];
+}
+
+- (void)loadCurrentUser {
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    
+    __weak typeof (self) weakSelf = self;
+    [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        if (user) {
+            strongSelf.currUser = user;
+        } else {
+            NSLog(@"Error loading user: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void)setupCollectionView {
@@ -108,26 +125,11 @@ static NSString *const kProfileIconId = @"profile-icon";
 }
 
 - (void)onTapProfile:(id)sender {
-    NSLog(@"Tapped profile!");
-    
-    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
-    
-    __weak typeof (self) weakSelf = self;
-    [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) return;
-        
-        if (user) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [NavigationManager presentProfileViewControllerForUser:user navigationController:strongSelf.navigationController];
-                }
-            });
-        } else {
-            NSLog(@"Error: %@", error.localizedDescription);
-        }
-    }];
+    if (_currUser) {
+        [NavigationManager presentProfileViewControllerForUser:_currUser navigationController:self.navigationController];
+    } else {
+        NSLog(@"Error, user data not fully loaded.");
+    }
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
@@ -158,7 +160,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
                             kFIRParameterContentType:@"project"
                         }];
     
-    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj navigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj forUser:_currUser navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 

@@ -25,14 +25,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *displayName;
-
-// optional attributes
-@property (nonatomic, strong) NSArray *projectsfollowing;
+@property (nonatomic, strong, readonly) NSDecimalNumber *karma;
 
 #pragma mark - Methods
 
 /** Returns UserBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a UserBuilder the same way as init does. */
 - (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data;
+
+/** Returns UserBuilder with all fields initialized as a copy of a User model. */
+- (instancetype)initWithUser:(User *)user;
 
 - (UserBuilder *)withId:(NSString *)userId;
 
@@ -42,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UserBuilder *)withDisplayName:(NSString *)displayName;
 
+- (UserBuilder *)withKarma:(NSDecimalNumber *)karma;
+
+/** Returns fully built User if UserBuilder has all fields initialized properly. Else returns nil. */
 - (User *)build;
 
 @end

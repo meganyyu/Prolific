@@ -9,6 +9,7 @@
 #import "ProjectUpdateManager.h"
 
 #import "DAO.h"
+#import "RoundRanker.h"
 
 @implementation ProjectUpdateManager
 
@@ -37,7 +38,7 @@
                         if (error) {
                             completion(nil, error);
                         }
-                        else if (updatedRound) {
+                        else {
                             updatedProjBuilder = [updatedProjBuilder updateLatestRound:updatedRound];
                             if (newRound) {
                                 updatedProjBuilder = [updatedProjBuilder addRound:newRound];
@@ -45,16 +46,12 @@
                             Project *const updatedProj = [updatedProjBuilder build];
                             updatedProj ? completion(updatedProj, nil) : completion(nil, error);
                         }
-                        else {
-                            Project *const projWithRounds = [updatedProjBuilder build];
-                            projWithRounds ? completion(projWithRounds, error) : completion(nil, error);
-                        }
                     }];
                 } else {
                     // If fetching latest round's submissions was unsuccessful, just return the project with its rounds for now
                     Project *const projWithRounds = [[[[ProjectBuilder alloc] initWithProject:project]
-                                                   withRounds:rounds]
-                                                   build];
+                                                      withRounds:rounds]
+                                                     build];
                     projWithRounds ? completion(projWithRounds, nil) : completion(nil, error);
                 }
             }];
@@ -70,8 +67,19 @@
                completion:(void(^)(Round *updatedRound, Round *newRound, NSError *error))completion {
     DAO *const dao = [[DAO alloc] init];
     
-    RoundBuilder *const roundBuilder = [[[RoundBuilder alloc] initWithRound:latestRound]
-                                        withSubmissions:submissions];
+    // Populate round with submissions, then compute and update round's submission's ranks/scores
+    latestRound = [[[[RoundBuilder alloc] initWithRound:latestRound]
+                    withSubmissions:submissions] build];
+    latestRound = [RoundRanker updateRanksForRound:latestRound];
+    [dao updateAllSubmissionsForRound:latestRound
+                         forProjectId:projId
+                           completion:^(NSError *error) {
+        if (error) {
+            completion(nil, nil, error);
+        }
+    }];
+    
+    RoundBuilder *const roundBuilder = [[RoundBuilder alloc] initWithRound:latestRound];
     RoundBuilder *const roundBuilderMarkedComplete = [roundBuilder markCompleteAndSetWinningSnippet];
     RoundBuilder *const roundBuilderExtendedTime = [roundBuilder extendEndTime];
     
@@ -113,8 +121,9 @@
         }];
     }
     
-    // if no updates need to be made and no error, just pass back nil
-    completion(nil, nil, nil);
+    // if no updates need to be made and no error, just pass back latest round with submissions
+    Round *const populatedLatestRound = [roundBuilder build];
+    completion(populatedLatestRound, nil, nil);
 }
 
 @end

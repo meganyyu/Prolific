@@ -21,6 +21,7 @@
         _username = builder.username;
         _email = builder.email;
         _displayName = builder.displayName;
+        _karma = builder.karma;
     }
     return self;
 }

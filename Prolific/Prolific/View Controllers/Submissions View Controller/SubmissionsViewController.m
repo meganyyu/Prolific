@@ -13,6 +13,7 @@
 #import "NavigationManager.h"
 #import "SnippetCell.h"
 #import "UIColor+ProlificColors.h"
+#import "RoundRanker.h"
 
 #pragma mark - Interface
 
@@ -55,21 +56,30 @@
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
+    
+}
 
+#pragma mark - User Actions
+
+- (void)onTapBack:(id)sender{
+    [NavigationManager exitTopViewControllerWithUpdatedProject:_project navigationController:self.navigationController];
 }
 
 #pragma mark - Load submissions
 
 - (void)loadSubmissions {
+    __weak typeof (self) weakSelf = self;
     [_dao getAllSubmissionsforRoundId:_round.roundId
-                            projectId:_projectId
+                            projectId:_project.projectId
                            completion:^(NSMutableArray * _Nonnull submissions, NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
         if (submissions) {
-            self.snippetArray = (NSMutableArray *) submissions;
+            strongSelf.snippetArray = (NSMutableArray *) submissions;
             
-            __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
+                __strong typeof (self) strongSelf = weakSelf;
                 if (strongSelf) {
                     [strongSelf.collectionView reloadData];
                 }
@@ -83,13 +93,38 @@
 #pragma mark - SnippetCellDelegate Protocol
 
 - (void)didVote:(Snippet *)snippet {
+    Round *const round = [[[[[RoundBuilder alloc] initWithRound:_round]
+                            updateExistingSubmissionWithSubmission:snippet]
+                           updateRoundVoteCountBy:(snippet.userVoted ? 1 : -1) forUser:_currUser]
+                          build];
+    Project *const project = [[[[ProjectBuilder alloc] initWithProject:_project]
+                               updateLatestRound:round]
+                              build];
+    
+    __weak typeof (self) weakSelf = self;
     [_dao updateExistingSnippet:snippet
-                   forProjectId:_projectId
+                   forProjectId:_project.projectId
                        forRound:_round
                      completion:^(NSError * _Nonnull error) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
         if (error) {
-            NSLog(@"undoing vote on local model due to an error updating firebase with vote: %@", error.localizedDescription);
-            [snippet updateCurrentUserVote];
+            NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
+        } else {
+            [strongSelf.dao updateExistingRound:round
+                                   forProjectId:strongSelf.project.projectId
+                                     completion:^(NSError * _Nonnull error) {
+                __strong typeof (weakSelf) strongSelf = weakSelf;
+                if (strongSelf == nil) return;
+                
+                if (error) {
+                    NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
+                } else {
+                    strongSelf.round = round;
+                    strongSelf.project = project;
+                }
+            }];
         }
     }];
 }

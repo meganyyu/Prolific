@@ -8,6 +8,8 @@
 
 #import "SnippetCell.h"
 
+#import "SnippetBuilder.h"
+
 static NSString *const kTappedVoteIconID = @"tapped-vote-icon";
 static NSString *const kUntappedVoteIconID = @"untapped-vote-icon";
 
@@ -44,7 +46,15 @@ static NSString *const kUntappedVoteIconID = @"untapped-vote-icon";
 #pragma mark - User actions
 
 - (void)onTapVote:(id)sender {
-    [_snippet updateCurrentUserVote];
+    Snippet *const updatedSnippet = [[[[SnippetBuilder alloc] initWithSnippet:_snippet]
+                                      updateCurrentUserVote]
+                                     build];
+    if (updatedSnippet) {
+        _snippet = updatedSnippet;
+    } else {
+        return;
+    }
+    
     [_delegate didVote:_snippet];
     
     UIImage *const voteIcon = [UIImage imageNamed:(_snippet.userVoted ? kTappedVoteIconID : kUntappedVoteIconID)];

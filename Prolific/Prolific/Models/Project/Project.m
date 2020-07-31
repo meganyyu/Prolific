@@ -26,9 +26,4 @@
     return self;
 }
 
-- (void)updateCurrentUserFollowing {
-    _userFollowed = !_userFollowed;
-    _followCount = [NSNumber numberWithInt:[_followCount intValue] + (_userFollowed ? 1 : -1)];
-}
-
 @end

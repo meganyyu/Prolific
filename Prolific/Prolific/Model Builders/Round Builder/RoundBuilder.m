@@ -14,6 +14,9 @@ static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
+static NSString *const kVoteDataKey = @"voteData";
+static NSString *const kVoteCountKey = @"voteCount";
+static NSString *const kCurrentKarmaKey = @"currentKarma";
 
 @implementation RoundBuilder
 
@@ -27,6 +30,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         _endTime = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _submissions = [[NSMutableArray alloc] init];
         _winningSnippetId = nil;
+        _voteData = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -40,13 +44,17 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         if (roundId && submissions &&
             [self validateRequiredDictionaryData:data]) {
             _roundId = roundId;
-            _submissions = submissions;
+            _submissions = [submissions mutableCopy];
             _isComplete = [data[kIsCompleteKey] boolValue];
             _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
             _endTime = [ProlificUtils convertTimestampToDate:data[kEndTimeKey]];
-        }
-        if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
-            _winningSnippetId = data[kWinningSnippetIdKey];
+            
+            if ([[data objectForKey:kWinningSnippetIdKey] isKindOfClass:[NSString class]]) {
+                _winningSnippetId = data[kWinningSnippetIdKey];
+            }
+            if ([[data objectForKey:kVoteDataKey] isKindOfClass:[NSDictionary class]]) {
+                _voteData = [[data objectForKey:kVoteDataKey] mutableCopy];
+            }
         }
     }
     return self;
@@ -60,8 +68,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         _createdAt = round.createdAt;
         _isComplete = round.isComplete;
         _endTime = round.endTime;
-        _submissions = round.submissions;
+        _submissions = [round.submissions mutableCopy];
         _winningSnippetId = round.winningSnippetId;
+        _voteData = [round.voteData mutableCopy];
     }
     return self;
 }
@@ -87,12 +96,47 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 }
 
 - (RoundBuilder *)withSubmissions:(NSMutableArray<Snippet *> *)submissions {
-    _submissions = submissions;
+    _submissions = [submissions mutableCopy];
     return self;
 }
 
 - (RoundBuilder *)addSubmission:(Snippet *)snippet {
     [_submissions addObject:snippet];
+    return self;
+}
+
+- (RoundBuilder *)updateExistingSubmissionWithSubmission:(Snippet *)updatedSnippet {
+    NSUInteger const index = [_submissions indexOfObjectPassingTest:^BOOL(Snippet *snippet, NSUInteger idx, BOOL *stop) {
+        return [_submissions[idx].snippetId isEqual:updatedSnippet.snippetId];
+    }];
+    
+    if (index != NSNotFound) {
+        _submissions[index] = updatedSnippet;
+        return self;
+    }
+    return nil;
+}
+
+- (RoundBuilder *)updateRoundVoteCountBy:(NSInteger)numOfNewVotes
+                                 forUser:(User *)user {
+    NSMutableDictionary *userVoteData = _voteData[user.userId];
+    NSInteger newVoteCount = [userVoteData[kVoteCountKey] integerValue] + numOfNewVotes;
+    NSDecimalNumber *currentKarma = user.karma;
+    
+    if (userVoteData == nil) {
+        userVoteData = [[NSMutableDictionary alloc] init];
+        newVoteCount = numOfNewVotes;
+    }
+    
+    if (newVoteCount > 0) {
+        [userVoteData setValue:[NSNumber numberWithLong:newVoteCount] forKey:kVoteCountKey];
+        [userVoteData setValue:currentKarma forKey:kCurrentKarmaKey];
+        
+        [_voteData setValue:userVoteData forKey:user.userId];
+    } else {
+        [_voteData removeObjectForKey:user.userId];
+    }
+    
     return self;
 }
 
@@ -112,18 +156,11 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 #pragma mark - Round completion
 
 - (RoundBuilder *)markCompleteAndSetWinningSnippet {
-    if ([self needToMarkAsComplete]) {
+    if ([self needToMarkAsComplete] && _winningSnippetId) {
         _isComplete = YES;
-        
-        Snippet *winningSnippetSoFar = _submissions[0];
-        
-        for (Snippet *const snippet in _submissions) {
-            if (snippet.voteCount > winningSnippetSoFar.voteCount) {
-                winningSnippetSoFar = snippet;
-            }
-        }
-        _winningSnippetId = winningSnippetSoFar.snippetId;
         return self;
+    } else if (!_isComplete) {
+        _winningSnippetId = nil;
     }
     return nil;
 }

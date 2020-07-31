@@ -59,8 +59,8 @@ static NSString *const kProfileIconId = @"profile-icon";
     _profileImageButton.titleLabel.textColor = [UIColor whiteColor];
     [_profileImageButton setTitle:@"Click to change profile picture!" forState:normal];
     [_profileImageButton addTarget:self
-                              action:@selector(onProfileImageTap:)
-                    forControlEvents:UIControlEventTouchUpInside];
+                            action:@selector(onProfileImageTap:)
+                  forControlEvents:UIControlEventTouchUpInside];
     [_profileView addSubview:_profileImageButton];
     
     _uploadProgressBar = [[CircularProgressBar alloc] init];
@@ -126,13 +126,12 @@ static NSString *const kProfileIconId = @"profile-icon";
 didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
     UIImage *const editedImage = info[UIImagePickerControllerEditedImage];
     UIImage *const resizedImage = [self resizeImage:editedImage
-    withSize:CGSizeMake(300, 300)];
+                                           withSize:CGSizeMake(300, 300)];
     
     [_profileImageView setImage:resizedImage];
     
     [self uploadImage:resizedImage];
     
-    NSLog(@"finished picking an image!");
     [self dismissViewControllerAnimated:YES
                              completion:nil];
 }

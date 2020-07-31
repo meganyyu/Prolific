@@ -8,14 +8,16 @@
 
 #import "ProlificBaseViewController.h"
 
+#import "Project.h"
 #import "Round.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SubmissionsViewController : ProlificBaseViewController
 
-@property (nonatomic, strong) NSString *projectId;
+@property (nonatomic, strong) Project *project;
 @property (nonatomic, strong) Round *round;
+@property (nonatomic, strong) User *currUser;
 
 @end
 
