@@ -10,10 +10,12 @@
 
 #import "DAO.h"
 @import Firebase;
+@import Lottie;
 #import "UIColor+ProlificColors.h"
 #import "CircularProgressBar.h"
 
 static NSString *const kProfileIconId = @"profile-icon";
+static NSString *const kLoadingAnimationId = @"6541-loading";
 
 @interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -24,7 +26,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 @property (nonatomic, strong) UILabel *usernameLabel;
 @property (nonatomic, strong) UILabel *displayNameLabel;
 @property (nonatomic, strong) UILabel *karmaLabel;
-@property (nonatomic, strong) CircularProgressBar *uploadProgressBar;
+@property (nonatomic, strong) LOTAnimationView *loadingView;
 
 @end
 
@@ -60,6 +62,10 @@ static NSString *const kProfileIconId = @"profile-icon";
         }
     }];
     
+    _loadingView = [LOTAnimationView animationNamed:kLoadingAnimationId];
+    [_profileView addSubview:_loadingView];
+    self.loadingView.hidden = YES;
+    
     _usernameLabel = [[UILabel alloc] init];
     _usernameLabel.text = _user.username;
     [_profileView addSubview:_usernameLabel];
@@ -71,10 +77,6 @@ static NSString *const kProfileIconId = @"profile-icon";
     _karmaLabel = [[UILabel alloc] init];
     _karmaLabel.text = [_user.karma stringValue];
     [_profileView addSubview:_karmaLabel];
-    
-    _uploadProgressBar = [[CircularProgressBar alloc] init];
-    _uploadProgressBar.hidden = YES;
-    [_profileView addSubview:_uploadProgressBar];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -94,12 +96,12 @@ static NSString *const kProfileIconId = @"profile-icon";
     CGFloat const imageViewY = 0.2 * boundsHeight;
     _profileImageView.frame = CGRectMake(imageViewX, imageViewY, imageViewWidth, imageViewHeight);
     
-    // progress bar
-    CGFloat const progressBarWidth = 0.8 * imageViewHeight;
-    CGFloat const progressBarHeight = progressBarWidth;
-    CGFloat const progressBarX = _profileImageView.center.x - progressBarWidth / 2.0;
-    CGFloat const progressBarY = _profileImageView.center.y - progressBarHeight / 2.0;
-    _uploadProgressBar.frame = CGRectMake(progressBarX, progressBarY, progressBarWidth, progressBarHeight);
+    // loading view
+    CGFloat const loadingViewWidth = imageViewWidth;
+    CGFloat const loadingViewHeight = imageViewHeight;
+    CGFloat const loadingViewX = imageViewX;
+    CGFloat const loadingViewY = imageViewY;
+    _loadingView.frame = CGRectMake(loadingViewX, loadingViewY, loadingViewWidth, loadingViewHeight);
     
     // user info labels
     CGFloat const labelX = imageViewX;
@@ -185,8 +187,9 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return;
         
-        strongSelf.uploadProgressBar.hidden = NO;
-        strongSelf.uploadProgressBar.progress = snapshot.progress.fractionCompleted;
+        self.loadingView.hidden = NO;
+        [self.loadingView play];
+        self.loadingView.loopAnimation = true;
         NSLog(@"You are %f complete:", snapshot.progress.fractionCompleted);
     }];
     
@@ -195,7 +198,7 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
         __strong typeof (weakSelf) strongSelf = weakSelf;
         if (strongSelf == nil) return;
         
-        strongSelf.uploadProgressBar.hidden = YES;
+        self.loadingView.hidden = YES;
     }];
     
 }
