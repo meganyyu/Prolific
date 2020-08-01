@@ -17,9 +17,10 @@
 static NSString *const kProfileIconId = @"profile-icon";
 static NSString *const kLoadingAnimationId = @"6541-loading";
 
-@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ProfileViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UIView *backdropView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
 @property UIImagePickerController *imagePickerVC;
 @property (nonatomic, strong) UIView *profileView;
@@ -81,6 +82,18 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     
     _karmaLabel = [[UILabel alloc] init];
     [_profileView addSubview:_karmaLabel];
+}
+
+- (void)setupCollectionView {
+    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
+                                         collectionViewLayout:layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+
+    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
+
+    [self.view addSubview:_collectionView];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -217,6 +230,26 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
         self.loadingView.hidden = YES;
     }];
     
+}
+
+#pragma mark - UICollectionViewDataSource Protocol
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
+    return 0;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return nil;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Protocol
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 6.0);
 }
 
 @end
