@@ -42,10 +42,14 @@ static NSString *const kTappedFavoritesIcon = @"finished-vote-icon";
     UITabBarItem *const homeTabItem = [tabBar.items objectAtIndex:0];
     [homeTabItem setImage:[[UIImage imageNamed:kUntappedExploreIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [homeTabItem setSelectedImage:[[UIImage imageNamed:kTappedExploreIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    homeTabItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    homeTabItem.title = nil;
     
     UITabBarItem *const favoritesTabItem = [tabBar.items objectAtIndex:1];
     [favoritesTabItem setImage:[[UIImage imageNamed:kUntappedFavoritesIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [favoritesTabItem setSelectedImage:[[UIImage imageNamed:kTappedFavoritesIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    favoritesTabItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    favoritesTabItem.title = nil;
     
     UITabBarAppearance *const tabBarAppearance = [[UITabBarAppearance alloc] init];
     [tabBarAppearance setBackgroundColor:[UIColor whiteColor]];
