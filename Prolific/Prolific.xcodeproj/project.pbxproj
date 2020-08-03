@@ -26,6 +26,8 @@
 		7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
 		7165D15D24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
 		7165D15E24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
+		7186FB2D24D4E01600B2F4A0 /* 7773-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 7186FB2C24D4E01600B2F4A0 /* 7773-loading.json */; };
+		7186FB3024D4ECC000B2F4A0 /* 6541-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 7186FB2E24D4ECC000B2F4A0 /* 6541-loading.json */; };
 		7188D85224C6521900E50876 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7188D85124C6521900E50876 /* BaseCell.m */; };
 		7188D85524C6522D00E50876 /* SnippetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7188D85424C6522D00E50876 /* SnippetCell.m */; };
 		7188D85824C6526F00E50876 /* RoundCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7188D85724C6526F00E50876 /* RoundCell.m */; };
@@ -116,6 +118,8 @@
 		7165D15824BE1B17008E64CD /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		7165D15924BE1B17008E64CD /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7186FB2C24D4E01600B2F4A0 /* 7773-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "7773-loading.json"; sourceTree = "<group>"; };
+		7186FB2E24D4ECC000B2F4A0 /* 6541-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "6541-loading.json"; sourceTree = "<group>"; };
 		7188D85024C6521900E50876 /* BaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
 		7188D85124C6521900E50876 /* BaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
 		7188D85324C6522D00E50876 /* SnippetCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnippetCell.h; sourceTree = "<group>"; };
@@ -401,6 +405,15 @@
 			path = "Register View Controller";
 			sourceTree = "<group>";
 		};
+		7186FB2724D4DBE300B2F4A0 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				7186FB2C24D4E01600B2F4A0 /* 7773-loading.json */,
+				7186FB2E24D4ECC000B2F4A0 /* 6541-loading.json */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		7188D84C24C651B600E50876 /* Round Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +543,7 @@
 		7191117124BD046600070A32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7186FB2724D4DBE300B2F4A0 /* Animations */,
 				71C2D81C24CF677500E12391 /* Progress Bar */,
 				71CF521524C77642008DB4EF /* Buttons */,
 				71CF521324C743A8008DB4EF /* Text Fields */,
@@ -864,6 +878,8 @@
 				7191114724BCBD9C00070A32 /* LaunchScreen.storyboard in Resources */,
 				7191114424BCBD9C00070A32 /* Assets.xcassets in Resources */,
 				7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */,
+				7186FB2D24D4E01600B2F4A0 /* 7773-loading.json in Resources */,
+				7186FB3024D4ECC000B2F4A0 /* 6541-loading.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,11 @@
 #import "FavoritesViewController.h"
 #import "UIColor+ProlificColors.h"
 
+static NSString *const kUntappedExploreIcon = @"untapped-explore-icon";
+static NSString *const kTappedExploreIcon = @"tapped-explore-icon";
+static NSString *const kUntappedFavoritesIcon = @"untapped-vote-icon";
+static NSString *const kTappedFavoritesIcon = @"finished-vote-icon";
+
 #pragma mark - Interface
 
 @interface MainTabBarController ()
@@ -35,9 +40,16 @@
     UITabBar *const tabBar = (UITabBar *)self.tabBar;
     
     UITabBarItem *const homeTabItem = [tabBar.items objectAtIndex:0];
-    homeTabItem.title = @"Home";
+    [homeTabItem setImage:[[UIImage imageNamed:kUntappedExploreIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [homeTabItem setSelectedImage:[[UIImage imageNamed:kTappedExploreIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    homeTabItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    homeTabItem.title = nil;
+    
     UITabBarItem *const favoritesTabItem = [tabBar.items objectAtIndex:1];
-    favoritesTabItem.title = @"Favorites";
+    [favoritesTabItem setImage:[[UIImage imageNamed:kUntappedFavoritesIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [favoritesTabItem setSelectedImage:[[UIImage imageNamed:kTappedFavoritesIcon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    favoritesTabItem.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0);
+    favoritesTabItem.title = nil;
     
     UITabBarAppearance *const tabBarAppearance = [[UITabBarAppearance alloc] init];
     [tabBarAppearance setBackgroundColor:[UIColor whiteColor]];
