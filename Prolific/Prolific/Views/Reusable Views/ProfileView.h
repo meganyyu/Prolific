@@ -8,13 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+#import "DAO.h"
 #import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ProfileViewDelegate
+
+- (void)presentImagePicker:(UIImagePickerController *)imagePickerVC;
+
+- (void)dismissImagePicker;
+
+@end
+
 @interface ProfileView : UICollectionReusableView
 
 @property (nonatomic, strong) User *user;
+@property (nonatomic, strong) DAO *dao;
+@property (nonatomic, weak) id<ProfileViewDelegate> delegate;
 
 @end
 
