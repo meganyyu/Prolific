@@ -8,8 +8,6 @@
 
 #import "RoundRanker.h"
 
-#import "DAO.h"
-
 static NSString *const kVoteCountKey = @"voteCount";
 static NSString *const kCurrentKarmaKey = @"currentKarma";
 

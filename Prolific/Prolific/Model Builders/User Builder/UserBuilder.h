@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UserBuilder *)withKarma:(NSDecimalNumber *)karma;
 
+- (UserBuilder *)addKarma:(NSDecimalNumber *)additionalKarma;
+
 /** Returns fully built User if UserBuilder has all fields initialized properly. Else returns nil. */
 - (User *)build;
 

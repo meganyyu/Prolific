@@ -142,7 +142,6 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
 #pragma mark - User actions
 
 - (void)onProfileImageTap:(UITapGestureRecognizer *)sender {
-    NSLog(@"Requested to change profile picture!");
     [_delegate presentImagePicker:_imagePickerVC];
 }
 
