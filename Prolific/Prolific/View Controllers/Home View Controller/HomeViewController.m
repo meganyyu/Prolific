@@ -52,7 +52,6 @@ static NSString *const kProfileIconId = @"profile-icon";
     self.navigationItem.leftBarButtonItem = logoutButton;
     [self setupProfileButton];
     
-    
     [self loadProjects];
 }
 
@@ -61,13 +60,8 @@ static NSString *const kProfileIconId = @"profile-icon";
     
     __weak typeof (self) weakSelf = self;
     [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) return;
-        
         if (user) {
-            strongSelf.currUser = user;
-        } else {
-            NSLog(@"Error loading user: %@", error.localizedDescription);
+            weakSelf.currUser = user;
         }
     }];
 }
@@ -78,11 +72,12 @@ static NSString *const kProfileIconId = @"profile-icon";
                                          collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-
+    
     [_collectionView registerClass:[ProjectCell class]
         forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
-
+    [_collectionView setAllowsMultipleSelection:NO];
+    
     [self.view addSubview:_collectionView];
 }
 
@@ -90,7 +85,7 @@ static NSString *const kProfileIconId = @"profile-icon";
     UIButton *const profileButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     profileButton.frame = CGRectMake(0, 0, 40, 40);
     [profileButton setImage:[[UIImage imageNamed:kProfileIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
-                forState:UIControlStateNormal];
+                   forState:UIControlStateNormal];
     [profileButton addTarget:self
                       action:@selector(onTapProfile:)
             forControlEvents:UIControlEventTouchUpInside];
@@ -100,20 +95,17 @@ static NSString *const kProfileIconId = @"profile-icon";
 #pragma mark - Load data
 
 - (void)loadProjects {
-    
+    __weak typeof(self) weakSelf = self;
     [_dao getAllProjectsWithCompletion:^(NSArray * _Nonnull projects, NSError * _Nonnull error) {
         if (projects) {
-            self.projectArray = (NSMutableArray *) projects;
+            weakSelf.projectArray = (NSMutableArray *) projects;
             
-            __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
+                __strong typeof (self) strongSelf = weakSelf;
                 if (strongSelf) {
                     [strongSelf.collectionView reloadData];
                 }
             });
-        } else {
-            NSLog(@"Error retrieving projects: %@", error.localizedDescription);
         }
     }];
 }
@@ -127,8 +119,6 @@ static NSString *const kProfileIconId = @"profile-icon";
 - (void)onTapProfile:(id)sender {
     if (_currUser) {
         [NavigationManager presentProfileViewControllerForUser:_currUser navigationController:self.navigationController];
-    } else {
-        NSLog(@"Error, user data not fully loaded.");
     }
 }
 
@@ -141,7 +131,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
+    ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
                                                                   forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
     cell.cellView.followButton.hidden = YES;
@@ -153,6 +143,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Project *const selectedProj = _projectArray[indexPath.item];
+    
     [FIRAnalytics logEventWithName:kFIREventSelectContent
                         parameters:@{
                             kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedProj.projectId],
@@ -160,7 +151,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
                             kFIRParameterContentType:@"project"
                         }];
     
-    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj forUser:_currUser navigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj
+                                                      forCurrentUser:_currUser
+                                                navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
@@ -186,7 +179,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         return;
     } else {
         NSLog(@"Successfully signed out.");
-        SceneDelegate *sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
+        SceneDelegate *const sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
         [NavigationManager presentLoggedOutScreenWithSceneDelegate:sceneDelegate];
     }
 }
