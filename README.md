@@ -363,9 +363,13 @@ Most likely using [Firebase Authentication](https://firebase.google.com/docs/aut
     * (Read/GET) Get current user's profile information [Docs](https://firebase.google.com/docs/auth/ios/manage-users#get_a_users_profile)
     * (Update/PUT) Update a user (e.g. profile photo, display name, etc.) [Docs](https://firebase.google.com/docs/auth/ios/manage-users#update_a_users_profile)
 
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
-
 
 Firebase Resources & Notes
 
 - use Cloud Functions as Cloud Firestore read/update triggers [Docs](https://cloud.google.com/functions/docs/calling/cloud-firestore)
+
+##Credits
+
+[LottieFiles](https://lottiefiles.com/) - animation files
+[Lottie for iOS](https://github.com/airbnb/lottie-ios) - iOS library to natively render After Effects vector animations
+[TPKeyboardAvoiding](https://github.com/michaeltyson/TPKeyboardAvoiding) - a solution for moving text fields out of the way of the keyboard in iOS
