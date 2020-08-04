@@ -33,17 +33,21 @@
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
+    [self setupCollectionView];
 }
 
 - (void)setupCollectionView {
     UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
+    
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
                                          collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-
+    
+    [_collectionView registerClass:[ProfileView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
-
+    
     [self.view addSubview:_collectionView];
 }
 
@@ -69,6 +73,19 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return nil;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath {
+    if (kind == UICollectionElementKindSectionHeader) {
+        ProfileView *const profileHeader = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader" forIndexPath:indexPath];
+        profileHeader.user = _user;
+        profileHeader.dao = _dao;
+        profileHeader.delegate = self;
+        return profileHeader;
+    }
     return nil;
 }
 
