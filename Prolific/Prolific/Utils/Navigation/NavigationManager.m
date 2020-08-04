@@ -59,7 +59,10 @@
                                navigationController:(UINavigationController *)navController {
     ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] initWithRound:round
                                                                                                                  projectId:projectId];
-    [navController pushViewController:composeSnippetViewController animated:YES];
+    
+    UINavigationController *newNavController = [[UINavigationController alloc] initWithRootViewController:composeSnippetViewController];
+    [newNavController setModalPresentationStyle:UIModalPresentationFullScreen];
+    [navController presentViewController:newNavController animated:YES completion:nil];
 }
 
 + (void)presentSubmissionsViewControllerForRound:(Round *)round
