@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)presentRegistrationScreenWithNavigationController:(UINavigationController *)navController;
 
 + (void)presentProjectDetailsViewControllerForProject:(Project *)project
-                                              forUser:(User *)user
+                                       forCurrentUser:(User *)currUser
                                  navigationController:(UINavigationController *)navController;
 
 + (void)presentProfileViewControllerForUser:(User *)user
