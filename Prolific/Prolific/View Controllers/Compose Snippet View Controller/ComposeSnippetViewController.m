@@ -98,25 +98,33 @@ static NSString *const kSubmitIconId = @"submit-icon";
 
 #pragma mark - User Actions
 
+- (void)onTapBack:(id)sender{
+    [NavigationManager exitViewController:self.navigationController];
+}
+
 - (void)onTapSubmit:(id)sender{
-    [self resignFields];
+    [_composeTextView endEditing:YES];
     
-    [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
-        if (snippet && round) {
-            self.round = round;
-            [self.delegate didSubmit:snippet round:round];
-            
-            __weak typeof(self) weakSelf = self;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [NavigationManager exitTopViewController:strongSelf.navigationController];
-                }
-            });
-        } else {
-            NSLog(@"Failed to submit snippet, try again.");
-        }
-    }];
+    NSString *const cleanedText = [_composeTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (![cleanedText isEqualToString:@""]) {
+        [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
+            if (snippet && round) {
+                self.round = round;
+                [self.delegate didSubmit:snippet round:round];
+                
+                __weak typeof(self) weakSelf = self;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    typeof(self) strongSelf = weakSelf;
+                    if (strongSelf) {
+                        [NavigationManager exitViewController:self.navigationController];
+                    }
+                });
+            } else {
+                NSLog(@"Failed to submit snippet, try again.");
+            }
+        }];
+    }
 }
 
 #pragma mark - Snippet submission
