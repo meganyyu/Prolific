@@ -199,7 +199,7 @@ static NSString *const kUsernameKey = @"username";
                                   withDisplayName:cleanedFields[kDisplayNameKey]]
                                  build];
                 if (!newUser) {
-                    [dao saveUser:newUser completion:^(NSString * _Nonnull userId, NSError * _Nonnull error) {
+                    [dao saveUser:newUser completion:^(NSError *error) {
                         if (!error) {
                             [self authenticatedTransition];
                         }
