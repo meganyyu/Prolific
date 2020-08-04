@@ -368,8 +368,8 @@ Firebase Resources & Notes
 
 - use Cloud Functions as Cloud Firestore read/update triggers [Docs](https://cloud.google.com/functions/docs/calling/cloud-firestore)
 
-##Credits
+## Credits
 
-[LottieFiles](https://lottiefiles.com/) - animation files
-[Lottie for iOS](https://github.com/airbnb/lottie-ios) - iOS library to natively render After Effects vector animations
-[TPKeyboardAvoiding](https://github.com/michaeltyson/TPKeyboardAvoiding) - a solution for moving text fields out of the way of the keyboard in iOS
+- [LottieFiles](https://lottiefiles.com/) - animation files
+- [Lottie for iOS](https://github.com/airbnb/lottie-ios) - iOS library to natively render After Effects vector animations
+- [TPKeyboardAvoiding](https://github.com/michaeltyson/TPKeyboardAvoiding) - a solution for moving text fields out of the way of the keyboard in iOS
