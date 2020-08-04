@@ -12,6 +12,19 @@
 
 @implementation UserEngagementManager
 
++ (User *)updateKarmaForUser:(User *)user
+               forEngagement:(UserEngagementType)userEngagementType {
+    NSDecimalNumber *const newKarma = [UserEngagementManager computeKarmaValueForUserEngagementType:userEngagementType];
+    User *const updatedUser = [[[[UserBuilder alloc] initWithUser:user]
+                                addKarma:newKarma]
+                               build];
+    
+    if (updatedUser) {
+        return updatedUser;
+    }
+    return user;
+}
+
 + (NSDecimalNumber *)computeKarmaValueForUserEngagementType:(UserEngagementType)userEngagementType {
     switch (userEngagementType) {
         case UserEngagementTypeViewProject:
