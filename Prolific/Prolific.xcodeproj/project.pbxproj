@@ -46,6 +46,9 @@
 		7191118824BD234200070A32 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191116D24BCD30E00070A32 /* LoginViewController.m */; };
 		71A3076F24D09FF700F11B94 /* FollowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 71A3076E24D09FF700F11B94 /* FollowButton.m */; };
 		71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191113E24BCBD9B00070A32 /* HomeViewController.m */; };
+		71C2C70224D86ED200C22C41 /* FlipAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2C70124D86ED200C22C41 /* FlipAnimator.m */; };
+		71C2C70924D8C8DD00C22C41 /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2C70824D8C8DD00C22C41 /* ProfileView.m */; };
+		71C2C70E24D8D05600C22C41 /* BadgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2C70C24D8CDDB00C22C41 /* BadgeCell.m */; };
 		71C2D81F24CF679900E12391 /* CircularProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D81E24CF679900E12391 /* CircularProgressBar.m */; };
 		71C2D82424CF957500E12391 /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71C2D82324CF957500E12391 /* TextCell.m */; };
 		71CF520624C66CC9008DB4EF /* BaseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF520524C66CC9008DB4EF /* BaseCellView.m */; };
@@ -157,6 +160,12 @@
 		7191118324BD1D6500070A32 /* ProlificBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificBaseViewController.m; sourceTree = "<group>"; };
 		71A3076D24D09FF700F11B94 /* FollowButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FollowButton.h; sourceTree = "<group>"; };
 		71A3076E24D09FF700F11B94 /* FollowButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FollowButton.m; sourceTree = "<group>"; };
+		71C2C70024D86ED200C22C41 /* FlipAnimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipAnimator.h; sourceTree = "<group>"; };
+		71C2C70124D86ED200C22C41 /* FlipAnimator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipAnimator.m; sourceTree = "<group>"; };
+		71C2C70724D8C8DD00C22C41 /* ProfileView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
+		71C2C70824D8C8DD00C22C41 /* ProfileView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
+		71C2C70B24D8CDDB00C22C41 /* BadgeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BadgeCell.h; sourceTree = "<group>"; };
+		71C2C70C24D8CDDB00C22C41 /* BadgeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BadgeCell.m; sourceTree = "<group>"; };
 		71C2D81D24CF679900E12391 /* CircularProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularProgressBar.h; sourceTree = "<group>"; };
 		71C2D81E24CF679900E12391 /* CircularProgressBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularProgressBar.m; sourceTree = "<group>"; };
 		71C2D82224CF957500E12391 /* TextCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextCell.h; sourceTree = "<group>"; };
@@ -405,13 +414,13 @@
 			path = "Register View Controller";
 			sourceTree = "<group>";
 		};
-		7186FB2724D4DBE300B2F4A0 /* Animations */ = {
+		7186FB2724D4DBE300B2F4A0 /* Lottie Animations */ = {
 			isa = PBXGroup;
 			children = (
 				7186FB2C24D4E01600B2F4A0 /* 7773-loading.json */,
 				7186FB2E24D4ECC000B2F4A0 /* 6541-loading.json */,
 			);
-			path = Animations;
+			path = "Lottie Animations";
 			sourceTree = "<group>";
 		};
 		7188D84C24C651B600E50876 /* Round Cell */ = {
@@ -449,6 +458,7 @@
 				7188D84E24C651EE00E50876 /* Snippet Cell */,
 				7188D84C24C651B600E50876 /* Round Cell */,
 				7165D15324BE0AAE008E64CD /* Project Cell */,
+				71C2C70A24D8CDAE00C22C41 /* Badge Cell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -483,6 +493,7 @@
 				7118C3EC24BE7254005E1816 /* Models */,
 				7191117124BD046600070A32 /* Views */,
 				7191117024BD045800070A32 /* View Controllers */,
+				71C2C6FF24D86EB700C22C41 /* Animation Controllers */,
 				7191113724BCBD9B00070A32 /* AppDelegate.h */,
 				7191113824BCBD9B00070A32 /* AppDelegate.m */,
 				7191113A24BCBD9B00070A32 /* SceneDelegate.h */,
@@ -543,7 +554,8 @@
 		7191117124BD046600070A32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7186FB2724D4DBE300B2F4A0 /* Animations */,
+				71C2C70624D8C8B400C22C41 /* Reusable Views */,
+				7186FB2724D4DBE300B2F4A0 /* Lottie Animations */,
 				71C2D81C24CF677500E12391 /* Progress Bar */,
 				71CF521524C77642008DB4EF /* Buttons */,
 				71CF521324C743A8008DB4EF /* Text Fields */,
@@ -615,6 +627,33 @@
 				71A3076E24D09FF700F11B94 /* FollowButton.m */,
 			);
 			path = "Follow Button";
+			sourceTree = "<group>";
+		};
+		71C2C6FF24D86EB700C22C41 /* Animation Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				71C2C70024D86ED200C22C41 /* FlipAnimator.h */,
+				71C2C70124D86ED200C22C41 /* FlipAnimator.m */,
+			);
+			path = "Animation Controllers";
+			sourceTree = "<group>";
+		};
+		71C2C70624D8C8B400C22C41 /* Reusable Views */ = {
+			isa = PBXGroup;
+			children = (
+				71C2C70724D8C8DD00C22C41 /* ProfileView.h */,
+				71C2C70824D8C8DD00C22C41 /* ProfileView.m */,
+			);
+			path = "Reusable Views";
+			sourceTree = "<group>";
+		};
+		71C2C70A24D8CDAE00C22C41 /* Badge Cell */ = {
+			isa = PBXGroup;
+			children = (
+				71C2C70B24D8CDDB00C22C41 /* BadgeCell.h */,
+				71C2C70C24D8CDDB00C22C41 /* BadgeCell.m */,
+			);
+			path = "Badge Cell";
 			sourceTree = "<group>";
 		};
 		71C2D81C24CF677500E12391 /* Progress Bar */ = {
@@ -1009,6 +1048,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71C2C70E24D8D05600C22C41 /* BadgeCell.m in Sources */,
 				71CF521D24C7A32A008DB4EF /* DAO.m in Sources */,
 				71CF521424C74B32008DB4EF /* SubmissionsViewController.m in Sources */,
 				71CF521C24C77D14008DB4EF /* VoteButton.m in Sources */,
@@ -1044,9 +1084,11 @@
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
 				7191114A24BCBD9C00070A32 /* main.m in Sources */,
 				71A3076F24D09FF700F11B94 /* FollowButton.m in Sources */,
+				71C2C70224D86ED200C22C41 /* FlipAnimator.m in Sources */,
 				7191113C24BCBD9B00070A32 /* SceneDelegate.m in Sources */,
 				71CF522124C891F5008DB4EF /* UIColor+ProlificColors.m in Sources */,
 				7118C3F624BF607D005E1816 /* Snippet.m in Sources */,
+				71C2C70924D8C8DD00C22C41 /* ProfileView.m in Sources */,
 				714D1F8124C25D2D00749291 /* ComposeSnippetViewController.m in Sources */,
 				7188D85B24C655AB00E50876 /* ProjectCellView.m in Sources */,
 				71F55C4E24CB388300B266BF /* ProjectUpdateManager.m in Sources */,
