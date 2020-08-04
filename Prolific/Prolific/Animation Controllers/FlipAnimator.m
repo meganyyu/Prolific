@@ -41,6 +41,43 @@
     
     snapshot.frame = _originFrame;
     snapshot.layer.masksToBounds = YES;
+    
+    [containerView addSubview:toViewController.view];
+    [containerView addSubview:snapshot];
+    [toViewController.view setHidden:YES];
+    
+    [self persectiveTransform:containerView];
+    snapshot.layer.transform = [self yRotation:(M_PI / 2.0)];
+    
+    NSTimeInterval const duration = [self transitionDuration:transitionContext];
+    
+    [UIView animateKeyframesWithDuration:duration
+                                   delay:0
+                                 options:UIViewKeyframeAnimationOptionCalculationModeCubic
+                              animations:^{
+        [UIView addKeyframeWithRelativeStartTime:0.0
+                                relativeDuration:1.0/3.0
+                                      animations:^{
+            fromViewController.view.layer.transform = [self yRotation:(-M_PI / 2.0)];
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:1.0/3.0
+                                relativeDuration:1.0/3.0
+                                      animations:^{
+            snapshot.layer.transform = [self yRotation:0.0];
+        }];
+        
+        [UIView addKeyframeWithRelativeStartTime:2.0/3.0
+                                relativeDuration:1.0/3.0
+                                      animations:^{
+            snapshot.frame = finalFrame;
+        }];
+    } completion:^(BOOL finished) {
+        [toViewController.view setHidden:NO];
+        [snapshot removeFromSuperview];
+        fromViewController.view.layer.transform = CATransform3DIdentity;
+        [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
+    }];
 }
 
 #pragma mark - Animation helper functions
