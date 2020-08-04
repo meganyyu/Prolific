@@ -153,6 +153,17 @@
     if (projBuilder) {
         Project *const updatedProj = [projBuilder build];
         _project = updatedProj;
+        
+        User *const updatedUser = [UserEngagementManager updateKarmaForUser:_currUser
+                                                              forEngagement:UserEngagementTypeSubmitSnippet];
+        if (updatedUser) {
+            _currUser = updatedUser;
+            [_dao saveUser:_currUser completion:^(NSError *error) {
+                if (error) {
+                    NSLog(@"error updating user's karma");
+                }
+            }];
+        }
     } else {
         NSLog(@"Error adding submission to project.");
     }
