@@ -372,4 +372,4 @@ Firebase Resources & Notes
 
 - [LottieFiles](https://lottiefiles.com/) - animation files
 - [Lottie for iOS](https://github.com/airbnb/lottie-ios) - iOS library to natively render After Effects vector animations
-- [TPKeyboardAvoiding](https://github.com/michaeltyson/TPKeyboardAvoiding) - a solution for moving text fields out of the way of the keyboard in iOS
+- [IQKeyboardManager](https://github.com/hackiftekhar/IQKeyboardManager) - drop-in universal library to prevent issues of keyboard sliding over UITextField/UITextViews
