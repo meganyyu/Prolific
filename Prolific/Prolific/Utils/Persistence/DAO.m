@@ -64,7 +64,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 #pragma mark - User
 
 - (void)saveUser:(User *)user
-      completion:(void(^)(NSString *userId, NSError *error))completion {
+      completion:(void(^)(NSError *error))completion {
     
     NSDictionary *const userData = @{
         kUsernameKey: user.username,
@@ -75,7 +75,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     [[[_db collectionWithPath:kUsersKey] documentWithPath:user.userId] setData:userData
                                                                          merge:YES
                                                                     completion:^(NSError *error) {
-        error ? completion(nil, error) : completion(user.userId, nil);
+        completion(error);
     }];
 }
 
