@@ -46,6 +46,7 @@
     _collectionView.delegate = self;
     
     [_collectionView registerClass:[ProfileView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader"];
+    [_collectionView registerClass:[BadgeCell class] forCellWithReuseIdentifier:@"badgeCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
@@ -73,7 +74,9 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    BadgeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
+                                                                forIndexPath:indexPath];
+    return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
