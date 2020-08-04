@@ -40,38 +40,38 @@
 }
 
 + (void)presentProjectDetailsViewControllerForProject:(Project *)project
-                                              forUser:(User *)user
+                                       forCurrentUser:(User *)currUser
                                  navigationController:(UINavigationController *)navController {
-    ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] init];
-    projectDetailsViewController.project = project;
-    projectDetailsViewController.currUser = user;
+    ProjectDetailsViewController *const projectDetailsViewController = [[ProjectDetailsViewController alloc] initWithProject:project
+                                                                                                                 currentUser:currUser];
+    
     [navController pushViewController:projectDetailsViewController animated:YES];
 }
 
 + (void)presentProfileViewControllerForUser:(User *)user
                        navigationController:(UINavigationController *)navController {
-    ProfileViewController *const profileViewController = [[ProfileViewController alloc] init];
-    profileViewController.user = user;
+    ProfileViewController *const profileViewController = [[ProfileViewController alloc] initWithUser:user];
     [navController pushViewController:profileViewController animated:YES];
 }
 
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round
                                           projectId:(NSString *)projectId
                                navigationController:(UINavigationController *)navController {
-    ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] init];
-    composeSnippetViewController.round = round;
-    composeSnippetViewController.projectId = projectId;
-    [navController pushViewController:composeSnippetViewController animated:YES];
+    ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] initWithRound:round
+                                                                                                                 projectId:projectId];
+    
+    UINavigationController *const newNavController = [[UINavigationController alloc] initWithRootViewController:composeSnippetViewController];
+    newNavController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [navController presentViewController:newNavController animated:YES completion:nil];
 }
 
 + (void)presentSubmissionsViewControllerForRound:(Round *)round
                                          project:(Project *)project
                                          forUser:(User *)user
                             navigationController:(UINavigationController *)navController {
-    SubmissionsViewController *const submissionsViewController = [[SubmissionsViewController alloc] init];
-    submissionsViewController.round = round;
-    submissionsViewController.project = project;
-    submissionsViewController.currUser = user;
+    SubmissionsViewController *const submissionsViewController = [[SubmissionsViewController alloc] initWithRound:round
+                                                                                                          project:project
+                                                                                                      currentUser:user];
     [navController pushViewController:submissionsViewController animated:YES];
 }
 
@@ -89,6 +89,10 @@
 
 + (void)exitToRootViewController:(UINavigationController *)navController {
     [navController popToRootViewControllerAnimated:YES];
+}
+
++ (void)exitViewController:(UINavigationController *)navController {
+    [navController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

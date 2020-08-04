@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) User *user;
 
+- (instancetype)initWithUser:(User *)user;
+
 @end
 
 NS_ASSUME_NONNULL_END

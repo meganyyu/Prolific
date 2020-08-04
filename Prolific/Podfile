@@ -11,6 +11,7 @@ target 'Prolific' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   pod 'lottie-ios', '2.5.3'
+  pod 'IQKeyboardManager'
 
   target 'ProlificTests' do
     inherit! :search_paths

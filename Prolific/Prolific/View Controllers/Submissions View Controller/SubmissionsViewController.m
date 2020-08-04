@@ -29,6 +29,20 @@
 
 @implementation SubmissionsViewController
 
+#pragma mark - Initializer
+
+- (instancetype)initWithRound:(Round *)round
+                      project:(Project *)project
+                  currentUser:(User *)currUser {
+    self = [super init];
+    if (self) {
+        _round = round;
+        _project = project;
+        _currUser = currUser;
+    }
+    return self;
+}
+
 #pragma mark - Setup
 
 - (void)viewDidLoad {

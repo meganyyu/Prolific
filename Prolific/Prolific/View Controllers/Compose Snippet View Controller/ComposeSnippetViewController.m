@@ -14,41 +14,63 @@
 #import "SnippetBuilder.h"
 #import "UIColor+ProlificColors.h"
 
+static NSString *const kSubmitIconId = @"submit-icon";
+
+#pragma mark - Interface
+
 @interface ComposeSnippetViewController ()
 
 @property (nonatomic, strong) UIView *composeView;
 @property (nonatomic, strong) UITextView *composeTextView;
-@property (nonatomic, strong) UIButton *submitButton;
 @property (nonatomic, strong) DAO *dao;
 
 @end
 
+#pragma mark - Implementation
+
 @implementation ComposeSnippetViewController
+
+#pragma mark - Initializer
+
+- (instancetype)initWithRound:(Round *)round
+                    projectId:(NSString *)projectId {
+    self = [super init];
+    if (self) {
+        _round = round;
+        _projectId = projectId;
+    }
+    return self;
+}
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     _dao = [[DAO alloc] init];
     
-    self.navigationItem.title = @"Project Details";
+    self.navigationItem.title = @"Compose Snippet";
     [super setupBackButton];
+    [self setupSubmitButton];
     
     _composeView = [[UIView alloc] init];
     [self.view addSubview:_composeView];
     
     _composeTextView = [[UITextView alloc] init];
-    _composeTextView.backgroundColor = [UIColor whiteColor];
+    _composeTextView.backgroundColor = [UIColor ProlificBackgroundGrayColor];
     _composeTextView.textColor = [UIColor blackColor];
     [_composeView addSubview:_composeTextView];
-    
-    _submitButton = [[UIButton alloc] init];
-    _submitButton.backgroundColor = [UIColor ProlificPrimaryBlueColor];
-    _submitButton.titleLabel.textColor = [UIColor whiteColor];
-    [_submitButton setTitle:@"Submit!" forState:normal];
-    [_submitButton addTarget:self action:@selector(onTapSubmit:)
-            forControlEvents:UIControlEventTouchUpInside];
-    [_composeView addSubview:_submitButton];
-    
+}
+
+- (void)setupSubmitButton {
+    UIButton *const submitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    submitButton.frame = CGRectMake(0, 0, 40, 40);
+    [submitButton setImage:[[UIImage imageNamed:kSubmitIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                forState:UIControlStateNormal];
+    [submitButton addTarget:self
+                     action:@selector(onTapSubmit:)
+           forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:submitButton];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -62,39 +84,47 @@
     _composeView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
     
     // submission text view
-    CGFloat const textViewX = 0.1 * boundsWidth;
+    CGFloat const textViewX = 0.05 * boundsWidth;
     CGFloat const textViewY = 0.1 * boundsHeight;
-    CGFloat const textViewWidth = 0.8 * boundsWidth;
-    CGFloat const textViewHeight = 0.6 * boundsHeight;
+    CGFloat const textViewWidth = 0.9 * boundsWidth;
+    CGFloat const textViewHeight = boundsHeight;
     _composeTextView.frame = CGRectMake(textViewX, textViewY, textViewWidth, textViewHeight);
-    
-    // submission button
-    CGFloat const submitButtonX = _composeView.center.x - 75;
-    CGFloat const submitButtonY = boundsHeight - 300;
-    _submitButton.frame = CGRectMake(submitButtonX, submitButtonY, 150, 30);
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_composeTextView endEditing:YES];
 }
 
 #pragma mark - User Actions
 
+- (void)onTapBack:(id)sender{
+    [NavigationManager exitViewController:self.navigationController];
+}
+
 - (void)onTapSubmit:(id)sender{
-    [self resignFields];
+    [_composeTextView endEditing:YES];
     
-    [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
-        if (snippet && round) {
-            self.round = round;
-            [self.delegate didSubmit:snippet round:round];
-            
-            __weak typeof(self) weakSelf = self;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [NavigationManager exitTopViewController:strongSelf.navigationController];
-                }
-            });
-        } else {
-            NSLog(@"Failed to submit snippet, try again.");
-        }
-    }];
+    NSString *const cleanedText = [_composeTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (![cleanedText isEqualToString:@""]) {
+        [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
+            if (snippet && round) {
+                self.round = round;
+                [self.delegate didSubmit:snippet round:round];
+                
+                __weak typeof(self) weakSelf = self;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    typeof(self) strongSelf = weakSelf;
+                    if (strongSelf) {
+                        [NavigationManager exitViewController:self.navigationController];
+                    }
+                });
+            } else {
+                NSLog(@"Failed to submit snippet, try again.");
+            }
+        }];
+    }
 }
 
 #pragma mark - Snippet submission
@@ -120,14 +150,6 @@
             completion(snippet, updatedRound, nil);
         }
     }];
-}
-
-#pragma mark - Helper functions
-
-- (void)resignFields {
-    if (_composeTextView.isFirstResponder) {
-        [_composeTextView resignFirstResponder];
-    }
 }
 
 @end

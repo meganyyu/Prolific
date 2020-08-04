@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Project *project;
 @property (nonatomic, strong) User *currUser;
 
+- (instancetype)initWithProject:(Project *)project
+                    currentUser:(User *)currUser;
+
 @end
 
 NS_ASSUME_NONNULL_END

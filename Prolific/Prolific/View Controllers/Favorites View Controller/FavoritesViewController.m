@@ -52,13 +52,8 @@
     
     __weak typeof (self) weakSelf = self;
     [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) return;
-        
         if (user) {
-            strongSelf.currUser = user;
-        } else {
-            NSLog(@"Error loading user: %@", error.localizedDescription);
+            weakSelf.currUser = user;
         }
     }];
 }
@@ -69,11 +64,12 @@
                                          collectionViewLayout:layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-
+    
     [_collectionView registerClass:[ProjectCell class]
         forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
-
+    [_collectionView setAllowsMultipleSelection:NO];
+    
     [self.view addSubview:_collectionView];
 }
 
@@ -82,19 +78,17 @@
 - (void)loadProjects {
     NSString *const currUserId = [FIRAuth auth].currentUser.uid;
     
+    __weak typeof(self) weakSelf = self;
     [_dao getAllFollowedProjectsforUserId:currUserId completion:^(NSArray *projects, NSError * error) {
         if (projects) {
-            self.projectArray = (NSMutableArray *) projects;
+            weakSelf.projectArray = (NSMutableArray *) projects;
             
-            __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
+                __strong typeof (self) strongSelf = weakSelf;
                 if (strongSelf) {
                     [strongSelf.collectionView reloadData];
                 }
             });
-        } else {
-            NSLog(@"Error retrieving projects: %@", error.localizedDescription);
         }
     }];
 }
@@ -108,9 +102,10 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ProjectCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
-                                                                  forIndexPath:indexPath];
+    ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
+                                                                        forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
+    cell.cellView.followButton.hidden = YES;
     return cell;
 }
 
@@ -119,6 +114,7 @@
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     Project *const selectedProj = _projectArray[indexPath.item];
+    
     [FIRAnalytics logEventWithName:kFIREventSelectContent
                         parameters:@{
                             kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", selectedProj.projectId],
@@ -126,7 +122,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
                             kFIRParameterContentType:@"project"
                         }];
     
-    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj forUser:_currUser navigationController:self.navigationController];
+    [NavigationManager presentProjectDetailsViewControllerForProject:selectedProj
+                                                      forCurrentUser:_currUser
+                                                navigationController:self.navigationController];
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
