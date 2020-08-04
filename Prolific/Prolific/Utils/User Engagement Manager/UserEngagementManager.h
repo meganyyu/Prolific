@@ -8,9 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+#import "User.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UserEngagementManager : NSObject
+
+typedef NS_ENUM(NSInteger, UserEngagementType) {
+    UserEngagementTypeViewProject,
+    UserEngagementTypeViewRound,
+    UserEngagementTypeSubmitSnippet,
+    UserEngagementTypeVote,
+    UserEngagementTypeComposeProject,
+    UserEngagementTypeWinRound,
+    UserEngagementTypeCompleteBadge
+};
+
++ (NSDecimalNumber *)computeKarmaValueForUserEngagementType:(UserEngagementType)userEngagementType;
 
 @end
 
