@@ -23,6 +23,18 @@
 
 @implementation ProfileViewController
 
+#pragma mark - Initializer
+
+- (instancetype)initWithUser:(User *)user {
+    self = [super init];
+    if (self) {
+        _user = user;
+    }
+    return self;
+}
+
+#pragma mark - Setup
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

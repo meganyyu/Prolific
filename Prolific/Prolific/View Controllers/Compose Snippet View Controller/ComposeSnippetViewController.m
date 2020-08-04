@@ -23,7 +23,23 @@
 
 @end
 
+#pragma mark - Implementation
+
 @implementation ComposeSnippetViewController
+
+#pragma mark - Initializer
+
+- (instancetype)initWithRound:(Round *)round
+                    projectId:(NSString *)projectId {
+    self = [super init];
+    if (self) {
+        _round = round;
+        _projectId = projectId;
+    }
+    return self;
+}
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];

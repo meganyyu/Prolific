@@ -30,6 +30,18 @@
 
 @implementation ProjectDetailsViewController
 
+#pragma mark - Initializer
+
+- (instancetype)initWithProject:(Project *)project
+                    currentUser:(User *)currUser {
+    self = [super init];
+    if (self) {
+        _project = project;
+        _currUser = currUser;
+    }
+    return self;
+}
+
 #pragma mark - Setup
 
 - (void)viewDidLoad {

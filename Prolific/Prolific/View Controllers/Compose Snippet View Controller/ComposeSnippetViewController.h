@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Round *round;
 @property (nonatomic, weak) id<ComposeSnippetViewControllerDelegate> delegate;
 
+- (instancetype)initWithRound:(Round *)round
+                    projectId:(NSString *)projectId;
+
 @end
 
 NS_ASSUME_NONNULL_END

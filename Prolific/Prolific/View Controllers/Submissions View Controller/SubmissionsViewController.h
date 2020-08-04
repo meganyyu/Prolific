@@ -19,6 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) Round *round;
 @property (nonatomic, strong) User *currUser;
 
+- (instancetype)initWithRound:(Round *)round
+                      project:(Project *)project
+                  currentUser:(User *)currUser;
+
 @end
 
 NS_ASSUME_NONNULL_END
