@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "ComposeSnippetViewController.h"
 #import "SceneDelegate.h"
 #import "Project.h"
 #import "User.h"
@@ -37,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** Presents ComposeSnippetViewController and passes in necessary view controller properties. */
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round
                                           projectId:(NSString *)projectId
-                               navigationController:(UINavigationController *)navController;
+                                 fromViewController:(UIViewController<ComposeSnippetViewControllerDelegate> *)fromViewController;
 
 /** Presents SubmissionsViewController and passes in necessary view controller properties. */
 + (void)presentSubmissionsViewControllerForRound:(Round *)round

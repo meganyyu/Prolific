@@ -33,11 +33,13 @@ static NSString *const kSubmitIconId = @"submit-icon";
 #pragma mark - Initializer
 
 - (instancetype)initWithRound:(Round *)round
-                    projectId:(NSString *)projectId {
+                    projectId:(NSString *)projectId
+                 withDelegate:(id<ComposeSnippetViewControllerDelegate>)delegate {
     self = [super init];
     if (self) {
         _round = round;
         _projectId = projectId;
+        _delegate = delegate;
     }
     return self;
 }

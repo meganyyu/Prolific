@@ -16,6 +16,7 @@
 #import "ProjectUpdateManager.h"
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
+#import "UserEngagementManager.h"
 
 #pragma mark - Interface
 
@@ -136,7 +137,7 @@
         Round *const currentRound = _project.rounds[latestRoundNumber];
         [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
                                                              projectId:_project.projectId
-                                                  navigationController:self.navigationController];
+                                                    fromViewController:self];
     } else {
         NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
     }
