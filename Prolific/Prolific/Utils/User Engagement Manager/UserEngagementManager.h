@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UserEngagementManager : NSObject
 
 typedef NS_ENUM(NSInteger, UserEngagementType) {
-    UserEngagementTypeViewProject,
-    UserEngagementTypeViewRound,
     UserEngagementTypeSubmitSnippet,
     UserEngagementTypeVote,
     UserEngagementTypeComposeProject,

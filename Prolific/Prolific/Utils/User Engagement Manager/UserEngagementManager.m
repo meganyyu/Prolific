@@ -27,10 +27,6 @@
 
 + (NSDecimalNumber *)computeKarmaValueForUserEngagementType:(UserEngagementType)userEngagementType {
     switch (userEngagementType) {
-        case UserEngagementTypeViewProject:
-        case UserEngagementTypeViewRound:
-            return [NSDecimalNumber decimalNumberWithString:@"0.01"];
-            break;
         case UserEngagementTypeSubmitSnippet:
             return [NSDecimalNumber decimalNumberWithString:@"0.1"];
             break;
