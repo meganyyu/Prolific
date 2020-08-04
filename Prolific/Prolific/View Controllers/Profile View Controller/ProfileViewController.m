@@ -14,7 +14,7 @@
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
 
-@interface ProfileViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface ProfileViewController () <ProfileViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
@@ -45,6 +45,19 @@
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
 
     [self.view addSubview:_collectionView];
+}
+
+#pragma mark - ProfileViewDelegate Protocol
+
+- (void)presentImagePicker:(UIImagePickerController *)imagePickerVC {
+    [self presentViewController:imagePickerVC
+                       animated:YES
+                     completion:nil];
+}
+
+- (void)dismissImagePicker {
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
