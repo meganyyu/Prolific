@@ -16,6 +16,8 @@
 #import "ProjectBuilder.h"
 #import "UIColor+ProlificColors.h"
 
+#pragma mark - Constants
+
 static NSString *const kProfileIconId = @"profile-icon";
 
 #pragma mark - Interface
@@ -23,9 +25,9 @@ static NSString *const kProfileIconId = @"profile-icon";
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSMutableArray *projectArray;
-@property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) User *currUser;
+@property (nonatomic, strong) DAO *dao;
+@property (nonatomic, strong) NSMutableArray *projectArray;
 
 @end
 

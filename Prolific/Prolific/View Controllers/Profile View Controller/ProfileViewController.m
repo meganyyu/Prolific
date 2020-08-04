@@ -14,12 +14,16 @@
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
 
+#pragma mark - Interface
+
 @interface ProfileViewController () <ProfileViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
 
 @end
+
+#pragma mark - Implementation
 
 @implementation ProfileViewController
 
