@@ -68,7 +68,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return 0;
+    return 5;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
