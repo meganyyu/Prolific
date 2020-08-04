@@ -38,29 +38,49 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
         
         _profileView = [[UIView alloc] initWithFrame:frame];
         [self addSubview:_profileView];
-        
-        _backdropView = [[UIView alloc] init];
-        _backdropView.backgroundColor = [UIColor ProlificPrimaryBlueColor];
-        [_profileView addSubview:_backdropView];
-        
-        _profileImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kProfileIconId]];
-        [_profileImageView setUserInteractionEnabled:YES];
-        [_profileView addSubview:_profileImageView];
-        
-        _loadingView = [LOTAnimationView animationNamed:kLoadingAnimationId];
-        [_profileView addSubview:_loadingView];
-        self.loadingView.hidden = YES;
-        
-        _usernameLabel = [[UILabel alloc] init];
-        [_profileView addSubview:_usernameLabel];
-        
-        _displayNameLabel = [[UILabel alloc] init];
-        [_profileView addSubview:_displayNameLabel];
-        
-        _karmaLabel = [[UILabel alloc] init];
-        [_profileView addSubview:_karmaLabel];
+        [self setupProfileViewSubviews];
+        [self setupImagePicker];
     }
     return self;
+}
+
+- (void)setupProfileViewSubviews {
+    _backdropView = [[UIView alloc] init];
+    _backdropView.backgroundColor = [UIColor ProlificPrimaryBlueColor];
+    [_profileView addSubview:_backdropView];
+    
+    _profileImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:kProfileIconId]];
+    UITapGestureRecognizer *const profileImageTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                                            action:@selector(onProfileImageTap:)];
+    [_profileImageView addGestureRecognizer:profileImageTapGestureRecognizer];
+    [_profileImageView setUserInteractionEnabled:YES];
+    [_profileView addSubview:_profileImageView];
+    
+    _loadingView = [LOTAnimationView animationNamed:kLoadingAnimationId];
+    [_profileView addSubview:_loadingView];
+    self.loadingView.hidden = YES;
+    
+    _usernameLabel = [[UILabel alloc] init];
+    [_profileView addSubview:_usernameLabel];
+    
+    _displayNameLabel = [[UILabel alloc] init];
+    [_profileView addSubview:_displayNameLabel];
+    
+    _karmaLabel = [[UILabel alloc] init];
+    [_profileView addSubview:_karmaLabel];
+}
+
+- (void)setupImagePicker {
+    _imagePickerVC = [UIImagePickerController new];
+    _imagePickerVC.delegate = self;
+    _imagePickerVC.allowsEditing = YES;
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        _imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+    } else {
+        NSLog(@"Camera 🚫 available so we will use photo library instead");
+        _imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -72,7 +92,7 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     // profile view
     _profileView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
     
-    // background view
+    // backdrop view
     _backdropView.frame = CGRectMake(0, 0, boundsWidth, 0.3 * boundsHeight);
     
     // profile picture
@@ -85,6 +105,13 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     _profileImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     _profileImageView.layer.cornerRadius = _profileImageView.frame.size.width / 2.0;
     _profileImageView.clipsToBounds = YES;
+    
+    __weak typeof (self) weakSelf = self;
+    [_dao getProfileImageforUser:_user completion:^(UIImage *userImage, NSError *error) {
+        if (userImage) {
+            [weakSelf.profileImageView setImage:userImage];
+        }
+    }];
     
     // loading view
     _loadingView.frame = CGRectMake(imageViewX, imageViewY, imageViewWidth, imageViewHeight);
@@ -110,6 +137,75 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     _karmaLabel.text = [NSString stringWithFormat:@"Karma: %@", [_user.karma stringValue]];
     _karmaLabel.textAlignment = NSTextAlignmentCenter;
     [_karmaLabel setFont:[UIFont systemFontOfSize:18]];
+}
+
+#pragma mark - User actions
+
+- (void)onProfileImageTap:(UITapGestureRecognizer *)sender {
+    NSLog(@"Requested to change profile picture!");
+    [_delegate presentImagePicker:_imagePickerVC];
+}
+
+#pragma mark - Image Controls
+
+- (void)imagePickerController:(UIImagePickerController *)picker
+didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *)info {
+    UIImage *const editedImage = info[UIImagePickerControllerEditedImage];
+    UIImage *const resizedImage = [self resizeImage:editedImage
+                                           withSize:CGSizeMake(300, 300)];
+    
+    [_profileImageView setImage:resizedImage];
+    
+    [self uploadImage:resizedImage];
+    
+    [_delegate dismissImagePicker];
+}
+
+- (UIImage *)resizeImage:(UIImage *)image
+                withSize:(CGSize)size {
+    UIImageView *const resizeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    
+    resizeImageView.contentMode = UIViewContentModeScaleAspectFill;
+    resizeImageView.image = image;
+    
+    UIGraphicsBeginImageContext(size);
+    [resizeImageView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *const newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+#pragma mark - Firebase Storage
+
+- (void)uploadImage:(UIImage *)profileImage {
+    NSData *const imageData = UIImagePNGRepresentation(profileImage);
+    
+    __weak typeof (self) weakSelf = self;
+    FIRStorageUploadTask *const uploadTask = [_dao uploadProfileImage:imageData forUser:_user completion:^(NSURL *downloadURL, NSError *error) {
+        if (error) {
+            NSLog(@"Error uploading data: %@", error.localizedDescription);
+        }
+    }];
+    
+    [uploadTask observeStatus:FIRStorageTaskStatusProgress
+                      handler:^(FIRStorageTaskSnapshot *snapshot) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        strongSelf.loadingView.hidden = NO;
+        [strongSelf.loadingView play];
+        strongSelf.loadingView.loopAnimation = true;
+    }];
+    
+    [uploadTask observeStatus:FIRStorageTaskStatusSuccess
+                      handler:^(FIRStorageTaskSnapshot *snapshot) {
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        [strongSelf.loadingView stop];
+        strongSelf.loadingView.hidden = YES;
+    }];
 }
 
 @end
