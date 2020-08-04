@@ -60,8 +60,8 @@
     ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] initWithRound:round
                                                                                                                  projectId:projectId];
     
-    UINavigationController *newNavController = [[UINavigationController alloc] initWithRootViewController:composeSnippetViewController];
-    [newNavController setModalPresentationStyle:UIModalPresentationFullScreen];
+    UINavigationController *const newNavController = [[UINavigationController alloc] initWithRootViewController:composeSnippetViewController];
+    newNavController.modalPresentationStyle = UIModalPresentationFullScreen;
     [navController presentViewController:newNavController animated:YES completion:nil];
 }
 
@@ -89,6 +89,10 @@
 
 + (void)exitToRootViewController:(UINavigationController *)navController {
     [navController popToRootViewControllerAnimated:YES];
+}
+
++ (void)exitViewController:(UINavigationController *)navController {
+    [navController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
