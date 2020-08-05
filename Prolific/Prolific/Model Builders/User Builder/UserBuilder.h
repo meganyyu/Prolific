@@ -10,6 +10,7 @@
 
 #import "Entity.h"
 
+#import "Badge.h"
 #import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -25,7 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong, readonly) NSDecimalNumber *karma;
+@property (nonatomic, strong) NSDecimalNumber *karma;
+@property (nonatomic, strong) NSMutableArray<Badge *> *badges;
 
 #pragma mark - Methods
 

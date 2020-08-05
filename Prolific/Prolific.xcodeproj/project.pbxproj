@@ -19,6 +19,8 @@
 		7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C40124BF6BD5005E1816 /* UserBuilder.m */; };
 		711F75EA24D1D24B0050D5CF /* UserEngagementManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 711F75E924D1D24B0050D5CF /* UserEngagementManager.m */; };
 		711F75EE24D22BE00050D5CF /* RoundRanker.m in Sources */ = {isa = PBXBuildFile; fileRef = 711F75ED24D22BE00050D5CF /* RoundRanker.m */; };
+		712A9DFA24DB657A00B608ED /* Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 712A9DF924DB657A00B608ED /* Badge.m */; };
+		712A9DFE24DB659E00B608ED /* BadgeBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 712A9DFD24DB659E00B608ED /* BadgeBuilder.m */; };
 		713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
 		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		71483FF824CB9680004B352E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71483FF724CB9680004B352E /* ProfileViewController.m */; };
@@ -108,6 +110,10 @@
 		711F75E924D1D24B0050D5CF /* UserEngagementManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserEngagementManager.m; sourceTree = "<group>"; };
 		711F75EC24D22BE00050D5CF /* RoundRanker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundRanker.h; sourceTree = "<group>"; };
 		711F75ED24D22BE00050D5CF /* RoundRanker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundRanker.m; sourceTree = "<group>"; };
+		712A9DF824DB657A00B608ED /* Badge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Badge.h; sourceTree = "<group>"; };
+		712A9DF924DB657A00B608ED /* Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Badge.m; sourceTree = "<group>"; };
+		712A9DFC24DB659E00B608ED /* BadgeBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BadgeBuilder.h; sourceTree = "<group>"; };
+		712A9DFD24DB659E00B608ED /* BadgeBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BadgeBuilder.m; sourceTree = "<group>"; };
 		713AA08924C0E1E000A5950E /* DAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
 		713AA08A24C0E1E000A5950E /* DAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
 		71483FF624CB9680004B352E /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
@@ -242,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				7118C40424BFA1D9005E1816 /* User */,
+				712A9DFB24DB657F00B608ED /* Badge */,
 				7118C40524BFA1E2005E1816 /* Snippet */,
 				7118C40624BFA1E8005E1816 /* Round */,
 				7118C40724BFA1ED005E1816 /* Project */,
@@ -254,6 +261,7 @@
 			children = (
 				713AA08324C0D5FD00A5950E /* Entity */,
 				713AA08524C0D61200A5950E /* User Builder */,
+				712A9DFF24DB65A100B608ED /* Badge Builder */,
 				713AA08624C0D61D00A5950E /* Snippet Builder */,
 				713AA08724C0D62500A5950E /* Round Builder */,
 				713AA08424C0D60700A5950E /* Project Builder */,
@@ -313,6 +321,24 @@
 				711F75ED24D22BE00050D5CF /* RoundRanker.m */,
 			);
 			path = "Round Ranker";
+			sourceTree = "<group>";
+		};
+		712A9DFB24DB657F00B608ED /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				712A9DF824DB657A00B608ED /* Badge.h */,
+				712A9DF924DB657A00B608ED /* Badge.m */,
+			);
+			path = Badge;
+			sourceTree = "<group>";
+		};
+		712A9DFF24DB65A100B608ED /* Badge Builder */ = {
+			isa = PBXGroup;
+			children = (
+				712A9DFC24DB659E00B608ED /* BadgeBuilder.h */,
+				712A9DFD24DB659E00B608ED /* BadgeBuilder.m */,
+			);
+			path = "Badge Builder";
 			sourceTree = "<group>";
 		};
 		713AA08324C0D5FD00A5950E /* Entity */ = {
@@ -1065,9 +1091,11 @@
 				711F75EE24D22BE00050D5CF /* RoundRanker.m in Sources */,
 				713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */,
 				71CF520924C66CF8008DB4EF /* SnippetCellView.m in Sources */,
+				712A9DFA24DB657A00B608ED /* Badge.m in Sources */,
 				71AA8EE424BFA60B00F7F9E1 /* HomeViewController.m in Sources */,
 				71CF522524C9257A008DB4EF /* ProlificUtils.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
+				712A9DFE24DB659E00B608ED /* BadgeBuilder.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				71CF521824C7787B008DB4EF /* CountLabel.m in Sources */,

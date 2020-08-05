@@ -22,6 +22,7 @@
         _email = builder.email;
         _displayName = builder.displayName;
         _karma = builder.karma;
+        _badges = builder.badges;
     }
     return self;
 }
