@@ -14,6 +14,7 @@
 #import "SnippetCell.h"
 #import "UIColor+ProlificColors.h"
 #import "RoundRanker.h"
+#import "UserEngagementManager.h"
 
 #pragma mark - Interface
 
@@ -76,7 +77,9 @@
 #pragma mark - User Actions
 
 - (void)onTapBack:(id)sender{
-    [NavigationManager exitTopViewControllerWithUpdatedProject:_project navigationController:self.navigationController];
+    [NavigationManager exitTopViewControllerWithUpdatedProject:_project
+                                                   updatedUser:_currUser
+                                          navigationController:self.navigationController];
 }
 
 #pragma mark - Load submissions
@@ -132,11 +135,22 @@
                 __strong typeof (weakSelf) strongSelf = weakSelf;
                 if (strongSelf == nil) return;
                 
-                if (error) {
-                    NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
-                } else {
+                if (!error) {
                     strongSelf.round = round;
                     strongSelf.project = project;
+                    
+                    User *const updatedUser = [UserEngagementManager updateKarmaForUser:strongSelf.currUser
+                                                                          forEngagement:UserEngagementTypeVote];
+                    if (updatedUser) {
+                        strongSelf.currUser = updatedUser;
+                        [strongSelf.dao saveUser:strongSelf.currUser completion:^(NSError *error) {
+                            if (error) {
+                                NSLog(@"error updating user's karma");
+                            }
+                        }];
+                    }
+                } else {
+                    NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
                 }
             }];
         }

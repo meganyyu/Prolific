@@ -16,25 +16,33 @@
 #import "UIColor+ProlificColors.h"
 #import "User.h"
 
+#pragma mark - Constants
+
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEmailKey = @"email";
 static NSString *const kPasswordKey = @"password";
 static NSString *const kUsernameKey = @"username";
 
+#pragma mark - Interface
+
 @interface RegisterViewController ()
 
-@property (nonatomic, strong) UIView *registerContentView;
 @property (nonatomic, strong) UITextField *displayNameField;
-@property (nonatomic, strong) UITextField *usernameField;
 @property (nonatomic, strong) UITextField *emailField;
+@property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UIButton *registerButton;
+@property (nonatomic, strong) UIView *registerContentView;
 @property (nonatomic, strong) UIButton *returnToLoginButton;
-@property (nonatomic, strong) UILabel *errorLabel;
+@property (nonatomic, strong) UITextField *usernameField;
 
 @end
 
+#pragma mark - Implementation
+
 @implementation RegisterViewController
+
+#pragma mark - Setup
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -199,7 +207,7 @@ static NSString *const kUsernameKey = @"username";
                                   withDisplayName:cleanedFields[kDisplayNameKey]]
                                  build];
                 if (!newUser) {
-                    [dao saveUser:newUser completion:^(NSString * _Nonnull userId, NSError * _Nonnull error) {
+                    [dao saveUser:newUser completion:^(NSError *error) {
                         if (!error) {
                             [self authenticatedTransition];
                         }

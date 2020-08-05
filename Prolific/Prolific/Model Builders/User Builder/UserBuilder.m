@@ -85,8 +85,13 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
     return self;
 }
 
+- (UserBuilder *)addKarma:(NSDecimalNumber *)additionalKarma {
+    _karma = [_karma decimalNumberByAdding:additionalKarma];
+    return self;
+}
+
 - (User *)build {
-    if (_userId && _username && _email && _displayName) {
+    if (_userId && _username && _email && _displayName && _karma) {
         User *user = [[User alloc] initWithBuilder:self];
         return user;
     }

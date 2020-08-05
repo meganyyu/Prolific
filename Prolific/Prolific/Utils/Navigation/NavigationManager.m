@@ -13,7 +13,6 @@
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
 #import "RegisterViewController.h"
-#import "ComposeSnippetViewController.h"
 #import "SubmissionsViewController.h"
 #import "ProfileViewController.h"
 #import "ProjectDetailsViewController.h"
@@ -56,9 +55,12 @@
 
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round
                                           projectId:(NSString *)projectId
-                               navigationController:(UINavigationController *)navController {
+                                 fromViewController:(UIViewController<ComposeSnippetViewControllerDelegate> *)fromViewController {
+    UINavigationController *const navController = fromViewController.navigationController;
+    
     ComposeSnippetViewController *const composeSnippetViewController = [[ComposeSnippetViewController alloc] initWithRound:round
-                                                                                                                 projectId:projectId];
+                                                                                                                 projectId:projectId
+                                                                                                              withDelegate:fromViewController];
     
     UINavigationController *const newNavController = [[UINavigationController alloc] initWithRootViewController:composeSnippetViewController];
     newNavController.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -80,9 +82,12 @@
 }
 
 + (void)exitTopViewControllerWithUpdatedProject:(Project *)project
+                                    updatedUser:(User *)user
                            navigationController:(UINavigationController *)navController {
     if ([navController.topViewController isKindOfClass:[SubmissionsViewController class]]) {
-        ((ProjectDetailsViewController *) navController.presentingViewController).project = project;
+        ProjectDetailsViewController *const projectDetailsVC = (ProjectDetailsViewController *) navController.presentingViewController;
+        projectDetailsVC.project = project;
+        projectDetailsVC.currUser = user;
     }
     [navController popViewControllerAnimated:YES];
 }

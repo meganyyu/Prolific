@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "ComposeSnippetViewController.h"
 #import "SceneDelegate.h"
 #import "Project.h"
 #import "User.h"
@@ -37,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** Presents ComposeSnippetViewController and passes in necessary view controller properties. */
 + (void)presentComposeSnippetViewControllerForRound:(Round *)round
                                           projectId:(NSString *)projectId
-                               navigationController:(UINavigationController *)navController;
+                                 fromViewController:(UIViewController<ComposeSnippetViewControllerDelegate> *)fromViewController;
 
 /** Presents SubmissionsViewController and passes in necessary view controller properties. */
 + (void)presentSubmissionsViewControllerForRound:(Round *)round
@@ -50,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Exits topmost view controller in the navigation controller stack, and passes back updated project. */
 + (void)exitTopViewControllerWithUpdatedProject:(Project *)project
+                                    updatedUser:(User *)user
                            navigationController:(UINavigationController *)navController;
 
 /** Exits to the root view controller of the navigation controller stack. */

@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Save a user's data to database. */
 - (void)saveUser:(User *)user
-      completion:(void(^)(NSString *userId, NSError *error))completion;
+      completion:(void(^)(NSError *error))completion;
 
 /** Gets user with userId. */
 - (void)getUserWithId:(NSString *)userId

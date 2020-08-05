@@ -11,15 +11,21 @@
 #import "BadgeCell.h"
 #import "DAO.h"
 @import Firebase;
+#import "NavigationManager.h"
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
+
+#pragma mark - Interface
 
 @interface ProfileViewController () <ProfileViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) DAO *dao;
 
 @end
+
+#pragma mark - Implementation
 
 @implementation ProfileViewController
 
@@ -45,15 +51,35 @@
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
-    [self setupCollectionView];
+    __weak typeof (self) weakSelf = self;
+    [self loadUserWithCompletion:^(NSError *error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf setupCollectionView];
+                }
+            });
+        }
+    }];
+}
+
+- (void)loadUserWithCompletion:(void(^)(NSError *error))completion {
+    __weak typeof (self) weakSelf = self;
+    [_dao getUserWithId:_user.userId completion:^(User *user, NSError *error) {
+        if (user) weakSelf.user = user;
+        
+        completion(error);
+    }];
 }
 
 - (void)setupCollectionView {
-    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
+    _layout = [[UICollectionViewFlowLayout alloc] init];
+    _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
+    _layout.sectionHeadersPinToVisibleBounds = YES;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                         collectionViewLayout:layout];
+                                         collectionViewLayout:_layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     

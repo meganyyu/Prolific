@@ -16,6 +16,7 @@
 #import "ProjectUpdateManager.h"
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
+#import "UserEngagementManager.h"
 
 #pragma mark - Interface
 
@@ -52,9 +53,17 @@
     self.navigationItem.title = @"Project Details";
     [super setupBackButton];
     
-    [self setupCollectionView];
-    
-    [self refreshData];
+    __weak typeof (self) weakSelf = self;
+    [self refreshDataWithCompletion:^(NSError *error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf setupCollectionView];
+                }
+            });
+        }
+    }];
 }
 
 - (void)setupCollectionView {
@@ -78,25 +87,13 @@
     
 }
 
-- (void)refreshData {
+- (void)refreshDataWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
     [ProjectUpdateManager updateProject:_project
                              completion:^(Project *project, NSError *error) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) return;
+        if (!error) weakSelf.project = project;
         
-        if (error) {
-            NSLog(@"Error, please try reloading page again: %@", error);
-        } else {
-            strongSelf.project = project;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                [strongSelf.collectionView reloadData];
-            }
-        });
+        completion(error);
     }];
 }
 
@@ -136,7 +133,7 @@
         Round *const currentRound = _project.rounds[latestRoundNumber];
         [NavigationManager presentComposeSnippetViewControllerForRound:currentRound
                                                              projectId:_project.projectId
-                                                  navigationController:self.navigationController];
+                                                    fromViewController:self];
     } else {
         NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
     }
@@ -152,6 +149,17 @@
     if (projBuilder) {
         Project *const updatedProj = [projBuilder build];
         _project = updatedProj;
+        
+        User *const updatedUser = [UserEngagementManager updateKarmaForUser:_currUser
+                                                              forEngagement:UserEngagementTypeSubmitSnippet];
+        if (updatedUser) {
+            _currUser = updatedUser;
+            [_dao saveUser:_currUser completion:^(NSError *error) {
+                if (error) {
+                    NSLog(@"error updating user's karma");
+                }
+            }];
+        }
     } else {
         NSLog(@"Error adding submission to project.");
     }
