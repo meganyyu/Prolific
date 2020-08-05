@@ -17,7 +17,7 @@
     if (self) {
         _badgeType = builder.badgeType;
         _level = builder.level;
-        _goalCompleted = builder.goalCompleted;
+        _goalCompletedSoFar = builder.goalCompletedSoFar;
         _totalGoal = builder.totalGoal;
     }
     return self;

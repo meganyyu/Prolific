@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and mutable) attributes
 @property (nonatomic, strong, readonly) NSNumber *level;
-@property (nonatomic, strong, readonly) NSNumber *goalCompleted;
+@property (nonatomic, strong, readonly) NSNumber *goalCompletedSoFar;
 @property (nonatomic, strong, readonly) NSNumber *totalGoal;
 
 #pragma mark - Methods
