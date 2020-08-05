@@ -51,6 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Exits topmost view controller in the navigation controller stack, and passes back updated project. */
 + (void)exitTopViewControllerWithUpdatedProject:(Project *)project
+                                    updatedUser:(User *)user
                            navigationController:(UINavigationController *)navController;
 
 /** Exits to the root view controller of the navigation controller stack. */

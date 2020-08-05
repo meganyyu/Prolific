@@ -77,7 +77,9 @@
 #pragma mark - User Actions
 
 - (void)onTapBack:(id)sender{
-    [NavigationManager exitTopViewControllerWithUpdatedProject:_project navigationController:self.navigationController];
+    [NavigationManager exitTopViewControllerWithUpdatedProject:_project
+                                                   updatedUser:_currUser
+                                          navigationController:self.navigationController];
 }
 
 #pragma mark - Load submissions

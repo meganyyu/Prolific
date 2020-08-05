@@ -15,6 +15,7 @@
 #import "Project.h"
 #import "ProjectBuilder.h"
 #import "UIColor+ProlificColors.h"
+#import "User.h"
 
 #pragma mark - Constants
 
