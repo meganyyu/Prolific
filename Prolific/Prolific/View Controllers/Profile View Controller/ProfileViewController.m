@@ -11,6 +11,7 @@
 #import "BadgeCell.h"
 #import "DAO.h"
 @import Firebase;
+#import "NavigationManager.h"
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
 
@@ -19,6 +20,7 @@
 @interface ProfileViewController () <ProfileViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) DAO *dao;
 
 @end
@@ -44,20 +46,34 @@
     
     _dao = [[DAO alloc] init];
     
+    [self loadUser];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
     [self setupCollectionView];
+    [_collectionView reloadData];
+    [_layout invalidateLayout];
+}
+
+- (void)loadUser {
+    __weak typeof (self) weakSelf = self;
+    [_dao getUserWithId:_user.userId completion:^(User *user, NSError *error) {
+        if (user) {
+            weakSelf.user = user;
+            NSLog(@"user's karma: %@", weakSelf.user.karma);
+        }
+    }];
 }
 
 - (void)setupCollectionView {
-    UICollectionViewFlowLayout *const layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
+    _layout = [[UICollectionViewFlowLayout alloc] init];
+    _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                         collectionViewLayout:layout];
+                                         collectionViewLayout:_layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     
