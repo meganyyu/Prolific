@@ -53,9 +53,17 @@
     self.navigationItem.title = @"Project Details";
     [super setupBackButton];
     
-    [self setupCollectionView];
-    
-    [self refreshData];
+    __weak typeof (self) weakSelf = self;
+    [self refreshDataWithCompletion:^(NSError *error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf setupCollectionView];
+                }
+            });
+        }
+    }];
 }
 
 - (void)setupCollectionView {
@@ -79,25 +87,13 @@
     
 }
 
-- (void)refreshData {
+- (void)refreshDataWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
     [ProjectUpdateManager updateProject:_project
                              completion:^(Project *project, NSError *error) {
-        __strong typeof (weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) return;
+        if (!error) weakSelf.project = project;
         
-        if (error) {
-            NSLog(@"Error, please try reloading page again: %@", error);
-        } else {
-            strongSelf.project = project;
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            typeof(self) strongSelf = weakSelf;
-            if (strongSelf) {
-                [strongSelf.collectionView reloadData];
-            }
-        });
+        completion(error);
     }];
 }
 

@@ -46,25 +46,30 @@
     
     _dao = [[DAO alloc] init];
     
-    [self loadUser];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
-    [self setupCollectionView];
-    [_collectionView reloadData];
-    [_layout invalidateLayout];
+    __weak typeof (self) weakSelf = self;
+    [self loadUserWithCompletion:^(NSError *error) {
+        if (!error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                typeof(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf setupCollectionView];
+                }
+            });
+        }
+    }];
 }
 
-- (void)loadUser {
+- (void)loadUserWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
     [_dao getUserWithId:_user.userId completion:^(User *user, NSError *error) {
-        if (user) {
-            weakSelf.user = user;
-            NSLog(@"user's karma: %@", weakSelf.user.karma);
-        }
+        if (user) weakSelf.user = user;
+        
+        completion(error);
     }];
 }
 
