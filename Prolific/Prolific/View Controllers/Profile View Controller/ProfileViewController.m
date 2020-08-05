@@ -76,6 +76,7 @@
 - (void)setupCollectionView {
     _layout = [[UICollectionViewFlowLayout alloc] init];
     _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
+    _layout.sectionHeadersPinToVisibleBounds = YES;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
                                          collectionViewLayout:_layout];
