@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BadgeCell : UICollectionViewCell
 
+@property (nonatomic, strong) UIView *badgeBackdropView;
 @property (nonatomic, strong) UIImageView *badgeImageView;
+@property (nonatomic, strong) UILabel *badgeLevelLabel;
 @property (nonatomic, strong) UIView *progressBar;
 
 @end
