@@ -12,10 +12,10 @@
 #import "FavoritesViewController.h"
 #import "UIColor+ProlificColors.h"
 
-static NSString *const kUntappedExploreIcon = @"untapped-explore-icon";
-static NSString *const kTappedExploreIcon = @"tapped-explore-icon";
+static NSString *const kUntappedExploreIcon = @"untapped-tabbar-explore-icon";
+static NSString *const kTappedExploreIcon = @"tapped-tabbar-explore-icon";
 static NSString *const kUntappedFavoritesIcon = @"untapped-vote-icon";
-static NSString *const kTappedFavoritesIcon = @"finished-vote-icon";
+static NSString *const kTappedFavoritesIcon = @"tapped-tabbar-vote-icon";
 
 #pragma mark - Interface
 
