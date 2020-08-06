@@ -30,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
            completion:(void(^)(User *user, NSError *error))completion;
 
 /** Updates data for one of a user's badges. */
-- (void)updateBadge:(Badge *)badge
-          forUserId:(NSString *)userId
-         completion:(void(^)(NSError *error))completion;
+- (void)saveBadge:(Badge *)badge
+        forUserId:(NSString *)userId
+       completion:(void(^)(NSError *error))completion;
 
 /** Gets all of a user's badges. */
 - (void)getAllBadgesForUserId:(NSString *)userId

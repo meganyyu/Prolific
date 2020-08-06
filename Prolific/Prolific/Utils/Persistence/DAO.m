@@ -18,7 +18,9 @@
 
 #pragma mark - Constants
 
+static NSString *const kActionTypeKey = @"actionType";
 static NSString *const kAuthorIdKey = @"authorId";
+static NSString *const kBadgeNameKey = @"badgeName";
 static NSString *const kBadgesKey = @"badges";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kCreatedAtKey = @"createdAt";
@@ -29,6 +31,7 @@ static NSString *const kGoalCompletedSoFarKey = @"goalCompletedSoFar";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kKarmaKey = @"karma";
 static NSString *const kLevelKey = @"level";
+static NSString *const kMetricTypeKey = @"metricType";
 static NSString *const kNameKey = @"name";
 static NSString *const kProfileImagesRef = @"profileImages";
 static NSString *const kProjectsKey = @"projects";
@@ -104,19 +107,24 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
-- (void)updateBadge:(Badge *)badge
-          forUserId:(NSString *)userId
-         completion:(void(^)(NSError *error))completion {
+- (void)saveBadge:(Badge *)badge
+        forUserId:(NSString *)userId
+       completion:(void(^)(NSError *error))completion {
     FIRDocumentReference *const badgeRef = [[[[self.db collectionWithPath:kUsersKey] documentWithPath:userId]
                                              collectionWithPath:kBadgesKey] documentWithPath:badge.badgeType];
     
     NSDictionary *const badgeData = @{
+        kBadgeNameKey: badge.badgeName,
         kLevelKey: badge.level,
         kGoalCompletedSoFarKey: badge.goalCompletedSoFar,
-        kTotalGoalKey: badge.totalGoal
+        kTotalGoalKey: badge.totalGoal,
+        kMetricTypeKey: badge.metricType,
+        kActionTypeKey: badge.actionType
     };
     
-    [badgeRef updateData:badgeData completion:^(NSError * _Nullable error) {
+    [badgeRef setData:badgeData
+                merge:YES
+           completion:^(NSError * _Nullable error) {
         completion(error);
     }];
 }
@@ -518,8 +526,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (Badge *)buildBadgeWithType:(NSString *)badgeType
                      fromData:(NSDictionary *)data {
-    BadgeBuilder *const badgeBuilder = [[BadgeBuilder alloc] initWithType:badgeType
-                                                               dictionary:data];
+    BadgeBuilder *const badgeBuilder = [[BadgeBuilder alloc] initWithBadgeType:badgeType
+                                                                    dictionary:data];
     Badge *const badge = [badgeBuilder build];
     
     if (badge != nil) {
