@@ -78,7 +78,6 @@ static NSString *const kCreatorBadgeId = @"creator-badge";
     CGFloat const levellabelX = _badgeBackdropView.center.x - levelLabelWidth / 2.0;
     CGFloat const levelLabelY = badgeImageY + badgeImageHeight + 0.05 * badgeHeight;
     _levelLabel.frame = CGRectMake(levellabelX, levelLabelY, levelLabelWidth, levelLabelHeight);
-    _levelLabel.text = @"Level 1";
     
     CGFloat const progressBarWidth = 0.6 * boundsWidth;
     CGFloat const progressBarHeight = 15;
@@ -91,14 +90,24 @@ static NSString *const kCreatorBadgeId = @"creator-badge";
     CGFloat const typeLabelX = progressBarX;
     CGFloat const typeLabelY = badgeImageY;
     _typeLabel.frame = CGRectMake(typeLabelX, typeLabelY, typeLabelWidth, typeLabelHeight);
-    _typeLabel.text = @"Big Hit Writer";
 
     CGFloat const progressLabelWidth = progressBarWidth;
     CGFloat const progressLabelHeight = 0.2 * badgeHeight;
     CGFloat const progressLabelX = typeLabelX;
     CGFloat const progressLabelY = typeLabelY + typeLabelHeight + 0.05 * boundsHeight;
     _progressLabel.frame = CGRectMake(progressLabelX, progressLabelY, progressLabelWidth, progressLabelHeight);
-    _progressLabel.text = @"Submit 50 snippets for this level";
+    
+    [self loadBadgeData];
+}
+
+- (void)loadBadgeData {
+    [_badgeImageView setImage:[UIImage imageNamed:_badge.badgeType]];
+    
+    _levelLabel.text = [NSString stringWithFormat:@"Level %@", _badge.level];
+    _typeLabel.text = _badge.badgeName;
+    
+    NSInteger goalRemaining = [_badge.totalGoal intValue] - [_badge.goalCompletedSoFar intValue];
+    _progressLabel.text = [NSString stringWithFormat:@"%@ %ld more %@!", _badge.actionType, goalRemaining, _badge.metricType];
 }
 
 @end

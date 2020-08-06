@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Badge.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BadgeCell : UICollectionViewCell
 
+@property (nonatomic, strong) Badge *badge;
 @property (nonatomic, strong) UIView *badgeBackdropView;
 @property (nonatomic, strong) UIImageView *badgeImageView;
 @property (nonatomic, strong) UILabel *typeLabel;
