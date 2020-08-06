@@ -68,7 +68,6 @@
     __weak typeof (self) weakSelf = self;
     [_dao getUserWithId:_user.userId completion:^(User *user, NSError *error) {
         if (user) weakSelf.user = user;
-        
         completion(error);
     }];
 }
@@ -107,13 +106,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return 5;
+    return _user.badges.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BadgeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
                                                                 forIndexPath:indexPath];
+    cell.badge = _user.badges[indexPath.item];
     return cell;
 }
 
