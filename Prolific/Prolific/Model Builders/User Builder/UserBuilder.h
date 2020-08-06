@@ -32,7 +32,9 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Methods
 
 /** Returns UserBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a UserBuilder the same way as init does. */
-- (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data;
+- (instancetype)initWithId:(NSString *)userId
+                dictionary:(NSDictionary *)data
+                    badges:(NSMutableArray *)badges;
 
 /** Returns UserBuilder with all fields initialized as a copy of a User model. */
 - (instancetype)initWithUser:(User *)user;
@@ -48,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (UserBuilder *)withKarma:(NSDecimalNumber *)karma;
 
 - (UserBuilder *)addKarma:(NSDecimalNumber *)additionalKarma;
+
+- (UserBuilder *)withBadges:(NSMutableArray<Badge *> *)badges;
 
 /** Returns fully built User if UserBuilder has all fields initialized properly. Else returns nil. */
 - (User *)build;

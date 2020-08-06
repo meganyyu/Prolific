@@ -14,6 +14,7 @@ static NSString *const kUsernameKey = @"username";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kKarmaKey = @"karma";
 static NSString *const kProfileImageRefKey = @"profileImageRef";
+static NSString *const kBadgesKey = @"badges";
 
 @implementation UserBuilder
 
@@ -26,11 +27,14 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
         _email = nil;
         _displayName = nil;
         _karma = [NSDecimalNumber one];
+        _badges = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-- (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data {
+- (instancetype)initWithId:(NSString *)userId
+                dictionary:(NSDictionary *)data
+                    badges:(NSMutableArray *)badges {
     self = [self init];
     
     if (self) {
@@ -41,6 +45,10 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
             _email = @""; //FIXME: load with actual email from FIRAuth
             _displayName = data[kDisplayNameKey];
             _karma = [NSDecimalNumber decimalNumberWithDecimal:[data[kKarmaKey] decimalValue]];
+            
+            if (badges) {
+                _badges = [badges mutableCopy];
+            }
         }
     }
     return self;
@@ -55,6 +63,7 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
         _email = user.email;
         _displayName = user.displayName;
         _karma = user.karma;
+        _badges = [user.badges mutableCopy];
     }
     return self;
 }
@@ -87,6 +96,11 @@ static NSString *const kProfileImageRefKey = @"profileImageRef";
 
 - (UserBuilder *)addKarma:(NSDecimalNumber *)additionalKarma {
     _karma = [_karma decimalNumberByAdding:additionalKarma];
+    return self;
+}
+
+- (UserBuilder *)withBadges:(NSMutableArray<Badge *> *)badges {
+    _badges = [badges mutableCopy];
     return self;
 }
 
