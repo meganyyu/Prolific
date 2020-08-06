@@ -13,17 +13,22 @@
 #import "ProjectBuilder.h"
 #import "RoundBuilder.h"
 #import "SnippetBuilder.h"
+#import "BadgeBuilder.h"
+#import "UserBuilder.h"
 
 #pragma mark - Constants
 
 static NSString *const kAuthorIdKey = @"authorId";
+static NSString *const kBadgesKey = @"badges";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEndTimeKey = @"endTime";
 static NSString *const kFollowCountKey = @"followCount";
+static NSString *const kGoalCompletedSoFarKey = @"goalCompletedSoFar";
 static NSString *const kIsCompleteKey = @"isComplete";
 static NSString *const kKarmaKey = @"karma";
+static NSString *const kLevelKey = @"level";
 static NSString *const kNameKey = @"name";
 static NSString *const kProfileImagesRef = @"profileImages";
 static NSString *const kProjectsKey = @"projects";
@@ -33,6 +38,7 @@ static NSString *const kScoreKey = @"score";
 static NSString *const kSeedKey = @"seed";
 static NSString *const kSubmissionsKey = @"submissions";
 static NSString *const kTextKey = @"text";
+static NSString *const kTotalGoalKey = @"totalGoal";
 static NSString *const kUsersKey = @"users";
 static NSString *const kUsersFollowingKey = @"usersFollowing";
 static NSString *const kUserVotesKey = @"userVotes";
@@ -40,7 +46,6 @@ static NSString *const kUsernameKey = @"username";
 static NSString *const kVoteCountKey = @"voteCount";
 static NSString *const kVoteDataKey = @"voteData";
 static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
-
 
 @interface DAO ()
 
@@ -87,6 +92,45 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
         } else {
             User *const user = [self buildUserWithId:userId fromData:snapshot.data];
             user ? completion(user, nil) : completion(nil, error);
+        }
+    }];
+}
+
+- (void)updateBadge:(Badge *)badge
+          forUserId:(NSString *)userId
+         completion:(void(^)(NSError *error))completion {
+    FIRDocumentReference *const badgeRef = [[[[self.db collectionWithPath:kUsersKey] documentWithPath:userId]
+                                             collectionWithPath:kBadgesKey] documentWithPath:badge.badgeType];
+    
+    NSDictionary *const badgeData = @{
+        kLevelKey: badge.level,
+        kGoalCompletedSoFarKey: badge.goalCompletedSoFar,
+        kTotalGoalKey: badge.totalGoal
+    };
+    
+    [badgeRef updateData:badgeData completion:^(NSError * _Nullable error) {
+        completion(error);
+    }];
+}
+
+- (void)getAllBadgesForUserId:(NSString *)userId
+                   completion:(void(^)(NSMutableArray<Badge *> *badges, NSError *error))completion {
+    FIRCollectionReference *const badgesRef = [[[self.db collectionWithPath:kUsersKey] documentWithPath:userId]
+                                               collectionWithPath:kBadgesKey];
+    
+    [badgesRef getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            NSMutableArray *const badges = [[NSMutableArray alloc] init];
+            for (FIRDocumentSnapshot *const document in snapshot.documents) {
+                Badge *const badge = [self buildBadgeWithType:document.documentID
+                                                     fromData:document.data];
+                if (badge) {
+                    [badges addObject:badge];
+                }
+            }
+            completion(badges, nil);
         }
     }];
 }
@@ -232,8 +276,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     [submissionRef getDocumentWithCompletion:^(FIRDocumentSnapshot *snapshot, NSError *error) {
         Snippet *snippet = [self buildSnippetWithId:snippetId
-                                    fromData:snapshot.data];
-    
+                                           fromData:snapshot.data];
+        
         if (snippet != nil) {
             completion(snippet, nil);
         } else {
@@ -246,10 +290,10 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (void)saveNewRoundWithBuilder:(RoundBuilder *)roundBuilder
                    forProjectId:(NSString *)projectId
-                    completion:(void(^)(Round *round,  NSError *error))completion {
+                     completion:(void(^)(Round *round,  NSError *error))completion {
     FIRCollectionReference *const roundsRef =
     [[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
-       collectionWithPath:kRoundsKey];
+     collectionWithPath:kRoundsKey];
     
     NSDictionary *const roundData = @{
         kCreatedAtKey: [FIRTimestamp timestampWithDate:roundBuilder.createdAt],
@@ -261,12 +305,12 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     __block FIRDocumentReference *ref =
     [roundsRef addDocumentWithData:roundData
-                             completion:^(NSError * _Nullable error) {
+                        completion:^(NSError * _Nullable error) {
         if (error != nil) {
             completion(nil, error);
         } else {
             Round *round = [[roundBuilder withId:ref.documentID]
-                                build];
+                            build];
             round ? completion(round, nil) : completion(nil, error);
         }
     }];
@@ -278,7 +322,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     
     FIRDocumentReference *const roundRef =
     [[[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId]
-        collectionWithPath:kRoundsKey] documentWithPath:round.roundId];
+      collectionWithPath:kRoundsKey] documentWithPath:round.roundId];
     
     NSMutableDictionary *const roundData = [[NSMutableDictionary alloc] init];
     [roundData setValue:[FIRTimestamp timestampWithDate: round.endTime] forKey:kEndTimeKey];
@@ -320,9 +364,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 /** Retrieves Firebase document reference for the latest Round in a Project with ProjectId and passes into completion block. Passes an error into completion block if no relevant document is found. */
 - (void)getLatestRoundRefForProjectId:(NSString *)projectId
-                        completion:(void(^)(FIRDocumentReference *roundRef, NSError *error))completion {
+                           completion:(void(^)(FIRDocumentReference *roundRef, NSError *error))completion {
     FIRCollectionReference *const roundsRef =
-       [[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId] collectionWithPath:kRoundsKey];
+    [[[self.db collectionWithPath:kProjectsKey] documentWithPath:projectId] collectionWithPath:kRoundsKey];
     
     [[[roundsRef queryOrderedByField:kCreatedAtKey descending:YES] queryLimitedTo:1]
      getDocumentsWithCompletion:^(FIRQuerySnapshot * _Nullable snapshot, NSError * _Nullable error) {
@@ -340,7 +384,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (void)updateFollowersforProject:(Project *)project
                        withUserId:(NSString *)userId
-                       completion:(void(^)(NSError *error))completion {    
+                       completion:(void(^)(NSError *error))completion {
     FIRDocumentReference *const projRef = [[self.db collectionWithPath:kProjectsKey] documentWithPath:project.projectId];
     
     NSMutableDictionary *const projData = [[NSMutableDictionary alloc] init];
@@ -462,8 +506,21 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }
 }
 
+- (Badge *)buildBadgeWithType:(NSString *)badgeType
+                     fromData:(NSDictionary *)data {
+    BadgeBuilder *const badgeBuilder = [[BadgeBuilder alloc] initWithType:badgeType
+                                                               dictionary:data];
+    Badge *const badge = [badgeBuilder build];
+    
+    if (badge != nil) {
+        return badge;
+    } else {
+        return nil;
+    }
+}
+
 - (Snippet *)buildSnippetWithId:(NSString *)snippetId
-                   fromData:(NSDictionary *)data {
+                       fromData:(NSDictionary *)data {
     SnippetBuilder *const snippetBuilder = [[SnippetBuilder alloc] initWithId:snippetId
                                                                    dictionary:data];
     Snippet *const snippet = [snippetBuilder build];
