@@ -9,9 +9,11 @@
 #import "BadgeCell.h"
 #import "UIColor+ProlificColors.h"
 
-static NSString *const kContributorBadgeIconId = @"contributor-badge-icon";
-static NSString *const kBigHitWriterBadgeIconId = @"big-hit-writer-badge-icon";
-static NSString *const kCreatorBadgeIconId = @"creator-badge-icon";
+#pragma mark - Badge Types
+
+static NSString *const kContributorBadgeId = @"contributor-badge";
+static NSString *const kBigHitWriterBadgeId = @"big-hit-writer-badge";
+static NSString *const kCreatorBadgeId = @"creator-badge";
 
 @implementation BadgeCell
 
@@ -27,7 +29,6 @@ static NSString *const kCreatorBadgeIconId = @"creator-badge-icon";
         [self addSubview:_badgeBackdropView];
         
         _badgeImageView = [[UIImageView alloc] init];
-        [_badgeImageView setImage:[UIImage imageNamed:kBigHitWriterBadgeIconId]];
         [self addSubview:_badgeImageView];
         
         _levelLabel = [[UILabel alloc] init];
