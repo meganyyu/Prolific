@@ -21,6 +21,7 @@
 		711F75EE24D22BE00050D5CF /* RoundRanker.m in Sources */ = {isa = PBXBuildFile; fileRef = 711F75ED24D22BE00050D5CF /* RoundRanker.m */; };
 		712A9DFA24DB657A00B608ED /* Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 712A9DF924DB657A00B608ED /* Badge.m */; };
 		712A9DFE24DB659E00B608ED /* BadgeBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 712A9DFD24DB659E00B608ED /* BadgeBuilder.m */; };
+		712A9E0424DC786F00B608ED /* ProlificErrorLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 712A9E0124DBD73600B608ED /* ProlificErrorLogger.m */; };
 		713AA08C24C101B100A5950E /* ProjectBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3FE24BF6BCC005E1816 /* ProjectBuilder.m */; };
 		713AA08D24C1061F00A5950E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118C3F824BF67E7005E1816 /* Project.m */; };
 		71483FF824CB9680004B352E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71483FF724CB9680004B352E /* ProfileViewController.m */; };
@@ -114,6 +115,8 @@
 		712A9DF924DB657A00B608ED /* Badge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Badge.m; sourceTree = "<group>"; };
 		712A9DFC24DB659E00B608ED /* BadgeBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BadgeBuilder.h; sourceTree = "<group>"; };
 		712A9DFD24DB659E00B608ED /* BadgeBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BadgeBuilder.m; sourceTree = "<group>"; };
+		712A9E0024DBD73600B608ED /* ProlificErrorLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProlificErrorLogger.h; sourceTree = "<group>"; };
+		712A9E0124DBD73600B608ED /* ProlificErrorLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProlificErrorLogger.m; sourceTree = "<group>"; };
 		713AA08924C0E1E000A5950E /* DAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAO.h; sourceTree = "<group>"; };
 		713AA08A24C0E1E000A5950E /* DAO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAO.m; sourceTree = "<group>"; };
 		71483FF624CB9680004B352E /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
@@ -339,6 +342,15 @@
 				712A9DFD24DB659E00B608ED /* BadgeBuilder.m */,
 			);
 			path = "Badge Builder";
+			sourceTree = "<group>";
+		};
+		712A9E0324DBD73A00B608ED /* Prolific Error Logger */ = {
+			isa = PBXGroup;
+			children = (
+				712A9E0024DBD73600B608ED /* ProlificErrorLogger.h */,
+				712A9E0124DBD73600B608ED /* ProlificErrorLogger.m */,
+			);
+			path = "Prolific Error Logger";
 			sourceTree = "<group>";
 		};
 		713AA08324C0D5FD00A5950E /* Entity */ = {
@@ -782,6 +794,7 @@
 				71CF521E24C89198008DB4EF /* Color Scheme */,
 				713AA08824C0E0E600A5950E /* Persistence */,
 				7191116F24BD044D00070A32 /* Navigation */,
+				712A9E0324DBD73A00B608ED /* Prolific Error Logger */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1074,6 +1087,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				712A9E0424DC786F00B608ED /* ProlificErrorLogger.m in Sources */,
 				71CF521D24C7A32A008DB4EF /* DAO.m in Sources */,
 				710D62BE24DA197200DAFBD8 /* ComposeSnippetViewController.m in Sources */,
 				710D62BD24DA191800DAFBD8 /* ProlificBaseViewController.m in Sources */,

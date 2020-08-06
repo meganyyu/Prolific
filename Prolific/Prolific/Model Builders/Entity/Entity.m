@@ -11,7 +11,6 @@
 @implementation Entity
 
 - (instancetype)initWithBuilder:(EntityBuilder *)builder {
-    //add asserts that validate the builder here
     if (self = [super init]) {
         _Id = builder.Id;
     }
