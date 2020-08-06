@@ -10,13 +10,13 @@
 
 #pragma mark - Badge Types
 
-static NSString *const kWriterBadgeId = @"writer-badge";
-static NSString *const kBigHitBadgeId = @"big-hit-badge";
+static NSString *const kContributorBadgeId = @"contributor-badge";
+static NSString *const kBigHitWriterBadgeId = @"big-hit-writer-badge";
 static NSString *const kCreatorBadgeId = @"creator-badge";
 
 #pragma mark - Keys
 
-static NSString *const kLevelKey = @"username";
+static NSString *const kLevelKey = @"level";
 static NSString *const kGoalCompletedSoFarKey = @"goalCompletedSoFar";
 static NSString *const kTotalGoalKey = @"totalGoal";
 
@@ -30,9 +30,9 @@ static NSString *const kTotalGoalKey = @"totalGoal";
         _level = [NSNumber numberWithInt:1];
         _goalCompletedSoFar = [NSNumber numberWithInt:0];
         
-        if ([badgeType isEqualToString:kWriterBadgeId]) {
+        if ([badgeType isEqualToString:kContributorBadgeId]) {
             _totalGoal = [NSNumber numberWithInt:50];
-        } else if ([badgeType isEqualToString:kBigHitBadgeId]) {
+        } else if ([badgeType isEqualToString:kBigHitWriterBadgeId]) {
             _totalGoal = [NSNumber numberWithInt:20];
         } else if ([badgeType isEqualToString:kCreatorBadgeId]) {
             _totalGoal = [NSNumber numberWithInt:20];
