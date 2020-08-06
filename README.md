@@ -99,30 +99,33 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - [x] User can view projects they are following in their Favorites page
 - [x] Create MVP version of round winner selection algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to determine winning snippet
     - [x] Just outline the algorithm for now, and then build on it with tier 1 gamification stretch stories
-- [] Create logic for finalizing a snippet: (MVP version) For each starter project, there is a default number of rounds before the story is marked as complete.
+- [ ] Create logic for finalizing a snippet: (MVP version) For each starter project, there is a default number of rounds before the story is marked as complete.
 
 *Sprint 4*
-- [ ] Improve UI! Check that required UI elements are there
-    - [ ] Make sure app uses gesture recognizers (for MVP: tap user profile image to change it)
-    - [ ] Make sure app uses animations (e.g. fade in/out, e.g. animating a view growing and shrinking)
-    - [ ] Choose/add external library to add visual polish (for MVP: Lottie)
+- [x] Improve UI! Check that required UI elements are there
+    - [x] Make sure app uses gesture recognizers (for MVP: tap user profile image to change it)
+    - [x] Make sure app uses animations (e.g. fade in/out, e.g. animating a view growing and shrinking)
+    - [x] Choose/add external library to add visual polish (for MVP: Lottie)
 
 **Tier 1 Stretch Stories**
 
 - [ ] User can compose their own starter projects
 - [ ] Gamification
-    - [ ] Set up system to update karma for user easily
-    - [ ] These engagement factors go through a function to generate your karma:
-        - [ ] submit a snippet: 0.6 x user karma
-        - [ ] voting on a snippet: 0.6 x user karma
-        - [ ] winning a round: 2.5 x user karma
-        - [ ] viewing projects: 0.01 x user karma (but only up to 100 views)
-        - [ ] compose a starter project: 1.0 x user karma
+    - [x] Set up system to update karma for user easily
+    - [x] These engagement factors go through a function to generate your karma:
+        - submit a snippet
+        - voting on a snippet
+        - winning a round
+        - compose a starter project
     -  Purpose of karma
         - Votes of users without much karma is worth very little
         - Power of a user's vote is # votes x karma
         - If a user votes for multiple snippets in a round then the weight of their vote is divided proportionately by the number of votes the user makes
-- [ ] User can see their profile page with their own projects/snippets they've contributed to other projects and their points
+    - [ ] Set up badge system, user can view their badge progress on profile
+        - Contributor badge
+        - Big Hit Writer badge
+        - Creator badge
+- [x] User can see their profile page with their own projects/snippets they've contributed to other projects and their points
 - [ ] User can view other user’s profiles by tapping on the author photo of a snippet, and see their points/what projects they've created
 
 **Tier 2 Stretch Stories**
