@@ -86,12 +86,20 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (void)getUserWithId:(NSString *)userId
            completion:(void(^)(User *user, NSError *error))completion {
-    [[[_db collectionWithPath:kUsersKey] documentWithPath:userId] getDocumentWithCompletion:^(FIRDocumentSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+    [[[_db collectionWithPath:kUsersKey] documentWithPath:userId] getDocumentWithCompletion:^(FIRDocumentSnapshot *snapshot, NSError *error) {
         if (error != nil) {
             completion(nil, error);
         } else {
-            User *const user = [self buildUserWithId:userId fromData:snapshot.data];
-            user ? completion(user, nil) : completion(nil, error);
+            [self getAllBadgesForUserId:userId completion:^(NSMutableArray<Badge *> *badges, NSError *error) {
+                if (!error) {
+                    User *const user = [self buildUserWithId:userId
+                                                    fromData:snapshot.data
+                                                  withBadges:badges];
+                    completion(user, nil);
+                } else {
+                    completion(nil, error);
+                }
+            }];
         }
     }];
 }
@@ -494,9 +502,11 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 #pragma mark - Helper functions
 
 - (User *)buildUserWithId:(NSString *)userId
-                   fromData:(NSDictionary *)data {
+                 fromData:(NSDictionary *)data
+               withBadges:(NSMutableArray<Badge *> *)badges {
     UserBuilder *const userBuilder = [[UserBuilder alloc] initWithId:userId
-                                                          dictionary:data];
+                                                          dictionary:data
+                                                              badges:badges];
     User *const user = [userBuilder build];
     
     if (user != nil) {
