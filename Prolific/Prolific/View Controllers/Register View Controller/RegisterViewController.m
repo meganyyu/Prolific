@@ -12,6 +12,7 @@
 @import FirebaseAuth;
 @import FirebaseFirestore;
 #import "NavigationManager.h"
+#import "ProlificErrorLogger.h"
 #import "SceneDelegate.h"
 #import "UIColor+ProlificColors.h"
 #import "User.h"
@@ -214,7 +215,8 @@ static NSString *const kUsernameKey = @"username";
                     }];
                 } else {
                     // FIXME: remove user from Firebase Auth if fails to save to Firestore
-                    NSLog(@"Account creation failed, aborting.");
+                    [ProlificErrorLogger logErrorWithMessage:@"Account creation failed, aborting."
+                                            shouldRaiseAlert:YES];
                 }
             } else {
                 [self showError:error.localizedDescription];

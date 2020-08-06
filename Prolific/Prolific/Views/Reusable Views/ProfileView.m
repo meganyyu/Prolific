@@ -9,6 +9,7 @@
 #import "ProfileView.h"
 
 @import Lottie;
+#import "ProlificErrorLogger.h"
 #import "UIColor+ProlificColors.h"
 
 static NSString *const kProfileIconId = @"profile-icon";
@@ -78,7 +79,8 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         _imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
     } else {
-        NSLog(@"Camera 🚫 available so we will use photo library instead");
+        [ProlificErrorLogger logErrorWithMessage:@"Camera 🚫 available so we will use photo library instead"
+                                shouldRaiseAlert:NO];
         _imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
 }
@@ -183,7 +185,8 @@ didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey,id> *
     __weak typeof (self) weakSelf = self;
     FIRStorageUploadTask *const uploadTask = [_dao uploadProfileImage:imageData forUser:_user completion:^(NSURL *downloadURL, NSError *error) {
         if (error) {
-            NSLog(@"Error uploading data: %@", error.localizedDescription);
+            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error uploading photo: %@", error.localizedDescription]
+                                    shouldRaiseAlert:YES];
         }
     }];
     

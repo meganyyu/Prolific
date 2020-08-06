@@ -12,6 +12,7 @@
 @import FirebaseAuth;
 #import "NavigationManager.h"
 #import "SnippetCell.h"
+#import "ProlificErrorLogger.h"
 #import "UIColor+ProlificColors.h"
 #import "RoundRanker.h"
 #import "UserEngagementManager.h"
@@ -102,7 +103,8 @@
                 }
             });
         } else {
-            NSLog(@"Error retrieving submissions: %@", error.localizedDescription);
+            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error retrieving submissions: %@", error.localizedDescription]
+                                    shouldRaiseAlert:NO];
         }
     }];
 }
@@ -127,7 +129,8 @@
         if (strongSelf == nil) return;
         
         if (error) {
-            NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
+            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating server with vote: %@", error.localizedDescription]
+                                    shouldRaiseAlert:NO];
         } else {
             [strongSelf.dao updateExistingRound:round
                                    forProjectId:strongSelf.project.projectId
@@ -145,12 +148,14 @@
                         strongSelf.currUser = updatedUser;
                         [strongSelf.dao saveUser:strongSelf.currUser completion:^(NSError *error) {
                             if (error) {
-                                NSLog(@"error updating user's karma");
+                                [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating user's karma: %@", error.localizedDescription]
+                                                        shouldRaiseAlert:NO];
                             }
                         }];
                     }
                 } else {
-                    NSLog(@"Error updating firebase with vote: %@", error.localizedDescription);
+                    [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating server with vote: %@", error.localizedDescription]
+                                            shouldRaiseAlert:NO];
                 }
             }];
         }

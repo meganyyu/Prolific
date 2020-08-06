@@ -11,6 +11,7 @@
 @import FirebaseAuth;
 #import "DAO.h"
 #import "NavigationManager.h"
+#import "ProlificErrorLogger.h"
 #import "SnippetBuilder.h"
 #import "UIColor+ProlificColors.h"
 
@@ -123,7 +124,8 @@ static NSString *const kSubmitIconId = @"submit-icon";
                     }
                 });
             } else {
-                NSLog(@"Failed to submit snippet, try again.");
+                [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Failed to submit snippet: %@", error.localizedDescription]
+                                        shouldRaiseAlert:YES];
             }
         }];
     }

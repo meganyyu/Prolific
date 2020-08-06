@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - User
 
-/** Save a user's data to database. */
+/** Save a user's data to server. */
 - (void)saveUser:(User *)user
       completion:(void(^)(NSError *error))completion;
 

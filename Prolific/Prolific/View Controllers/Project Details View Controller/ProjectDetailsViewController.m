@@ -14,6 +14,7 @@
 #import "ComposeSnippetViewController.h"
 #import "ProjectCell.h"
 #import "ProjectUpdateManager.h"
+#import "ProlificErrorLogger.h"
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
 #import "UserEngagementManager.h"
@@ -109,7 +110,8 @@
                                                             forUser:_currUser
                                                navigationController:self.navigationController];
     } else {
-        NSLog(@"Nothing to preview.");
+        [ProlificErrorLogger logErrorWithMessage:@"Nothing to preview, rounds loaded incorrectly"
+                                shouldRaiseAlert:NO];
     }
 }
 
@@ -120,7 +122,8 @@
     
     [_dao updateFollowersforProject:project withUserId:currUserId completion:^(NSError *error) {
         if (error) {
-            NSLog(@"Error updating firebase with follow: %@", error.localizedDescription);
+            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating server with follow: %@", error.localizedDescription]
+                                    shouldRaiseAlert:NO];
         }
     }];
 }
@@ -135,7 +138,8 @@
                                                              projectId:_project.projectId
                                                     fromViewController:self];
     } else {
-        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
+        [ProlificErrorLogger logErrorWithMessage:@"Project's rounds array was created without any Round objects"
+                                shouldRaiseAlert:NO];
     }
 }
 
@@ -156,12 +160,14 @@
             _currUser = updatedUser;
             [_dao saveUser:_currUser completion:^(NSError *error) {
                 if (error) {
-                    NSLog(@"error updating user's karma");
+                    [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating user's karma: %@", error.localizedDescription]
+                                            shouldRaiseAlert:NO];
                 }
             }];
         }
     } else {
-        NSLog(@"Error adding submission to project.");
+        [ProlificErrorLogger logErrorWithMessage:@"Error adding submission to project."
+                                shouldRaiseAlert:YES];
     }
 }
 
