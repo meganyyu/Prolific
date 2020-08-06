@@ -16,9 +16,12 @@
     self = [super init];
     if (self) {
         _badgeType = builder.badgeType;
+        _badgeName = builder.badgeName;
         _level = builder.level;
         _goalCompletedSoFar = builder.goalCompletedSoFar;
         _totalGoal = builder.totalGoal;
+        _metricType = builder.metricType;
+        _actionType = builder.actionType;
     }
     return self;
 }

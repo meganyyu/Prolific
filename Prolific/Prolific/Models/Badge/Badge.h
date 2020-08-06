@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and immutable) attributes
 @property (nonatomic, strong, readonly) NSString *badgeType;
+@property (nonatomic, strong, readonly) NSString *badgeName;
+@property (nonatomic, strong, readonly) NSString *metricType;
+@property (nonatomic, strong, readonly) NSString *actionType;
 
 // required (and mutable) attributes
 @property (nonatomic, strong, readonly) NSNumber *level;
