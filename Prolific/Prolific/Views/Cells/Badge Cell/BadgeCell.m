@@ -27,14 +27,24 @@ static NSString *const kCreatorBadgeIconId = @"creator-badge-icon";
         [self addSubview:_badgeBackdropView];
         
         _badgeImageView = [[UIImageView alloc] init];
-        _badgeImageView.backgroundColor = [UIColor whiteColor];
+        [_badgeImageView setImage:[UIImage imageNamed:kBigHitWriterBadgeIconId]];
         [self addSubview:_badgeImageView];
         
-        _badgeLevelLabel = [[UILabel alloc] init];
-        _badgeLevelLabel.textColor = [UIColor whiteColor];
-        _badgeLevelLabel.font = [UIFont systemFontOfSize:14];
-        _badgeLevelLabel.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:_badgeLevelLabel];
+        _levelLabel = [[UILabel alloc] init];
+        _levelLabel.textColor = [UIColor whiteColor];
+        _levelLabel.font = [UIFont systemFontOfSize:14];
+        _levelLabel.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:_levelLabel];
+        
+        _typeLabel = [[UILabel alloc] init];
+        _typeLabel.textColor = [UIColor blackColor];
+        _typeLabel.font = [UIFont systemFontOfSize:18];
+        [self addSubview:_typeLabel];
+        
+        _progressLabel = [[UILabel alloc] init];
+        _progressLabel.textColor = [UIColor blackColor];
+        _progressLabel.font = [UIFont systemFontOfSize:14];
+        [self addSubview:_progressLabel];
         
         _progressBar = [[UIView alloc] init];
         _progressBar.backgroundColor = [UIColor ProlificGray2Color];
@@ -66,14 +76,28 @@ static NSString *const kCreatorBadgeIconId = @"creator-badge-icon";
     CGFloat const levelLabelHeight = 0.2 * badgeHeight;
     CGFloat const levellabelX = _badgeBackdropView.center.x - levelLabelWidth / 2.0;
     CGFloat const levelLabelY = badgeImageY + badgeImageHeight + 0.05 * badgeHeight;
-    _badgeLevelLabel.frame = CGRectMake(levellabelX, levelLabelY, levelLabelWidth, levelLabelHeight);
-    _badgeLevelLabel.text = @"Level 1";
+    _levelLabel.frame = CGRectMake(levellabelX, levelLabelY, levelLabelWidth, levelLabelHeight);
+    _levelLabel.text = @"Level 1";
     
     CGFloat const progressBarWidth = 0.6 * boundsWidth;
-    CGFloat const progressBarHeight = 10;
+    CGFloat const progressBarHeight = 15;
     CGFloat const progressBarX = badgeX + badgeWidth + 30;
-    CGFloat const progressBarY = boundsHeight / 2.0 - progressBarHeight / 2.0;
+    CGFloat const progressBarY = badgeY + badgeHeight - progressBarHeight;
     _progressBar.frame = CGRectMake(progressBarX, progressBarY, progressBarWidth, progressBarHeight);
+    
+    CGFloat const typeLabelWidth = progressBarWidth;
+    CGFloat const typeLabelHeight = 0.3 * badgeHeight;
+    CGFloat const typeLabelX = progressBarX;
+    CGFloat const typeLabelY = badgeImageY;
+    _typeLabel.frame = CGRectMake(typeLabelX, typeLabelY, typeLabelWidth, typeLabelHeight);
+    _typeLabel.text = @"Big Hit Writer";
+
+    CGFloat const progressLabelWidth = progressBarWidth;
+    CGFloat const progressLabelHeight = 0.2 * badgeHeight;
+    CGFloat const progressLabelX = typeLabelX;
+    CGFloat const progressLabelY = typeLabelY + typeLabelHeight + 0.05 * boundsHeight;
+    _progressLabel.frame = CGRectMake(progressLabelX, progressLabelY, progressLabelWidth, progressLabelHeight);
+    _progressLabel.text = @"Submit 50 snippets for this level";
 }
 
 @end

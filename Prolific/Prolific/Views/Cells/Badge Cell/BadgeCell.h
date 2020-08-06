@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIView *badgeBackdropView;
 @property (nonatomic, strong) UIImageView *badgeImageView;
-@property (nonatomic, strong) UILabel *badgeLevelLabel;
+@property (nonatomic, strong) UILabel *typeLabel;
+@property (nonatomic, strong) UILabel *progressLabel;
+@property (nonatomic, strong) UILabel *levelLabel;
 @property (nonatomic, strong) UIView *progressBar;
 
 @end
