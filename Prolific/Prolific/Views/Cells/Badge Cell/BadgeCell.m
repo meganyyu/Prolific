@@ -9,8 +9,8 @@
 #import "BadgeCell.h"
 #import "UIColor+ProlificColors.h"
 
-static NSString *const kWriterBadgeIconId = @"writer-badge-icon";
-static NSString *const kBigHitBadgeIconId = @"big-hit-badge-icon";
+static NSString *const kContributorBadgeIconId = @"contributor-badge-icon";
+static NSString *const kBigHitWriterBadgeIconId = @"big-hit-writer-badge-icon";
 static NSString *const kCreatorBadgeIconId = @"creator-badge-icon";
 
 @implementation BadgeCell
