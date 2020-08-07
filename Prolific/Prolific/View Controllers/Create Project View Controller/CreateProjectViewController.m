@@ -73,7 +73,7 @@ static NSString *const kSubmitIconId = @"submit-icon";
     UIButton *const submitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     submitButton.frame = CGRectMake(0, 0, 40, 40);
     [submitButton setImage:[[UIImage imageNamed:kSubmitIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
-                forState:UIControlStateNormal];
+                  forState:UIControlStateNormal];
     [submitButton addTarget:self
                      action:@selector(onTapCreate:)
            forControlEvents:UIControlEventTouchUpInside];

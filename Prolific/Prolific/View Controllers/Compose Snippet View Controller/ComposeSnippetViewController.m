@@ -112,20 +112,23 @@ static NSString *const kSubmitIconId = @"submit-icon";
     NSString *const cleanedText = [_composeTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if (![cleanedText isEqualToString:@""]) {
+        __weak typeof (self) weakSelf = self;
         [self submitSnippetWithCompletion:^(Snippet *snippet, Round *round, NSError *error) {
+            __strong typeof (weakSelf) strongSelf = weakSelf;
+            if (strongSelf == nil) return;
+            
             if (snippet && round) {
-                self.round = round;
-                [self.delegate didSubmit:snippet round:round];
+                strongSelf.round = round;
+                [strongSelf.delegate didSubmit:snippet round:round];
                 
-                __weak typeof(self) weakSelf = self;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    typeof(self) strongSelf = weakSelf;
+                    typeof (self) strongSelf = weakSelf;
                     if (strongSelf) {
                         [NavigationManager exitViewController:self.navigationController];
                     }
                 });
             } else {
-                [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Failed to submit snippet: %@", error.localizedDescription]
+                [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error submititng snippet: %@", error.localizedDescription]
                                         shouldRaiseAlert:YES];
             }
         }];

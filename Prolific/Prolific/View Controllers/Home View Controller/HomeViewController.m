@@ -123,7 +123,7 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
 #pragma mark - Load data
 
 - (void)loadProjects {
-    __weak typeof(self) weakSelf = self;
+    __weak typeof (self) weakSelf = self;
     [_dao getAllProjectsWithCompletion:^(NSArray * _Nonnull projects, NSError * _Nonnull error) {
         if (projects) {
             weakSelf.projectArray = (NSMutableArray *) projects;
