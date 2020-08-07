@@ -62,6 +62,7 @@ static NSString *const kSubmitIconId = @"submit-icon";
     _composeTextView = [[UITextView alloc] init];
     _composeTextView.backgroundColor = [UIColor ProlificBackgroundGrayColor];
     _composeTextView.textColor = [UIColor blackColor];
+    [_composeTextView becomeFirstResponder];
     [_composeView addSubview:_composeTextView];
 }
 
