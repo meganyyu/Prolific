@@ -138,6 +138,10 @@ static NSString *const creatorBadgeActionType = @"create";
 
 - (BadgeBuilder *)addToGoal:(NSInteger)amount {
     _goalCompletedSoFar = [NSNumber numberWithLong:[_goalCompletedSoFar intValue] + amount];
+    if (_goalCompletedSoFar >= _totalGoal) {
+        _goalCompletedSoFar = [NSNumber numberWithLong:[_goalCompletedSoFar intValue] - [_totalGoal intValue]];
+        _level = [NSNumber numberWithLong:[_level intValue] + 1];
+    }
     return self;
 }
 
