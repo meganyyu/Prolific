@@ -14,6 +14,7 @@
 #import "ProjectCell.h"
 #import "Project.h"
 #import "ProjectBuilder.h"
+#import "ProlificErrorLogger.h"
 #import "UIColor+ProlificColors.h"
 #import "User.h"
 
@@ -178,10 +179,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSError *signOutError;
     BOOL status = [[FIRAuth auth] signOut:&signOutError];
     if (!status) {
-        NSLog(@"Error signing out: %@", signOutError);
+        [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error signing out: %@", signOutError]
+                                shouldRaiseAlert:YES];
         return;
     } else {
-        NSLog(@"Successfully signed out.");
         SceneDelegate *const sceneDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
         [NavigationManager presentLoggedOutScreenWithSceneDelegate:sceneDelegate];
     }

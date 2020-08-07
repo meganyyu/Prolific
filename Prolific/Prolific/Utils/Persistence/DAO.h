@@ -12,6 +12,7 @@
 #import "Round.h"
 #import "Snippet.h"
 #import "User.h"
+#import "Badge.h"
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,13 +21,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - User
 
-/** Save a user's data to database. */
+/** Save a user's data to server. */
 - (void)saveUser:(User *)user
       completion:(void(^)(NSError *error))completion;
 
-/** Gets user with userId. */
+/** Gets user with userId, including their badges and any metadata. */
 - (void)getUserWithId:(NSString *)userId
            completion:(void(^)(User *user, NSError *error))completion;
+
+/** Updates data for one of a user's badges. */
+- (void)saveBadge:(Badge *)badge
+        forUserId:(NSString *)userId
+       completion:(void(^)(NSError *error))completion;
+
+/** Gets all of a user's badges. */
+- (void)getAllBadgesForUserId:(NSString *)userId
+                   completion:(void(^)(NSMutableDictionary<NSString *, Badge *> *badges, NSError *error))completion;
 
 /** Retrieves all projects that a user is following. Passes back array of projects if successful. Else passes back error. */
 - (void)getAllFollowedProjectsforUserId:(NSString *)userId

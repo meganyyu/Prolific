@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "tapped-explore-icon.png",
+      "filename" : "editor-badge-icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "tapped-explore-icon@2x.png",
+      "filename" : "editor-badge-icon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "tapped-explore-icon@3x.png",
+      "filename" : "editor-badge-icon@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

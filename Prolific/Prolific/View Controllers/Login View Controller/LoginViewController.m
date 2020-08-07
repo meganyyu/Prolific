@@ -59,6 +59,7 @@ static NSString *const kPasswordKey = @"password";
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _passwordField.secureTextEntry = YES;
     [_loginContentView addSubview:_passwordField];
     
     _loginButton = [[UIButton alloc] init];

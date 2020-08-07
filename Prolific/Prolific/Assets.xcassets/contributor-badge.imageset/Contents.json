@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "round-compose-icon.png",
+      "filename" : "contributor-badge-icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "round-compose-icon@2x.png",
+      "filename" : "contributor-badge-icon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "round-compose-icon@3x.png",
+      "filename" : "contributor-badge-icon@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

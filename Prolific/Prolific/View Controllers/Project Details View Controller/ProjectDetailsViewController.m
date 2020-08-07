@@ -14,9 +14,16 @@
 #import "ComposeSnippetViewController.h"
 #import "ProjectCell.h"
 #import "ProjectUpdateManager.h"
+#import "ProlificErrorLogger.h"
 #import "RoundCell.h"
 #import "UIColor+ProlificColors.h"
 #import "UserEngagementManager.h"
+
+#pragma mark - Badge Types
+
+static NSString *const kContributorBadgeId = @"contributor-badge";
+static NSString *const kBigHitWriterBadgeId = @"big-hit-writer-badge";
+static NSString *const kCreatorBadgeId = @"creator-badge";
 
 #pragma mark - Interface
 
@@ -109,7 +116,8 @@
                                                             forUser:_currUser
                                                navigationController:self.navigationController];
     } else {
-        NSLog(@"Nothing to preview.");
+        [ProlificErrorLogger logErrorWithMessage:@"Nothing to preview, rounds loaded incorrectly"
+                                shouldRaiseAlert:NO];
     }
 }
 
@@ -120,7 +128,8 @@
     
     [_dao updateFollowersforProject:project withUserId:currUserId completion:^(NSError *error) {
         if (error) {
-            NSLog(@"Error updating firebase with follow: %@", error.localizedDescription);
+            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating server with follow: %@", error.localizedDescription]
+                                    shouldRaiseAlert:NO];
         }
     }];
 }
@@ -135,7 +144,8 @@
                                                              projectId:_project.projectId
                                                     fromViewController:self];
     } else {
-        NSLog(@"Error, looks like project's rounds array was created without any Round objects in it.");
+        [ProlificErrorLogger logErrorWithMessage:@"Project's rounds array was created without any Round objects"
+                                shouldRaiseAlert:NO];
     }
 }
 
@@ -150,18 +160,31 @@
         Project *const updatedProj = [projBuilder build];
         _project = updatedProj;
         
-        User *const updatedUser = [UserEngagementManager updateKarmaForUser:_currUser
-                                                              forEngagement:UserEngagementTypeSubmitSnippet];
+        User *const updatedUser = [UserEngagementManager updateKarmaAndBadgesForUser:_currUser
+                                                                       forEngagement:UserEngagementTypeSubmitSnippet];
         if (updatedUser) {
             _currUser = updatedUser;
+            
+            __weak typeof (self) weakSelf = self;
             [_dao saveUser:_currUser completion:^(NSError *error) {
                 if (error) {
-                    NSLog(@"error updating user's karma");
+                    [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating user's karma: %@", error.localizedDescription]
+                                            shouldRaiseAlert:NO];
+                } else {
+                    [weakSelf.dao saveBadge:[weakSelf.currUser.badges valueForKey:kContributorBadgeId]
+                                  forUserId:weakSelf.currUser.userId
+                                 completion:^(NSError *error) {
+                        if (error) {
+                            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating user's contributor badge data: %@", error.localizedDescription]
+                                                    shouldRaiseAlert:NO];
+                        }
+                    }];
                 }
             }];
         }
     } else {
-        NSLog(@"Error adding submission to project.");
+        [ProlificErrorLogger logErrorWithMessage:@"Error adding submission to project."
+                                shouldRaiseAlert:YES];
     }
 }
 

@@ -9,6 +9,7 @@
 #import "RoundBuilder.h"
 
 @import Firebase;
+#import "ProlificErrorLogger.h"
 
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kEndTimeKey = @"endTime";
@@ -169,12 +170,13 @@ static NSString *const kCurrentKarmaKey = @"currentKarma";
     if ([self needToExtendTime]) {
         NSDateComponents *const dayComponent = [[NSDateComponents alloc] init];
         dayComponent.day = 1;
-        NSLog(@"Extending deadline! End time is originally: %@", _endTime);
         NSCalendar *const currCalendar = [NSCalendar currentCalendar];
         NSDate *const extendedEndTime = [currCalendar dateByAddingComponents:dayComponent toDate:_endTime options:0];
         
+        [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Extending deadline! Original end time: %@, New end time: %@", _endTime, extendedEndTime]
+                                shouldRaiseAlert:NO];
         _endTime = extendedEndTime;
-        NSLog(@"New end time is: %@", _endTime);
+        
         return self;
     }
     return nil;

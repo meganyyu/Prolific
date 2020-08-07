@@ -10,7 +10,9 @@
 
 #import "Entity.h"
 
+#import "Badge.h"
 #import "User.h"
+#import "UserEngagementManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,12 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *email;
 @property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong, readonly) NSDecimalNumber *karma;
+@property (nonatomic, strong) NSDecimalNumber *karma;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, Badge *> *badges;
 
 #pragma mark - Methods
 
 /** Returns UserBuilder with all fields initialized based on dictionary data, unless data is missing values, in which case it initializes a UserBuilder the same way as init does. */
-- (instancetype)initWithId:(NSString *)userId dictionary:(NSDictionary *)data;
+- (instancetype)initWithId:(NSString *)userId
+                dictionary:(NSDictionary *)data
+                    badges:(NSMutableDictionary<NSString *, Badge *> *)badges;
 
 /** Returns UserBuilder with all fields initialized as a copy of a User model. */
 - (instancetype)initWithUser:(User *)user;
@@ -46,6 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (UserBuilder *)withKarma:(NSDecimalNumber *)karma;
 
 - (UserBuilder *)addKarma:(NSDecimalNumber *)additionalKarma;
+
+- (UserBuilder *)withBadges:(NSMutableDictionary<NSString *, Badge *> *)badges;
+
+- (UserBuilder *)updateExistingBadge:(Badge *)badge;
 
 /** Returns fully built User if UserBuilder has all fields initialized properly. Else returns nil. */
 - (User *)build;

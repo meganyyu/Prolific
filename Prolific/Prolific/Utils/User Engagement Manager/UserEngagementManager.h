@@ -22,8 +22,8 @@ typedef NS_ENUM(NSInteger, UserEngagementType) {
     UserEngagementTypeCompleteBadge
 };
 
-+ (User *)updateKarmaForUser:(User *)user
-               forEngagement:(UserEngagementType)userEngagementType;
++ (User *)updateKarmaAndBadgesForUser:(User *)user
+                        forEngagement:(UserEngagementType)userEngagementType;
 
 + (NSDecimalNumber *)computeKarmaValueForUserEngagementType:(UserEngagementType)userEngagementType;
 

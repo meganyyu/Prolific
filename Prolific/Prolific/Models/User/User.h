@@ -10,6 +10,7 @@
 
 #import "Entity.h"
 
+#import "Badge.h"
 #import "UserBuilder.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSString *email;
 @property (nonatomic, strong, readonly) NSString *displayName;
 @property (nonatomic, strong, readonly) NSDecimalNumber *karma;
+@property (nonatomic, strong, readonly) NSDictionary<NSString *, Badge *> *badges;
 
 #pragma mark - Methods
 

@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (UIColor *)ProlificPrimaryBlueColor;
 
++ (UIColor *)ProlificBlue1Color;
+
++ (UIColor *)ProlificBlue2Color;
+
++ (UIColor *)ProlificGoldColor;
+
 + (UIColor *)ProlificRedColor;
 
 + (UIColor *)ProlificGray1Color;
