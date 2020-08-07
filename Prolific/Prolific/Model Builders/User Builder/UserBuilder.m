@@ -27,19 +27,20 @@ static NSString *const kBadgesKey = @"badges";
         _email = nil;
         _displayName = nil;
         _karma = [NSDecimalNumber one];
-        _badges = [[NSMutableArray alloc] init];
+        _badges = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (instancetype)initWithId:(NSString *)userId
                 dictionary:(NSDictionary *)data
-                    badges:(NSMutableArray *)badges {
+                    badges:(NSMutableDictionary<NSString *, Badge *> *)badges {
     self = [self init];
     
     if (self) {
         if (userId &&
-            [self validateRequiredDictionaryData:data]) {
+            [self validateRequiredDictionaryData:data] &&
+            [badges isKindOfClass:[NSMutableDictionary<NSString *, Badge *> class]]) {
             _userId = userId;
             _username = data[kUsernameKey];
             _email = @""; //FIXME: load with actual email from FIRAuth
@@ -99,8 +100,13 @@ static NSString *const kBadgesKey = @"badges";
     return self;
 }
 
-- (UserBuilder *)withBadges:(NSMutableArray<Badge *> *)badges {
+- (UserBuilder *)withBadges:(NSMutableDictionary<NSString *, Badge *> *)badges {
     _badges = [badges mutableCopy];
+    return self;
+}
+
+- (UserBuilder *)updateExistingBadge:(Badge *)badge {
+    [_badges setValue:badge forKey:badge.badgeType];
     return self;
 }
 

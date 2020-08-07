@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Gets all of a user's badges. */
 - (void)getAllBadgesForUserId:(NSString *)userId
-                   completion:(void(^)(NSMutableArray<Badge *> *badges, NSError *error))completion;
+                   completion:(void(^)(NSMutableDictionary<NSString *, Badge *> *badges, NSError *error))completion;
 
 /** Retrieves all projects that a user is following. Passes back array of projects if successful. Else passes back error. */
 - (void)getAllFollowedProjectsforUserId:(NSString *)userId
