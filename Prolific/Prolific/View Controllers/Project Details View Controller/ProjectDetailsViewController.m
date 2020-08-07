@@ -19,6 +19,12 @@
 #import "UIColor+ProlificColors.h"
 #import "UserEngagementManager.h"
 
+#pragma mark - Badge Types
+
+static NSString *const kContributorBadgeId = @"contributor-badge";
+static NSString *const kBigHitWriterBadgeId = @"big-hit-writer-badge";
+static NSString *const kCreatorBadgeId = @"creator-badge";
+
 #pragma mark - Interface
 
 @interface ProjectDetailsViewController () <ProjectCellDelegate, TextCellDelegate, ComposeSnippetViewControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -154,14 +160,25 @@
         Project *const updatedProj = [projBuilder build];
         _project = updatedProj;
         
-        User *const updatedUser = [UserEngagementManager updateKarmaForUser:_currUser
-                                                              forEngagement:UserEngagementTypeSubmitSnippet];
+        User *const updatedUser = [UserEngagementManager updateKarmaAndBadgesForUser:_currUser
+                                                                       forEngagement:UserEngagementTypeSubmitSnippet];
         if (updatedUser) {
             _currUser = updatedUser;
+            
+            __weak typeof (self) weakSelf = self;
             [_dao saveUser:_currUser completion:^(NSError *error) {
                 if (error) {
                     [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating user's karma: %@", error.localizedDescription]
                                             shouldRaiseAlert:NO];
+                } else {
+                    [weakSelf.dao saveBadge:[weakSelf.currUser.badges valueForKey:kContributorBadgeId]
+                                  forUserId:weakSelf.currUser.userId
+                                 completion:^(NSError *error) {
+                        if (error) {
+                            [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error updating user's contributor badge data: %@", error.localizedDescription]
+                                                    shouldRaiseAlert:NO];
+                        }
+                    }];
                 }
             }];
         }

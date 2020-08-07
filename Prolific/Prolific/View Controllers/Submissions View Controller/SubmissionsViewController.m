@@ -142,8 +142,8 @@
                     strongSelf.round = round;
                     strongSelf.project = project;
                     
-                    User *const updatedUser = [UserEngagementManager updateKarmaForUser:strongSelf.currUser
-                                                                          forEngagement:UserEngagementTypeVote];
+                    User *const updatedUser = [UserEngagementManager updateKarmaAndBadgesForUser:strongSelf.currUser
+                                                                                   forEngagement:UserEngagementTypeVote];
                     if (updatedUser) {
                         strongSelf.currUser = updatedUser;
                         [strongSelf.dao saveUser:strongSelf.currUser completion:^(NSError *error) {
