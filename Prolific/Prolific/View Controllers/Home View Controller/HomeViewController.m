@@ -98,17 +98,18 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
     CGFloat const buttonY = boundsHeight - self.tabBarController.tabBar.frame.size.height - buttonHeight - buttonMargin;
     
     _createButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _createButton.frame = CGRectMake(buttonX, buttonY, 70, 70);
+    _createButton.frame = CGRectMake(buttonX, buttonY, 60, 60);
     [_createButton setImage:[[UIImage imageNamed:kCreateProjectIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                    forState:UIControlStateNormal];
     [_createButton addTarget:self
                       action:@selector(onTapCreateProject:)
             forControlEvents:UIControlEventTouchUpInside];
     
+    _createButton.layer.cornerRadius = _createButton.frame.size.height / 2.0;
     _createButton.layer.shadowColor = [UIColor blackColor].CGColor;
     _createButton.layer.shadowOpacity = 0.25;
-    _createButton.layer.shadowRadius = 10;
-    _createButton.layer.shadowOffset = CGSizeMake(4.0f, 4.0f);
+    _createButton.layer.shadowRadius = 5;
+    _createButton.layer.shadowOffset = CGSizeMake(0, 10);
     
     [self.view addSubview:_createButton];
 }
