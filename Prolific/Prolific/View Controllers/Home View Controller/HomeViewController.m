@@ -157,8 +157,17 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
 #pragma mark - CreateProjectViewControllerDelegate Protocol
 
 - (void)didCreateProject:(Project *)project {
-    [_projectArray insertObject:project atIndex:0];
-    [_collectionView reloadData];
+    __weak typeof (self) weakSelf = self;
+    if (project) {
+        [weakSelf.projectArray insertObject:project atIndex:0];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __strong typeof (self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.collectionView reloadData];
+            }
+        });
+    }
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
@@ -174,6 +183,7 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
                                                                   forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
     cell.cellView.followButton.hidden = YES;
+    [cell setNeedsLayout];
     return cell;
 }
 
