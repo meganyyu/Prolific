@@ -47,9 +47,7 @@ static NSString *const kCreatorBadgeId = @"creator-badge";
         _progressLabel.font = [UIFont systemFontOfSize:14];
         [self addSubview:_progressLabel];
         
-        _progressBar = [[UIView alloc] init];
-        _progressBar.backgroundColor = [UIColor ProlificGray2Color];
-        _progressBar.layer.cornerRadius = 5.0;
+        _progressBar = [[HorizontalProgressBar alloc] init];
         [self addSubview:_progressBar];
     }
     return self;
@@ -108,6 +106,9 @@ static NSString *const kCreatorBadgeId = @"creator-badge";
     
     NSInteger goalRemaining = [_badge.totalGoal intValue] - [_badge.goalCompletedSoFar intValue];
     _progressLabel.text = [NSString stringWithFormat:@"%@ %ld more %@!", _badge.actionType, goalRemaining, _badge.metricType];
+    
+    CGFloat progress = [_badge.goalCompletedSoFar floatValue] / [_badge.totalGoal floatValue];
+    [_progressBar setProgress:progress];
 }
 
 @end

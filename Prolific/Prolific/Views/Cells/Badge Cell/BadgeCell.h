@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "Badge.h"
+#import "HorizontalProgressBar.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *typeLabel;
 @property (nonatomic, strong) UILabel *progressLabel;
 @property (nonatomic, strong) UILabel *levelLabel;
-@property (nonatomic, strong) UIView *progressBar;
+@property (nonatomic, strong) HorizontalProgressBar *progressBar;
 
 @end
 
