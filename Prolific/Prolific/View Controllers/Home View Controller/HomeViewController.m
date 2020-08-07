@@ -26,7 +26,7 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
 
 #pragma mark - Interface
 
-@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CreateProjectViewControllerDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) FloatingActionButton *createButton;
@@ -151,7 +151,14 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
 }
 
 - (void)onTapCreateProject:(id)sender {
-    
+    [NavigationManager presentCreateProjectViewControllerfromViewController:self];
+}
+
+#pragma mark - CreateProjectViewControllerDelegate Protocol
+
+- (void)didCreateProject:(Project *)project {
+    [_projectArray insertObject:project atIndex:0];
+    [_collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
