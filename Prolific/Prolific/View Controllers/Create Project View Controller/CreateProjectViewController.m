@@ -13,6 +13,7 @@
 #import "NavigationManager.h"
 #import "ProlificErrorLogger.h"
 #import "ProjectBuilder.h"
+#import "RoundBuilder.h"
 #import "UIColor+ProlificColors.h"
 
 static NSString *const kSubmitIconId = @"submit-icon";
@@ -127,7 +128,39 @@ static NSString *const kSubmitIconId = @"submit-icon";
 }
 
 - (void)onTapCreate:(id)sender{
+    [_titleTextField endEditing:YES];
+    [_seedTextView endEditing:YES];
     
+    NSString *const cleanedTitleText = [_titleTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *const cleanedSeedText = [_seedTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if (![cleanedTitleText isEqualToString:@""] &&
+        ![cleanedSeedText isEqualToString:@""]) {
+        ProjectBuilder *const projectBuilder = [[[[ProjectBuilder alloc] init]
+                                                 withName:cleanedTitleText]
+                                                withSeed:cleanedSeedText];
+        RoundBuilder *const roundBuilder = [[RoundBuilder alloc] init];
+        
+        __weak typeof (self) weakSelf = self;
+        [_dao saveNewProjectWithProjectBuilder:projectBuilder
+                         withFirstRoundBuilder:roundBuilder
+                                    completion:^(Project *project, NSError *error) {
+            if (project) {
+                [weakSelf.delegate didCreateProject:project];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    typeof(self) strongSelf = weakSelf;
+                    if (strongSelf) {
+                        [NavigationManager exitViewController:self.navigationController];
+                    }
+                });
+            } else {
+                [ProlificErrorLogger logErrorWithMessage:[NSString stringWithFormat:@"Error creating project: %@", error.localizedDescription]
+                                        shouldRaiseAlert:YES];
+            }
+        }];
+        
+    }
 }
 
 @end
