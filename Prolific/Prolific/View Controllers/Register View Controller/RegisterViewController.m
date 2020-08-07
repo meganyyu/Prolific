@@ -84,6 +84,7 @@ static NSString *const kUsernameKey = @"username";
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
+    _passwordField.secureTextEntry = YES;
     [_registerContentView addSubview:_passwordField];
     
     _registerButton = [[UIButton alloc] init];
