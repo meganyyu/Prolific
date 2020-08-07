@@ -15,9 +15,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         _nameLabel = [[UILabel alloc] init];
+        [_nameLabel setFont:[UIFont systemFontOfSize:20]];
         [self addSubview:_nameLabel];
         
         _seedContentLabel = [[UILabel alloc] init];
+        [_seedContentLabel setFont:[UIFont systemFontOfSize:16]];
         [self addSubview:_seedContentLabel];
         
         _followButton = [[FollowButton alloc] init];
@@ -37,8 +39,8 @@
     // project name label
     _nameLabel.textColor = [UIColor blackColor];
     _nameLabel.numberOfLines = 0;
-    CGFloat const nameLabelHeight = 0.2 * boundsHeight;
-    CGFloat const nameLabelY = 0.05 * boundsHeight;
+    CGFloat const nameLabelHeight = 0.15 * boundsHeight;
+    CGFloat const nameLabelY = 0.15 * boundsHeight;
     _nameLabel.frame = CGRectMake(labelX, nameLabelY, labelWidth, nameLabelHeight);
     
     // seed content label
