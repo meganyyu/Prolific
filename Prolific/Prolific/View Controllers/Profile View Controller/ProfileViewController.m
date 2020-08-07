@@ -19,6 +19,7 @@
 
 @interface ProfileViewController () <ProfileViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic, strong) NSArray<Badge *> *badges;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) DAO *dao;
@@ -35,6 +36,7 @@
     self = [super init];
     if (self) {
         _user = user;
+        _badges = [_user.badges allValues];
     }
     return self;
 }
@@ -67,7 +69,13 @@
 - (void)loadUserWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
     [_dao getUserWithId:_user.userId completion:^(User *user, NSError *error) {
-        if (user) weakSelf.user = user;
+        __strong typeof (weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) return;
+        
+        if (user) {
+            strongSelf.user = user;
+            strongSelf.badges = [user.badges allValues];
+        }
         completion(error);
     }];
 }
@@ -113,7 +121,7 @@
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     BadgeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
                                                                 forIndexPath:indexPath];
-    cell.badge = _user.badges[indexPath.item];
+    cell.badge = _badges[indexPath.item];
     return cell;
 }
 
