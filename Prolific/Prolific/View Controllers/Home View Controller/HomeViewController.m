@@ -10,6 +10,7 @@
 
 #import "DAO.h"
 @import FirebaseAuth;
+#import "FloatingActionButton.h"
 #import "NavigationManager.h"
 #import "ProjectCell.h"
 #import "Project.h"
@@ -28,7 +29,7 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
 @interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UIButton *createButton;
+@property (nonatomic, strong) FloatingActionButton *createButton;
 @property (nonatomic, strong) User *currUser;
 @property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) NSMutableArray *projectArray;
@@ -92,24 +93,18 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
     CGFloat const boundsHeight = CGRectGetHeight(self.view.bounds);
 
     CGFloat const buttonMargin = boundsWidth * 0.05;
-    CGFloat const buttonWidth = 70;
-    CGFloat const buttonHeight = 70;
+    CGFloat const buttonWidth = 60;
+    CGFloat const buttonHeight = 60;
     CGFloat const buttonX = boundsWidth - buttonWidth - buttonMargin;
     CGFloat const buttonY = boundsHeight - self.tabBarController.tabBar.frame.size.height - buttonHeight - buttonMargin;
     
-    _createButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _createButton.frame = CGRectMake(buttonX, buttonY, 60, 60);
+    _createButton = [FloatingActionButton buttonWithType:UIButtonTypeRoundedRect];
+    _createButton.frame = CGRectMake(buttonX, buttonY, buttonWidth, buttonHeight);
     [_createButton setImage:[[UIImage imageNamed:kCreateProjectIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
                    forState:UIControlStateNormal];
     [_createButton addTarget:self
                       action:@selector(onTapCreateProject:)
             forControlEvents:UIControlEventTouchUpInside];
-    
-    _createButton.layer.cornerRadius = _createButton.frame.size.height / 2.0;
-    _createButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    _createButton.layer.shadowOpacity = 0.25;
-    _createButton.layer.shadowRadius = 5;
-    _createButton.layer.shadowOffset = CGSizeMake(0, 10);
     
     [self.view addSubview:_createButton];
 }

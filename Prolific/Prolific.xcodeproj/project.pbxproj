@@ -31,6 +31,7 @@
 		7165D15C24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
 		7165D15D24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
 		7165D15E24BE3BA5008E64CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */; };
+		717D22E524DDE98200A24B20 /* FloatingActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 717D22E224DDE83500A24B20 /* FloatingActionButton.m */; };
 		7186FB2D24D4E01600B2F4A0 /* 7773-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 7186FB2C24D4E01600B2F4A0 /* 7773-loading.json */; };
 		7186FB3024D4ECC000B2F4A0 /* 6541-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 7186FB2E24D4ECC000B2F4A0 /* 6541-loading.json */; };
 		7188D85224C6521900E50876 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7188D85124C6521900E50876 /* BaseCell.m */; };
@@ -133,6 +134,8 @@
 		7165D15824BE1B17008E64CD /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		7165D15924BE1B17008E64CD /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		7165D15B24BE3BA5008E64CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		717D22E124DDE83500A24B20 /* FloatingActionButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloatingActionButton.h; sourceTree = "<group>"; };
+		717D22E224DDE83500A24B20 /* FloatingActionButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FloatingActionButton.m; sourceTree = "<group>"; };
 		7186FB2C24D4E01600B2F4A0 /* 7773-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "7773-loading.json"; sourceTree = "<group>"; };
 		7186FB2E24D4ECC000B2F4A0 /* 6541-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "6541-loading.json"; sourceTree = "<group>"; };
 		7188D85024C6521900E50876 /* BaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
@@ -453,6 +456,15 @@
 				7165D15924BE1B17008E64CD /* RegisterViewController.m */,
 			);
 			path = "Register View Controller";
+			sourceTree = "<group>";
+		};
+		717D22E424DDE84000A24B20 /* Floating Action Button */ = {
+			isa = PBXGroup;
+			children = (
+				717D22E124DDE83500A24B20 /* FloatingActionButton.h */,
+				717D22E224DDE83500A24B20 /* FloatingActionButton.m */,
+			);
+			path = "Floating Action Button";
 			sourceTree = "<group>";
 		};
 		7186FB2724D4DBE300B2F4A0 /* Lottie Animations */ = {
@@ -785,6 +797,7 @@
 			children = (
 				71A3076C24D09FD300F11B94 /* Follow Button */,
 				71A3076B24D09FCE00F11B94 /* Vote Button */,
+				717D22E424DDE84000A24B20 /* Floating Action Button */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1092,6 +1105,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				717D22E524DDE98200A24B20 /* FloatingActionButton.m in Sources */,
 				712A9E0424DC786F00B608ED /* ProlificErrorLogger.m in Sources */,
 				71CF521D24C7A32A008DB4EF /* DAO.m in Sources */,
 				710D62BE24DA197200DAFBD8 /* ComposeSnippetViewController.m in Sources */,
