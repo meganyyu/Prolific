@@ -8,6 +8,7 @@
 
 #import "ProjectBuilder.h"
 
+#import "RoundBuilder.h"
 @import Firebase;
 
 static NSString *const kCreatedAtKey = @"createdAt";
@@ -31,7 +32,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         _currentRound = [NSNumber numberWithInt:0];
         _isComplete = NO;
         _rounds = [[NSMutableArray alloc] init];
-        _followCount = 0;
+        _followCount = [NSNumber numberWithInt:0];
         _userFollowed = NO;
     }
     return self;
@@ -138,6 +139,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 
 - (ProjectBuilder *)addRound:(Round *)round {
     [_rounds addObject:round];
+    _currentRound = [NSNumber numberWithLong:[_currentRound intValue] + 1];
     return self;
 }
 
