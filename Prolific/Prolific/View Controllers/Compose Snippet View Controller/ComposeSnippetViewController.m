@@ -41,6 +41,8 @@ static NSString *const kSubmitIconId = @"submit-icon";
         _round = round;
         _projectId = projectId;
         _delegate = delegate;
+        
+        _dao = [[DAO alloc] init];
     }
     return self;
 }
@@ -49,8 +51,6 @@ static NSString *const kSubmitIconId = @"submit-icon";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _dao = [[DAO alloc] init];
     
     self.navigationItem.title = @"Compose Snippet";
     [super setupBackButton];
