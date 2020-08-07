@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Round
 
-/** Saves a new round to a project with identifier projectId. Will return error message if project document does not have any rounds as expected. */
+/** Saves a new round to a project with identifier projectId. Passes back fully built round, or will return error message if project document does not have any rounds as expected. */
 - (void)saveNewRoundWithBuilder:(RoundBuilder *)roundBuilder
                    forProjectId:(NSString *)projectId
                      completion:(void(^)(Round *round, NSError *error))completion;
@@ -86,6 +86,11 @@ NS_ASSUME_NONNULL_BEGIN
                       completion:(void(^)(NSMutableArray *rounds, NSError *error))completion;
 
 #pragma mark - Project
+
+/** Creates a new project from a ProjectBuilder and a RoundBuilder for the project's first round. Passes back fully built Project. Returns nil if project built incorrectly, or returns error message if unable to save project to server. */
+- (void)saveNewProjectWithProjectBuilder:(ProjectBuilder *)projectBuilder
+                   withFirstRoundBuilder:(RoundBuilder *)roundBuilder
+                              completion:(void(^)(Project *project, NSError *error))completion;
 
 /** Updates a project with a new follower or unfollower. Will return error message if update unsuccessful. */
 - (void)updateFollowersforProject:(Project *)project

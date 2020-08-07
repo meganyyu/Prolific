@@ -400,6 +400,42 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 #pragma mark - Projects
 
+- (void)saveNewProjectWithProjectBuilder:(ProjectBuilder *)projectBuilder
+                   withFirstRoundBuilder:(RoundBuilder *)roundBuilder
+                              completion:(void (^)(Project *, NSError *))completion {
+    FIRCollectionReference *const projsRef = [self.db collectionWithPath:kProjectsKey];
+
+    NSDictionary *const projData = @{
+        kNameKey: projectBuilder.name,
+        kCreatedAtKey: [FIRTimestamp timestampWithDate:projectBuilder.createdAt],
+        kSeedKey: projectBuilder.seed,
+        kIsCompleteKey: [NSNumber numberWithBool:projectBuilder.isComplete],
+        kCurrentRoundKey: projectBuilder.currentRound,
+        kFollowCountKey: projectBuilder.followCount
+    };
+    
+    __block FIRDocumentReference *const ref =
+    [projsRef addDocumentWithData:projData
+                       completion:^(NSError * _Nullable error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            [self saveNewRoundWithBuilder:roundBuilder
+                             forProjectId:ref.documentID
+                               completion:^(Round *round, NSError *error) {
+                if (error) {
+                    completion(nil, error);
+                } else {
+                    Project *const proj = [[[projectBuilder withId:ref.documentID]
+                                                                    addRound:round]
+                                                                   build];
+                    completion(proj, nil);
+                }
+            }];
+        }
+    }];
+}
+
 - (void)updateFollowersforProject:(Project *)project
                        withUserId:(NSString *)userId
                        completion:(void(^)(NSError *error))completion {
@@ -421,7 +457,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 - (void)getAllProjectsWithCompletion:(void(^)(NSArray *projects, NSError *error))completion {
     FIRCollectionReference *const projectsRef = [self.db collectionWithPath:kProjectsKey];
     
-    [[projectsRef queryOrderedByField:kCreatedAtKey]
+    [[projectsRef queryOrderedByField:kCreatedAtKey descending:YES]
      getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
         if (error != nil) {
             completion(nil, error);
