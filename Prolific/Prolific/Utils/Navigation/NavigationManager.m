@@ -67,6 +67,16 @@
     [navController presentViewController:newNavController animated:YES completion:nil];
 }
 
++ (void)presentCreateProjectViewControllerfromViewController:(UIViewController<CreateProjectViewControllerDelegate> *)fromViewController {
+    UINavigationController *const navController = fromViewController.navigationController;
+    
+    CreateProjectViewController *const createProjectViewController = [[CreateProjectViewController alloc] initWithDelegate:fromViewController];
+    
+    UINavigationController *const newNavController = [[UINavigationController alloc] initWithRootViewController:createProjectViewController];
+    newNavController.modalPresentationStyle = UIModalPresentationFullScreen;
+    [navController presentViewController:newNavController animated:YES completion:nil];
+}
+
 + (void)presentSubmissionsViewControllerForRound:(Round *)round
                                          project:(Project *)project
                                          forUser:(User *)user

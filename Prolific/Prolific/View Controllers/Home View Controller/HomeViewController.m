@@ -10,6 +10,7 @@
 
 #import "DAO.h"
 @import FirebaseAuth;
+#import "FloatingActionButton.h"
 #import "NavigationManager.h"
 #import "ProjectCell.h"
 #import "Project.h"
@@ -21,12 +22,14 @@
 #pragma mark - Constants
 
 static NSString *const kProfileIconId = @"profile-icon";
+static NSString *const kCreateProjectIconId = @"create-project-icon";
 
 #pragma mark - Interface
 
-@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface HomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, CreateProjectViewControllerDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) FloatingActionButton *createButton;
 @property (nonatomic, strong) User *currUser;
 @property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) NSMutableArray *projectArray;
@@ -43,7 +46,6 @@ static NSString *const kProfileIconId = @"profile-icon";
     [super viewDidLoad];
     
     _dao = [[DAO alloc] init];
-    
     [self loadCurrentUser];
     
     [self setupCollectionView];
@@ -55,6 +57,7 @@ static NSString *const kProfileIconId = @"profile-icon";
                                                                     action:@selector(didTapLogoutButton:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
     [self setupProfileButton];
+    [self setupCreateButton];
     
     [self loadProjects];
 }
@@ -85,6 +88,27 @@ static NSString *const kProfileIconId = @"profile-icon";
     [self.view addSubview:_collectionView];
 }
 
+- (void)setupCreateButton {
+    CGFloat const boundsWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat const boundsHeight = CGRectGetHeight(self.view.bounds);
+
+    CGFloat const buttonMargin = boundsWidth * 0.05;
+    CGFloat const buttonWidth = 60;
+    CGFloat const buttonHeight = 60;
+    CGFloat const buttonX = boundsWidth - buttonWidth - buttonMargin;
+    CGFloat const buttonY = boundsHeight - self.tabBarController.tabBar.frame.size.height - buttonHeight - buttonMargin;
+    
+    _createButton = [FloatingActionButton buttonWithType:UIButtonTypeRoundedRect];
+    _createButton.frame = CGRectMake(buttonX, buttonY, buttonWidth, buttonHeight);
+    [_createButton setImage:[[UIImage imageNamed:kCreateProjectIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+                   forState:UIControlStateNormal];
+    [_createButton addTarget:self
+                      action:@selector(onTapCreateProject:)
+            forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:_createButton];
+}
+
 - (void)setupProfileButton {
     UIButton *const profileButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     profileButton.frame = CGRectMake(0, 0, 40, 40);
@@ -99,7 +123,7 @@ static NSString *const kProfileIconId = @"profile-icon";
 #pragma mark - Load data
 
 - (void)loadProjects {
-    __weak typeof(self) weakSelf = self;
+    __weak typeof (self) weakSelf = self;
     [_dao getAllProjectsWithCompletion:^(NSArray * _Nonnull projects, NSError * _Nonnull error) {
         if (projects) {
             weakSelf.projectArray = (NSMutableArray *) projects;
@@ -126,6 +150,26 @@ static NSString *const kProfileIconId = @"profile-icon";
     }
 }
 
+- (void)onTapCreateProject:(id)sender {
+    [NavigationManager presentCreateProjectViewControllerfromViewController:self];
+}
+
+#pragma mark - CreateProjectViewControllerDelegate Protocol
+
+- (void)didCreateProject:(Project *)project {
+    __weak typeof (self) weakSelf = self;
+    if (project) {
+        [weakSelf.projectArray insertObject:project atIndex:0];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __strong typeof (self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.collectionView reloadData];
+            }
+        });
+    }
+}
+
 #pragma mark - UICollectionViewDataSource Protocol
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
@@ -139,6 +183,7 @@ static NSString *const kProfileIconId = @"profile-icon";
                                                                   forIndexPath:indexPath];
     cell.project = _projectArray[indexPath.item];
     cell.cellView.followButton.hidden = YES;
+    [cell setNeedsLayout];
     return cell;
 }
 

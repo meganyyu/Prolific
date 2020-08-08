@@ -44,7 +44,7 @@
                                 updatedProjBuilder = [updatedProjBuilder addRound:newRound];
                             }
                             Project *const updatedProj = [updatedProjBuilder build];
-                            updatedProj ? completion(updatedProj, nil) : completion(nil, error);
+                            completion(updatedProj, nil);
                         }
                     }];
                 } else {
