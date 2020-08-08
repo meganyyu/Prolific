@@ -99,7 +99,6 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - [x] User can view projects they are following in their Favorites page
 - [x] Create MVP version of round winner selection algorithm: have a class that locally and directly calculates some basic ranking (based on simple factors like votes, views, etc.) to determine winning snippet
     - [x] Just outline the algorithm for now, and then build on it with tier 1 gamification stretch stories
-- [ ] Create logic for finalizing a snippet: (MVP version) For each starter project, there is a default number of rounds before the story is marked as complete.
 
 *Sprint 4*
 - [x] Improve UI! Check that required UI elements are there
@@ -109,8 +108,8 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 
 **Tier 1 Stretch Stories**
 
-- [ ] User can compose their own starter projects
-- [ ] Gamification
+- [x] User can compose their own starter projects
+- [x] Gamification
     - [x] Set up system to update karma for user easily
     - [x] These engagement factors go through a function to generate your karma:
         - submit a snippet
@@ -121,12 +120,13 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
         - Votes of users without much karma is worth very little
         - Power of a user's vote is # votes x karma
         - If a user votes for multiple snippets in a round then the weight of their vote is divided proportionately by the number of votes the user makes
-    - [ ] Set up badge system, user can view their badge progress on profile
+    - [x] Set up badge system, user can view their badge progress on profile
         - Contributor badge
         - Big Hit Writer badge
         - Creator badge
 - [x] User can see their profile page with their own projects/snippets they've contributed to other projects and their points
 - [ ] User can view other user’s profiles by tapping on the author photo of a snippet, and see their points/what projects they've created
+- [ ] Create logic for finalizing a snippet: (1st iteration:) For each starter project, there is a default number of rounds before the story is marked as complete.
 
 **Tier 2 Stretch Stories**
 - [ ] Create custom camera view
