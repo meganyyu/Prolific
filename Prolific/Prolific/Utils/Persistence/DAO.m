@@ -244,18 +244,49 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
 
 - (void)updateAllSubmissionsForRound:(Round *)round
                         forProjectId:(NSString *)projectId
-                          completion:(void(^)(NSError *error))completion {
+                          completion:(void(^)(NSArray *successfulResults, NSError *error))completion {
+    // Allocate a mutable array and set [NSNull null] at each position:
+    NSInteger const count = round.submissions.count;
+    NSMutableArray *successfulUpdatesArray = [NSMutableArray arrayWithCapacity:count];
+
+    for (NSInteger i = 0; i < count; ++i) {
+        [successfulUpdatesArray addObject:[NSNull null]];
+    }
+    
+    // Use dispatch groups to handle multiple network calls:
+    __block NSError *serverUpdateError = nil; // Keep track if there was at least one error updating server
+    NSInteger index = 0;
+
+    // Create the dispatch group
+    dispatch_group_t serviceGroup = dispatch_group_create();
+    
     for (Snippet *snippet in round.submissions) {
+        // Start a new service call
+        dispatch_group_enter(serviceGroup);
+        
         [self updateExistingSnippet:snippet forProjectId:projectId forRound:round completion:^(NSError * _Nonnull error) {
             if (error) {
-                completion(error);
+                serverUpdateError = error;
+                dispatch_group_leave(serviceGroup);
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    successfulUpdatesArray[index] = snippet;
+                });
+                
+                dispatch_group_leave(serviceGroup);
             }
         }];
+        
+        index++;
     }
-    // FIXME: some calls may not succeed
-    // should pass back array of result objects
-    //
-    completion(nil);
+    
+    dispatch_group_notify(serviceGroup, dispatch_get_main_queue(),^{
+        if (serverUpdateError) {
+            // Remove any [NSNull null]'s from successful updates array
+            [successfulUpdatesArray removeObjectIdenticalTo:[NSNull null]];
+        }
+        completion(successfulUpdatesArray, serverUpdateError);
+    });
 }
 
 - (void)getAllSubmissionsforRoundId:(NSString *)roundId

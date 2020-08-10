@@ -73,7 +73,7 @@
     latestRound = [RoundRanker updateRanksForRound:latestRound];
     [dao updateAllSubmissionsForRound:latestRound
                          forProjectId:projId
-                           completion:^(NSError *error) {
+                           completion:^(NSArray *successfulResults, NSError *error) {
         if (error) {
             completion(nil, nil, error);
         }
