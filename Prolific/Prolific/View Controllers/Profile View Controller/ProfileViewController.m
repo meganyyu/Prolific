@@ -14,6 +14,7 @@
 #import "NavigationManager.h"
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
+#import "ProjectCell.h"
 
 #pragma mark - Interface
 
@@ -21,8 +22,9 @@
 
 @property (nonatomic, strong) NSArray<Badge *> *badges;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) DAO *dao;
+@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (nonatomic, strong) NSArray<Project *> *projects;
 
 @end
 
@@ -59,12 +61,34 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 typeof(self) strongSelf = weakSelf;
                 if (strongSelf) {
+                    [strongSelf loadProjects];
                     [strongSelf setupCollectionView];
                 }
             });
         }
     }];
 }
+
+- (void)setupCollectionView {
+    _layout = [[UICollectionViewFlowLayout alloc] init];
+    _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
+    _layout.sectionHeadersPinToVisibleBounds = YES;
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
+                                         collectionViewLayout:_layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    [_collectionView registerClass:[ProfileView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader"];
+    [_collectionView registerClass:[ProjectCell class]
+        forCellWithReuseIdentifier:@"projectCell"];
+    [_collectionView registerClass:[BadgeCell class] forCellWithReuseIdentifier:@"badgeCell"];
+    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
+    
+    [self.view addSubview:_collectionView];
+}
+
+#pragma mark - Load data
 
 - (void)loadUserWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
@@ -80,21 +104,13 @@
     }];
 }
 
-- (void)setupCollectionView {
-    _layout = [[UICollectionViewFlowLayout alloc] init];
-    _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
-    _layout.sectionHeadersPinToVisibleBounds = YES;
-    
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                         collectionViewLayout:_layout];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    
-    [_collectionView registerClass:[ProfileView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader"];
-    [_collectionView registerClass:[BadgeCell class] forCellWithReuseIdentifier:@"badgeCell"];
-    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
-    
-    [self.view addSubview:_collectionView];
+- (void)loadProjects {
+    __weak typeof (self) weakSelf = self;
+    [_dao getAllCreatedProjectsforUserId:_user.userId completion:^(NSArray *projects, NSError *error) {
+        if (projects) {
+            weakSelf.projects = projects;
+        }
+    }];
 }
 
 #pragma mark - ProfileViewDelegate Protocol
