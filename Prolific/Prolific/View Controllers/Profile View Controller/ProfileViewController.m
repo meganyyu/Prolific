@@ -58,13 +58,16 @@
     __weak typeof (self) weakSelf = self;
     [self loadUserWithCompletion:^(NSError *error) {
         if (!error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf loadProjects];
-                    [strongSelf setupCollectionView];
+            [self loadProjectsWithCompletion:^(NSError *error) {
+                if (!error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        typeof(self) strongSelf = weakSelf;
+                        if (strongSelf) {
+                            [strongSelf setupCollectionView];
+                        }
+                    });
                 }
-            });
+            }];
         }
     }];
 }
@@ -104,11 +107,12 @@
     }];
 }
 
-- (void)loadProjects {
+- (void)loadProjectsWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
     [_dao getAllCreatedProjectsforUserId:_user.userId completion:^(NSArray *projects, NSError *error) {
         if (projects) {
             weakSelf.projects = projects;
+            completion(error);
         }
     }];
 }
@@ -128,17 +132,34 @@
 
 #pragma mark - UICollectionViewDataSource Protocol
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 2;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return _user.badges.count;
+    if (section == 0) {
+        return _projects.count;
+    } else {
+        return _badges.count;
+    }
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BadgeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
-                                                                forIndexPath:indexPath];
-    cell.badge = _badges[indexPath.item];
-    return cell;
+    if (indexPath.section == 0) {
+        ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
+                                                                            forIndexPath:indexPath];
+        cell.project = _projects[indexPath.item];
+        cell.cellView.followButton.hidden = YES;
+        [cell setNeedsLayout];
+        return cell;
+    } else {
+        BadgeCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
+                                                                          forIndexPath:indexPath];
+        cell.badge = _badges[indexPath.item];
+        return cell;
+    }
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
@@ -152,6 +173,18 @@
         return profileHeader;
     }
     return nil;
+}
+
+#pragma mark - UICollectionViewDelegate Protocol
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+referenceSizeForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return _layout.headerReferenceSize;
+    } else {
+        return CGSizeZero;
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Protocol
