@@ -248,7 +248,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     // Allocate a mutable array and set [NSNull null] at each position:
     NSInteger const count = round.submissions.count;
     NSMutableArray *successfulUpdatesArray = [NSMutableArray arrayWithCapacity:count];
-
+    
     for (NSInteger i = 0; i < count; ++i) {
         [successfulUpdatesArray addObject:[NSNull null]];
     }
@@ -256,7 +256,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     // Use dispatch groups to handle multiple network calls:
     __block NSError *serverUpdateError = nil; // Keep track if there was at least one error updating server
     NSInteger index = 0;
-
+    
     // Create the dispatch group
     dispatch_group_t serviceGroup = dispatch_group_create();
     
@@ -355,12 +355,12 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     __block FIRDocumentReference *ref =
     [roundsRef addDocumentWithData:roundData
                         completion:^(NSError * _Nullable error) {
-        if (error != nil) {
+        if (error) {
             completion(nil, error);
         } else {
             Round *round = [[roundBuilder withId:ref.documentID]
                             build];
-            round ? completion(round, nil) : completion(nil, error);
+            completion(round, nil);
         }
     }];
 }
@@ -384,7 +384,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }
     
     [roundRef updateData:roundData completion:^(NSError * _Nullable error) {
-        error ? completion(error) : completion(nil);
+        completion(error);
     }];
 }
 
@@ -435,8 +435,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
                    withFirstRoundBuilder:(RoundBuilder *)roundBuilder
                               completion:(void (^)(Project *, NSError *))completion {
     FIRCollectionReference *const projsRef = [self.db collectionWithPath:kProjectsKey];
-
+    
     NSDictionary *const projData = @{
+        kAuthorIdKey: projectBuilder.authorId,
         kNameKey: projectBuilder.name,
         kCreatedAtKey: [FIRTimestamp timestampWithDate:projectBuilder.createdAt],
         kSeedKey: projectBuilder.seed,
@@ -458,8 +459,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
                     completion(nil, error);
                 } else {
                     Project *const proj = [[[projectBuilder withId:ref.documentID]
-                                                                    addRound:round]
-                                                                   build];
+                                            addRound:round]
+                                           build];
                     completion(proj, nil);
                 }
             }];
