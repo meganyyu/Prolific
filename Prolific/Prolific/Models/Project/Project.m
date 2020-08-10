@@ -14,6 +14,7 @@
     self = [super init];
     if (self) {
         _projectId = builder.projectId;
+        _authorId = builder.authorId;
         _name = builder.name;
         _createdAt = builder.createdAt;
         _seed = builder.seed;

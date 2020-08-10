@@ -11,6 +11,7 @@
 #import "RoundBuilder.h"
 @import Firebase;
 
+static NSString *const kAuthorIdKey = @"authorId";
 static NSString *const kCreatedAtKey = @"createdAt";
 static NSString *const kCurrentRoundKey = @"currentRound";
 static NSString *const kIsCompleteKey = @"isComplete";
@@ -26,6 +27,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
     self = [super init];
     if (self) {
         _projectId = nil;
+        _authorId = [FIRAuth auth].currentUser.uid;
         _name = nil;
         _createdAt = [ProlificUtils convertTimestampToDate:[FIRTimestamp timestamp]];
         _seed = nil;
@@ -47,6 +49,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
         if (projectId && rounds &&
             [self validateRequiredDictionaryData:data]) {
             _projectId = projectId;
+            _authorId = data[kAuthorIdKey];
             _rounds = [rounds mutableCopy];
             _name = data[kNameKey];
             _createdAt = [ProlificUtils convertTimestampToDate:data[kCreatedAtKey]];
@@ -69,6 +72,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
     
     if (self) {
         _projectId = project.projectId;
+        _authorId = project.authorId;
         _name = project.name;
         _createdAt = project.createdAt;
         _seed = project.seed;
@@ -83,6 +87,11 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 
 - (ProjectBuilder *)withId:(NSString *)projectId {
     _projectId = projectId;
+    return self;
+}
+
+- (ProjectBuilder *)withAuthor:(NSString *)authorId {
+    _authorId = authorId;
     return self;
 }
 
@@ -144,7 +153,7 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 }
 
 - (Project *)build {
-    if (_projectId && _name && _createdAt && _seed && _currentRound && _rounds && _followCount) {
+    if (_projectId && _authorId && _name && _createdAt && _seed && _currentRound && _rounds && _followCount) {
         Project *proj = [[Project alloc] initWithBuilder:self];
         return proj;
     }
@@ -154,7 +163,8 @@ static NSString *const kUsersFollowingKey = @"usersFollowing";
 #pragma mark - Helper functions
 
 - (BOOL)validateRequiredDictionaryData:(NSDictionary *)data {
-    return [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
+    return [[data objectForKey:kAuthorIdKey] isKindOfClass:[NSString class]] &&
+    [[data objectForKey:kNameKey] isKindOfClass:[NSString class]] &&
     [[data objectForKey:kCreatedAtKey] isKindOfClass:[FIRTimestamp class]] &&
     [[data objectForKey:kSeedKey] isKindOfClass:[NSString class]] &&
     [[data objectForKey:kCurrentRoundKey] isKindOfClass:[NSNumber class]] &&
