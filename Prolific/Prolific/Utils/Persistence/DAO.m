@@ -173,6 +173,28 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
+- (void)getAllCreatedProjectsforUserId:(NSString *)userId
+                            completion:(void (^)(NSArray *, NSError *))completion {
+    FIRCollectionReference *const projectsRef = [self.db collectionWithPath:kProjectsKey];
+    
+    [[projectsRef queryWhereField:kAuthorIdKey isEqualTo:userId]
+     getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            NSMutableArray *const projs = [[NSMutableArray alloc] init];
+            for (FIRDocumentSnapshot *const document in snapshot.documents) {
+                Project *const proj = [self buildProjectWithId:document.documentID
+                                                      fromData:document.data];
+                if (proj) {
+                    [projs addObject:proj];
+                }
+            }
+            completion(projs, nil);
+        }
+    }];
+}
+
 #pragma mark - Snippet
 
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
