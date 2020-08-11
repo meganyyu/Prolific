@@ -68,6 +68,7 @@
 		71CF522524C9257A008DB4EF /* ProlificUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF522424C9257A008DB4EF /* ProlificUtils.m */; };
 		71F55C4624CA36C000B266BF /* RoundCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F55C4524CA36C000B266BF /* RoundCellView.m */; };
 		71F55C4E24CB388300B266BF /* ProjectUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */; };
+		71F5B62124E1EC0800680723 /* MenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F5B62024E1EC0800680723 /* MenuBar.m */; };
 		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
 		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
@@ -206,6 +207,8 @@
 		71F55C4524CA36C000B266BF /* RoundCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundCellView.m; sourceTree = "<group>"; };
 		71F55C4C24CB388300B266BF /* ProjectUpdateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectUpdateManager.h; sourceTree = "<group>"; };
 		71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectUpdateManager.m; sourceTree = "<group>"; };
+		71F5B61F24E1EC0800680723 /* MenuBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuBar.h; sourceTree = "<group>"; };
+		71F5B62024E1EC0800680723 /* MenuBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuBar.m; sourceTree = "<group>"; };
 		857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.release.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.release.xcconfig"; sourceTree = "<group>"; };
 		895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.debug.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -620,6 +623,7 @@
 		7191117124BD046600070A32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				71F5B61E24E1EBF100680723 /* Menu Bar */,
 				71C2C70624D8C8B400C22C41 /* Reusable Views */,
 				7186FB2724D4DBE300B2F4A0 /* Lottie Animations */,
 				71C2D81C24CF677500E12391 /* Progress Bars */,
@@ -864,6 +868,15 @@
 				71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */,
 			);
 			path = "Project Update Manager";
+			sourceTree = "<group>";
+		};
+		71F5B61E24E1EBF100680723 /* Menu Bar */ = {
+			isa = PBXGroup;
+			children = (
+				71F5B61F24E1EC0800680723 /* MenuBar.h */,
+				71F5B62024E1EC0800680723 /* MenuBar.m */,
+			);
+			path = "Menu Bar";
 			sourceTree = "<group>";
 		};
 		FF52A583CD9670382704644A /* Frameworks */ = {
@@ -1156,6 +1169,7 @@
 				7188D85824C6526F00E50876 /* RoundCell.m in Sources */,
 				7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */,
 				711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */,
+				71F5B62124E1EC0800680723 /* MenuBar.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
 				7188D85224C6521900E50876 /* BaseCell.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
