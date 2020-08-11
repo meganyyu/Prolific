@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MenuBar : UIView
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) ProfileViewController *viewController;
 
 - (void)moveHorizontalBarToX:(CGFloat)x;
 
