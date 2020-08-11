@@ -94,6 +94,11 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [_viewController scrollToMenuIndex:indexPath.item];
+}
+
 #pragma mark - UICollectionViewDelegateFlowLayout Protocol
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView
