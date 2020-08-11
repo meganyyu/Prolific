@@ -13,6 +13,7 @@
 @interface MenuBar () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (nonatomic, strong) NSArray *menuTitles;
 
 @end
 
@@ -22,6 +23,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _menuTitles = @[@"Badges", @"Projects"];
+        
         [self setupCollectionView];
     }
     return self;
@@ -64,7 +67,8 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MenuCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"menuCell"
-                                                                                 forIndexPath:indexPath];
+                                                                     forIndexPath:indexPath];
+    cell.title = _menuTitles[indexPath.item];
     
     return cell;
 }
@@ -86,15 +90,44 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
 
 @end
 
+@interface MenuCell ()
+
+@property (nonatomic, strong) UILabel *menuLabel;
+
+@end
+
 @implementation MenuCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        [self setupViews];
         self.backgroundColor = [UIColor whiteColor];
     }
     return self;
+}
+
+- (void)setupViews {
+    _menuLabel = [[UILabel alloc] initWithFrame:self.frame];
+    _menuLabel.textAlignment = NSTextAlignmentCenter;
+    _menuLabel.textColor = [UIColor ProlificGray2Color];
+    [self addSubview:_menuLabel];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    _menuLabel.frame = self.contentView.bounds;
+    _menuLabel.text = _title;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    _menuLabel.textColor = highlighted ? [UIColor blackColor] : [UIColor ProlificGray2Color];
+}
+
+- (void)setSelected:(BOOL)selected {
+    _menuLabel.textColor = selected ? [UIColor blackColor] : [UIColor ProlificGray2Color];
 }
 
 @end

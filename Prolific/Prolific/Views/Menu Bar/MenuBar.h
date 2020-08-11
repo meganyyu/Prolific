@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MenuCell : UICollectionViewCell
 
+@property (nonatomic, strong) NSString *title;
+
 @end
 
 NS_ASSUME_NONNULL_END
