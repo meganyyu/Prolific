@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface ProfileView : UICollectionReusableView
+@interface ProfileView : UIView
 
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) DAO *dao;
