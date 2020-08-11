@@ -117,7 +117,7 @@
     CGRect const frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
     
     _collectionView = [[UICollectionView alloc] initWithFrame:frame
-                                             collectionViewLayout:_layout];
+                                         collectionViewLayout:_layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     
@@ -128,23 +128,6 @@
     _collectionView.pagingEnabled = YES;
     [self.view addSubview:_collectionView];
 }
-
-//- (void)setupCollectionView {
-//    _layout = [[UICollectionViewFlowLayout alloc] init];
-//
-//    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-//                                         collectionViewLayout:_layout];
-//    _collectionView.dataSource = self;
-//    _collectionView.delegate = self;
-//
-//    [_collectionView registerClass:[ProjectCell class]
-//        forCellWithReuseIdentifier:@"projectCell"];
-//    [_collectionView registerClass:[BadgeCell class]
-//        forCellWithReuseIdentifier:@"badgeCell"];
-//    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
-//
-//    [self.view addSubview:_collectionView];
-//}
 
 #pragma mark - Load data
 
@@ -187,6 +170,20 @@
 
 #pragma mark - Scrolling
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_menuBar moveHorizontalBarToX:scrollView.contentOffset.x / 2];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset {
+    NSInteger const index = targetContentOffset->x / self.view.frame.size.width;
+    NSIndexPath *const indexPath = [NSIndexPath indexPathForItem:(NSInteger) index inSection:0];
+    [_menuBar.collectionView selectItemAtIndexPath:indexPath
+                                          animated:YES
+                                    scrollPosition:UICollectionViewScrollPositionNone];
+}
+
 - (void)scrollToMenuIndex:(NSInteger)menuIndex {
     NSIndexPath *const indexPath = [NSIndexPath indexPathForItem:menuIndex inSection:0];
     [_collectionView scrollToItemAtIndexPath:indexPath
@@ -217,42 +214,5 @@
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     return CGSizeMake(collectionView.frame.size.width, collectionView.frame.size.height);
 }
-
-//- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-//                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.section == 0) {
-//        ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
-//                                                                            forIndexPath:indexPath];
-//        cell.project = _projects[indexPath.item];
-//        cell.cellView.followButton.hidden = YES;
-//        [cell setNeedsLayout];
-//        return cell;
-//    } else {
-//        BadgeCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
-//                                                                          forIndexPath:indexPath];
-//        cell.badge = _badges[indexPath.item];
-//        return cell;
-//    }
-//}
-//
-//#pragma mark - UICollectionViewDelegate Protocol
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView
-//                  layout:(UICollectionViewLayout *)collectionViewLayout
-//referenceSizeForHeaderInSection:(NSInteger)section {
-//    if (section == 0) {
-//        return _layout.headerReferenceSize;
-//    } else {
-//        return CGSizeZero;
-//    }
-//}
-//
-//#pragma mark - UICollectionViewDelegateFlowLayout Protocol
-//
-//- (CGSize)collectionView:(UICollectionView *)collectionView
-//                  layout:(UICollectionViewLayout *)collectionViewLayout
-//  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 6.0);
-//}
 
 @end
