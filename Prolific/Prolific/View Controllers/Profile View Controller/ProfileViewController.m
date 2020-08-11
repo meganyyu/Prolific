@@ -10,6 +10,7 @@
 
 #import "BadgeCell.h"
 #import "DAO.h"
+#import "FeedCell.h"
 @import Firebase;
 #import "MenuBar.h"
 #import "NavigationManager.h"
@@ -60,6 +61,7 @@
     
     [self setupProfileHeader];
     [self setupMenuBar];
+    [self setupCollectionView];
     
     __weak typeof (self) weakSelf = self;
     [self loadUserWithCompletion:^(NSError *error) {
@@ -104,18 +106,22 @@
 
 - (void)setupCollectionView {
     _layout = [[UICollectionViewFlowLayout alloc] init];
-    _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
-    _layout.sectionHeadersPinToVisibleBounds = YES;
+    _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _layout.minimumLineSpacing = 0;
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                         collectionViewLayout:_layout];
+    CGFloat const viewWidth = self.view.bounds.size.width;
+    CGFloat const viewHeight = self.view.bounds.size.height - _menuBar.bounds.size.height - _profileHeader.bounds.size.height;
+    CGFloat const viewX = 0;
+    CGFloat const viewY = _menuBar.frame.origin.y + _menuBar.bounds.size.height;
+    CGRect const frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:frame
+                                             collectionViewLayout:_layout];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     
-    [_collectionView registerClass:[ProfileView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader"];
-    [_collectionView registerClass:[ProjectCell class]
-        forCellWithReuseIdentifier:@"projectCell"];
-    [_collectionView registerClass:[BadgeCell class] forCellWithReuseIdentifier:@"badgeCell"];
+    [_collectionView registerClass:[FeedCell class]
+        forCellWithReuseIdentifier:@"feedCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     [self.view addSubview:_collectionView];
@@ -164,53 +170,16 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return _projects.count;
-    } else {
-        return _badges.count;
-    }
+    return 2;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        ProjectCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectCell"
-                                                                            forIndexPath:indexPath];
-        cell.project = _projects[indexPath.item];
-        cell.cellView.followButton.hidden = YES;
-        [cell setNeedsLayout];
-        return cell;
-    } else {
-        BadgeCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
-                                                                          forIndexPath:indexPath];
-        cell.badge = _badges[indexPath.item];
-        return cell;
-    }
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath {
-    if (kind == UICollectionElementKindSectionHeader) {
-        ProfileView *const profileHeader = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader" forIndexPath:indexPath];
-        profileHeader.user = _user;
-        profileHeader.dao = _dao;
-        profileHeader.delegate = self;
-        return profileHeader;
-    }
-    return nil;
-}
-
-#pragma mark - UICollectionViewDelegate Protocol
-
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return _layout.headerReferenceSize;
-    } else {
-        return CGSizeZero;
-    }
+    FeedCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell"
+                                                                     forIndexPath:indexPath];
+    NSArray *const colors = @[[UIColor ProlificBlue1Color], [UIColor ProlificBlue2Color]];
+    cell.backgroundColor = colors[indexPath.item];
+    return cell;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Protocol
@@ -218,7 +187,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 6.0);
+    return CGSizeMake(collectionView.frame.size.width, collectionView.frame.size.height);
 }
 
 @end
