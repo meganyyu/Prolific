@@ -70,7 +70,12 @@ static NSString *const kFinishedVoteIconID = @"finished-vote-icon";
         self.voteButton.hidden = NO;
         _openButton.hidden = YES;
         
-        self.usernameLabel.text = _snippet.authorId;
+        if (_author) {
+            self.usernameLabel.text = [NSString stringWithFormat:@"@%@", _author.username];
+        } else {
+            self.usernameLabel.text = _snippet.authorId;
+        }
+        
         self.seedContentLabel.text = _snippet.text;
         self.voteCountLabel.text = [_snippet.voteCount stringValue];
     } else {

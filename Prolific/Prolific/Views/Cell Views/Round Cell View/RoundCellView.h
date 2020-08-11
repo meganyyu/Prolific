@@ -9,6 +9,7 @@
 #import "SnippetCellView.h"
 
 #import "Snippet.h"
+#import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) BOOL showSnippet;
 @property (nonatomic, strong) Snippet *snippet;
+@property (nonatomic, strong) User *author;
 
 @end
 

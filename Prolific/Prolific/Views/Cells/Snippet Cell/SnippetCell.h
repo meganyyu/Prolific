@@ -10,6 +10,7 @@
 
 #import "Snippet.h"
 #import "SnippetCellView.h"
+#import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SnippetCell : BaseCell
 
 @property (nonatomic, strong) Snippet *snippet;
+@property (nonatomic, strong) User *author;
 @property (nonatomic, strong) SnippetCellView *cellView;
 @property (nonatomic, weak) id<SnippetCellDelegate> delegate;
 

@@ -34,7 +34,12 @@ static NSString *const kUntappedVoteIconID = @"untapped-vote-icon";
     
     _cellView.frame = self.contentView.bounds;
     
-    _cellView.usernameLabel.text = _snippet.authorId;
+    if (_author) {
+        _cellView.usernameLabel.text = [NSString stringWithFormat:@"@%@", _author.username];
+    } else {
+        _cellView.usernameLabel.text = _snippet.authorId;
+    }
+    
     _cellView.seedContentLabel.text = _snippet.text;
     _cellView.voteCountLabel.text = [_snippet.voteCount stringValue];
     
