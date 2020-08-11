@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) NSArray *menuTitles;
+@property (nonatomic, strong) UIView *horizontalBarView;
 
 @end
 
@@ -26,6 +27,7 @@
         _menuTitles = @[@"Badges", @"Projects"];
         
         [self setupCollectionView];
+        [self setupHorizontalBar];
     }
     return self;
 }
@@ -49,6 +51,17 @@
     [self addSubview:_collectionView];
 }
 
+- (void)setupHorizontalBar {
+    _horizontalBarView = [[UIView alloc] init];
+    _horizontalBarView.backgroundColor = [UIColor ProlificGoldColor];
+    [self addSubview:_horizontalBarView];
+    
+    CGFloat barWidth = self.bounds.size.width / 2;
+    CGFloat barHeight = 5;
+    CGFloat barY = self.bounds.size.height - barHeight;
+    _horizontalBarView.frame = CGRectMake(0, barY, barWidth, barHeight);
+}
+
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
@@ -56,6 +69,14 @@
     CGFloat const boundsHeight = CGRectGetHeight(rect);
     
     _collectionView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
+}
+
+#pragma mark - Horizontal bar controls
+
+- (void)moveHorizontalBarToX:(CGFloat)x {
+    CGRect frame = self.horizontalBarView.frame;
+    frame.origin.x = x;
+    self.horizontalBarView.frame = frame;
 }
 
 #pragma mark - UICollectionViewDataSource Protocol

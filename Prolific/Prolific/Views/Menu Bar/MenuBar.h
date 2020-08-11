@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
+- (void)moveHorizontalBarToX:(CGFloat)x;
+
 @end
 
 @interface MenuCell : UICollectionViewCell
