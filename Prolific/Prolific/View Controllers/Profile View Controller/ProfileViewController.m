@@ -11,6 +11,7 @@
 #import "BadgeCell.h"
 #import "DAO.h"
 @import Firebase;
+#import "MenuBar.h"
 #import "NavigationManager.h"
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
@@ -24,6 +25,8 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (nonatomic, strong) MenuBar *menuBar;
+@property (nonatomic, strong) ProfileView *profileHeader;
 @property (nonatomic, strong) NSArray<Project *> *projects;
 
 @end
@@ -55,6 +58,9 @@
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
+    [self setupProfileHeader];
+    [self setupMenuBar];
+    
     __weak typeof (self) weakSelf = self;
     [self loadUserWithCompletion:^(NSError *error) {
         if (!error) {
@@ -70,6 +76,30 @@
             }];
         }
     }];
+}
+
+- (void)setupProfileHeader {
+    CGFloat const headerWidth = self.view.bounds.size.width;
+    CGFloat const headerHeight = 0.35 * self.view.bounds.size.height;
+    CGFloat const headerX = 0;
+    CGFloat const headerY = self.navigationController.navigationBar.frame.size.height;
+    
+    _profileHeader = [[ProfileView alloc] initWithFrame:CGRectMake(headerX, headerY, headerWidth, headerHeight)];
+    _profileHeader.user = _user;
+    _profileHeader.dao = _dao;
+    _profileHeader.delegate = self;
+    
+    [self.view addSubview:_profileHeader];
+}
+
+- (void)setupMenuBar {
+    CGFloat const barWidth = self.view.bounds.size.width;
+    CGFloat const barHeight = 50;
+    CGFloat const barX = 0;
+    CGFloat const barY = _profileHeader.bounds.size.height;
+    
+    _menuBar = [[MenuBar alloc] initWithFrame:CGRectMake(barX, barY, barWidth, barHeight)];
+    [self.view addSubview:_menuBar];
 }
 
 - (void)setupCollectionView {
