@@ -63,7 +63,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         typeof(self) strongSelf = weakSelf;
                         if (strongSelf) {
-                            [strongSelf setupCollectionView];
+                            // load data
                         }
                     });
                 }
@@ -131,10 +131,6 @@
 }
 
 #pragma mark - UICollectionViewDataSource Protocol
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 2;
-}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
