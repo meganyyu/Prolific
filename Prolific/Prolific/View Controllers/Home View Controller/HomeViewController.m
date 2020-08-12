@@ -84,6 +84,7 @@ static NSString *const kCreateProjectIconId = @"create-project-icon";
         forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     [_collectionView setAllowsMultipleSelection:NO];
+    _collectionView.alwaysBounceVertical = YES;
     _collectionView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0);
     
     [self.view addSubview:_collectionView];
