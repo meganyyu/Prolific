@@ -10,7 +10,7 @@
 
 #import "UIColor+ProlificColors.h"
 
-@interface FeedCell ()
+@interface FeedCell () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 
@@ -33,6 +33,8 @@
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.frame
                                          collectionViewLayout:_layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
     
     [_collectionView registerClass:[UICollectionViewCell class]
             forCellWithReuseIdentifier:@"cellId"];
@@ -47,5 +49,28 @@
     
     _collectionView.frame = self.contentView.bounds;
 }
+
+#pragma mark - UICollectionViewDataSource Protocol
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
+    return 0;
+}
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellId"
+                                                                        forIndexPath:indexPath];
+    return cell;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Protocol
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 3.0);
+}
+
 
 @end
