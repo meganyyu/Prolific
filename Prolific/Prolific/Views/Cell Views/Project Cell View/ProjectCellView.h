@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *seedContentLabel;
+@property (nonatomic, strong) UIImageView *statusIcon;
 @property (nonatomic, strong) CountLabel *roundCountLabel;
 @property (nonatomic, strong) CountLabel *followCountLabel;
 @property (nonatomic, strong) FollowButton *followButton;

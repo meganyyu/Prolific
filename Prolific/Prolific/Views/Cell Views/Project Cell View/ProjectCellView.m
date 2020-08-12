@@ -8,6 +8,9 @@
 
 #import "ProjectCellView.h"
 
+static NSString *const kInProgressIconID = @"in-progress-icon";
+static NSString *const kDoneIconID = @"done-icon";
+
 @implementation ProjectCellView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -17,6 +20,9 @@
         _nameLabel = [[UILabel alloc] init];
         [_nameLabel setFont:[UIFont systemFontOfSize:20]];
         [self addSubview:_nameLabel];
+        
+        _statusIcon = [[UIImageView alloc] init];
+        [self addSubview:_statusIcon];
         
         _seedContentLabel = [[UILabel alloc] init];
         [_seedContentLabel setFont:[UIFont systemFontOfSize:16]];
@@ -50,11 +56,19 @@
     CGFloat const seedContentLabelY = nameLabelHeight + 0.05 * boundsHeight;
     _seedContentLabel.frame = CGRectMake(labelX, seedContentLabelY, labelWidth, seedContentLabelHeight);
     
+    // status icon
+    CGFloat const statusIconWidth = 75;
+    CGFloat const statusIconHeight = 20;
+    CGFloat const statusIconX = labelX;
+    CGFloat const statusIconY = boundsHeight - statusIconHeight - labelX;
+    _statusIcon.frame = CGRectMake(statusIconX, statusIconY, statusIconWidth, statusIconHeight);
+    [_statusIcon setImage:[[UIImage imageNamed:kInProgressIconID] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    
     // follow count label
     CGFloat const followCountLabelWidth = _followCountLabel.bounds.size.width;
     CGFloat const followCountLabelHeight = _followCountLabel.bounds.size.height;
     CGFloat const followCountLabelX = labelWidth - followCountLabelWidth;
-    CGFloat const followCountLabelY = boundsHeight - followCountLabelHeight - 0.05 * boundsHeight;;
+    CGFloat const followCountLabelY = boundsHeight - followCountLabelHeight - 0.05 * boundsHeight;
     _followCountLabel.frame = CGRectMake(followCountLabelX, followCountLabelY, followCountLabelWidth, followCountLabelHeight);
     
     // follow button
