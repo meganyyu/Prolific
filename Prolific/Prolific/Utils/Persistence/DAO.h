@@ -42,6 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getAllFollowedProjectsforUserId:(NSString *)userId
                              completion:(void(^)(NSArray *projects, NSError *error))completion;
 
+/** Retrieves all projects that a user has created. Passes back array of projects if successful. Else passes back error. */
+- (void)getAllCreatedProjectsforUserId:(NSString *)userId
+                            completion:(void(^)(NSArray *projects, NSError *error))completion;
+
 #pragma mark - Snippet
 
 /** Submits a snippet to the latest round of a project with the identifier projectId. Will return error message if passed in projectId is invalid or project document does not have any rounds as expected. */

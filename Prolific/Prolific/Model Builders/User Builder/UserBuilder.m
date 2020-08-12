@@ -106,7 +106,9 @@ static NSString *const kBadgesKey = @"badges";
 }
 
 - (UserBuilder *)updateExistingBadge:(Badge *)badge {
-    [_badges setValue:badge forKey:badge.badgeType];
+    if ([_badges valueForKey:badge.badgeType] != nil) {
+        [_badges setValue:badge forKey:badge.badgeType];
+    }
     return self;
 }
 

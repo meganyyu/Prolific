@@ -10,10 +10,14 @@
 
 #import "BadgeCell.h"
 #import "DAO.h"
+#import "BadgeFeedCell.h"
 @import Firebase;
+#import "MenuBar.h"
 #import "NavigationManager.h"
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
+#import "ProjectCell.h"
+#import "ProjectFeedCell.h"
 
 #pragma mark - Interface
 
@@ -21,8 +25,11 @@
 
 @property (nonatomic, strong) NSArray<Badge *> *badges;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) DAO *dao;
+@property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (nonatomic, strong) MenuBar *menuBar;
+@property (nonatomic, strong) ProfileView *profileHeader;
+@property (nonatomic, strong) NSArray<Project *> *projects;
 
 @end
 
@@ -53,18 +60,80 @@
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
+    [self setupProfileHeader];
+    [self setupMenuBar];
+    [self setupCollectionView];
+    
     __weak typeof (self) weakSelf = self;
     [self loadUserWithCompletion:^(NSError *error) {
         if (!error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                typeof(self) strongSelf = weakSelf;
-                if (strongSelf) {
-                    [strongSelf setupCollectionView];
+            [self loadProjectsWithCompletion:^(NSError *error) {
+                if (!error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        typeof(self) strongSelf = weakSelf;
+                        if (strongSelf) {
+                            [strongSelf.collectionView reloadData];
+                        }
+                    });
                 }
-            });
+            }];
         }
     }];
 }
+
+- (void)setupProfileHeader {
+    CGFloat const headerWidth = self.view.bounds.size.width;
+    CGFloat const headerHeight = 0.35 * self.view.bounds.size.height;
+    CGFloat const headerX = 0;
+    CGFloat const headerY = self.navigationController.navigationBar.frame.size.height;
+    
+    _profileHeader = [[ProfileView alloc] initWithFrame:CGRectMake(headerX, headerY, headerWidth, headerHeight)];
+    _profileHeader.user = _user;
+    _profileHeader.dao = _dao;
+    _profileHeader.delegate = self;
+    
+    [self.view addSubview:_profileHeader];
+}
+
+- (void)setupMenuBar {
+    CGFloat const barWidth = self.view.bounds.size.width;
+    CGFloat const barHeight = 50;
+    CGFloat const barX = 0;
+    CGFloat const barY = _profileHeader.bounds.size.height;
+    
+    _menuBar = [[MenuBar alloc] initWithFrame:CGRectMake(barX, barY, barWidth, barHeight)];
+    _menuBar.viewController = self;
+    [self.view addSubview:_menuBar];
+}
+
+- (void)setupCollectionView {
+    _layout = [[UICollectionViewFlowLayout alloc] init];
+    _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    _layout.minimumLineSpacing = 0;
+    
+    CGFloat const viewWidth = self.view.bounds.size.width;
+    CGFloat const viewHeight = self.view.bounds.size.height - _menuBar.bounds.size.height - _profileHeader.bounds.size.height;
+    CGFloat const viewX = 0;
+    CGFloat const viewY = _menuBar.frame.origin.y + _menuBar.bounds.size.height;
+    CGRect const frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:frame
+                                         collectionViewLayout:_layout];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    
+    [_collectionView registerClass:[BadgeFeedCell class]
+        forCellWithReuseIdentifier:@"badgeFeedCell"];
+    [_collectionView registerClass:[ProjectFeedCell class]
+        forCellWithReuseIdentifier:@"projectFeedCell"];
+    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
+    
+    _collectionView.pagingEnabled = YES;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    [self.view addSubview:_collectionView];
+}
+
+#pragma mark - Load data
 
 - (void)loadUserWithCompletion:(void(^)(NSError *error))completion {
     __weak typeof (self) weakSelf = self;
@@ -80,21 +149,14 @@
     }];
 }
 
-- (void)setupCollectionView {
-    _layout = [[UICollectionViewFlowLayout alloc] init];
-    _layout.headerReferenceSize = CGSizeMake(self.view.frame.size.width, 0.3 * self.view.bounds.size.height);
-    _layout.sectionHeadersPinToVisibleBounds = YES;
-    
-    _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds
-                                         collectionViewLayout:_layout];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    
-    [_collectionView registerClass:[ProfileView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader"];
-    [_collectionView registerClass:[BadgeCell class] forCellWithReuseIdentifier:@"badgeCell"];
-    [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
-    
-    [self.view addSubview:_collectionView];
+- (void)loadProjectsWithCompletion:(void(^)(NSError *error))completion {
+    __weak typeof (self) weakSelf = self;
+    [_dao getAllCreatedProjectsforUserId:_user.userId completion:^(NSArray *projects, NSError *error) {
+        if (projects) {
+            weakSelf.projects = projects;
+            completion(error);
+        }
+    }];
 }
 
 #pragma mark - ProfileViewDelegate Protocol
@@ -110,32 +172,49 @@
                              completion:nil];
 }
 
+#pragma mark - Scrolling
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [_menuBar moveHorizontalBarToX:scrollView.contentOffset.x / 2];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset {
+    NSInteger const index = targetContentOffset->x / self.view.frame.size.width;
+    NSIndexPath *const indexPath = [NSIndexPath indexPathForItem:(NSInteger) index inSection:0];
+    [_menuBar.collectionView selectItemAtIndexPath:indexPath
+                                          animated:YES
+                                    scrollPosition:UICollectionViewScrollPositionNone];
+}
+
+- (void)scrollToMenuIndex:(NSInteger)menuIndex {
+    NSIndexPath *const indexPath = [NSIndexPath indexPathForItem:menuIndex inSection:0];
+    [_collectionView scrollToItemAtIndexPath:indexPath
+                            atScrollPosition:UICollectionViewScrollPositionNone
+                                    animated:YES];
+}
+
 #pragma mark - UICollectionViewDataSource Protocol
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-    return _user.badges.count;
+    return 2;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    BadgeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeCell"
-                                                                forIndexPath:indexPath];
-    cell.badge = _badges[indexPath.item];
-    return cell;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath {
-    if (kind == UICollectionElementKindSectionHeader) {
-        ProfileView *const profileHeader = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"profileHeader" forIndexPath:indexPath];
-        profileHeader.user = _user;
-        profileHeader.dao = _dao;
-        profileHeader.delegate = self;
-        return profileHeader;
+    if (indexPath.item == 0) {
+        BadgeFeedCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeFeedCell"
+                                                                              forIndexPath:indexPath];
+        cell.badges = _badges;
+        return cell;
+    } else {
+        ProjectFeedCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectFeedCell"
+                                                                                forIndexPath:indexPath];
+        cell.projects = _projects;
+        return cell;
     }
-    return nil;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Protocol
@@ -143,7 +222,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(collectionView.frame.size.width - 50, collectionView.frame.size.height / 6.0);
+    return CGSizeMake(collectionView.frame.size.width, collectionView.frame.size.height);
 }
 
 @end

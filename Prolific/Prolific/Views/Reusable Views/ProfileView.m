@@ -39,6 +39,7 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
         
         _profileView = [[UIView alloc] initWithFrame:frame];
         [self addSubview:_profileView];
+        
         [self setupProfileViewSubviews];
         [self setupImagePicker];
     }
@@ -95,7 +96,7 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     _profileView.frame = CGRectMake(0, 0, boundsWidth, boundsHeight);
     
     // backdrop view
-    _backdropView.frame = CGRectMake(0, 0, boundsWidth, 0.3 * boundsHeight);
+    _backdropView.frame = CGRectMake(0, 0, boundsWidth, 0.4 * boundsHeight);
     
     // profile picture
     CGFloat const imageViewWidth = 100;
@@ -122,23 +123,23 @@ static NSString *const kLoadingAnimationId = @"6541-loading";
     CGFloat const labelWidth = 200;
     CGFloat const labelHeight = 25;
     CGFloat const labelX = _profileImageView.center.x - labelWidth / 2.0;
-    CGFloat const displayNameLabelY = imageViewY + imageViewHeight + 20;
+    CGFloat const displayNameLabelY = imageViewY + imageViewHeight + 5;
     _displayNameLabel.frame = CGRectMake(labelX, displayNameLabelY, labelWidth, labelHeight);
     _displayNameLabel.text = _user.displayName;
     _displayNameLabel.textAlignment = NSTextAlignmentCenter;
     [_displayNameLabel setFont:[UIFont boldSystemFontOfSize:22]];
     
-    CGFloat const usernameLabelY = displayNameLabelY + labelHeight + 8;
+    CGFloat const usernameLabelY = displayNameLabelY + labelHeight + 3;
     _usernameLabel.frame = CGRectMake(labelX, usernameLabelY, labelWidth, labelHeight);
     _usernameLabel.text = [NSString stringWithFormat:@"@%@", _user.username];
     _usernameLabel.textAlignment = NSTextAlignmentCenter;
     [_usernameLabel setFont:[UIFont systemFontOfSize:14]];
     
-    CGFloat const karmaLabelY = usernameLabelY + labelHeight + 20;
+    CGFloat const karmaLabelY = usernameLabelY + labelHeight + 5;
     _karmaLabel.frame = CGRectMake(labelX, karmaLabelY, labelWidth, labelHeight);
-    _karmaLabel.text = [NSString stringWithFormat:@"Karma: %@", [_user.karma stringValue]];
+    _karmaLabel.text = [NSString stringWithFormat:@"🌟 %@ Karma 🌟", [_user.karma stringValue]];
     _karmaLabel.textAlignment = NSTextAlignmentCenter;
-    [_karmaLabel setFont:[UIFont systemFontOfSize:18]];
+    [_karmaLabel setFont:[UIFont systemFontOfSize:16]];
 }
 
 #pragma mark - User actions

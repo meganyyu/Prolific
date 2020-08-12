@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // required (and immutable) attributes
 @property (nonatomic, strong) NSString *projectId;
+@property (nonatomic, strong) NSString *authorId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, strong) NSString *seed;
@@ -39,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithProject:(Project *)project;
 
 - (ProjectBuilder *)withId:(NSString *)projectId;
+
+- (ProjectBuilder *)withAuthor:(NSString *)authorId;
 
 - (ProjectBuilder *)withName:(NSString *)projectName;
 

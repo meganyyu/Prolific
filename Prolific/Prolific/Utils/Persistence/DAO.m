@@ -173,6 +173,28 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }];
 }
 
+- (void)getAllCreatedProjectsforUserId:(NSString *)userId
+                            completion:(void (^)(NSArray *, NSError *))completion {
+    FIRCollectionReference *const projectsRef = [self.db collectionWithPath:kProjectsKey];
+    
+    [[projectsRef queryWhereField:kAuthorIdKey isEqualTo:userId]
+     getDocumentsWithCompletion:^(FIRQuerySnapshot *snapshot, NSError *error) {
+        if (error != nil) {
+            completion(nil, error);
+        } else {
+            NSMutableArray *const projs = [[NSMutableArray alloc] init];
+            for (FIRDocumentSnapshot *const document in snapshot.documents) {
+                Project *const proj = [self buildProjectWithId:document.documentID
+                                                      fromData:document.data];
+                if (proj) {
+                    [projs addObject:proj];
+                }
+            }
+            completion(projs, nil);
+        }
+    }];
+}
+
 #pragma mark - Snippet
 
 - (void)submitSnippetWithBuilder:(SnippetBuilder *)snippetBuilder
@@ -248,7 +270,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     // Allocate a mutable array and set [NSNull null] at each position:
     NSInteger const count = round.submissions.count;
     NSMutableArray *successfulUpdatesArray = [NSMutableArray arrayWithCapacity:count];
-
+    
     for (NSInteger i = 0; i < count; ++i) {
         [successfulUpdatesArray addObject:[NSNull null]];
     }
@@ -256,7 +278,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     // Use dispatch groups to handle multiple network calls:
     __block NSError *serverUpdateError = nil; // Keep track if there was at least one error updating server
     NSInteger index = 0;
-
+    
     // Create the dispatch group
     dispatch_group_t serviceGroup = dispatch_group_create();
     
@@ -355,12 +377,12 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     __block FIRDocumentReference *ref =
     [roundsRef addDocumentWithData:roundData
                         completion:^(NSError * _Nullable error) {
-        if (error != nil) {
+        if (error) {
             completion(nil, error);
         } else {
             Round *round = [[roundBuilder withId:ref.documentID]
                             build];
-            round ? completion(round, nil) : completion(nil, error);
+            completion(round, nil);
         }
     }];
 }
@@ -384,7 +406,7 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
     }
     
     [roundRef updateData:roundData completion:^(NSError * _Nullable error) {
-        error ? completion(error) : completion(nil);
+        completion(error);
     }];
 }
 
@@ -435,8 +457,9 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
                    withFirstRoundBuilder:(RoundBuilder *)roundBuilder
                               completion:(void (^)(Project *, NSError *))completion {
     FIRCollectionReference *const projsRef = [self.db collectionWithPath:kProjectsKey];
-
+    
     NSDictionary *const projData = @{
+        kAuthorIdKey: projectBuilder.authorId,
         kNameKey: projectBuilder.name,
         kCreatedAtKey: [FIRTimestamp timestampWithDate:projectBuilder.createdAt],
         kSeedKey: projectBuilder.seed,
@@ -458,8 +481,8 @@ static NSString *const kWinningSnippetIdKey = @"winningSnippetId";
                     completion(nil, error);
                 } else {
                     Project *const proj = [[[projectBuilder withId:ref.documentID]
-                                                                    addRound:round]
-                                                                   build];
+                                            addRound:round]
+                                           build];
                     completion(proj, nil);
                 }
             }];

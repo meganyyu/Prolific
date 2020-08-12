@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSMutableArray *projectArray;
 @property (nonatomic, strong) DAO *dao;
 @property (nonatomic, strong) User *currUser;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -46,17 +47,16 @@
     self.navigationItem.title = @"Favorites";
     
     [self loadProjects];
+    
+    [self setupRefreshControl];
 }
 
-- (void)loadCurrentUser {
-    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
-    
-    __weak typeof (self) weakSelf = self;
-    [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
-        if (user) {
-            weakSelf.currUser = user;
-        }
-    }];
+- (void)setupRefreshControl {
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(loadProjects)
+              forControlEvents:UIControlEventValueChanged];
+    [_collectionView insertSubview:_refreshControl
+                           atIndex:0];
 }
 
 - (void)setupCollectionView {
@@ -70,11 +70,23 @@
         forCellWithReuseIdentifier:@"projectCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     [_collectionView setAllowsMultipleSelection:NO];
+    _collectionView.contentInset = UIEdgeInsetsMake(30, 0, 0, 0);
     
     [self.view addSubview:_collectionView];
 }
 
 #pragma mark - Load data
+
+- (void)loadCurrentUser {
+    NSString *const currUserId = [FIRAuth auth].currentUser.uid;
+    
+    __weak typeof (self) weakSelf = self;
+    [_dao getUserWithId:currUserId completion:^(User *user, NSError *error) {
+        if (user) {
+            weakSelf.currUser = user;
+        }
+    }];
+}
 
 - (void)loadProjects {
     NSString *const currUserId = [FIRAuth auth].currentUser.uid;
@@ -91,6 +103,13 @@
                 }
             });
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            __strong typeof (self) strongSelf = weakSelf;
+            if (strongSelf) {
+                [strongSelf.refreshControl endRefreshing];
+            }
+        });
     }];
 }
 

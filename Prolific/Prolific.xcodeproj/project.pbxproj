@@ -68,6 +68,10 @@
 		71CF522524C9257A008DB4EF /* ProlificUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CF522424C9257A008DB4EF /* ProlificUtils.m */; };
 		71F55C4624CA36C000B266BF /* RoundCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F55C4524CA36C000B266BF /* RoundCellView.m */; };
 		71F55C4E24CB388300B266BF /* ProjectUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */; };
+		71F5B62124E1EC0800680723 /* MenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F5B62024E1EC0800680723 /* MenuBar.m */; };
+		71F5B62924E32CCA00680723 /* FeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F5B62824E32CCA00680723 /* FeedCell.m */; };
+		71F5B62D24E350A500680723 /* ProjectFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F5B62C24E350A500680723 /* ProjectFeedCell.m */; };
+		71F5B63124E352DD00680723 /* BadgeFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F5B63024E352DD00680723 /* BadgeFeedCell.m */; };
 		86F3C557F479B3798BC49C95 /* Pods_ProlificTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB03C61541226EFB796BBF6A /* Pods_ProlificTests.framework */; };
 		997BE3BC4EFE358335110F9D /* Pods_Prolific_ProlificUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */; };
 /* End PBXBuildFile section */
@@ -206,6 +210,14 @@
 		71F55C4524CA36C000B266BF /* RoundCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundCellView.m; sourceTree = "<group>"; };
 		71F55C4C24CB388300B266BF /* ProjectUpdateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectUpdateManager.h; sourceTree = "<group>"; };
 		71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectUpdateManager.m; sourceTree = "<group>"; };
+		71F5B61F24E1EC0800680723 /* MenuBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuBar.h; sourceTree = "<group>"; };
+		71F5B62024E1EC0800680723 /* MenuBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuBar.m; sourceTree = "<group>"; };
+		71F5B62724E32CCA00680723 /* FeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedCell.h; sourceTree = "<group>"; };
+		71F5B62824E32CCA00680723 /* FeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedCell.m; sourceTree = "<group>"; };
+		71F5B62B24E350A500680723 /* ProjectFeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectFeedCell.h; sourceTree = "<group>"; };
+		71F5B62C24E350A500680723 /* ProjectFeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectFeedCell.m; sourceTree = "<group>"; };
+		71F5B62F24E352DD00680723 /* BadgeFeedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BadgeFeedCell.h; sourceTree = "<group>"; };
+		71F5B63024E352DD00680723 /* BadgeFeedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BadgeFeedCell.m; sourceTree = "<group>"; };
 		857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E09C354AD1F4F4E31F7726 /* Pods-Prolific-ProlificUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific-ProlificUITests.release.xcconfig"; path = "Target Support Files/Pods-Prolific-ProlificUITests/Pods-Prolific-ProlificUITests.release.xcconfig"; sourceTree = "<group>"; };
 		895ABB6EFDD0F5CE959475EC /* Pods-ProlificTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProlificTests.debug.xcconfig"; path = "Target Support Files/Pods-ProlificTests/Pods-ProlificTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -518,6 +530,9 @@
 		7188D84F24C651FF00E50876 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				71F5B62E24E3528700680723 /* Badge Feed Cell */,
+				71F5B62A24E3506C00680723 /* Project Feed Cell */,
+				71F5B62624E32CB100680723 /* Feed Cell */,
 				7188D84D24C651E000E50876 /* Base Cell */,
 				71C2D82024CF94CD00E12391 /* Text Cell */,
 				7188D84E24C651EE00E50876 /* Snippet Cell */,
@@ -620,6 +635,7 @@
 		7191117124BD046600070A32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				71F5B61E24E1EBF100680723 /* Menu Bar */,
 				71C2C70624D8C8B400C22C41 /* Reusable Views */,
 				7186FB2724D4DBE300B2F4A0 /* Lottie Animations */,
 				71C2D81C24CF677500E12391 /* Progress Bars */,
@@ -864,6 +880,42 @@
 				71F55C4D24CB388300B266BF /* ProjectUpdateManager.m */,
 			);
 			path = "Project Update Manager";
+			sourceTree = "<group>";
+		};
+		71F5B61E24E1EBF100680723 /* Menu Bar */ = {
+			isa = PBXGroup;
+			children = (
+				71F5B61F24E1EC0800680723 /* MenuBar.h */,
+				71F5B62024E1EC0800680723 /* MenuBar.m */,
+			);
+			path = "Menu Bar";
+			sourceTree = "<group>";
+		};
+		71F5B62624E32CB100680723 /* Feed Cell */ = {
+			isa = PBXGroup;
+			children = (
+				71F5B62724E32CCA00680723 /* FeedCell.h */,
+				71F5B62824E32CCA00680723 /* FeedCell.m */,
+			);
+			path = "Feed Cell";
+			sourceTree = "<group>";
+		};
+		71F5B62A24E3506C00680723 /* Project Feed Cell */ = {
+			isa = PBXGroup;
+			children = (
+				71F5B62B24E350A500680723 /* ProjectFeedCell.h */,
+				71F5B62C24E350A500680723 /* ProjectFeedCell.m */,
+			);
+			path = "Project Feed Cell";
+			sourceTree = "<group>";
+		};
+		71F5B62E24E3528700680723 /* Badge Feed Cell */ = {
+			isa = PBXGroup;
+			children = (
+				71F5B62F24E352DD00680723 /* BadgeFeedCell.h */,
+				71F5B63024E352DD00680723 /* BadgeFeedCell.m */,
+			);
+			path = "Badge Feed Cell";
 			sourceTree = "<group>";
 		};
 		FF52A583CD9670382704644A /* Frameworks */ = {
@@ -1123,6 +1175,7 @@
 				71CF521D24C7A32A008DB4EF /* DAO.m in Sources */,
 				710D62BE24DA197200DAFBD8 /* ComposeSnippetViewController.m in Sources */,
 				710D62BD24DA191800DAFBD8 /* ProlificBaseViewController.m in Sources */,
+				71F5B62D24E350A500680723 /* ProjectFeedCell.m in Sources */,
 				71C2C70E24D8D05600C22C41 /* BadgeCell.m in Sources */,
 				712A9E0724DCA18B00B608ED /* HorizontalProgressBar.m in Sources */,
 				717D22E924DDEA8D00A24B20 /* CreateProjectViewController.m in Sources */,
@@ -1144,6 +1197,7 @@
 				71CF522524C9257A008DB4EF /* ProlificUtils.m in Sources */,
 				7118C40A24BFA283005E1816 /* UserBuilder.m in Sources */,
 				712A9DFE24DB659E00B608ED /* BadgeBuilder.m in Sources */,
+				71F5B63124E352DD00680723 /* BadgeFeedCell.m in Sources */,
 				7118C40924BFA25A005E1816 /* User.m in Sources */,
 				7191118824BD234200070A32 /* LoginViewController.m in Sources */,
 				71CF521824C7787B008DB4EF /* CountLabel.m in Sources */,
@@ -1152,10 +1206,12 @@
 				71CF520624C66CC9008DB4EF /* BaseCellView.m in Sources */,
 				71F55C4624CA36C000B266BF /* RoundCellView.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
+				71F5B62924E32CCA00680723 /* FeedCell.m in Sources */,
 				71C2D81F24CF679900E12391 /* CircularProgressBar.m in Sources */,
 				7188D85824C6526F00E50876 /* RoundCell.m in Sources */,
 				7165D15A24BE1B17008E64CD /* RegisterViewController.m in Sources */,
 				711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */,
+				71F5B62124E1EC0800680723 /* MenuBar.m in Sources */,
 				7191117C24BD05C700070A32 /* MainTabBarController.m in Sources */,
 				7188D85224C6521900E50876 /* BaseCell.m in Sources */,
 				7191113924BCBD9B00070A32 /* AppDelegate.m in Sources */,
