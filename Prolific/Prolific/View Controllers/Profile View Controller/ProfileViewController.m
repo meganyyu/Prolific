@@ -10,13 +10,14 @@
 
 #import "BadgeCell.h"
 #import "DAO.h"
-#import "FeedCell.h"
+#import "BadgeFeedCell.h"
 @import Firebase;
 #import "MenuBar.h"
 #import "NavigationManager.h"
 #import "UIColor+ProlificColors.h"
 #import "ProfileView.h"
 #import "ProjectCell.h"
+#import "ProjectFeedCell.h"
 
 #pragma mark - Interface
 
@@ -71,7 +72,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         typeof(self) strongSelf = weakSelf;
                         if (strongSelf) {
-                            // load data
+                            [strongSelf.collectionView reloadData];
                         }
                     });
                 }
@@ -121,8 +122,10 @@
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     
-    [_collectionView registerClass:[FeedCell class]
-        forCellWithReuseIdentifier:@"feedCell"];
+    [_collectionView registerClass:[BadgeFeedCell class]
+        forCellWithReuseIdentifier:@"badgeFeedCell"];
+    [_collectionView registerClass:[ProjectFeedCell class]
+        forCellWithReuseIdentifier:@"projectFeedCell"];
     [_collectionView setBackgroundColor:[UIColor ProlificBackgroundGrayColor]];
     
     _collectionView.pagingEnabled = YES;
@@ -201,11 +204,17 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    FeedCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell"
-                                                                     forIndexPath:indexPath];
-    NSArray *const colors = @[[UIColor ProlificBlue1Color], [UIColor ProlificBlue2Color]];
-    cell.backgroundColor = colors[indexPath.item];
-    return cell;
+    if (indexPath.item == 0) {
+        BadgeFeedCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"badgeFeedCell"
+                                                                              forIndexPath:indexPath];
+        cell.badges = _badges;
+        return cell;
+    } else {
+        ProjectFeedCell *const cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectFeedCell"
+                                                                                forIndexPath:indexPath];
+        cell.projects = _projects;
+        return cell;
+    }
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Protocol
