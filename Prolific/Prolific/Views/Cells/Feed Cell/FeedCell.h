@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FeedCell : UICollectionViewCell
 
+@property (nonatomic, strong) UICollectionView *collectionView;
+
+- (void)setupCollectionView;
+
 @end
 
 NS_ASSUME_NONNULL_END
