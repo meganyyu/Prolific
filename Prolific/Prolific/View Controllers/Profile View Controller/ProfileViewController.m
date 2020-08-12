@@ -72,6 +72,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         typeof(self) strongSelf = weakSelf;
                         if (strongSelf) {
+                            [strongSelf.profileHeader setNeedsDisplay];
                             [strongSelf.collectionView reloadData];
                         }
                     });
