@@ -198,10 +198,16 @@ static NSString *const kMainLogoIconId = @"main-logo-primary";
                                    withUsername:cleanedFields[kUsernameKey]]
                                   withDisplayName:cleanedFields[kDisplayNameKey]]
                                  build];
-                if (!newUser) {
+                if (newUser) {
+                    __weak typeof (self) weakSelf = self;
                     [dao saveUser:newUser completion:^(NSError *error) {
                         if (!error) {
-                            [self authenticatedTransition];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                __strong typeof (weakSelf) strongSelf = weakSelf;
+                                if (strongSelf) {
+                                    [strongSelf authenticatedTransition];
+                                }
+                            });
                         }
                     }];
                 } else {
