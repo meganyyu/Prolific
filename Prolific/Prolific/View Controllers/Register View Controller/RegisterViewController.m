@@ -23,6 +23,7 @@ static NSString *const kDisplayNameKey = @"displayName";
 static NSString *const kEmailKey = @"email";
 static NSString *const kPasswordKey = @"password";
 static NSString *const kUsernameKey = @"username";
+static NSString *const kMainLogoIconId = @"main-logo-primary";
 
 #pragma mark - Interface
 
@@ -31,6 +32,7 @@ static NSString *const kUsernameKey = @"username";
 @property (nonatomic, strong) UITextField *displayNameField;
 @property (nonatomic, strong) UITextField *emailField;
 @property (nonatomic, strong) UILabel *errorLabel;
+@property (nonatomic, strong) UIImageView *logoIconView;
 @property (nonatomic, strong) UITextField *passwordField;
 @property (nonatomic, strong) UIButton *registerButton;
 @property (nonatomic, strong) UIView *registerContentView;
@@ -53,6 +55,9 @@ static NSString *const kUsernameKey = @"username";
     _registerContentView = [[UIView alloc] init];
     _registerContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_registerContentView];
+    
+    _logoIconView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:kMainLogoIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [_registerContentView addSubview:_logoIconView];
     
     _displayNameField = [[UITextField alloc] init];
     _displayNameField.backgroundColor = [UIColor whiteColor];
@@ -108,6 +113,7 @@ static NSString *const kUsernameKey = @"username";
     
     _errorLabel = [[UILabel alloc] init];
     _errorLabel.textColor = [UIColor ProlificRedColor];
+    _errorLabel.textAlignment = NSTextAlignmentCenter;
     _errorLabel.numberOfLines = 0;
     [_registerContentView addSubview:_errorLabel];
 }
@@ -120,50 +126,49 @@ static NSString *const kUsernameKey = @"username";
     CGFloat const boundsHeight = CGRectGetHeight(bounds);
     CGPoint const center = self.view.center;
     
-    // login content view
-    CGFloat const viewWidth = boundsWidth;
-    CGFloat const viewHeight = boundsHeight * 0.7;
-    CGFloat const viewX = center.x - viewWidth / 2;
-    CGFloat const viewY = center.y - viewHeight / 2;
-    _registerContentView.frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
+    // register content view
+    _registerContentView.frame = self.view.frame;;
 
+    // logo icon
+    CGFloat const logoWidth = 110;
+    CGFloat const logoHeight = 110;
+    CGFloat const logoX = center.x - logoWidth / 2;
+    CGFloat const logoY = 0.1 * boundsHeight;
+    _logoIconView.frame = CGRectMake(logoX, logoY, logoWidth, logoHeight);
+    
+    
+    CGFloat const fieldWidth = boundsWidth * 0.75;
+    CGFloat const fieldHeight = 70;
+    CGFloat const fieldX = center.x - fieldWidth / 2;
+    
     // displayName field
-    CGFloat const fieldWidth = viewWidth * 0.75;
-    CGFloat const fieldHeight = (viewHeight * 0.75) / 7.0;
-    CGFloat const displayNameFieldX = _registerContentView.center.x - fieldWidth / 2;
-    CGFloat const displayNameFieldY = 0;
-    _displayNameField.frame = CGRectMake(displayNameFieldX, displayNameFieldY, fieldWidth, fieldHeight);
+    CGFloat const displayNameFieldY = logoY + logoHeight + 20;
+    _displayNameField.frame = CGRectMake(fieldX, displayNameFieldY, fieldWidth, fieldHeight);
     
     // username field
-    CGFloat const usernameFieldX = displayNameFieldX;
-    CGFloat const usernameFieldY = displayNameFieldY + fieldHeight;
-    _usernameField.frame = CGRectMake(usernameFieldX, usernameFieldY, fieldWidth, fieldHeight);
+    CGFloat const usernameFieldY = displayNameFieldY + fieldHeight + 5;
+    _usernameField.frame = CGRectMake(fieldX, usernameFieldY, fieldWidth, fieldHeight);
     
     // email field
-    CGFloat const emailFieldX = usernameFieldX;
-    CGFloat const emailFieldY = usernameFieldY + fieldHeight;
-    _emailField.frame = CGRectMake(emailFieldX, emailFieldY, fieldWidth, fieldHeight);
+    CGFloat const emailFieldY = usernameFieldY + fieldHeight + 5;
+    _emailField.frame = CGRectMake(fieldX, emailFieldY, fieldWidth, fieldHeight);
     
     // password field
-    CGFloat const passwordFieldX = usernameFieldX;
-    CGFloat const passwordFieldY = emailFieldY + fieldHeight;
-    _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
+    CGFloat const passwordFieldY = emailFieldY + fieldHeight + 5;
+    _passwordField.frame = CGRectMake(fieldX, passwordFieldY, fieldWidth, fieldHeight);
     
     // error label
-    CGFloat const errorLabelX = usernameFieldX;
-    CGFloat const errorLabelY = viewHeight - fieldHeight;
+    CGFloat const errorLabelY = 0.85 * boundsHeight;
     _errorLabel.alpha = 0;
-    _errorLabel.frame = CGRectMake(errorLabelX, errorLabelY, fieldWidth, fieldHeight);
+    _errorLabel.frame = CGRectMake(fieldX, errorLabelY, fieldWidth, fieldHeight);
     
     // login button
-    CGFloat const loginButtonX = usernameFieldX;
     CGFloat const loginButtonY = errorLabelY - fieldHeight - 10;
-    _returnToLoginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
+    _returnToLoginButton.frame = CGRectMake(fieldX, loginButtonY, fieldWidth, fieldHeight);
     
     // registration button
-    CGFloat const registerButtonX = usernameFieldX;
     CGFloat const registerButtonY = loginButtonY - fieldHeight - 10;
-    _registerButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
+    _registerButton.frame = CGRectMake(fieldX, registerButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions

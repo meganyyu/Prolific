@@ -16,17 +16,20 @@
 
 static NSString *const kEmailKey = @"email";
 static NSString *const kPasswordKey = @"password";
+static NSString *const kMainLogoIconId = @"main-logo-primary";
 
 #pragma mark - Interface
 
 @interface LoginViewController ()
 
-@property (nonatomic, strong) UIView *loginContentView;
 @property (nonatomic, strong) UITextField *emailField;
-@property (nonatomic, strong) UITextField *passwordField;
-@property (nonatomic, strong) UIButton *loginButton;
-@property (nonatomic, strong) UIButton *goToRegisterButton;
 @property (nonatomic, strong) UILabel *errorLabel;
+@property (nonatomic, strong) UIView *loginContentView;
+@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, strong) UIImageView *logoIconView;
+@property (nonatomic, strong) UILabel *welcomeLabel;
+@property (nonatomic, strong) UIButton *goToRegisterButton;
+@property (nonatomic, strong) UITextField *passwordField;
 
 @end
 
@@ -44,6 +47,16 @@ static NSString *const kPasswordKey = @"password";
     _loginContentView = [[UIView alloc] init];
     _loginContentView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_loginContentView];
+    
+    _logoIconView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:kMainLogoIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [_loginContentView addSubview:_logoIconView];
+    
+    _welcomeLabel = [[UILabel alloc] init];
+    _welcomeLabel.text = @"Welcome";
+    _welcomeLabel.textAlignment = NSTextAlignmentCenter;
+    _welcomeLabel.textColor = [UIColor ProlificPrimaryBlueColor];
+    _welcomeLabel.font = [UIFont systemFontOfSize:48 weight:UIFontWeightBold];
+    [_loginContentView addSubview:_welcomeLabel];
     
     _emailField = [[UITextField alloc] init];
     _emailField.backgroundColor = [UIColor whiteColor];
@@ -84,11 +97,12 @@ static NSString *const kPasswordKey = @"password";
     
     _errorLabel = [[UILabel alloc] init];
     _errorLabel.textColor = [UIColor ProlificRedColor];
+    _errorLabel.textAlignment = NSTextAlignmentCenter;
     _errorLabel.numberOfLines = 0;
     [_loginContentView addSubview:_errorLabel];
 }
 
-- (void)viewDidLayoutSubviews { //FIXME: should I be setting frames or bounds?
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
     CGRect const bounds = self.view.bounds;
@@ -97,39 +111,44 @@ static NSString *const kPasswordKey = @"password";
     CGPoint const center = self.view.center;
     
     // login content view
-    CGFloat const viewWidth = boundsWidth;
-    CGFloat const viewHeight = boundsHeight * 0.5;
-    CGFloat const viewX = center.x - viewWidth / 2;
-    CGFloat const viewY = center.y - viewHeight / 2;
-    _loginContentView.frame = CGRectMake(viewX, viewY, viewWidth, viewHeight);
+    _loginContentView.frame = self.view.frame;
 
+    // logo icon
+    CGFloat const logoWidth = 110;
+    CGFloat const logoHeight = 110;
+    CGFloat const logoX = center.x - logoWidth / 2;
+    CGFloat const logoY = 0.2 * boundsHeight;
+    _logoIconView.frame = CGRectMake(logoX, logoY, logoWidth, logoHeight);
+
+    
+    CGFloat const fieldWidth = boundsWidth * 0.75;
+    CGFloat const fieldHeight = 70;
+    CGFloat const fieldX = center.x - fieldWidth / 2;
+    
+    // welcome label
+    CGFloat const welcomeLabelY = logoY + logoHeight;
+    _welcomeLabel.frame = CGRectMake(fieldX, welcomeLabelY, fieldWidth, fieldHeight);
+    
     // email field
-    CGFloat const fieldWidth = viewWidth * 0.75;
-    CGFloat const fieldHeight = (viewHeight * 0.75) / 5.0;
-    CGFloat const emailFieldX = _loginContentView.center.x - fieldWidth / 2;
-    CGFloat const emailFieldY = 0;
-    _emailField.frame = CGRectMake(emailFieldX, emailFieldY, fieldWidth, fieldHeight);
+    CGFloat const emailFieldY = welcomeLabelY + fieldHeight + 20;
+    _emailField.frame = CGRectMake(fieldX, emailFieldY, fieldWidth, fieldHeight);
     
     // password field
-    CGFloat const passwordFieldX = emailFieldX;
-    CGFloat const passwordFieldY = emailFieldY + fieldHeight;
-    _passwordField.frame = CGRectMake(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
+    CGFloat const passwordFieldY = emailFieldY + fieldHeight + 5;
+    _passwordField.frame = CGRectMake(fieldX, passwordFieldY, fieldWidth, fieldHeight);
     
     // error label
-    CGFloat const errorLabelX = emailFieldX;
-    CGFloat const errorLabelY = viewHeight - fieldHeight;
+    CGFloat const errorLabelY = 0.85 * boundsHeight;
     _errorLabel.alpha = 0;
-    _errorLabel.frame = CGRectMake(errorLabelX, errorLabelY, fieldWidth, fieldHeight);
+    _errorLabel.frame = CGRectMake(fieldX, errorLabelY, fieldWidth, fieldHeight);
     
     // register button
-    CGFloat const registerButtonX = emailFieldX;
     CGFloat const registerButtonY = errorLabelY - fieldHeight - 10;
-    _goToRegisterButton.frame = CGRectMake(registerButtonX, registerButtonY, fieldWidth, fieldHeight);
+    _goToRegisterButton.frame = CGRectMake(fieldX, registerButtonY, fieldWidth, fieldHeight);
     
     // login button
-    CGFloat const loginButtonX = emailFieldX;
     CGFloat const loginButtonY = registerButtonY - fieldHeight - 10;
-    _loginButton.frame = CGRectMake(loginButtonX, loginButtonY, fieldWidth, fieldHeight);
+    _loginButton.frame = CGRectMake(fieldX, loginButtonY, fieldWidth, fieldHeight);
 }
 
 #pragma mark - User Actions
