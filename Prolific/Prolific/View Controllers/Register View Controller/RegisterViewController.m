@@ -15,6 +15,7 @@
 #import "ProlificErrorLogger.h"
 #import "SceneDelegate.h"
 #import "UIColor+ProlificColors.h"
+#import "UnderlinedTextField.h"
 #import "User.h"
 
 #pragma mark - Constants
@@ -29,15 +30,15 @@ static NSString *const kMainLogoIconId = @"main-logo-primary";
 
 @interface RegisterViewController ()
 
-@property (nonatomic, strong) UITextField *displayNameField;
-@property (nonatomic, strong) UITextField *emailField;
+@property (nonatomic, strong) UnderlinedTextField *displayNameField;
+@property (nonatomic, strong) UnderlinedTextField *emailField;
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UIImageView *logoIconView;
-@property (nonatomic, strong) UITextField *passwordField;
+@property (nonatomic, strong) UnderlinedTextField *passwordField;
 @property (nonatomic, strong) UIButton *registerButton;
 @property (nonatomic, strong) UIView *registerContentView;
 @property (nonatomic, strong) UIButton *returnToLoginButton;
-@property (nonatomic, strong) UITextField *usernameField;
+@property (nonatomic, strong) UnderlinedTextField *usernameField;
 
 @end
 
@@ -59,36 +60,20 @@ static NSString *const kMainLogoIconId = @"main-logo-primary";
     _logoIconView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:kMainLogoIconId] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [_registerContentView addSubview:_logoIconView];
     
-    _displayNameField = [[UITextField alloc] init];
-    _displayNameField.backgroundColor = [UIColor whiteColor];
+    _displayNameField = [[UnderlinedTextField alloc] init];
     _displayNameField.placeholder = @"Name";
-    _displayNameField.borderStyle = UITextBorderStyleRoundedRect;
-    _displayNameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _displayNameField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_displayNameField];
     
-    _usernameField = [[UITextField alloc] init];
-    _usernameField.backgroundColor = [UIColor whiteColor];
+    _usernameField = [[UnderlinedTextField alloc] init];
     _usernameField.placeholder = @"Username";
-    _usernameField.borderStyle = UITextBorderStyleRoundedRect;
-    _usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_usernameField];
     
-    _emailField = [[UITextField alloc] init];
-    _emailField.backgroundColor = [UIColor whiteColor];
+    _emailField = [[UnderlinedTextField alloc] init];
     _emailField.placeholder = @"Email";
-    _emailField.borderStyle = UITextBorderStyleRoundedRect;
-    _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_registerContentView addSubview:_emailField];
     
-    _passwordField = [[UITextField alloc] init];
-    _passwordField.backgroundColor = [UIColor whiteColor];
+    _passwordField = [[UnderlinedTextField alloc] init];
     _passwordField.placeholder = @"Password";
-    _passwordField.borderStyle = UITextBorderStyleRoundedRect;
-    _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     _passwordField.secureTextEntry = YES;
     [_registerContentView addSubview:_passwordField];
     

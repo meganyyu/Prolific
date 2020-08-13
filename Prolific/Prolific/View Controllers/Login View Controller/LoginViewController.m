@@ -13,6 +13,7 @@
 #import "NavigationManager.h"
 #import "SceneDelegate.h"
 #import "UIColor+ProlificColors.h"
+#import "UnderlinedTextField.h"
 
 static NSString *const kEmailKey = @"email";
 static NSString *const kPasswordKey = @"password";
@@ -22,14 +23,14 @@ static NSString *const kMainLogoIconId = @"main-logo-primary";
 
 @interface LoginViewController ()
 
-@property (nonatomic, strong) UITextField *emailField;
+@property (nonatomic, strong) UnderlinedTextField *emailField;
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UIView *loginContentView;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UIImageView *logoIconView;
 @property (nonatomic, strong) UILabel *welcomeLabel;
 @property (nonatomic, strong) UIButton *goToRegisterButton;
-@property (nonatomic, strong) UITextField *passwordField;
+@property (nonatomic, strong) UnderlinedTextField *passwordField;
 
 @end
 
@@ -58,20 +59,12 @@ static NSString *const kMainLogoIconId = @"main-logo-primary";
     _welcomeLabel.font = [UIFont systemFontOfSize:48 weight:UIFontWeightBold];
     [_loginContentView addSubview:_welcomeLabel];
     
-    _emailField = [[UITextField alloc] init];
-    _emailField.backgroundColor = [UIColor whiteColor];
+    _emailField = [[UnderlinedTextField alloc] init];
     _emailField.placeholder = @"Email";
-    _emailField.borderStyle = UITextBorderStyleRoundedRect;
-    _emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     [_loginContentView addSubview:_emailField];
     
-    _passwordField = [[UITextField alloc] init];
-    _passwordField.backgroundColor = [UIColor whiteColor];
+    _passwordField = [[UnderlinedTextField alloc] init];
     _passwordField.placeholder = @"Password";
-    _passwordField.borderStyle = UITextBorderStyleRoundedRect;
-    _passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    _passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     _passwordField.secureTextEntry = YES;
     [_loginContentView addSubview:_passwordField];
     
