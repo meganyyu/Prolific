@@ -26,7 +26,7 @@ static NSString *const kCreatorBadgeId = @"creator-badge";
                         forEngagement:(UserEngagementType)userEngagementType {
     NSDecimalNumber *const newKarma = [UserEngagementManager computeKarmaValueForUserEngagementType:userEngagementType];
     UserBuilder *userBuilder = [[[UserBuilder alloc] initWithUser:user]
-                                      addKarma:newKarma];
+                                addKarma:newKarma];
     userBuilder = [self updateBadgesForUserBuilder:userBuilder userEngagementType:userEngagementType];
     
     User *const updatedUser = [userBuilder build];

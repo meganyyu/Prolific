@@ -60,10 +60,6 @@
     self.navigationItem.title = @"Profile";
     [super setupBackButton];
     
-    [self setupProfileHeader];
-    [self setupMenuBar];
-    [self setupCollectionView];
-    
     __weak typeof (self) weakSelf = self;
     [self loadUserWithCompletion:^(NSError *error) {
         if (!error) {
@@ -72,8 +68,9 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         typeof(self) strongSelf = weakSelf;
                         if (strongSelf) {
-                            [strongSelf.profileHeader setNeedsDisplay];
-                            [strongSelf.collectionView reloadData];
+                            [self setupProfileHeader];
+                            [self setupMenuBar];
+                            [self setupCollectionView];
                         }
                     });
                 }
