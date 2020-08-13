@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		51F0B511CCE2110A84CAB749 /* Pods_Prolific.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 857E25E4A6E5BA8668A54203 /* Pods_Prolific.framework */; };
+		710C882B24E4F841004CBA5F /* UnderlinedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C882A24E4F841004CBA5F /* UnderlinedTextField.m */; };
 		710D62BD24DA191800DAFBD8 /* ProlificBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7191118324BD1D6500070A32 /* ProlificBaseViewController.m */; };
 		710D62BE24DA197200DAFBD8 /* ComposeSnippetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 714D1F8024C25D2D00749291 /* ComposeSnippetViewController.m */; };
 		711746E224BFBE570021F9CD /* SnippetBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 711746E124BFBE570021F9CD /* SnippetBuilder.m */; };
@@ -96,6 +97,8 @@
 /* Begin PBXFileReference section */
 		36448502AFBC63625D8F6DF6 /* Pods-Prolific.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prolific.debug.xcconfig"; path = "Target Support Files/Pods-Prolific/Pods-Prolific.debug.xcconfig"; sourceTree = "<group>"; };
 		5E3D2C3AAC694839A4E80583 /* Pods_Prolific_ProlificUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prolific_ProlificUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		710C882924E4F841004CBA5F /* UnderlinedTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnderlinedTextField.h; sourceTree = "<group>"; };
+		710C882A24E4F841004CBA5F /* UnderlinedTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnderlinedTextField.m; sourceTree = "<group>"; };
 		711746E024BFBE570021F9CD /* SnippetBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SnippetBuilder.h; sourceTree = "<group>"; };
 		711746E124BFBE570021F9CD /* SnippetBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SnippetBuilder.m; sourceTree = "<group>"; };
 		711746E324BFC4F00021F9CD /* RoundBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundBuilder.h; sourceTree = "<group>"; };
@@ -817,6 +820,8 @@
 		71CF521324C743A8008DB4EF /* Text Fields */ = {
 			isa = PBXGroup;
 			children = (
+				710C882924E4F841004CBA5F /* UnderlinedTextField.h */,
+				710C882A24E4F841004CBA5F /* UnderlinedTextField.m */,
 			);
 			path = "Text Fields";
 			sourceTree = "<group>";
@@ -1205,6 +1210,7 @@
 				711746E524BFC4F00021F9CD /* RoundBuilder.m in Sources */,
 				71CF520624C66CC9008DB4EF /* BaseCellView.m in Sources */,
 				71F55C4624CA36C000B266BF /* RoundCellView.m in Sources */,
+				710C882B24E4F841004CBA5F /* UnderlinedTextField.m in Sources */,
 				7191118124BD11CE00070A32 /* FavoritesViewController.m in Sources */,
 				71F5B62924E32CCA00680723 /* FeedCell.m in Sources */,
 				71C2D81F24CF679900E12391 /* CircularProgressBar.m in Sources */,
