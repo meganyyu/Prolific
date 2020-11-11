@@ -11,15 +11,15 @@ Original App Design Project
 
 ## Overview
 ### Description
-Prolific is a social app where users become co-creators by building stories together in a finish-the-story style game.\
+Prolific is a social app where users become co-creators by building stories together in a finish-the-story style game.
 
 Create starter projects or submit snippets to an existing project’s latest round. Vote on a round’s submissions to help decide which snippet gets to continue the story.
 
-<img src="https://github.com/meganyyu/Prolific/blob/main/prolifichomescreen.png" alt="prolific_home_screen" width=800>
+<img src="https://github.com/meganyyu/Prolific/blob/main/prolifichomescreen.png" alt="prolific_home_screen" width=300>
 *Home Screen*
-<img src="https://github.com/meganyyu/Prolific/blob/main/prolificcreateprojectscreen.png" alt="prolific_project_screen" width=800>
+<img src="https://github.com/meganyyu/Prolific/blob/main/prolificcreateprojectscreen.png" alt="prolific_project_screen" width=300>
 *Project Creation Screen*
-<img src="https://github.com/meganyyu/Prolific/blob/main/prolificprofilescreen.png" alt="prolific_profile_screen" width=800>
+<img src="https://github.com/meganyyu/Prolific/blob/main/prolificprofilescreen.png" alt="prolific_profile_screen" width=300>
 *User Profile Screen*
 
 ### Project Iterations
