@@ -13,18 +13,19 @@ Original App Design Project
 ### Description
 Prolific is a social app where users become co-creators by building stories together in a finish-the-story style game.
 
-### Possible Iterations
-These aren't necessarily iterations I'll implement at FBU, but are possible future directions for the app.
+Create starter projects or submit snippets to an existing project’s latest round. Vote on a round’s submissions to help decide which snippet gets to continue the story.
+
+### Project Iterations
 
 **MVP**
 - App contains some existing starter projects for now (e.g. sourced from writing sites/famous quotes), which are displayed in the home feed.
 - Users can compose and submit snippets to these existing starter projects to continue the story.
 - For each starter project, after a certain amount of time, all the votes are counted up, and the "winning" snippet is chosen.
-    - Winning snippets are chosen based on an algorithm (main complex algorithm for FBU)
-        - Purpose?
+    - Winning snippets are chosen based on a ranking algorithm (main complex algorithm for FBU)
+        - Purpose:
             - (1) make sure app doesn't only promote latest, top voted, or popular projects/snippets
             - (2) fraud detection: counter abuse from voters (i.e. same users always vote for another user)
-        - Have a class that locally and directly calculates some basic score (based on simple factors like votes, views, etc.) to rank what order users see snippets that have been submitted to a project
+        - MVP Solution: Have a class that locally and directly calculates some basic score (based on simple factors like votes, views, etc.) to rank what order users see snippets that have been submitted to a project
 - Once a winning snippet has been chosen, it is added to the project and users can again repeat the process of composing and adding snippets to this updated project.
 - Use user analytics as a tool to get an overview of activity on projects & snippets
 - Users can follow a project to view project in their favorites
@@ -37,14 +38,14 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - Basic profile customization
 - Users can follow other users
 
-**Possible future iterations?**
+**Possible future iterations**
 - Users following a project get notifications each time a round ends/starts
 - Modify class that deals with user engagement/scoring to instead send out the data to some server to do more complex analysis (e.g. maybe we want votes from new, unique users that haven't voted for that particular user before to count more than habitual voters --> need a graph database)
 - More gamification of the app
     - Users can set project types to change the pacing of the project's storyline - normal, speed-round, etc.
     - Temporary projects - have the option to make an entire project deletable - anyone who submits to that project will be notified that the entire project is deletable
 - Private projects - users can create private projects that is only visible to a group of people (like creating a private game room!), snippets can only be posted to these projects by certain people
-- Find way to rank what order you see projects on your explore page (so that you don't just interact with the top interacted projects, but see new ones too)
+- Find a way to rank what order you see projects on your explore page (so that you don't just interact with the top interacted projects, but see new ones too)
 
 
 ### App Evaluation
@@ -52,10 +53,10 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - **Category:** Social
 - **Mobile:** Designed to embrace the mobile experience.
     - Users can add to a story project using multiple forms of short media, including text, photos, or time-limited video.
-    - Push notifications: users will receive push notifications if users they're following have posted a new starter project, if a project they've contributed to has been updated, if their friends have started a new private project with them, etc.
+    - Potential feature: Push notifications - users will receive push notifications if users they're following have posted a new starter project, if a project they've contributed to has been updated, if their friends have started a new private project with them, etc.
 - **Story:** Finish-the-sentence style posting.
     - Users can post their own starter projects in the form of text and other short media... and other users can continue the project with their own media!
-    - Can form private projects with friends: invite a certain number of people to a story and the story will only be visible for that group of users to view and respond to.
+    - Potential feature: Can form private projects with friends - invite a certain number of people to a story and the story will only be visible for that group of users to view and respond to.
     - Value: a continuous project of creativity ~ users interact with content not just as consumers and reactors, but as *co-creators*.
 - **Market:** People with a creative spark!
     - Core market: everyday creatives looking for a community
@@ -67,7 +68,7 @@ These aren't necessarily iterations I'll implement at FBU, but are possible futu
 - **Scope:** Core idea is clearly defined.
     - Although adding support for multiple forms of media and multiple types of projects will take time, even a stripped down form of the app will accomplish the core goal: co-creating stories with other humans :)
     - Core, simplified idea of responding to projects with snippets and choosing winning snippets should be feasible within timeframe.
-    - Project logic may get complicated?
+    - Project logic may get complicated
     - Interacting with private groups will definitely be complicated.
 
 ## Product Spec
@@ -340,7 +341,7 @@ Note: **bold** text indicates a collection, *italicized* text indicates a docume
 
 ### Networking
 
-Most likely using [Firebase Authentication](https://firebase.google.com/docs/auth) for Users and using [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) for Projects and Snippets. Using [Google Analytics for Firebase](https://firebase.google.com/docs/analytics) for ranking algorithm data.
+Using [Firebase Authentication](https://firebase.google.com/docs/auth) for Users and using [Firebase Cloud Firestore](https://firebase.google.com/docs/firestore) for Projects and Snippets. Using [Google Analytics for Firebase](https://firebase.google.com/docs/analytics) for ranking algorithm data.
 
 **List of network requests by screen**
 * Login Screen
@@ -362,7 +363,7 @@ Most likely using [Firebase Authentication](https://firebase.google.com/docs/aut
 * Favorites
     * (Read/GET) Query all projects that user is following using projectId's in projectsFollowing
     * (Read/GET) Query all snippets where user is author
-* Profile Screen (optional)
+* Profile Screen
     * (Read/GET) Get current user's profile information [Docs](https://firebase.google.com/docs/auth/ios/manage-users#get_a_users_profile)
     * (Update/PUT) Update a user (e.g. profile photo, display name, etc.) [Docs](https://firebase.google.com/docs/auth/ios/manage-users#update_a_users_profile)
 
