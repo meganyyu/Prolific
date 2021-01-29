@@ -15,6 +15,8 @@ Prolific is a social app where users become co-creators by building stories toge
 
 Create starter projects or submit snippets to an existing project’s latest round. Vote on a round’s submissions to help decide which snippet gets to continue the story.
 
+View this demo slidedeck for a full overview of the project: [Demo Slidedeck](https://docs.google.com/presentation/d/15aJnNfMXFt6JNPGR53uwXcAzZFbzAIWR4i2cFcnFjBs/edit?usp=sharing)
+
 **Below are some snapshots of Prolific's Home Screen, Project Creation Screen, and User Profile Screen!**
 
 <img src="https://github.com/meganyyu/Prolific/blob/main/prolifichomescreen.png" alt="prolific_home_screen" width=300> &nbsp;&nbsp; <img src="https://github.com/meganyyu/Prolific/blob/main/prolificcreateprojectscreen.png" alt="prolific_project_screen" width=300> &nbsp;&nbsp; <img src="https://github.com/meganyyu/Prolific/blob/main/prolificprofilescreen.png" alt="prolific_profile_screen" width=300>
